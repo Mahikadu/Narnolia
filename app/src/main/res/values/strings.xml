@@ -1,11 +1,25 @@
 <resources>
     <string name="app_name">Narnolia</string>
 
-    <!--//login details-->
+    //login details
     <string name="login">Login</string>
     <string name="password">Password</string>
     <string name="username">Username</string>
     <string name="text_footer">Powered By smartforce CRM</string>
+
+
+    //home screen
+
+    <string name="dashboard">Dashboard</string>
+    <string name="create_lead">Create Lead</string>
+    <string name="update_lead">Update Lead</string>
+    <string name="master">Masters</string>
+    <string name="setting">Setting</string>
+    <string name="mis_report">MIS Reports</string>
+    <string name="notification">Notification</string>
+    <string name="header_text_home">Home</string>
+
+    <string name="header_text_dashboard">Dashboard</string>
     <!--//lead details-->
     <string name="Sourceoflead">Source of Lead</string>
     <string name="subsource">Sub Source</string>
