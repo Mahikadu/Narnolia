@@ -7,4 +7,20 @@
     <string name="username">Username</string>
     <string name="text_footer">Powered By smartforce CRM</string>
 
+
+    //home screen
+
+    <string name="dashboard">Dashboard</string>
+    <string name="create_lead">Create Lead</string>
+    <string name="update_lead">Update Lead</string>
+    <string name="master">Masters</string>
+    <string name="setting">Setting</string>
+    <string name="mis_report">MIS Reports</string>
+    <string name="notification">Notification</string>
+    <string name="header_text_home">Home</string>
+
+    <string name="header_text_dashboard">Dashboard</string>
+
+
+
 </resources>

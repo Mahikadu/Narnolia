@@ -11,23 +11,32 @@ import android.widget.EditText;
 
 public class LoginActivity extends AbstractActivity {
 
-    EditText username,password;
+    EditText username, password;
     Button Login;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_acitivity);
 
-        username = (EditText)findViewById(R.id.etUserName);
-        password = (EditText)findViewById(R.id.etPassword);
+        initView();
+    }
 
-        Login = (Button)findViewById(R.id.buttonLogin);
-        Login.setOnClickListener(new View.OnClickListener() {
+    private void initView() {
+        try {
+            username = (EditText) findViewById(R.id.etUserName);
+            password = (EditText) findViewById(R.id.etPassword);
 
-            @Override
-            public void onClick(View v) {
-                pushActivity(LoginActivity.this, HomeActivity.class, null, true);
-            }
-        });
+            Login = (Button) findViewById(R.id.buttonLogin);
+            Login.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    pushActivity(LoginActivity.this, HomeActivity.class, null, true);
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
