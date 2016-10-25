@@ -20,16 +20,16 @@ public class UpdateLeadActivity extends AbstractActivity {
 
     private Context mContext;
 
-    EditText name,mobileno,email,date_of_birth,address,flat,street,location,city,
-            pincode,next_metting_date,metting_agenda,lead_update_log;
-    Spinner spinner_lead_name,spinner_source_of_lead,spinner_sub_source,spinner_age_group,
-            spinner_occupation,spinner_annual_income,spinner_other_broker;
-    TextView tv_lead_name,tv_source_of_lead,tv_sub_source,tv_name,tv_mobile_no,tv_email,
-            tv_age_group,tv_date_of_birth,tv_address,tv_flat,tv_street,tv_location,tv_city,tv_pincode,
-            tv_occupation,tv_annual_income,tv_other_broker,tv_meeting_status,tv_meeting_agenda,tv_lead_update_log;
+    EditText name, mobileno, email, date_of_birth, address, flat, street, location, city,
+            pincode, next_metting_date, metting_agenda, lead_update_log;
+    Spinner spinner_lead_name, spinner_source_of_lead, spinner_sub_source, spinner_age_group,
+            spinner_occupation, spinner_annual_income, spinner_other_broker;
+    TextView tv_lead_name, tv_source_of_lead, tv_sub_source, tv_name, tv_mobile_no, tv_email,
+            tv_age_group, tv_date_of_birth, tv_address, tv_flat, tv_street, tv_location, tv_city, tv_pincode,
+            tv_occupation, tv_annual_income, tv_other_broker, tv_meeting_status, tv_meeting_agenda, tv_lead_update_log;
     RadioGroup rg_meeting_status;
-    RadioButton rb_contact,rb_not_contact;
-    Button bt_update_lead,bt_close_lead;
+    RadioButton rb_contact, rb_not_contact;
+    Button bt_update_lead, bt_close_lead;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +39,8 @@ public class UpdateLeadActivity extends AbstractActivity {
         initView();
 
     }
-    private void initView(){
+
+    private void initView() {
 
         try {
             mContext = UpdateLeadActivity.this;
@@ -102,7 +103,7 @@ public class UpdateLeadActivity extends AbstractActivity {
             //................Button ........
             bt_update_lead = (Button) findViewById(R.id.btn_update);
             bt_close_lead = (Button) findViewById(R.id.btn_close);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -131,5 +132,16 @@ public class UpdateLeadActivity extends AbstractActivity {
         } catch (Resources.NotFoundException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
+        goBack();
+    }
+
+    private void goBack() {
+        pushActivity(mContext, HomeActivity.class, null, true);
+        finish();
     }
 }

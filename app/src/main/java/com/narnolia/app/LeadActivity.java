@@ -95,4 +95,15 @@ public class LeadActivity extends AbstractActivity {
             e.printStackTrace();
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
+        goBack();
+    }
+
+    private void goBack() {
+        pushActivity(mContext, HomeActivity.class, null, true);
+        finish();
+    }
 }
