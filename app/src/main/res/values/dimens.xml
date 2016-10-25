@@ -1,0 +1,54 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <dimen name="layout_padding">10dp</dimen>
+    <dimen name="layout_margin">10dp</dimen>
+    <dimen name="view_padding">10dp</dimen>
+
+    <dimen name="size_10">10dp</dimen>
+    <dimen name="size_20">20dp</dimen>
+    <dimen name="size_1">1dp</dimen>
+    <dimen name="size_2">2dp</dimen>
+    <dimen name="size_4">4dp</dimen>
+    <dimen name="size_3">3dp</dimen>
+    <dimen name="size_5">5dp</dimen>
+    <dimen name="size_8">8dp</dimen>
+    <dimen name="size_16">16dp</dimen>
+    <dimen name="size_30">30dp</dimen>
+    <dimen name="size_32">32dp</dimen>
+    <dimen name="size_40">40dp</dimen>
+    <dimen name="size_50">50dp</dimen>
+    <dimen name="size_60">60dp</dimen>
+    <dimen name="size_70">70dp</dimen>
+    <dimen name="size_48">48dp</dimen>
+    <dimen name="size_56">56dp</dimen>
+    <dimen name="size_64">64dp</dimen>
+    <dimen name="size_80">80dp</dimen>
+    <dimen name="size_100">100dp</dimen>
+    <dimen name="size_110">110dp</dimen>
+    <dimen name="size_120">120dp</dimen>
+    <dimen name="size_150">150dp</dimen>
+    <dimen name="size_200">200dp</dimen>
+    <dimen name="size_240">240dp</dimen>
+    <dimen name="size_250">250dp</dimen>
+    <dimen name="size_260">260dp</dimen>
+    <dimen name="size_320">320dp</dimen>
+    <dimen name="size_350">350dp</dimen>
+    <dimen name="size_420">420dp</dimen>
+    <dimen name="size_480">480dp</dimen>
+
+
+    <dimen name="txtSize_16">16sp</dimen>
+    <dimen name="txtSize_18">18sp</dimen>
+    <dimen name="txtSize_20">20sp</dimen>
+    <dimen name="txtSize_22">22sp</dimen>
+    <dimen name="txtSize_24">24sp</dimen>
+    <dimen name="txtSize_25">25sp</dimen>
+    <dimen name="txtSize_26">26sp</dimen>
+    <dimen name="txtSize_28">28sp</dimen>
+    <dimen name="txtSize_30">30sp</dimen>
+    <dimen name="txtSize_40">40sp</dimen>
+    <dimen name="txtSize_50">50sp</dimen>
+</resources>
