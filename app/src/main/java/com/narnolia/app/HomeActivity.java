@@ -102,13 +102,13 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
         int id = v.getId();
         switch (id) {
             case R.id.linear_dashboard:
-
+                pushActivity(mContext, DashboardActivity.class, null, true);
                 break;
             case R.id.linear_create_lead:
-                pushActivity(HomeActivity.this, LeadActivity.class, null, true);
+                pushActivity(mContext, LeadActivity.class, null, true);
                 break;
             case R.id.linear_update_lead:
-                pushActivity(HomeActivity.this, UpdateLeadActivity.class, null, true);
+                pushActivity(mContext, UpdateLeadActivity.class, null, true);
                 break;
             case R.id.linear_master:
 

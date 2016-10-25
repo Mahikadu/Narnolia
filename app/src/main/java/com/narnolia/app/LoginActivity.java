@@ -2,6 +2,7 @@ package com.narnolia.app;
 
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -24,6 +25,9 @@ public class LoginActivity extends AbstractActivity {
 
     private void initView() {
         try {
+
+            getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
             username = (EditText) findViewById(R.id.etUserName);
             password = (EditText) findViewById(R.id.etPassword);
 

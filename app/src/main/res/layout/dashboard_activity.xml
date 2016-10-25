@@ -32,6 +32,28 @@
         </include>
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorWhite"
+        android:orientation="vertical"
+        android:layout_above="@+id/tvFooter"
+        android:layout_below="@+id/linear_header"
+        android:layout_marginBottom="30dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="3dp">
+
+        <ListView
+            android:id="@+id/biList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="10dp"
+            android:shrinkColumns="*"
+            android:stretchColumns="*"></ListView>
+
+        </LinearLayout>
+
     <TextView
         android:id="@+id/tvFooter"
         android:layout_width="wrap_content"
