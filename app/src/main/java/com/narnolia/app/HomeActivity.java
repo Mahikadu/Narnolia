@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class HomeActivity extends AbstractActivity {
+public class HomeActivity extends AbstractActivity implements View.OnClickListener {
 
     LinearLayout linear_dashboard, linear_create_lead, linear_update_lead, linear_master,
             linear_setting, linear_mis_reports, linear_notification;
@@ -38,13 +38,23 @@ public class HomeActivity extends AbstractActivity {
             linear_setting = (LinearLayout) findViewById(R.id.linear_setting);
             linear_mis_reports = (LinearLayout) findViewById(R.id.linear_mis_reports);
             linear_notification = (LinearLayout) findViewById(R.id.linear_notification);
+
+            linear_dashboard.setOnClickListener(this);
+            linear_create_lead.setOnClickListener(this);
+            linear_update_lead.setOnClickListener(this);
+            linear_master.setOnClickListener(this);
+            linear_setting.setOnClickListener(this);
+            linear_mis_reports.setOnClickListener(this);
+            linear_notification.setOnClickListener(this);
+
+
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private void setHeader(){
-        try{
+    private void setHeader() {
+        try {
             TextView tvHeader = (TextView) findViewById(R.id.textTitle);
             ImageView ivHome = (ImageView) findViewById(R.id.iv_home);
             ImageView ivLogout = (ImageView) findViewById(R.id.iv_logout);
@@ -82,9 +92,37 @@ public class HomeActivity extends AbstractActivity {
 
                 }
             });
-        }catch (Resources.NotFoundException e){
+        } catch (Resources.NotFoundException e) {
             e.printStackTrace();
         }
     }
 
+    @Override
+    public void onClick(View v) {
+        int id = v.getId();
+        switch (id) {
+            case R.id.linear_dashboard:
+
+                break;
+            case R.id.linear_create_lead:
+                pushActivity(HomeActivity.this, LeadActivity.class, null, true);
+                break;
+            case R.id.linear_update_lead:
+                pushActivity(HomeActivity.this, UpdateLeadActivity.class, null, true);
+                break;
+            case R.id.linear_master:
+
+                break;
+            case R.id.linear_setting:
+
+                break;
+            case R.id.linear_mis_reports:
+
+                break;
+            case R.id.linear_notification:
+
+                break;
+        }
+
+    }
 }

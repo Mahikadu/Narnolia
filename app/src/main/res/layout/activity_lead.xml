@@ -1,269 +1,338 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/main_lead"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    >
+    android:background="@color/colorback">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:background="@android:color/transparent"
+        android:src="@mipmap/nsl_logo" />
 
     <LinearLayout
-        android:id="@+id/linear1_source_of_lead"
+        android:id="@+id/linear_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="10dp"
-        >
-        <TextView
-            android:id="@+id/txt1_source_of_lead"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/layout_margin"
-            android:text="@string/Sourceoflead"
-            android:layout_weight="1"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@android:color/black" />
-        <Spinner
-            android:id="@+id/spin1_source_of_lead"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            style="@style/spinner_style"
-            android:drawablePadding="@dimen/view_padding"/>
-    </LinearLayout>
-    <LinearLayout
-        android:id="@+id/linear1_sub_source"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="10dp"
-        >
-        <TextView
-            android:id="@+id/txt1_sub_source"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/layout_margin"
-            android:text="@string/subsource"
-            android:layout_weight="1"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@android:color/black" />
-        <Spinner
-            android:id="@+id/spin1_sub_source"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            style="@style/spinner_style"
-            android:drawablePadding="@dimen/view_padding"/>
-    </LinearLayout>
-    <LinearLayout
-        android:id="@+id/linear1_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="10dp">
-        <TextView
-            android:id="@+id/txt1_name"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/layout_margin"
-            android:text="@string/name"
-            android:layout_weight="1"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@android:color/black" />
-        <EditText
-            android:id="@+id/edt1_name"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:maxLength="50"
-            android:layout_marginTop="@dimen/layout_margin"
-            android:background="@drawable/edit_background"
-            android:drawablePadding="@dimen/view_padding"
-            android:hint="@string/hintname"
-            android:singleLine="true"
-            android:padding="@dimen/view_padding"
-            android:textColor="@android:color/black" />
-    </LinearLayout>
-    <LinearLayout
-        android:id="@+id/linear1_mobile_no"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="10dp">
-        <TextView
-            android:id="@+id/txt1_mobile_no"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/layout_margin"
-            android:text="@string/mobileno"
-            android:layout_weight="1"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@android:color/black" />
-        <EditText
-            android:id="@+id/edt1_mobile_no"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:maxLength="50"
-            android:layout_marginTop="@dimen/layout_margin"
-            android:background="@drawable/edit_background"
-            android:drawablePadding="@dimen/view_padding"
-            android:hint="@string/hintmobileno"
-            android:singleLine="true"
-            android:padding="@dimen/view_padding"
-            android:textColor="@android:color/black" />
-    </LinearLayout>
-    <LinearLayout
-        android:id="@+id/linear1_location"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="10dp"
-        >
-        <TextView
-            android:id="@+id/txt1_location"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/layout_margin"
-            android:text="@string/location"
-            android:layout_weight="1"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@android:color/black" />
-        <EditText
-            android:id="@+id/edt1_location"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:maxLength="50"
-            android:layout_marginTop="@dimen/layout_margin"
-            android:background="@drawable/edit_background"
-            android:drawablePadding="@dimen/view_padding"
-            android:hint="@string/hintlocation"
-            android:singleLine="true"
-            android:padding="@dimen/view_padding"
-            android:textColor="@android:color/black" />
-    </LinearLayout>
-    <LinearLayout
-        android:id="@+id/linear1_city"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="10dp"
-        >
-        <TextView
-            android:id="@+id/txt1_city"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/layout_margin"
-            android:text="@string/city"
-            android:layout_weight="1"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@android:color/black" />
-        <EditText
-            android:id="@+id/edt1_city"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:maxLength="50"
-            android:layout_marginTop="@dimen/layout_margin"
-            android:background="@drawable/edit_background"
-            android:drawablePadding="@dimen/view_padding"
-            android:hint="@string/hintcity"
-            android:singleLine="true"
-            android:padding="@dimen/view_padding"
-            android:textColor="@android:color/black" />
-    </LinearLayout>
-    <LinearLayout
-        android:id="@+id/linear1_pincode"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="10dp"
-        >
+        android:layout_below="@+id/imageView"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="20dp">
 
-        <TextView
-            android:id="@+id/txt1_pincode"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/layout_margin"
-            android:text="@string/pincode"
-            android:layout_weight="1"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@android:color/black"
-            />
+        <include
+            android:id="@+id/layout_header"
+            layout="@layout/header_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <EditText
-            android:id="@+id/edt1_pincode"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:maxLength="50"
-            android:layout_marginTop="@dimen/layout_margin"
-            android:background="@drawable/edit_background"
-            android:drawablePadding="@dimen/view_padding"
-            android:hint="@string/hintpincode"
-            android:singleLine="true"
-            android:padding="@dimen/view_padding"
-            android:textColor="@android:color/black" />
-    </LinearLayout>
-    <LinearLayout
-        android:id="@+id/linear1_prospective_product"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="10dp"
-        >
-        <TextView
-            android:id="@+id/txt1_prospective_product"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/layout_margin"
-            android:text="@string/prospectiveproduct"
-            android:layout_weight="1"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@android:color/black" />
-        <Spinner
-            android:id="@+id/spin1_prospective_product"
-            style="@style/spinner_style"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:drawablePadding="@dimen/view_padding"/>
-    </LinearLayout>
-    <LinearLayout
-        android:id="@+id/linear1_crate_close"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="10dp"
-        android:weightSum="1">
-        <Button
-            android:id="@+id/btn1_create_lead"
-            android:layout_weight="0.33"
-            android:background="@color/colorRed"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:text="@string/createlead"
-            android:textColor="@android:color/white" />
-        <Button
-            android:id="@+id/btn1_cancel_lead"
-            android:layout_weight="0.33"
-            android:background="@color/colorRed"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:text="@string/cancellead"
-            android:textColor="@android:color/white" />
-        <Button
-            android:id="@+id/btn1_create_close_lead"
-            android:layout_weight="0.33"
-            android:background="@color/colorRed"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/size_5"
-            android:text="@string/createandclose"
-            android:textColor="@android:color/white" />
-
+        </include>
     </LinearLayout>
 
-</LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/colorWhite"
+        android:layout_above="@+id/tvFooter"
+        android:layout_below="@+id/linear_header"
+        android:layout_marginBottom="30dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="3dp">
+
+        <LinearLayout
+            android:id="@+id/linear1_source_of_lead"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/txt1_source_of_lead"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/layout_margin"
+                android:layout_weight="1"
+                android:text="@string/Sourceoflead"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@android:color/black" />
+
+            <Spinner
+                android:id="@+id/spin1_source_of_lead"
+                style="@style/spinner_style"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawablePadding="@dimen/view_padding" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linear1_sub_source"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/txt1_sub_source"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/layout_margin"
+                android:layout_weight="1"
+                android:text="@string/subsource"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@android:color/black" />
+
+            <Spinner
+                android:id="@+id/spin1_sub_source"
+                style="@style/spinner_style"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawablePadding="@dimen/view_padding" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linear1_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/txt1_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/layout_margin"
+                android:layout_weight="1"
+                android:text="@string/name"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@android:color/black" />
+
+            <EditText
+                android:id="@+id/edt1_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/layout_margin"
+                android:layout_weight="1"
+                android:background="@drawable/edit_background"
+                android:drawablePadding="@dimen/view_padding"
+                android:hint="@string/hintname"
+                android:maxLength="50"
+                android:padding="@dimen/view_padding"
+                android:singleLine="true"
+                android:textColor="@android:color/black" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linear1_mobile_no"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/txt1_mobile_no"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/layout_margin"
+                android:layout_weight="1"
+                android:text="@string/mobileno"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@android:color/black" />
+
+            <EditText
+                android:id="@+id/edt1_mobile_no"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/layout_margin"
+                android:layout_weight="1"
+                android:background="@drawable/edit_background"
+                android:drawablePadding="@dimen/view_padding"
+                android:hint="@string/hintmobileno"
+                android:maxLength="50"
+                android:padding="@dimen/view_padding"
+                android:singleLine="true"
+                android:textColor="@android:color/black" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linear1_location"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/txt1_location"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/layout_margin"
+                android:layout_weight="1"
+                android:text="@string/location"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@android:color/black" />
+
+            <EditText
+                android:id="@+id/edt1_location"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/layout_margin"
+                android:layout_weight="1"
+                android:background="@drawable/edit_background"
+                android:drawablePadding="@dimen/view_padding"
+                android:hint="@string/hintlocation"
+                android:maxLength="50"
+                android:padding="@dimen/view_padding"
+                android:singleLine="true"
+                android:textColor="@android:color/black" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linear1_city"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/txt1_city"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/layout_margin"
+                android:layout_weight="1"
+                android:text="@string/city"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@android:color/black" />
+
+            <EditText
+                android:id="@+id/edt1_city"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/layout_margin"
+                android:layout_weight="1"
+                android:background="@drawable/edit_background"
+                android:drawablePadding="@dimen/view_padding"
+                android:hint="@string/hintcity"
+                android:maxLength="50"
+                android:padding="@dimen/view_padding"
+                android:singleLine="true"
+                android:textColor="@android:color/black" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linear1_pincode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/txt1_pincode"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/layout_margin"
+                android:layout_weight="1"
+                android:text="@string/pincode"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@android:color/black" />
+
+            <EditText
+                android:id="@+id/edt1_pincode"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/layout_margin"
+                android:layout_weight="1"
+                android:background="@drawable/edit_background"
+                android:drawablePadding="@dimen/view_padding"
+                android:hint="@string/hintpincode"
+                android:maxLength="50"
+                android:padding="@dimen/view_padding"
+                android:singleLine="true"
+                android:textColor="@android:color/black" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linear1_prospective_product"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/txt1_prospective_product"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/layout_margin"
+                android:layout_weight="1"
+                android:text="@string/prospectiveproduct"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@android:color/black" />
+
+            <Spinner
+                android:id="@+id/spin1_prospective_product"
+                style="@style/spinner_style"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawablePadding="@dimen/view_padding" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linear1_crate_close"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="10dp"
+            android:layout_marginTop="20dp"
+            android:weightSum="1">
+
+            <Button
+                android:id="@+id/btn1_create_lead"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="0.33"
+                android:background="@color/colorRed"
+                android:text="@string/createlead"
+                android:textColor="@android:color/white" />
+
+            <Button
+                android:id="@+id/btn1_cancel_lead"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="0.33"
+                android:background="@color/colorRed"
+                android:text="@string/cancellead"
+                android:textColor="@android:color/white" />
+
+            <Button
+                android:id="@+id/btn1_create_close_lead"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/size_5"
+                android:layout_weight="0.33"
+                android:background="@color/colorRed"
+                android:text="@string/createandclose"
+                android:textColor="@android:color/white" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvFooter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:padding="@dimen/layout_padding"
+        android:text="@string/text_footer"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="@android:color/white" />
+</RelativeLayout>

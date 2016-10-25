@@ -20,6 +20,9 @@
     <string name="header_text_home">Home</string>
 
     <string name="header_text_dashboard">Dashboard</string>
+    <string name="header_text_create_lead">Create Lead</string>
+    <string name="header_text_update_lead">Update Lead</string>
+
     <!--//lead details-->
     <string name="Sourceoflead">Source of Lead</string>
     <string name="subsource">Sub Source</string>

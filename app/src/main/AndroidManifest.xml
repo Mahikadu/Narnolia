@@ -40,6 +40,12 @@
         <activity android:name=".DashboardActivity"
             android:screenOrientation="landscape" />
 
+        <activity android:name=".LeadActivity"
+            android:screenOrientation="portrait" />
+
+        <activity android:name=".UpdateLeadActivity"
+            android:screenOrientation="portrait" />
+
 
     </application>
 
