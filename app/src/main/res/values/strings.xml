@@ -1,0 +1,56 @@
+<resources>
+    <string name="app_name">Narnolia</string>
+
+    <!--//login details-->
+    <string name="login">Login</string>
+    <string name="password">Password</string>
+    <string name="username">Username</string>
+    <string name="text_footer">Powered By smartforce CRM</string>
+    <!--//lead details-->
+    <string name="Sourceoflead">Source of Lead</string>
+    <string name="subsource">Sub Source</string>
+    <string name="name">Name</string>
+    <string name="mobileno">Mobile Number</string>
+    <string name="location">Location</string>
+    <string name="city">City</string>
+    <string name="pincode">Pincode</string>
+    <string name="prospectiveproduct">Prospective Products</string>
+    <!--//hint-->
+    <string name="hintname">Enter Name</string>
+    <string name="hintmobileno">Enter Mobile Number</string>
+    <string name="hintlocation">Enter Location</string>
+    <string name="hintcity">Enter City</string>
+    <string name="hintpincode">Enter Pincode</string>
+    <string name="hintemail">Enter E-Mail ID</string>
+<string name="hintdateofbirth">Select Date of birth</string>
+    <string name="hintaddress">Enter Address</string>
+    <string name="hintvillage">Enter Flat/Village</string>
+    <string name="hintstreet">Enter Street/Post office</string>
+
+
+    <string name="createlead">Create Lead</string>
+    <string name="cancellead">Cancel Lead</string>
+    <string name="createandclose">Create and Close lead</string>
+
+    <string name="leadname">Lead Name</string>
+    <string name="email">E-mail ID</string>
+    <string name="agegroup">Age Group</string>
+    <string name="dateofbirth">Date of Birth</string>
+    <string name="address">Address</string>
+    <string name="flatorvillage">Flat/Village</string>
+    <string name="streetorpostoffice">Street/Post office</string>
+    <string name="occupation">Occupation</string>
+    <string name="annualincome">Annual Income</string>
+    <string name="otherbroker">Other Brokers Dealt with</string>
+    <string name="mettingstatus">Metting Status</string>
+    <string name="contacted">Contacted</string>
+    <string name="notcontacted">Not Contacted</string>
+    <string name="nextmeeting">Next Metting Date</string>
+    <string name="mettingagenda">Meeting Agenda</string>
+    <string name="leadupdatelog">Lead Update Log</string>
+    <string name="updatelead">Update Lead</string>
+    <string name="closelead">Close Lead</string>
+
+
+
+</resources>
