@@ -147,6 +147,8 @@
 
                 <EditText
                     android:id="@+id/edt_name"
+                    android:inputType="textPersonName"
+                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/layout_margin"
@@ -179,6 +181,7 @@
 
                 <EditText
                     android:id="@+id/edt_mob_no"
+                    android:inputType="phone"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/layout_margin"
@@ -186,7 +189,7 @@
                     android:background="@drawable/edit_background"
                     android:drawablePadding="@dimen/view_padding"
                     android:hint="@string/hintmobileno"
-                    android:maxLength="50"
+                    android:maxLength="10"
                     android:padding="@dimen/view_padding"
                     android:singleLine="true"
                     android:textColor="@android:color/black" />
@@ -211,6 +214,7 @@
 
                 <EditText
                     android:id="@+id/edt_email"
+                    android:inputType="textEmailAddress"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/layout_margin"
@@ -276,7 +280,7 @@
                     android:background="@drawable/edit_background"
                     android:drawablePadding="@dimen/view_padding"
                     android:hint="@string/hintdateofbirth"
-                    android:maxLength="50"
+                    android:maxLength="10"
                     android:padding="@dimen/view_padding"
                     android:singleLine="true"
                     android:textColor="@android:color/black" />
@@ -301,6 +305,7 @@
 
                 <EditText
                     android:id="@+id/edt_address"
+                    android:inputType="text"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/layout_margin"
@@ -308,7 +313,7 @@
                     android:background="@drawable/edit_background"
                     android:drawablePadding="@dimen/view_padding"
                     android:hint="@string/hintaddress"
-                    android:maxLength="50"
+                    android:maxLength="100"
                     android:padding="@dimen/view_padding"
                     android:singleLine="true"
                     android:textColor="@android:color/black" />
@@ -333,6 +338,7 @@
 
                 <EditText
                     android:id="@+id/edt_flat"
+                    android:inputType="text"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/layout_margin"
@@ -365,6 +371,7 @@
 
                 <EditText
                     android:id="@+id/edt_street"
+                    android:inputType="text"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/layout_margin"
@@ -397,6 +404,7 @@
 
                 <EditText
                     android:id="@+id/edt_location"
+                    android:inputType="text"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/layout_margin"
@@ -429,6 +437,8 @@
 
                 <EditText
                     android:id="@+id/edt_city"
+                    android:inputType="text"
+                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/layout_margin"
@@ -461,6 +471,7 @@
 
                 <EditText
                     android:id="@+id/edt_pincode"
+                    android:inputType="number"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/layout_margin"
@@ -468,7 +479,7 @@
                     android:background="@drawable/edit_background"
                     android:drawablePadding="@dimen/view_padding"
                     android:hint="@string/hintpincode"
-                    android:maxLength="50"
+                    android:maxLength="6"
                     android:padding="@dimen/view_padding"
                     android:singleLine="true"
                     android:textColor="@android:color/black" />
@@ -647,6 +658,7 @@
 
                 <EditText
                     android:id="@+id/edt_meeting_agenda"
+                    android:inputType="text"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/layout_margin"
@@ -678,6 +690,7 @@
 
                 <EditText
                     android:id="@+id/edt_lead_update_log"
+                    android:inputType="text"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/layout_margin"

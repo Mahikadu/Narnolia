@@ -1,17 +1,24 @@
 package com.narnolia.app;
 
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 /**
  * Created by USER on 10/24/2016.
@@ -31,16 +38,20 @@ public class UpdateLeadActivity extends AbstractActivity {
     RadioGroup rg_meeting_status;
     RadioButton rb_contact, rb_not_contact;
     Button bt_update_lead, bt_close_lead;
-
+    private DatePickerDialog datePickerDialog,datePickerDialog1;   //date picker declare
+    private SimpleDateFormat dateFormatter;      //date format declare
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lead_update);
-
         initView();
 
     }
-
+    private void hide_keyboard(Context context, View view) {
+        InputMethodManager inputManager = (InputMethodManager)
+                context.getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputManager.toggleSoftInput(0, 0);
+    }
     private void initView() {
 
         try {
@@ -106,6 +117,47 @@ public class UpdateLeadActivity extends AbstractActivity {
             //................Button ........
             bt_update_lead = (Button) findViewById(R.id.btn_update);
             bt_close_lead = (Button) findViewById(R.id.btn_close);
+            try {
+                //.............date of birth date picker
+
+                final Calendar newCalendar = Calendar.getInstance();
+                dateFormatter = new SimpleDateFormat("dd-MM-yyyy");
+                datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+
+                    public void onDateSet(DatePicker view, int monthOfYear, int dayOfMonth, int year) {
+                        Calendar newDate = Calendar.getInstance();
+                        newDate.set(monthOfYear, dayOfMonth, year);
+                        date_of_birth.setText(dateFormatter.format(newDate.getTime()));
+
+                    }
+                }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+
+                date_of_birth.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        hide_keyboard(mContext,v);
+                        datePickerDialog.show();
+                    }
+                });
+                //.......Next Date metting.........
+                datePickerDialog1 = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+
+                    public void onDateSet(DatePicker view, int monthOfYear, int dayOfMonth, int year) {
+                        Calendar newDate = Calendar.getInstance();
+                        newDate.set(monthOfYear, dayOfMonth, year);
+                        next_metting_date.setText(dateFormatter.format(newDate.getTime()));
+                    }
+                }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+
+                next_metting_date.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        datePickerDialog1.show();
+                    }
+                });
+            }catch (Exception e){
+                e.printStackTrace();
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

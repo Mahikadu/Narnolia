@@ -36,6 +36,8 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/colorWhite"
         android:layout_above="@+id/tvFooter"
         android:layout_below="@+id/linear_header"
         android:layout_marginBottom="30dp"
@@ -121,6 +123,8 @@
                 <EditText
                     android:id="@+id/edt1_name"
                     android:layout_width="0dp"
+                    android:inputType="textPersonName"
+                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/layout_margin"
                     android:layout_weight="1"
@@ -152,6 +156,7 @@
 
                 <EditText
                     android:id="@+id/edt1_mobile_no"
+                    android:inputType="phone"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/layout_margin"
@@ -159,7 +164,7 @@
                     android:background="@drawable/edit_background"
                     android:drawablePadding="@dimen/view_padding"
                     android:hint="@string/hintmobileno"
-                    android:maxLength="50"
+                    android:maxLength="10"
                     android:padding="@dimen/view_padding"
                     android:singleLine="true"
                     android:textColor="@android:color/black" />
@@ -184,6 +189,7 @@
 
                 <EditText
                     android:id="@+id/edt1_location"
+                    android:inputType="text"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/layout_margin"
@@ -191,7 +197,7 @@
                     android:background="@drawable/edit_background"
                     android:drawablePadding="@dimen/view_padding"
                     android:hint="@string/hintlocation"
-                    android:maxLength="50"
+                    android:maxLength="100"
                     android:padding="@dimen/view_padding"
                     android:singleLine="true"
                     android:textColor="@android:color/black" />
@@ -216,6 +222,8 @@
 
                 <EditText
                     android:id="@+id/edt1_city"
+                    android:inputType="text"
+                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/layout_margin"
@@ -248,6 +256,7 @@
 
                 <EditText
                     android:id="@+id/edt1_pincode"
+                    android:inputType="number"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/layout_margin"
@@ -255,7 +264,7 @@
                     android:background="@drawable/edit_background"
                     android:drawablePadding="@dimen/view_padding"
                     android:hint="@string/hintpincode"
-                    android:maxLength="50"
+                    android:maxLength="6"
                     android:padding="@dimen/view_padding"
                     android:singleLine="true"
                     android:textColor="@android:color/black" />
