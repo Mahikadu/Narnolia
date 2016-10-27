@@ -14,6 +14,7 @@
     <string name="create_lead">Create Lead</string>
     <string name="update_lead">Update Lead</string>
     <string name="master">Masters</string>
+    <string name="master1">Master</string>
     <string name="setting">Setting</string>
     <string name="mis_report">MIS Reports</string>
     <string name="notification">Notification</string>
@@ -67,6 +68,19 @@
     <string name="leadupdatelog">Lead Update Log</string>
     <string name="updatelead">Update Lead</string>
     <string name="closelead">Close Lead</string>
+
+
+    //other
+    <string name="open">Open</string>
+
+    //Master spinner
+    <string-array name="titles">
+        <item>Prakash</item>
+        <item>Bhavin</item>
+        <item>Chirag</item>
+        <item>Yakub</item>
+    </string-array>
+
 
 
 

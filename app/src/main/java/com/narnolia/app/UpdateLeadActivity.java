@@ -3,11 +3,13 @@ package com.narnolia.app;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.res.Resources;
+import android.database.Cursor;
 import android.os.Bundle;
-import android.text.InputType;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -17,8 +19,12 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.narnolia.app.dbconfig.DbHelper;
+
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 /**
  * Created by USER on 10/24/2016.
@@ -40,6 +46,12 @@ public class UpdateLeadActivity extends AbstractActivity {
     Button bt_update_lead, bt_close_lead;
     private DatePickerDialog datePickerDialog,datePickerDialog1;   //date picker declare
     private SimpleDateFormat dateFormatter;      //date format declare
+
+    private List<String> spinSourceLeadList;
+    private List<String> spinSubSourceLeadList;
+    String[] strLeadArray = null;
+    String[] strSubLeadArray = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,7 +119,44 @@ public class UpdateLeadActivity extends AbstractActivity {
             spinner_annual_income = (Spinner) findViewById(R.id.spin_annual_income);
             spinner_other_broker = (Spinner) findViewById(R.id.spin_other_broker);
 
-            //...............Radio Group.....
+            //spinner OnItemSelectedListener
+            spinner_source_of_lead.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    if ( strLeadArray != null && strLeadArray.length > 0){
+                        String strSourceofLead = spinner_source_of_lead.getSelectedItem().toString();
+//                        fetchDistrCodeBranchName(strServiceBranchCode);
+                    }
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
+
+            spinner_sub_source.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    if ( strSubLeadArray != null && strSubLeadArray.length > 0){
+                        String strSubSourceofLead = spinner_sub_source.getSelectedItem().toString();
+//                        fetchDistrCodeBranchName(strServiceBranchCode);
+                    }
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
+
+            fetchSourcedata();
+            fetchSubSourcedata();
+
+
+
+
+            // ...............Radio Group.....
             rg_meeting_status = (RadioGroup) findViewById(R.id.rg_metting_status);
 
             //................Radio Button
@@ -163,6 +212,7 @@ public class UpdateLeadActivity extends AbstractActivity {
         }
     }
 
+
     private void setHeader() {
         try {
             TextView tvHeader = (TextView) findViewById(R.id.textTitle);
@@ -188,6 +238,90 @@ public class UpdateLeadActivity extends AbstractActivity {
             e.printStackTrace();
         }
     }
+
+    private void fetchSourcedata() {
+        try {
+
+            spinSourceLeadList = new ArrayList<>();
+            String SourceLead = "SourceLead";
+
+            String where = " where type like " + "'" + SourceLead + "'";
+            Cursor cursor2 = IDBILifeInsurance.dbCon.fetchFromSelect(DbHelper.TABLE_M_PARAMETER, where);
+            if (cursor2 != null && cursor2.getCount() > 0) {
+                cursor2.moveToFirst();
+                do {
+                    String branch = "";
+                    branch = cursor2.getString(cursor2.getColumnIndex("value"));
+                    spinSourceLeadList.add(branch);
+                } while (cursor2.moveToNext());
+                cursor2.close();
+            }
+            if (spinSourceLeadList.size() > 0) {
+                strLeadArray = new String[spinSourceLeadList.size() + 1];
+                strLeadArray[0] = "Select Source Lead";
+                for (int i = 0; i < spinSourceLeadList.size(); i++) {
+                    strLeadArray[i + 1] = spinSourceLeadList.get(i);
+                }
+            }
+
+           /* spinSourceLeadList.addAll(Arrays.asList(getResources().getStringArray(R.array.source_array)));
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, spinSourceLeadList);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+            spinner_source_of_lead.setAdapter(adapter);*/
+
+
+            if (spinSourceLeadList != null && spinSourceLeadList.size() > 0) {
+                ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(mContext, android.R.layout.simple_spinner_item, strLeadArray);
+                adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+                spinner_source_of_lead.setAdapter(adapter1);
+            }
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void fetchSubSourcedata() {
+        try {
+
+            spinSubSourceLeadList = new ArrayList<>();
+            String SubSourceLead = "SubSource";
+
+            String where = " where type like " + "'" + SubSourceLead + "'";
+            Cursor cursor2 = IDBILifeInsurance.dbCon.fetchFromSelect(DbHelper.TABLE_M_PARAMETER, where);
+            if (cursor2 != null && cursor2.getCount() > 0) {
+                cursor2.moveToFirst();
+                do {
+                    String sourcelead = "";
+                    sourcelead = cursor2.getString(cursor2.getColumnIndex("value"));
+                    spinSubSourceLeadList.add(sourcelead);
+                } while (cursor2.moveToNext());
+                cursor2.close();
+            }
+            if (spinSubSourceLeadList.size() > 0) {
+                strSubLeadArray = new String[spinSubSourceLeadList.size() + 1];
+                strSubLeadArray[0] = "Select Sub Source Lead";
+                for (int i = 0; i < spinSubSourceLeadList.size(); i++) {
+                    strSubLeadArray[i + 1] = spinSubSourceLeadList.get(i);
+                }
+            }
+
+            if (spinSubSourceLeadList != null && spinSubSourceLeadList.size() > 0) {
+                ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(mContext, android.R.layout.simple_spinner_item, strSubLeadArray);
+                adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+                spinner_sub_source.setAdapter(adapter1);
+            }
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
     @Override
     public void onBackPressed() {

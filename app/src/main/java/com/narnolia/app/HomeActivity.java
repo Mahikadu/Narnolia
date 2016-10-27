@@ -5,9 +5,16 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 public class HomeActivity extends AbstractActivity implements View.OnClickListener {
@@ -15,6 +22,12 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
     LinearLayout linear_dashboard, linear_create_lead, linear_update_lead, linear_master,
             linear_setting, linear_mis_reports, linear_notification;
     private Context mContext;
+
+    String[] Company;
+
+    String spinner_item;
+
+    SpinnerAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +42,9 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
             mContext = HomeActivity.this;
 
             setHeader();
+
+            Company = getResources().getStringArray(R.array.titles);
+            adapter = new SpinnerAdapter(getApplicationContext());
 
             //Dashboard icon reference
             linear_dashboard = (LinearLayout) findViewById(R.id.linear_dashboard);
@@ -112,6 +128,43 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
                 break;
             case R.id.linear_master:
 
+                LayoutInflater layoutInflater =
+                        (LayoutInflater) getBaseContext()
+                                .getSystemService(LAYOUT_INFLATER_SERVICE);
+                View popupView = layoutInflater.inflate(R.layout.master_custom_dialog, null);
+                final PopupWindow popupWindow = new PopupWindow(
+                        popupView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                Button btnDismiss = (Button) popupView.findViewById(R.id.iv_close);
+                Spinner popupSpinner = (Spinner) popupView.findViewById(R.id.spin_master);
+
+                popupSpinner.setAdapter(adapter);
+                popupSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent,
+                                               View view, int position, long id) {
+                        // TODO Auto-generated method stub
+                        spinner_item = Company[position];
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+                        // TODO Auto-generated method stub
+
+                    }
+                });
+
+
+                btnDismiss.setOnClickListener(new Button.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        popupWindow.dismiss();
+                    }
+                });
+                // popupWindow.showAsDropDown(linear_master, 0, 0);
+                popupWindow.showAsDropDown(popupSpinner,0,0);
+
+
                 break;
             case R.id.linear_setting:
 
@@ -125,4 +178,56 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
         }
 
     }
+
+    public class SpinnerAdapter extends BaseAdapter {
+        Context context;
+        private LayoutInflater mInflater;
+
+        public SpinnerAdapter(Context context) {
+            this.context = context;
+        }
+
+        @Override
+        public int getCount() {
+            return Company.length;
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return position;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            final ListContent holder;
+            View v = convertView;
+            if (v == null) {
+                mInflater = (LayoutInflater) context
+                        .getSystemService(context.LAYOUT_INFLATER_SERVICE);
+                v = mInflater.inflate(R.layout.row_textview_master, null);
+                holder = new ListContent();
+                holder.text = (TextView) v.findViewById(R.id.textView1);
+
+                v.setTag(holder);
+            } else {
+
+                holder = (ListContent) v.getTag();
+            }
+
+            holder.text.setText(Company[position]);
+
+            return v;
+        }
+    }
+
+    static class ListContent {
+
+        TextView text;
+    }
+
 }

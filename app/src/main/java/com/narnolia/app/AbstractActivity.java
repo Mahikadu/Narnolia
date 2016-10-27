@@ -8,6 +8,8 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import com.narnolia.app.dbconfig.DataBaseCon;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -108,6 +110,13 @@ public class AbstractActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
+        try {
+            if (IDBILifeInsurance.dbCon == null) {
+                IDBILifeInsurance.dbCon = DataBaseCon.getInstance(mContext);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 
