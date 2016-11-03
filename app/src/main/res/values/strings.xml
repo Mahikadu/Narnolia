@@ -26,14 +26,18 @@
     <!--//lead details-->
     <string name="Sourceoflead">Source of Lead</string>
     <string name="subsource">Sub Source</string>
-    <string name="name">Name</string>
+    <string name="fname">First Name</string>
+    <string name="mname">Middle Name</string>
+    <string name="lname">Last Name</string>
     <string name="mobileno">Mobile Number</string>
     <string name="location">Location</string>
     <string name="city">City</string>
     <string name="pincode">Pincode</string>
     <string name="prospectiveproduct">Prospective Products</string>
     <!--//hint-->
-    <string name="hintname">Enter Name</string>
+    <string name="hintfname">Enter First Name</string>
+    <string name="hintmname">Enter Middle Name</string>
+    <string name="hintlname">Enter Last Name</string>
     <string name="hintmobileno">Enter Mobile Number</string>
     <string name="hintlocation">Enter Location</string>
     <string name="hintcity">Enter City</string>

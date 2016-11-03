@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
@@ -35,7 +36,7 @@ public class UpdateLeadActivity extends AbstractActivity {
 
     private Context mContext;
 
-    EditText name, mobileno, email, date_of_birth, address, flat, street, location, city,
+    EditText fname,mname,lname, mobileno, email, date_of_birth, address, flat, street, location, city,
             pincode, next_metting_date, metting_agenda, lead_update_log;
     Spinner spinner_lead_name, spinner_source_of_lead, spinner_sub_source, spinner_age_group,
             spinner_occupation, spinner_annual_income, spinner_other_broker;
@@ -44,6 +45,7 @@ public class UpdateLeadActivity extends AbstractActivity {
             tv_occupation, tv_annual_income, tv_other_broker, tv_meeting_status, tv_meeting_agenda, tv_lead_update_log;
     RadioGroup rg_meeting_status;
     RadioButton rb_contact, rb_not_contact;
+    LinearLayout connect,notconnect;
     Button bt_update_lead, bt_close_lead;
     private DatePickerDialog datePickerDialog,datePickerDialog1;   //date picker declare
     private SimpleDateFormat dateFormatter;      //date format declare
@@ -76,7 +78,9 @@ public class UpdateLeadActivity extends AbstractActivity {
             setHeader();
 
             //............Edit Text Ref
-            name = (EditText) findViewById(R.id.edt_name);
+            fname = (EditText) findViewById(R.id.edt_fname);
+            mname=(EditText)findViewById(R.id.edt_mname);
+            lname=(EditText)findViewById(R.id.edt_lname);
             mobileno = (EditText) findViewById(R.id.edt_mob_no);
             email = (EditText) findViewById(R.id.edt_email);
             date_of_birth = (EditText) findViewById(R.id.edt_date_of_birth);
@@ -120,6 +124,9 @@ public class UpdateLeadActivity extends AbstractActivity {
             spinner_occupation = (Spinner) findViewById(R.id.spin_occupation);
             spinner_annual_income = (Spinner) findViewById(R.id.spin_annual_income);
             spinner_other_broker = (Spinner) findViewById(R.id.spin_other_broker);
+            //.................radio group layout......
+            connect=(LinearLayout)findViewById(R.id.linear_meeting_status_connected);
+            notconnect=(LinearLayout)findViewById(R.id.linear_meeting_status_not_connected);
 
             //spinner OnItemSelectedListener
             spinner_source_of_lead.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -206,7 +213,22 @@ public class UpdateLeadActivity extends AbstractActivity {
                         datePickerDialog1.show();
                     }
                 });
+rg_meeting_status.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+    @Override
+    public void onCheckedChanged(RadioGroup group, int checkedId) {
+        View radiobutton = group.findViewById(checkedId);
+        int index = group.indexOfChild(radiobutton);
+        if (index == 0) {
+            connect.setVisibility(View.VISIBLE);
+            notconnect.setVisibility(View.GONE);
 
+        } else {
+            notconnect.setVisibility(View.VISIBLE);
+            connect.setVisibility(View.GONE);
+
+        }
+    }
+});
             }catch (Exception e){
                 e.printStackTrace();
             }

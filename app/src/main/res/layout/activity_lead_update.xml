@@ -141,12 +141,12 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/layout_margin"
                     android:layout_weight="1"
-                    android:text="@string/name"
+                    android:text="@string/fname"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="@android:color/black" />
 
                 <EditText
-                    android:id="@+id/edt_name"
+                    android:id="@+id/edt_fname"
                     android:inputType="textPersonName"
                     android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
                     android:layout_width="0dp"
@@ -155,7 +155,73 @@
                     android:layout_weight="1"
                     android:background="@drawable/edit_background"
                     android:drawablePadding="@dimen/view_padding"
-                    android:hint="@string/hintname"
+                    android:hint="@string/hintfname"
+                    android:maxLength="50"
+                    android:padding="@dimen/view_padding"
+                    android:singleLine="true"
+                    android:textColor="@android:color/black" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/linear_Mname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+                <TextView
+                    android:id="@+id/txt_mname"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/layout_margin"
+                    android:layout_weight="1"
+                    android:text="@string/mname"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@android:color/black" />
+
+                <EditText
+                    android:id="@+id/edt_mname"
+                    android:inputType="textPersonName"
+                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/layout_margin"
+                    android:layout_weight="1"
+                    android:background="@drawable/edit_background"
+                    android:drawablePadding="@dimen/view_padding"
+                    android:hint="@string/hintmname"
+                    android:maxLength="50"
+                    android:padding="@dimen/view_padding"
+                    android:singleLine="true"
+                    android:textColor="@android:color/black" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/linear_Lname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+                <TextView
+                    android:id="@+id/txt_lname"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/layout_margin"
+                    android:layout_weight="1"
+                    android:text="@string/lname"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@android:color/black" />
+
+                <EditText
+                    android:id="@+id/edt_lname"
+                    android:inputType="textPersonName"
+                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/layout_margin"
+                    android:layout_weight="1"
+                    android:background="@drawable/edit_background"
+                    android:drawablePadding="@dimen/view_padding"
+                    android:hint="@string/hintlname"
                     android:maxLength="50"
                     android:padding="@dimen/view_padding"
                     android:singleLine="true"

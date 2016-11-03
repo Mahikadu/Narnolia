@@ -4,8 +4,10 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.Html;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
@@ -28,7 +30,7 @@ import java.util.List;
 public class LeadActivity extends AbstractActivity {
 
     private Context mContext;
-    EditText name, mobileno, location, city, pincode;
+    EditText fname,mname,lname,mobileno, location, city, pincode;
     TextView tv_source_of_lead, tv_sub_source_of_lead, tv_name,
             tv_mobile_no, tv_location, tv_city, tv_pincode, tv_prospective_products;
     Spinner spinner_source_of_lead, spinner_sub_source, spinner_prospective_product;
@@ -59,7 +61,9 @@ public class LeadActivity extends AbstractActivity {
 
 
             //............Edit Text......
-            name = (EditText) findViewById(R.id.edt1_name);
+            fname = (EditText) findViewById(R.id.edt1_fname);
+            mname=(EditText)findViewById(R.id.edt1_mname);
+            lname=(EditText)findViewById(R.id.edt1_lname);
             mobileno = (EditText) findViewById(R.id.edt1_mobile_no);
             location = (EditText) findViewById(R.id.edt1_location);
             city = (EditText) findViewById(R.id.edt1_city);
@@ -286,12 +290,12 @@ public class LeadActivity extends AbstractActivity {
                 focusView.requestFocus();
                 return;
             }
-            if (TextUtils.isEmpty(str_city)) {
-                city.setError(getString(R.string.reqcity));
-                focusView = city;
-                focusView.requestFocus();
-                return;
-            }
+           if (TextUtils.isEmpty(str_city)){
+               city.setError(getString(R.string.reqcity));
+               focusView=city;
+               focusView.requestFocus();
+               return;
+           }
             if (TextUtils.isEmpty(str_pincode)) {
 
                 pincode.setError(getString(R.string.reqpincode));
