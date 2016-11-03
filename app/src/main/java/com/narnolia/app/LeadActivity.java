@@ -75,12 +75,15 @@ public class LeadActivity extends AbstractActivity {
             tv_source_of_lead.setText(Html.fromHtml("<font color=\"red\">*</font>"+"<font color=\"black\">Source of Lead</font>\n"));
             tv_sub_source_of_lead = (TextView) findViewById(R.id.txt1_sub_source);
             tv_sub_source_of_lead.setText(Html.fromHtml("<font color=\"red\">*</font>"+"<font color=\"black\">Sub Source</font>\n"));
-            tv_name = (TextView) findViewById(R.id.txt1_name);
-            tv_sub_source_of_lead.setText(Html.fromHtml("<font color=\"red\">*</font>"+"<font color=\"black\">Sub Source</font>\n"));
+            tv_name = (TextView) findViewById(R.id.txt1_fname);
+            tv_name.setText(Html.fromHtml("<font color=\"red\">*</font>"+"<font color=\"black\">First Name</font>\n"));
             tv_mobile_no = (TextView) findViewById(R.id.txt1_mobile_no);
+            tv_mobile_no.setText(Html.fromHtml("<font color=\"red\">*</font>"+"<font color=\"black\">Mobile Number</font>\n"));
             tv_location = (TextView) findViewById(R.id.txt1_location);
             tv_city = (TextView) findViewById(R.id.txt1_city);
+            tv_city.setText(Html.fromHtml("<font color=\"red\">*</font>"+"<font color=\"black\">City</font>\n"));
             tv_pincode = (TextView) findViewById(R.id.txt1_pincode);
+            tv_pincode.setText(Html.fromHtml("<font color=\"red\">*</font>"+"<font color=\"black\">Pincode</font>\n"));
             tv_prospective_products = (TextView) findViewById(R.id.txt1_prospective_product);
 
             //...............Spinner...

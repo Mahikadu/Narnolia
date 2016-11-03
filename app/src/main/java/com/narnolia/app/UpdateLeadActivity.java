@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
@@ -42,7 +43,7 @@ public class UpdateLeadActivity extends AbstractActivity {
             spinner_occupation, spinner_annual_income, spinner_other_broker;
     TextView tv_lead_name, tv_source_of_lead, tv_sub_source, tv_name, tv_mobile_no, tv_email,
             tv_age_group, tv_date_of_birth, tv_address, tv_flat, tv_street, tv_location, tv_city, tv_pincode,
-            tv_occupation, tv_annual_income, tv_other_broker, tv_meeting_status, tv_meeting_agenda, tv_lead_update_log;
+            tv_occupation, tv_annual_income, tv_other_broker, tv_meeting_status, tv_meeting_agenda, tv_lead_update_log,tv_lead_status;
     RadioGroup rg_meeting_status;
     RadioButton rb_contact, rb_not_contact;
     LinearLayout connect,notconnect;
@@ -108,13 +109,19 @@ public class UpdateLeadActivity extends AbstractActivity {
             tv_street = (TextView) findViewById(R.id.txt_street);
             tv_location = (TextView) findViewById(R.id.txt_location);
             tv_city = (TextView) findViewById(R.id.txt_city);
+            tv_city.setText(Html.fromHtml("<font color=\"red\">*</font>"+"<font color=\"black\">City</font>\n"));
             tv_pincode = (TextView) findViewById(R.id.txt_pincode);
+            tv_pincode.setText(Html.fromHtml("<font color=\"red\">*</font>"+"<font color=\"black\">Pincode</font>\n"));
             tv_occupation = (TextView) findViewById(R.id.txt_occupation);
             tv_annual_income = (TextView) findViewById(R.id.txt_annual_income);
             tv_other_broker = (TextView) findViewById(R.id.txt_other_broker);
             tv_meeting_status = (TextView) findViewById(R.id.txt_meeting_status);
+            tv_meeting_status.setText(Html.fromHtml("<font color=\"red\">*</font>"+"<font color=\"black\">Metting Status</font>\n"));
             tv_meeting_agenda = (TextView) findViewById(R.id.txt_meeting_agenda);
             tv_lead_update_log = (TextView) findViewById(R.id.txt_lead_update_log);
+            tv_lead_status=(TextView)findViewById(R.id.tvLeadStatus_connected);
+            tv_lead_status.setText(Html.fromHtml("<font color=\"red\">*</font>"+"<font color=\"black\">Lead Status</font>\n"));
+
 
             //....................spinner Ref........
             spinner_lead_name = (Spinner) findViewById(R.id.spin_lead_name);
