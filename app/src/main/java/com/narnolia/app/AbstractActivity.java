@@ -111,8 +111,8 @@ public class AbstractActivity extends Activity {
     protected void onResume() {
         super.onResume();
         try {
-            if (IDBILifeInsurance.dbCon == null) {
-                IDBILifeInsurance.dbCon = DataBaseCon.getInstance(mContext);
+            if (Narnolia.dbCon == null) {
+                Narnolia.dbCon = DataBaseCon.getInstance(mContext);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -124,8 +124,8 @@ public class AbstractActivity extends Activity {
     protected void onDestroy() {
         super.onDestroy();
 //        try {
-//            if (IDBILifeInsurance.dbCon != null) {
-//                IDBILifeInsurance.dbCon.close();
+//            if (Narnolia.dbCon != null) {
+//                Narnolia.dbCon.close();
 //            }
 //        } catch (Exception e) {
 //            e.printStackTrace();

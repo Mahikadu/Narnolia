@@ -3,7 +3,7 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="android:Theme.Holo.Light.NoActionBar">
 
-       </style>
+    </style>
 
     <style name="spinner_style">
         <item name="android:layout_width">match_parent</item>
@@ -11,6 +11,15 @@
         <item name="android:background">@drawable/gradient_spinner</item>
         <item name="android:layout_marginTop">10dp</item>
         <item name="android:spinnerMode">dropdown</item>
+        <item name="android:textAppearance">?android:attr/textAppearanceSmall</item>
+    </style>
+
+    <style name="spinner_style1">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/gradient_spinner</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:spinnerMode">dialog</item>
         <item name="android:textAppearance">?android:attr/textAppearanceSmall</item>
     </style>
 

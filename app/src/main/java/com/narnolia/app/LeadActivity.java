@@ -144,7 +144,7 @@ public class LeadActivity extends AbstractActivity {
             String SourceLead = "SourceLead";
 
             String where = " where type like " + "'" + SourceLead + "'";
-            Cursor cursor2 = IDBILifeInsurance.dbCon.fetchFromSelect(DbHelper.TABLE_M_PARAMETER, where);
+            Cursor cursor2 = Narnolia.dbCon.fetchFromSelect(DbHelper.TABLE_M_PARAMETER, where);
             if (cursor2 != null && cursor2.getCount() > 0) {
                 cursor2.moveToFirst();
                 do {
@@ -189,7 +189,7 @@ public class LeadActivity extends AbstractActivity {
             String SubSourceLead = "SubSource";
 
             String where = " where type like " + "'" + SubSourceLead + "'";
-            Cursor cursor2 = IDBILifeInsurance.dbCon.fetchFromSelect(DbHelper.TABLE_M_PARAMETER, where);
+            Cursor cursor2 = Narnolia.dbCon.fetchFromSelect(DbHelper.TABLE_M_PARAMETER, where);
             if (cursor2 != null && cursor2.getCount() > 0) {
                 cursor2.moveToFirst();
                 do {
@@ -227,7 +227,7 @@ public class LeadActivity extends AbstractActivity {
             String Product = "Product";
 
             String where = " where type like " + "'" + Product + "'";
-            Cursor cursor2 = IDBILifeInsurance.dbCon.fetchFromSelect(DbHelper.TABLE_M_PARAMETER, where);
+            Cursor cursor2 = Narnolia.dbCon.fetchFromSelect(DbHelper.TABLE_M_PARAMETER, where);
             if (cursor2 != null && cursor2.getCount() > 0) {
                 cursor2.moveToFirst();
                 do {

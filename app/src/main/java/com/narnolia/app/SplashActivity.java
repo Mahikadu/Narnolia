@@ -40,7 +40,7 @@ public class SplashActivity extends AbstractActivity implements Runnable {
             DatabaseCopy databaseCopy = new DatabaseCopy();
             AssetManager assetManager = this.getAssets();
             databaseCopy.copy(assetManager, mContext);
-            IDBILifeInsurance.dbCon = DataBaseCon.getInstance(getApplicationContext());
+            Narnolia.dbCon = DataBaseCon.getInstance(getApplicationContext());
             threadRunnable = new Handler();
             exportDB();
 

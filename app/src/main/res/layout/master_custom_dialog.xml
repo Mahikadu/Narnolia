@@ -8,7 +8,6 @@
         android:id="@+id/linear_alert"
         android:layout_width="match_parent"
         android:layout_height="180dp"
-        android:layout_margin="30dp"
         android:orientation="vertical"
         android:background="@drawable/customborder">
 
@@ -28,7 +27,6 @@
                 android:layout_toLeftOf="@+id/iv_logout"
                 android:layout_toRightOf="@+id/iv_home"
                 android:gravity="center"
-                android:text="Master"
                 android:textColor="@color/coloryellow"
                 android:padding="@dimen/view_padding"
                 android:textAppearance="?android:attr/textAppearanceLarge"
@@ -62,7 +60,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/layout_margin"
                 android:layout_weight="0.2"
-                android:text="@string/master1"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@android:color/black" />
 

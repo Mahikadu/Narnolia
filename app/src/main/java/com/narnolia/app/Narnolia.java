@@ -8,7 +8,7 @@ import com.narnolia.app.dbconfig.DataBaseCon;
  * Created by Admin on 27-10-2016.
  */
 
-public class IDBILifeInsurance extends Application {
+public class Narnolia extends Application {
 
     public static DataBaseCon dbCon = null;
 

@@ -7,15 +7,17 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class HomeActivity extends AbstractActivity implements View.OnClickListener {
 
@@ -23,11 +25,10 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
             linear_setting, linear_mis_reports, linear_notification;
     private Context mContext;
 
-    String[] Company;
+    String[] strLeadArray = null;
 
-    String spinner_item;
 
-    SpinnerAdapter adapter;
+    private List<String> spinSourceLeadList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,8 +44,6 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
 
             setHeader();
 
-            Company = getResources().getStringArray(R.array.titles);
-            adapter = new SpinnerAdapter(getApplicationContext());
 
             //Dashboard icon reference
             linear_dashboard = (LinearLayout) findViewById(R.id.linear_dashboard);
@@ -62,6 +61,7 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
             linear_setting.setOnClickListener(this);
             linear_mis_reports.setOnClickListener(this);
             linear_notification.setOnClickListener(this);
+
 
 
         } catch (Exception e) {
@@ -89,7 +89,7 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
                 public void onClick(View v) {
 
                     AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-                    builder.setTitle("IDBILifeInsurance");
+                    builder.setTitle("Narnolia");
                     builder.setMessage("Are you sure you want to LogOut?")
                             .setCancelable(false)
                             .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
@@ -128,50 +128,19 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
                 break;
             case R.id.linear_master:
 
-                LayoutInflater layoutInflater =
-                        (LayoutInflater) getBaseContext()
-                                .getSystemService(LAYOUT_INFLATER_SERVICE);
-                View popupView = layoutInflater.inflate(R.layout.master_custom_dialog, null);
-                final PopupWindow popupWindow = new PopupWindow(
-                        popupView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                Button btnDismiss = (Button) popupView.findViewById(R.id.iv_close);
-                Spinner popupSpinner = (Spinner) popupView.findViewById(R.id.spin_master);
-
-                popupSpinner.setAdapter(adapter);
-                popupSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
-                    @Override
-                    public void onItemSelected(AdapterView<?> parent,
-                                               View view, int position, long id) {
-                        // TODO Auto-generated method stub
-                        spinner_item = Company[position];
-                    }
-
-                    @Override
-                    public void onNothingSelected(AdapterView<?> parent) {
-                        // TODO Auto-generated method stub
-
-                    }
-                });
-
-
-                btnDismiss.setOnClickListener(new Button.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        popupWindow.dismiss();
-                    }
-                });
-                // popupWindow.showAsDropDown(linear_master, 0, 0);
-                popupWindow.showAsDropDown(popupSpinner,0,0);
-
+                showMasterDialog();
 
                 break;
             case R.id.linear_setting:
 
+                showSettingDialog();
+
                 break;
             case R.id.linear_mis_reports:
 
-                break;
+                showReportDialog();
+
+            break;
             case R.id.linear_notification:
 
                 break;
@@ -179,55 +148,178 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
 
     }
 
-    public class SpinnerAdapter extends BaseAdapter {
-        Context context;
-        private LayoutInflater mInflater;
 
-        public SpinnerAdapter(Context context) {
-            this.context = context;
+    private void showMasterDialog(){
+
+        spinSourceLeadList = new ArrayList<>();
+       final AlertDialog.Builder DialogMaster = new AlertDialog.Builder(this);
+
+        LayoutInflater li = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        final View dialogViewMaster = li.inflate(R.layout.master_custom_dialog, null);
+        DialogMaster.setView(dialogViewMaster);
+
+        final AlertDialog showMaster = DialogMaster.show();
+
+        Button btnDismissMaster = (Button) showMaster.findViewById(R.id.iv_close);
+        TextView tvHeaderMaster = (TextView) showMaster.findViewById(R.id.textTitle);
+        TextView tvnameMaster = (TextView) showMaster.findViewById(R.id.txtmaster);
+
+        tvHeaderMaster.setText(mContext.getResources().getString(R.string.master));
+        tvnameMaster.setText(mContext.getResources().getString(R.string.master));
+
+        Spinner spinnerMaster = (Spinner) showMaster
+                .findViewById(R.id.spin_master);
+
+
+        spinSourceLeadList.addAll(Arrays.asList(getResources().getStringArray(R.array.titles)));
+
+        if (spinSourceLeadList.size() > 0) {
+            strLeadArray = new String[spinSourceLeadList.size() + 1];
+            strLeadArray[0] = "---Select---";
+            for (int i = 0; i < spinSourceLeadList.size(); i++) {
+                strLeadArray[i + 1] = spinSourceLeadList.get(i);
+            }
         }
 
-        @Override
-        public int getCount() {
-            return Company.length;
-        }
+        ArrayAdapter<String> adapterMaster = new ArrayAdapter<String>(mContext, android.R.layout.simple_spinner_item, strLeadArray);
+        adapterMaster.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerMaster.setAdapter(adapterMaster);
 
-        @Override
-        public Object getItem(int position) {
-            return position;
-        }
+        spinnerMaster.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            final ListContent holder;
-            View v = convertView;
-            if (v == null) {
-                mInflater = (LayoutInflater) context
-                        .getSystemService(context.LAYOUT_INFLATER_SERVICE);
-                v = mInflater.inflate(R.layout.row_textview_master, null);
-                holder = new ListContent();
-                holder.text = (TextView) v.findViewById(R.id.textView1);
-
-                v.setTag(holder);
-            } else {
-
-                holder = (ListContent) v.getTag();
+            public void onItemSelected(AdapterView<?> parent, View arg1,
+                                       int arg2, long arg3) {
+                String selItem = parent.getSelectedItem().toString();
             }
 
-            holder.text.setText(Company[position]);
+            public void onNothingSelected(AdapterView<?> arg0) {
+                // TODO Auto-generated method stub
+            }
+        });
 
-            return v;
+        btnDismissMaster.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                showMaster.dismiss();
+            }
+        });
+
+
+    }
+
+    private void showSettingDialog(){
+
+        spinSourceLeadList = new ArrayList<>();
+        final AlertDialog.Builder DialogMaster = new AlertDialog.Builder(this);
+
+        LayoutInflater li = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        final View dialogViewMaster = li.inflate(R.layout.master_custom_dialog, null);
+        DialogMaster.setView(dialogViewMaster);
+
+        final AlertDialog showMaster = DialogMaster.show();
+
+        Button btnDismissMaster = (Button) showMaster.findViewById(R.id.iv_close);
+        TextView tvHeaderMaster = (TextView) showMaster.findViewById(R.id.textTitle);
+        TextView tvnameMaster = (TextView) showMaster.findViewById(R.id.txtmaster);
+
+        tvHeaderMaster.setText(mContext.getResources().getString(R.string.setting));
+        tvnameMaster.setText(mContext.getResources().getString(R.string.setting));
+
+        Spinner spinnerMaster = (Spinner) showMaster
+                .findViewById(R.id.spin_master);
+
+        spinSourceLeadList.addAll(Arrays.asList(getResources().getStringArray(R.array.titles)));
+
+        if (spinSourceLeadList.size() > 0) {
+            strLeadArray = new String[spinSourceLeadList.size() + 1];
+            strLeadArray[0] = "---Select---";
+            for (int i = 0; i < spinSourceLeadList.size(); i++) {
+                strLeadArray[i + 1] = spinSourceLeadList.get(i);
+            }
         }
+
+
+        ArrayAdapter<String> adapterMaster = new ArrayAdapter<String>(mContext, android.R.layout.simple_spinner_item, strLeadArray);
+        adapterMaster.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerMaster.setAdapter(adapterMaster);
+
+        spinnerMaster.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            public void onItemSelected(AdapterView<?> parent, View arg1,
+                                       int arg2, long arg3) {
+                String selItem = parent.getSelectedItem().toString();
+            }
+
+            public void onNothingSelected(AdapterView<?> arg0) {
+                // TODO Auto-generated method stub
+            }
+        });
+
+        btnDismissMaster.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                showMaster.dismiss();
+            }
+        });
     }
 
-    static class ListContent {
+    private void showReportDialog(){
 
-        TextView text;
+        spinSourceLeadList = new ArrayList<>();
+        final AlertDialog.Builder DialogMaster = new AlertDialog.Builder(this);
+
+        LayoutInflater li = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        final View dialogViewMaster = li.inflate(R.layout.master_custom_dialog, null);
+        DialogMaster.setView(dialogViewMaster);
+
+        final AlertDialog showMaster = DialogMaster.show();
+
+        Button btnDismissMaster = (Button) showMaster.findViewById(R.id.iv_close);
+        TextView tvHeaderMaster = (TextView) showMaster.findViewById(R.id.textTitle);
+        TextView tvnameMaster = (TextView) showMaster.findViewById(R.id.txtmaster);
+
+        tvHeaderMaster.setText(mContext.getResources().getString(R.string.mis_report));
+        tvnameMaster.setText(mContext.getResources().getString(R.string.mis_report));
+
+        Spinner spinnerMaster = (Spinner) showMaster
+                .findViewById(R.id.spin_master);
+
+
+        spinSourceLeadList.addAll(Arrays.asList(getResources().getStringArray(R.array.titles)));
+
+        if (spinSourceLeadList.size() > 0) {
+            strLeadArray = new String[spinSourceLeadList.size() + 1];
+            strLeadArray[0] = "---Select---";
+            for (int i = 0; i < spinSourceLeadList.size(); i++) {
+                strLeadArray[i + 1] = spinSourceLeadList.get(i);
+            }
+        }
+        ArrayAdapter<String> adapterMaster = new ArrayAdapter<String>(mContext, android.R.layout.simple_spinner_item, strLeadArray);
+        adapterMaster.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerMaster.setAdapter(adapterMaster);
+
+        spinnerMaster.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            public void onItemSelected(AdapterView<?> parent, View arg1,
+                                       int arg2, long arg3) {
+                String selItem = parent.getSelectedItem().toString();
+            }
+
+            public void onNothingSelected(AdapterView<?> arg0) {
+                // TODO Auto-generated method stub
+            }
+        });
+
+        btnDismissMaster.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                showMaster.dismiss();
+            }
+        });
     }
+
 
 }
