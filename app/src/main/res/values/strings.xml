@@ -67,6 +67,22 @@
     <string name="leadupdatelog">Lead Update Log</string>
     <string name="updatelead">Update Lead</string>
     <string name="closelead">Close Lead</string>
+    <string name="reason">Reason</string>
+    <string name="leadstatus">Lead Status</string>
+    <string name="opportunity">Opportunity Pitched</string>
+    <string name="business">Business Opportunity</string>
+    <string name="reqmob">Mobile Number is Required</string>
+    <string name="reqcity">City is Required</string>
+    <string name="reqpincode">Pincode is Required</string>
+    <string name="text_lead_created">Lead Created</string>
+
+    //table text
+    <string name="margin">Margin</string>
+    <string name="aum">AUM</string>
+    <string name="sip">SIP</string>
+    <string name="number">Number</string>
+    <string name="value">Value</string>
+    <string name="premium">Premium</string>
 
 
 
@@ -81,7 +97,14 @@
         <item>Yakub</item>
     </string-array>
 
-
+    <!--//Age Group Array-->
+    <string-array name="age_group">
+        <item>Select Age Group</item>
+        <item>18-35 yrs</item>
+        <item>36-45 yrs</item>
+        <item>46-60 yrs</item>
+        <item>60 yrs and above</item>
+    </string-array>
 
 
 </resources>

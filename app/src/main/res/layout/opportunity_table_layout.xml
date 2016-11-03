@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:id="@+id/opportunity_table">
+
+    <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="10dip"
+        android:gravity="center"
+        android:padding="10dip">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/border">
+
+
+                <TextView
+                    android:id="@+id/tvMargin"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/margin"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@android:color/black" />
+
+                <LinearLayout
+                    android:layout_width="1dp"
+                    android:background="@color/black"
+                    android:layout_height="match_parent">
+
+                </LinearLayout>
+
+                <EditText
+                    android:id="@+id/edt_margin"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:layout_marginTop="@dimen/layout_margin"
+                    android:layout_weight="1"
+                    android:background="@drawable/edit_background"
+                    android:drawablePadding="@dimen/view_padding"
+                    android:maxLength="50"
+                    android:padding="@dimen/view_padding"
+                    android:textColor="@android:color/black" />
+            </TableRow>
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/border">
+
+
+            <TextView
+                android:id="@+id/tvaum"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/aum"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@android:color/black" />
+
+            <LinearLayout
+                android:layout_width="1dp"
+                android:background="@color/black"
+                android:layout_height="match_parent">
+
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/edt_aum"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_marginTop="@dimen/layout_margin"
+                android:layout_weight="1"
+                android:background="@drawable/edit_background"
+                android:drawablePadding="@dimen/view_padding"
+                android:maxLength="50"
+                android:padding="@dimen/view_padding"
+                android:textColor="@android:color/black" />
+        </TableRow>
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/border">
+
+
+            <TextView
+                android:id="@+id/tvsip"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/sip"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@android:color/black" />
+
+            <LinearLayout
+                android:layout_width="1dp"
+                android:background="@color/black"
+                android:layout_height="match_parent">
+
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/edt_sip"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_marginTop="@dimen/layout_margin"
+                android:layout_weight="1"
+                android:background="@drawable/edit_background"
+                android:drawablePadding="@dimen/view_padding"
+                android:maxLength="50"
+                android:padding="@dimen/view_padding"
+                android:textColor="@android:color/black" />
+        </TableRow>
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/border">
+
+
+            <TextView
+                android:id="@+id/tvnumber"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/number"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@android:color/black" />
+
+            <LinearLayout
+                android:layout_width="1dp"
+                android:background="@color/black"
+                android:layout_height="match_parent">
+
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/edt_number"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_marginTop="@dimen/layout_margin"
+                android:layout_weight="1"
+                android:background="@drawable/edit_background"
+                android:drawablePadding="@dimen/view_padding"
+                android:maxLength="50"
+                android:padding="@dimen/view_padding"
+                android:textColor="@android:color/black" />
+        </TableRow>
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/border">
+
+
+            <TextView
+                android:id="@+id/tvvalue"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/value"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@android:color/black" />
+
+            <LinearLayout
+                android:layout_width="1dp"
+                android:background="@color/black"
+                android:layout_height="match_parent">
+
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/edt_value"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_marginTop="@dimen/layout_margin"
+                android:layout_weight="1"
+                android:background="@drawable/edit_background"
+                android:drawablePadding="@dimen/view_padding"
+                android:maxLength="50"
+                android:padding="@dimen/view_padding"
+                android:textColor="@android:color/black" />
+        </TableRow>
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/border">
+
+
+            <TextView
+                android:id="@+id/tvpremium"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/premium"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@android:color/black" />
+
+            <LinearLayout
+                android:layout_width="1dp"
+                android:background="@color/black"
+                android:layout_height="match_parent">
+
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/edt_premium"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_marginTop="@dimen/layout_margin"
+                android:layout_weight="1"
+                android:background="@drawable/edit_background"
+                android:drawablePadding="@dimen/view_padding"
+                android:maxLength="50"
+                android:padding="@dimen/view_padding"
+                android:textColor="@android:color/black" />
+        </TableRow>
+
+
+    </TableLayout>
+</LinearLayout>

@@ -23,6 +23,7 @@ import com.narnolia.app.dbconfig.DbHelper;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
@@ -46,6 +47,7 @@ public class UpdateLeadActivity extends AbstractActivity {
     Button bt_update_lead, bt_close_lead;
     private DatePickerDialog datePickerDialog,datePickerDialog1;   //date picker declare
     private SimpleDateFormat dateFormatter;      //date format declare
+    private List<String> spinAgeGroupArray = new ArrayList<String>(); //age group array
 
     private List<String> spinSourceLeadList;
     private List<String> spinSubSourceLeadList;
@@ -204,6 +206,7 @@ public class UpdateLeadActivity extends AbstractActivity {
                         datePickerDialog1.show();
                     }
                 });
+
             }catch (Exception e){
                 e.printStackTrace();
             }
@@ -314,6 +317,13 @@ public class UpdateLeadActivity extends AbstractActivity {
                 adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
                 spinner_sub_source.setAdapter(adapter1);
+            }
+            spinAgeGroupArray.addAll(Arrays.asList(getResources().getStringArray(R.array.age_group)));
+
+            if (spinAgeGroupArray!=null&&spinAgeGroupArray.size()>0) {
+                ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, spinAgeGroupArray);
+                adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spinner_age_group.setAdapter(adapter2);
             }
 
 

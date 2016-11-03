@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.text.Html;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
@@ -37,6 +39,7 @@ public class LeadActivity extends AbstractActivity {
     String[] strLeadArray = null;
     String[] strSubLeadArray = null;
     String[] strProductArray = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,8 +68,11 @@ public class LeadActivity extends AbstractActivity {
 
             //..............Text View.....
             tv_source_of_lead = (TextView) findViewById(R.id.txt1_source_of_lead);
+            tv_source_of_lead.setText(Html.fromHtml("<font color=\"red\">*</font>"+"<font color=\"black\">Source of Lead</font>\n"));
             tv_sub_source_of_lead = (TextView) findViewById(R.id.txt1_sub_source);
+            tv_sub_source_of_lead.setText(Html.fromHtml("<font color=\"red\">*</font>"+"<font color=\"black\">Sub Source</font>\n"));
             tv_name = (TextView) findViewById(R.id.txt1_name);
+            tv_sub_source_of_lead.setText(Html.fromHtml("<font color=\"red\">*</font>"+"<font color=\"black\">Sub Source</font>\n"));
             tv_mobile_no = (TextView) findViewById(R.id.txt1_mobile_no);
             tv_location = (TextView) findViewById(R.id.txt1_location);
             tv_city = (TextView) findViewById(R.id.txt1_city);
@@ -132,6 +138,12 @@ public class LeadActivity extends AbstractActivity {
             btn_create = (Button) findViewById(R.id.btn1_create_lead);
             btn_cancel = (Button) findViewById(R.id.btn1_cancel_lead);
             btn_create_close = (Button) findViewById(R.id.btn1_create_close_lead);
+            btn_create.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    validateDetails();
+                }
+            });
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -252,6 +264,41 @@ public class LeadActivity extends AbstractActivity {
                 spinner_prospective_product.setAdapter(adapter1);
             }
 
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    private void validateDetails(){
+        try {
+            String str_mob,str_city,str_pincode;
+            mobileno.setError(null);
+            city.setError(null);
+            pincode.setError(null);
+            str_mob=mobileno.getText().toString().trim();
+            str_city=city.getText().toString().trim();
+            str_pincode=pincode.getText().toString().trim();
+            View focusView = null;
+            if (TextUtils.isEmpty(str_mob)) {
+
+                mobileno.setError(getString(R.string.reqmob));
+                focusView = mobileno;
+                focusView.requestFocus();
+                return;
+            }
+            if (TextUtils.isEmpty(str_city)) {
+                city.setError(getString(R.string.reqcity));
+                focusView = city;
+                focusView.requestFocus();
+                return;
+            }
+            if (TextUtils.isEmpty(str_pincode)) {
+
+                pincode.setError(getString(R.string.reqpincode));
+                focusView = pincode;
+                focusView.requestFocus();
+                return;
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
