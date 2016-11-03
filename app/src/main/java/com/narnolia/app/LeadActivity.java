@@ -303,6 +303,11 @@ public class LeadActivity extends AbstractActivity {
                 focusView.requestFocus();
                 return;
             }
+            if (spinner_source_of_lead.getCount()==0){
+                focusView=spinner_source_of_lead;
+                focusView.requestFocus();
+                return;
+            }
 
         } catch (Exception e) {
             e.printStackTrace();

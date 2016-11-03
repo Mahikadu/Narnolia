@@ -150,7 +150,7 @@ public class UpdateLeadActivity extends AbstractActivity {
                     if ( strSubLeadArray != null && strSubLeadArray.length > 0){
                         String strSubSourceofLead = spinner_sub_source.getSelectedItem().toString();
 //                        fetchDistrCodeBranchName(strServiceBranchCode);
-                    }
+                     }
                 }
 
                 @Override
