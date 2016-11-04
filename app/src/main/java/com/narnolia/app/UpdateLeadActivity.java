@@ -40,18 +40,22 @@ public class UpdateLeadActivity extends AbstractActivity {
     EditText fname,mname,lname, mobileno, email, date_of_birth, address, flat, street, location, city,
             pincode, next_metting_date, metting_agenda, lead_update_log;
     Spinner spinner_lead_name, spinner_source_of_lead, spinner_sub_source, spinner_age_group,
-            spinner_occupation, spinner_annual_income, spinner_other_broker;
-    TextView tv_lead_name, tv_source_of_lead, tv_sub_source, tv_name, tv_mobile_no, tv_email,
+            spinner_occupation, spinner_annual_income, spinner_other_broker,spinner_lead_status,spinner_research_type,spinner_duration;
+    TextView tv_lead_name, tv_source_of_lead, tv_sub_source, tv_fname,tv_mname,tv_lname, tv_mobile_no, tv_email,
             tv_age_group, tv_date_of_birth, tv_address, tv_flat, tv_street, tv_location, tv_city, tv_pincode,
             tv_occupation, tv_annual_income, tv_other_broker, tv_meeting_status, tv_meeting_agenda, tv_lead_update_log,tv_lead_status;
     RadioGroup rg_meeting_status;
     RadioButton rb_contact, rb_not_contact;
-    LinearLayout connect,notconnect;
+    LinearLayout connect,notconnect,linear_non_salaried,linear_remark,linear_competitor,linear_research;
     Button bt_update_lead, bt_close_lead;
     private DatePickerDialog datePickerDialog,datePickerDialog1;   //date picker declare
     private SimpleDateFormat dateFormatter;      //date format declare
     private List<String> spinAgeGroupArray = new ArrayList<String>(); //age group array
-
+    private List<String> spinOccupationArray = new ArrayList<String>(); //Occupation array
+    private List<String> spinAnnualInacomeArray = new ArrayList<String>(); //Annual Income array
+    private List<String> spinOtherBrokersArray = new ArrayList<String>(); //Other Brokers array
+    private List<String> spinLeadStatusArray = new ArrayList<String>(); //Other Brokers array
+    private List<String> spinDurationArray = new ArrayList<String>(); //Other Brokers array
     private List<String> spinSourceLeadList;
     private List<String> spinSubSourceLeadList;
     String[] strLeadArray = null;
@@ -98,9 +102,17 @@ public class UpdateLeadActivity extends AbstractActivity {
             //.............TextView Ref
             tv_lead_name = (TextView) findViewById(R.id.txt_lead_name);
             tv_source_of_lead = (TextView) findViewById(R.id.txt_source_of_lead);
+            tv_source_of_lead.setText(Html.fromHtml("<font color=\"red\">*</font>"+"<font color=\"black\">Source of Lead</font>\n"));
             tv_sub_source = (TextView) findViewById(R.id.txt_sub_source);
-            tv_name = (TextView) findViewById(R.id.txt_name);
+            tv_sub_source.setText(Html.fromHtml("<font color=\"red\">*</font>"+"<font color=\"black\">Sub Source</font>\n"));
+            tv_fname = (TextView) findViewById(R.id.txt_fname);
+            tv_fname.setText(Html.fromHtml("<font color=\"red\">*</font>"+"<font color=\"black\">First Name</font>\n"));
+            tv_mname = (TextView) findViewById(R.id.txt_mname);
+            tv_mname.setText(Html.fromHtml("<font color=\"red\">*</font>"+"<font color=\"black\">Middle Name</font>\n"));
+            tv_lname = (TextView) findViewById(R.id.txt_lname);
+            tv_lname.setText(Html.fromHtml("<font color=\"red\">*</font>"+"<font color=\"black\">Last Name</font>\n"));
             tv_mobile_no = (TextView) findViewById(R.id.txt_mob_no);
+            tv_mobile_no.setText(Html.fromHtml("<font color=\"red\">*</font>"+"<font color=\"black\">Mobile Number</font>\n"));
             tv_email = (TextView) findViewById(R.id.txt_email);
             tv_age_group = (TextView) findViewById(R.id.txt_age_group);
             tv_date_of_birth = (TextView) findViewById(R.id.txt_date_of_birth);
@@ -131,9 +143,17 @@ public class UpdateLeadActivity extends AbstractActivity {
             spinner_occupation = (Spinner) findViewById(R.id.spin_occupation);
             spinner_annual_income = (Spinner) findViewById(R.id.spin_annual_income);
             spinner_other_broker = (Spinner) findViewById(R.id.spin_other_broker);
+            spinner_lead_status=(Spinner)findViewById(R.id.spin_lead_status);
+            spinner_duration=(Spinner)findViewById(R.id.spin_duration);
+            spinner_research_type=(Spinner)findViewById(R.id.spin_research_type);
             //.................radio group layout......
             connect=(LinearLayout)findViewById(R.id.linear_meeting_status_connected);
             notconnect=(LinearLayout)findViewById(R.id.linear_meeting_status_not_connected);
+            //...............intenal linear layouts
+            linear_non_salaried=(LinearLayout)findViewById(R.id.linear_non_salaried);
+            linear_remark=(LinearLayout)findViewById(R.id.linear_remark);
+            linear_competitor=(LinearLayout)findViewById(R.id.linear_competitor);
+            linear_research=(LinearLayout)findViewById(R.id.linear_research);
 
             //spinner OnItemSelectedListener
             spinner_source_of_lead.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -157,7 +177,7 @@ public class UpdateLeadActivity extends AbstractActivity {
                     if ( strSubLeadArray != null && strSubLeadArray.length > 0){
                         String strSubSourceofLead = spinner_sub_source.getSelectedItem().toString();
 //                        fetchDistrCodeBranchName(strServiceBranchCode);
-                     }
+                    }
                 }
 
                 @Override
@@ -165,7 +185,74 @@ public class UpdateLeadActivity extends AbstractActivity {
 
                 }
             });
+//.........................spinner occupation item selection
+            spinner_occupation.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent,
+                                           View view, int pos, long id) {
+                    String occuString;
+                    occuString = parent.getItemAtPosition(pos).toString();
+                    if (occuString != null) {
+                        if (occuString.equalsIgnoreCase("Non-Salaried")) {
 
+                            linear_non_salaried.setVisibility(View.VISIBLE);
+
+                        } else {
+                            linear_non_salaried.setVisibility(View.GONE);
+                        }
+                    }
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> arg0) {
+                    // TODO Auto-generated method stub
+
+                }
+            });
+            //.........................lead status slection......
+            spinner_lead_status.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent,
+                                           View view, int pos, long id) {
+                    String leadString,leadString1,leadString2;
+                    leadString = parent.getItemAtPosition(pos).toString();
+                    leadString1=parent.getItemAtPosition(pos).toString();
+                    leadString2=parent.getItemAtPosition(pos).toString();
+                    if (leadString != null) {
+                        if (leadString.equalsIgnoreCase("Not Intersted")) {
+
+                            linear_remark.setVisibility(View.VISIBLE);
+
+                        } else {
+                            linear_remark.setVisibility(View.GONE);
+                        }
+                    }
+                    if (leadString1 != null) {
+                        if (leadString1.equalsIgnoreCase("Lost to Competitor")) {
+
+                            linear_competitor.setVisibility(View.VISIBLE);
+
+                        } else {
+                            linear_competitor.setVisibility(View.GONE);
+                        }
+                    }
+                    if (leadString2 != null) {
+                        if (leadString2.equalsIgnoreCase("Research Servicing")) {
+
+                            linear_research.setVisibility(View.VISIBLE);
+
+                        } else {
+                            linear_research.setVisibility(View.GONE);
+                        }
+                    }
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> arg0) {
+                    // TODO Auto-generated method stub
+
+                }
+            });
             fetchSourcedata();
             fetchSubSourcedata();
 
@@ -220,22 +307,22 @@ public class UpdateLeadActivity extends AbstractActivity {
                         datePickerDialog1.show();
                     }
                 });
-rg_meeting_status.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-    @Override
-    public void onCheckedChanged(RadioGroup group, int checkedId) {
-        View radiobutton = group.findViewById(checkedId);
-        int index = group.indexOfChild(radiobutton);
-        if (index == 0) {
-            connect.setVisibility(View.VISIBLE);
-            notconnect.setVisibility(View.GONE);
+                rg_meeting_status.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(RadioGroup group, int checkedId) {
+                        View radiobutton = group.findViewById(checkedId);
+                        int index = group.indexOfChild(radiobutton);
+                        if (index == 0) {
+                            connect.setVisibility(View.VISIBLE);
+                            notconnect.setVisibility(View.GONE);
 
-        } else {
-            notconnect.setVisibility(View.VISIBLE);
-            connect.setVisibility(View.GONE);
+                        } else {
+                            notconnect.setVisibility(View.VISIBLE);
+                            connect.setVisibility(View.GONE);
 
-        }
-    }
-});
+                        }
+                    }
+                });
             }catch (Exception e){
                 e.printStackTrace();
             }
@@ -347,14 +434,48 @@ rg_meeting_status.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListe
 
                 spinner_sub_source.setAdapter(adapter1);
             }
+            //........................Age Group spinner
             spinAgeGroupArray.addAll(Arrays.asList(getResources().getStringArray(R.array.age_group)));
-
             if (spinAgeGroupArray!=null&&spinAgeGroupArray.size()>0) {
                 ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, spinAgeGroupArray);
                 adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spinner_age_group.setAdapter(adapter2);
             }
-
+            //........................Occupation Spinner
+            spinOccupationArray.addAll(Arrays.asList(getResources().getStringArray(R.array.occupation_array)));
+            if (spinOccupationArray!=null&&spinOccupationArray.size()>0) {
+                ArrayAdapter<String> adapter3 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, spinOccupationArray);
+                adapter3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spinner_occupation.setAdapter(adapter3);
+            }
+            //............................Annual Income Spinner
+            spinAnnualInacomeArray.addAll(Arrays.asList(getResources().getStringArray(R.array.annual_income_aaray)));
+            if (spinAnnualInacomeArray!=null&&spinAnnualInacomeArray.size()>0) {
+                ArrayAdapter<String> adapter4 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, spinAnnualInacomeArray);
+                adapter4.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spinner_annual_income.setAdapter(adapter4);
+            }
+            //............................Other Brokers Spinner
+            spinOtherBrokersArray.addAll(Arrays.asList(getResources().getStringArray(R.array.brokers_array)));
+            if (spinOtherBrokersArray!=null&&spinOtherBrokersArray.size()>0) {
+                ArrayAdapter<String> adapter5= new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, spinOtherBrokersArray);
+                adapter5.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spinner_other_broker.setAdapter(adapter5);
+            }
+            //.............................Lead Staus Array
+            spinLeadStatusArray.addAll(Arrays.asList(getResources().getStringArray(R.array.lead_status_array)));
+            if (spinLeadStatusArray!=null&&spinLeadStatusArray.size()>0) {
+                ArrayAdapter<String> adapter6= new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, spinLeadStatusArray);
+                adapter6.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spinner_lead_status.setAdapter(adapter6);
+            }
+            //.........................Duration Array
+            spinDurationArray.addAll(Arrays.asList(getResources().getStringArray(R.array.duration_array)));
+            if (spinDurationArray!=null&&spinDurationArray.size()>0) {
+                ArrayAdapter<String> adapter7= new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, spinDurationArray);
+                adapter7.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spinner_duration.setAdapter(adapter7);
+            }
 
         } catch (Exception e) {
             e.printStackTrace();

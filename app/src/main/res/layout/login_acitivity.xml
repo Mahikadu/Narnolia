@@ -17,7 +17,7 @@
     <LinearLayout
         android:id="@+id/login_layout"
         android:layout_width="match_parent"
-        android:layout_height="240dp"
+        android:layout_height="290dp"
         android:orientation="vertical"
         android:background="@color/colorWhite"
         android:layout_marginLeft="30dp"
@@ -76,9 +76,21 @@
             android:layout_marginRight="20dp"
             android:layout_marginTop="15dp"
             android:text="@string/login"
+            android:textSize="@dimen/size_28"
             android:background="@color/colorRed"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="#ffffff" />
+        <TextView
+            android:id="@+id/forget_password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/size_20"
+            android:layout_gravity="right"
+            android:padding="@dimen/layout_padding"
+            android:text="@string/forgetPassword"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/colorBlue"
+            android:textSize="20sp" />
 
     </LinearLayout>
 

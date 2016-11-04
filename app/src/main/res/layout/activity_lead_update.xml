@@ -136,7 +136,7 @@
                 android:padding="10dp">
 
                 <TextView
-                    android:id="@+id/txt_name"
+                    android:id="@+id/txt_fname"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/layout_margin"
@@ -575,6 +575,29 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:drawablePadding="@dimen/view_padding" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/linear_non_salaried"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="10dp"
+                android:visibility="gone">
+                <EditText
+                    android:id="@+id/edt_non_salaried"
+                    android:inputType="text"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/layout_margin"
+                    android:layout_weight="1"
+                    android:background="@drawable/edit_background"
+                    android:drawablePadding="@dimen/view_padding"
+                    android:hint="@string/hintdetails"
+                    android:maxLength="50"
+                    android:padding="@dimen/view_padding"
+                    android:singleLine="true"
+                    android:textColor="@android:color/black" />
             </LinearLayout>
 
             <LinearLayout
@@ -704,98 +727,258 @@
                     android:padding="@dimen/view_padding"
                     android:textColor="@android:color/black" />
             </LinearLayout>
-<LinearLayout
-    android:id="@+id/linear_meeting_status_connected"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:visibility="gone"
-    android:orientation="vertical">
-    <LinearLayout
-        android:id="@+id/lead_status"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="10dp">
+            <LinearLayout
+                android:id="@+id/linear_meeting_status_connected"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:id="@+id/lead_status"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="10dp">
 
-        <TextView
-            android:id="@+id/tvLeadStatus_connected"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/layout_margin"
-            android:layout_weight="1"
-            android:text="@string/leadstatus"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@android:color/black" />
+                    <TextView
+                        android:id="@+id/tvLeadStatus_connected"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/layout_margin"
+                        android:layout_weight="1"
+                        android:text="@string/leadstatus"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@android:color/black" />
 
-        <Spinner
-            android:id="@+id/spin_lead_status"
-            style="@style/spinner_style"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:drawablePadding="@dimen/view_padding" />
-    </LinearLayout>
-    <LinearLayout
-        android:id="@+id/opportunity_pitched"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="10dp">
+                    <Spinner
+                        android:id="@+id/spin_lead_status"
+                        style="@style/spinner_style"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:drawablePadding="@dimen/view_padding" />
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/opportunity_pitched"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="10dp">
 
-        <TextView
-            android:id="@+id/tvOpportunity_pitched"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/layout_margin"
-            android:layout_weight="1"
-            android:text="@string/opportunity"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@android:color/black" />
+                    <TextView
+                        android:id="@+id/tvOpportunity_pitched"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/layout_margin"
+                        android:layout_weight="1"
+                        android:text="@string/opportunity"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@android:color/black" />
 
-        <Spinner
-            android:id="@+id/spin_opportunity_pitched"
-            style="@style/spinner_style"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:drawablePadding="@dimen/view_padding" />
-    </LinearLayout>
-    <LinearLayout
-        android:id="@+id/opportunity"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="10dp">
+                    <Spinner
+                        android:id="@+id/spin_opportunity_pitched"
+                        style="@style/spinner_style"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:drawablePadding="@dimen/view_padding" />
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/opportunity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="10dp">
 
-        <TextView
-            android:id="@+id/tvBusinessOpportunity"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/layout_margin"
-            android:layout_weight="1"
-            android:text="@string/business"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@android:color/black" />
-        </LinearLayout>
+                    <TextView
+                        android:id="@+id/tvBusinessOpportunity"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/layout_margin"
+                        android:layout_weight="1"
+                        android:text="@string/business"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@android:color/black" />
+                </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="10dp">
-    <include
-        layout="@layout/opportunity_table_layout"
-        android:layout_width="fill_parent"
-        android:layout_weight="1"
-        android:layout_height="wrap_content" />
-</LinearLayout>
-
-
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="10dp">
+                    <include
+                        layout="@layout/opportunity_table_layout"
+                        android:layout_width="fill_parent"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
 
 
+                <LinearLayout
+                    android:id="@+id/linear_remark"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="10dp"
+                    android:visibility="gone"
+                    >
+
+                    <TextView
+                        android:id="@+id/txt_remark"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/layout_margin"
+                        android:layout_weight="1"
+                        android:text="@string/remark"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@android:color/black" />
+
+                    <EditText
+                        android:id="@+id/edt_remark"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/layout_margin"
+                        android:layout_weight="1"
+                        android:background="@drawable/edit_background"
+                        android:drawablePadding="@dimen/view_padding"
+                        android:maxLength="50"
+                        android:hint="@string/hintremark"
+                        android:padding="@dimen/view_padding"
+                        android:singleLine="true"
+                        android:textColor="@android:color/black" />
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/linear_competitor"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="10dp"
+                        >
+
+                        <TextView
+                            android:id="@+id/txt_competitor"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/layout_margin"
+                            android:layout_weight="1"
+                            android:text="@string/competitor"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textColor="@android:color/black" />
+
+                        <EditText
+                            android:id="@+id/edt_competitor"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/layout_margin"
+                            android:layout_weight="1"
+                            android:background="@drawable/edit_background"
+                            android:drawablePadding="@dimen/view_padding"
+                            android:maxLength="50"
+                            android:inputType="text"
+                            android:hint="@string/competitor"
+                            android:padding="@dimen/view_padding"
+                            android:singleLine="true"
+                            android:textColor="@android:color/black" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="10dp"
+                        >
+                        <TextView
+                            android:id="@+id/txt_product"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/layout_margin"
+                            android:layout_weight="1"
+                            android:text="@string/product"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textColor="@android:color/black" />
+
+                        <EditText
+                            android:id="@+id/edt_product"
+                            android:inputType="text"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/layout_margin"
+                            android:layout_weight="1"
+                            android:background="@drawable/edit_background"
+                            android:drawablePadding="@dimen/view_padding"
+                            android:maxLength="50"
+                            android:hint="@string/product"
+                            android:padding="@dimen/view_padding"
+                            android:singleLine="true"
+                            android:textColor="@android:color/black" />
+                    </LinearLayout>
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/linear_research"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="10dp">
+
+                        <TextView
+                            android:id="@+id/txt_research_type"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/layout_margin"
+                            android:layout_weight="1"
+                            android:text="@string/research_type"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textColor="@android:color/black" />
+
+                        <Spinner
+                            android:id="@+id/spin_research_type"
+                            style="@style/spinner_style"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:drawablePadding="@dimen/view_padding" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="10dp">
+                        <TextView
+                            android:id="@+id/txt_duration"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/layout_margin"
+                            android:layout_weight="1"
+                            android:text="@string/duration"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textColor="@android:color/black" />
+                        <Spinner
+                            android:id="@+id/spin_duration"
+                            style="@style/spinner_style"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:drawablePadding="@dimen/view_padding" />
+                    </LinearLayout>
+                </LinearLayout>
 
 
-</LinearLayout>
+
+
+
+
+
+
+            </LinearLayout>
 
 
             <LinearLayout
@@ -880,16 +1063,18 @@
 
                 <EditText
                     android:id="@+id/edt_lead_update_log"
-                    android:inputType="text"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/layout_margin"
                     android:layout_weight="1"
                     android:background="@drawable/edit_background"
                     android:drawablePadding="@dimen/view_padding"
-                    android:maxLength="50"
+                    android:layout_height="200dp"
                     android:padding="@dimen/view_padding"
-                    android:singleLine="true"
+                    android:inputType="textMultiLine"
+                    android:singleLine="false"
+                    android:overScrollMode="always"
+                    android:scrollbarStyle="insideInset"
+                    android:scrollbars="vertical"
                     android:textColor="@android:color/black" />
             </LinearLayout>
 

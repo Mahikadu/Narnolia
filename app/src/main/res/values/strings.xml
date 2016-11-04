@@ -6,6 +6,7 @@
     <string name="password">Password</string>
     <string name="username">Username</string>
     <string name="text_footer">Powered By smartforce CRM</string>
+    <string name="forgetPassword"><u>Forgot password?  </u></string>
 
 
     //home screen
@@ -26,6 +27,7 @@
     <!--//lead details-->
     <string name="Sourceoflead">Source of Lead</string>
     <string name="subsource">Sub Source</string>
+    <string name="cust_id">Customer ID</string>
     <string name="fname">First Name</string>
     <string name="mname">Middle Name</string>
     <string name="lname">Last Name</string>
@@ -35,6 +37,7 @@
     <string name="pincode">Pincode</string>
     <string name="prospectiveproduct">Prospective Products</string>
     <!--//hint-->
+    <string name="hintcustid">Enter Customer ID</string>
     <string name="hintfname">Enter First Name</string>
     <string name="hintmname">Enter Middle Name</string>
     <string name="hintlname">Enter Last Name</string>
@@ -47,6 +50,8 @@
     <string name="hintaddress">Enter Address</string>
     <string name="hintvillage">Enter Flat/Village</string>
     <string name="hintstreet">Enter Street/Post office</string>
+    <string name="hintdetails">Please Enter Details</string>
+    <string name="hintremark">remark</string>
 
 
     <string name="createlead">Create Lead</string>
@@ -79,6 +84,11 @@
     <string name="reqcity">City is Required</string>
     <string name="reqpincode">Pincode is Required</string>
     <string name="text_lead_created">Lead Created</string>
+    <string name="remark">Remark</string>
+    <string name="competitor">Competitor Name</string>
+    <string name="product">Product</string>
+    <string name="research_type">Type of research</string>
+    <string name="duration">Duration</string>
 
     //table text
     <string name="margin">Margin</string>
@@ -110,5 +120,47 @@
         <item>60 yrs and above</item>
     </string-array>
 
+//occupation array
+    <string-array name="occupation_array">
+    <item>Select Occupation</item>
+        <item>Salaried</item>
+        <item>Non-Salaried</item>
+    </string-array>
+//Annual Income
+    <string-array name="annual_income_aaray">
+        <item>Select Annual Income</item>
+        <item>0-5,00,000</item>
+        <item>5,00,000-10,00,000</item>
+        <item>10,00,000-25,00,00</item>
+        <item>25,00,000 and above</item>
+    </string-array>
+//broker Array
+    <string-array name="brokers_array">
+        <item>Select Other Brokers Dealt with</item>
+        <item>TOP 20</item>
+        <item>Others</item>
+        <item>None</item>
+    </string-array>
+    //lead status array
+    <string-array name="lead_status_array">
+        <item>Select Lead Status</item>
+        <item>Hot</item>
+        <item>Warm</item>
+        <item>Cold</item>
+        <item>Not Intersted</item>
+        <item>Wrong Contact Details</item>
+        <item>Lost</item>
+        <item>Lost to Competitor</item>
+        <item>Research Servicing</item>
+        <item>On-boarding</item>
+    </string-array>
+//Duration array
+    <string-array name="duration_array">
+        <item>Select Duration</item>
+        <item>1 month</item>
+        <item>3 month</item>
+        <item>6 month</item>
+        <item>Others</item>
+    </string-array>
 
 </resources>
