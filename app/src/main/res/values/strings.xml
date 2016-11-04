@@ -100,6 +100,39 @@
     <string name="premium">Premium</string>
 
 
+    <string name="warning_internet">Please check your internet settings.</string>
+    <string name="error_login">You have entered wrong username or password</string>
+
+
+    <string name="Email">Email</string>
+    <string name="LoginId">LoginId</string>
+    <string name="Mobile">Mobile</string>
+    <string name="Result">Result</string>
+    <string name="Status">Status</string>
+    <string name="UserId">UserId</string>
+
+    <string name="FALSE">FALSE</string>
+
+
+    //userdetails column
+
+    <string name="column_email">email</string>
+    <string name="column_loginId">loginId</string>
+    <string name="column_mobile">mobile</string>
+    <string name="column_result">result</string>
+    <string name="column_status">status</string>
+    <string name="column_userId">userId</string>
+    <string name="column_username">username</string>
+    <string name="column_password">password</string>
+
+    //master details column
+
+    <string name="column_masterdetails_id">id</string>
+    <string name="column_masterdetails_type">type</string>
+    <string name="column_masterdetails_value">value</string>
+    <string name="column_masterdetails_lmd">lmd</string>
+    <string name="column_masterdetails_transfer">transfer</string>
+    <string name="column_masterdetails_flag">flag</string>
 
     //other
     <string name="open">Open</string>

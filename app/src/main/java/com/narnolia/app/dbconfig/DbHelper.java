@@ -9,6 +9,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteStatement;
 import android.util.Log;
 
+import com.narnolia.app.R;
+
 /**
  * Created by Admin on 27-10-2016.
  */
@@ -17,13 +19,14 @@ public class DbHelper extends SQLiteOpenHelper {
 
     public static final String DATABASE_NAME = "Narnolia";
 
+    public static final String TABLE_USER_DETAIL = "table_userDetail";
     public static final String TABLE_M_PARAMETER = "table_M_Parameter";
     public static final String TABLE_DIRECT_LEAD_CATEGORY_DTLS = "tabel_direct_lead_category_dtls";
     public static final String TABLE_DIRECT_LEAD = "table_Direct_lead";
     public static final String TABLE_M_CATEGORY = "table_M_Category";
     public static final String TABLE_DIRECT_LEAD_ST_DTLS = "table_direct_lead_st_dtls";
 
-    public static final int DATABASE_VERSION = 1;
+    public static final int DATABASE_VERSION = 2;
     private static DbHelper dbInstance = null;
     private static SQLiteDatabase db;
 
@@ -31,28 +34,33 @@ public class DbHelper extends SQLiteOpenHelper {
 
     //execute db string
 
-    private String strM_Parameter = "CREATE TABLE " + TABLE_M_PARAMETER + "(m_id INTEGER primary key, id VARCHAR(50), type VARCHAR(50), value VARCHAR(100))";
+    public String strUserDetail = "CREATE TABLE " + TABLE_USER_DETAIL + " (userId VARCHAR(50), loginId VARCHAR(100)," +
+            " email VARCHAR(50),mobile VARCHAR(50),result VARCHAR(50),status VARCHAR(50),username VARCHAR(50), " +
+            "password VARCHAR(50))";
 
-    private String strdirect_lead_category_dtls = "CREATE TABLE" + TABLE_DIRECT_LEAD_CATEGORY_DTLS + "(id INTEGER primary key,"+
+    private String strM_Parameter = "CREATE TABLE " + TABLE_M_PARAMETER + "(m_id INTEGER primary key, id VARCHAR(50)," +
+            "flag VARCHAR(50),transfer VARCHAR(50),lmd VARCHAR(50), type VARCHAR(50), value VARCHAR(100))";
+
+    private String strdirect_lead_category_dtls = "CREATE TABLE" + TABLE_DIRECT_LEAD_CATEGORY_DTLS + "(id INTEGER primary key," +
             "lead_id VARCHAR(50),producttype_id VARCHAR(50),category_id VARCHAR(50))";
 
     public String strDirect_lead = "CREATE TABLE " + TABLE_DIRECT_LEAD + " ( direct_lead_id INTEGER primary key," +
-            "lead_id VARCHAR(50), stages VARCHAR(50), source_of_lead VARCHAR(500), sub_source VARCHAR(300),"+
+            "lead_id VARCHAR(50), stages VARCHAR(50), source_of_lead VARCHAR(500), sub_source VARCHAR(300)," +
             "customer_id VARCHAR(50),fname VARCHAR(50), mname VARCHAR(50), lname VARCHAR(50)," +
             "dob VARCHAR(50), age VARCHAR(50), mobile_no VARCHAR(50), address_1 VARCHAR(300), address_2 VARCHAR(300)," +
-            "address_3 VARCHAR(300), location VARCHAR(300),city VARCHAR(100),pincode VARCHAR(50), email_id VARCHAR(50),"+
+            "address_3 VARCHAR(300), location VARCHAR(300),city VARCHAR(100),pincode VARCHAR(50), email_id VARCHAR(50)," +
             "annual_income VARCHAR(50), occupation VARCHAR(50), " +
             "created_from VARCHAR(50), app_version VARCHAR(50), app_dt VARCHAR(50), channel VARCHAR(50), allocated_user_id VARCHAR(50)," +
             "other_broker_dealt_with VARCHAR(100), meeting_status VARCHAR(100), lead_status VARCHAR(50), competitor_name VARCHAR(50), product VARCHAR(50)," +
             "remarks VARCHAR(50), typeofsearch VARCHAR(50), duration VARCHAR(10), pan_no VARCHAR(50), b_margin VARCHAR(50), b_aum VARCHAR(50)," +
-            "b_sip VARCHAR(50), b_number VARCHAR(50),b_value VARCHAR(50), b_premium VARCHAR(50),reason VARCHAR(50)),next_meeting_date VARCHAR(50),"+
-            "meeting_agenda VARCHAR(50),lead_update_log VARCHAR(50),created_by VARCHAR(50),created_dt VARCHAR(50),"+
+            "b_sip VARCHAR(50), b_number VARCHAR(50),b_value VARCHAR(50), b_premium VARCHAR(50),reason VARCHAR(50)),next_meeting_date VARCHAR(50)," +
+            "meeting_agenda VARCHAR(50),lead_update_log VARCHAR(50),created_by VARCHAR(50),created_dt VARCHAR(50)," +
             "updated_dt VARCHAR(50),updated_by VARCHAR(50),business_opportunity VARCHAR(50))";
 
-    private String strdirect_lead_st_dtls = "CREATE TABLE" + TABLE_M_CATEGORY + "(id INTEGER primary key,"+
+    private String strdirect_lead_st_dtls = "CREATE TABLE" + TABLE_M_CATEGORY + "(id INTEGER primary key," +
             "Produt_type_id VARCHAR(50),Category VARCHAR(50),Subcategory VARCHAR(50),Status VARCHAR(50))";
 
-    private String strM_Category = "CREATE TABLE" + TABLE_DIRECT_LEAD_ST_DTLS + "(id INTEGER primary key,"+
+    private String strM_Category = "CREATE TABLE" + TABLE_DIRECT_LEAD_ST_DTLS + "(id INTEGER primary key," +
             "lead_id VARCHAR(50),ST_type_id VARCHAR(50))";
 
     public DbHelper(Context context) {
@@ -70,12 +78,13 @@ public class DbHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        Log.i("TAG","In on create db");
+        Log.i("TAG", "In on create db");
        /* db.execSQL(strM_Parameter);
         db.execSQL(strdirect_lead_category_dtls);
         db.execSQL(strDirect_lead);
         db.execSQL(strdirect_lead_st_dtls);
-        db.execSQL(strM_Category);*/
+        db.execSQL(strM_Category);
+        db.execSQL(strUserDetail);*/
     }
 
     // Open the database connection.
@@ -116,13 +125,12 @@ public class DbHelper extends SQLiteOpenHelper {
         try {
             values1 = new ContentValues();
 
-            Log.e("name.length",String.valueOf(names.length));
-            Log.e("values.length",String.valueOf(values.length));
+            Log.e("name.length", String.valueOf(names.length));
+            Log.e("values.length", String.valueOf(values.length));
 
             for (int i = 0; i < names.length; i++) {
                 try {
-
-                   /* if ((names[i].equalsIgnoreCase(_ctxt.getString(R.string.column_direct_lead_id))) || (names[i].equalsIgnoreCase(_ctxt.getString(R.string.column_fna_id))) || (names[i].equalsIgnoreCase(_ctxt.getString(R.string.column_dep_id)))) {
+                    if ((names[i].equalsIgnoreCase(_ctxt.getString(R.string.column_masterdetails_id)))) {
                         try {
                             values1.put(names[i], Integer.parseInt(values[i]));
                         } catch (Exception e) {
@@ -130,7 +138,8 @@ public class DbHelper extends SQLiteOpenHelper {
                         }
                     } else {
                         values1.put(names[i], values[i]);
-                    }*/
+                    }
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -143,22 +152,22 @@ public class DbHelper extends SQLiteOpenHelper {
     }
 
     private ContentValues createContentValues1(String[] values, String names[]) {
-        Log.e("prachi","inside create content values");
+        Log.e("prachi", "inside create content values");
         ContentValues values1 = null;
         try {
             values1 = new ContentValues();
 
-            Log.e("Abc","length"+names.length);
+            Log.e("Abc", "length" + names.length);
 
 
             for (int i = 0; i < names.length; i++) {
 
-                String valueArray=values[i];
+                String valueArray = values[i];
                 Log.e("Prachi", "$$-->" + valueArray);
               /*  String nameArray1=names[i];
                 Log.e("Prachi","inserted names"+nameArray1);*/
                 values1.put(names[i], values[i]);
-                Log.v("prachi","value inserted");
+                Log.v("prachi", "value inserted");
 
 
             }
@@ -172,23 +181,21 @@ public class DbHelper extends SQLiteOpenHelper {
     long insert1(String values[], String names[], String tbl) {
         if (db != null && !db.isOpen())
             open();
-        for(int i=0;i<values.length;i++)
-        {
-            String values1=values[i];
-            Log.e("Prachi","-->"+values1);
+        for (int i = 0; i < values.length; i++) {
+            String values1 = values[i];
+            Log.e("Prachi", "-->" + values1);
         }
 
-        for(int i=0;i<names.length;i++)
-        {
-            String names1=names[i];
-            Log.e("Prachi","values"+names1);
+        for (int i = 0; i < names.length; i++) {
+            String names1 = names[i];
+            Log.e("Prachi", "values" + names1);
         }
 
         ContentValues initialValues = createContentValues1(values, names);
         long inserted = 0;
         try {
             inserted = db.insert(tbl, null, initialValues);
-            Log.e("prachi","values inserted"+inserted);
+            Log.e("prachi", "values inserted" + inserted);
         } catch (Exception e) {
         }
         return inserted;
@@ -220,13 +227,13 @@ public class DbHelper extends SQLiteOpenHelper {
         }*/
     }
 
-    Cursor fetchLastRow(String tbl,String orderByCol, String args[]) {
+    Cursor fetchLastRow(String tbl, String orderByCol, String args[]) {
 
         if (db != null && !db.isOpen())
             open();
         String where = null;
         String limit = "1";
-        String order = orderByCol+" DESC";
+        String order = orderByCol + " DESC";
         String groupBy = null;
         String having = null;
         String names[] = null;
@@ -309,7 +316,7 @@ public class DbHelper extends SQLiteOpenHelper {
         if (db != null && !db.isOpen())
             open();
         ContentValues updateValues = createContentValues(values, names);
-//        Log.d("Update Query=>",updateValues.toString());
+        Log.d("Update Query=>", updateValues.toString());
 
         boolean isUpdated = false;
         try {
@@ -359,7 +366,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 open();
 
             db.beginTransaction();
-            Log.i("DB_APP","In beginDBTransaction");
+            Log.i("DB_APP", "In beginDBTransaction");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -368,26 +375,28 @@ public class DbHelper extends SQLiteOpenHelper {
 
     public void endDBTransaction() {
         try {
-            if (db == null || (db!=null && !db.isOpen()))
+            if (db == null || (db != null && !db.isOpen()))
                 open();
 
 
             db.endTransaction();
-            Log.i("DB_APP","In endDBTransaction");
+            Log.i("DB_APP", "In endDBTransaction");
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
     public void dbTransactionSucessFull() {
         try {
             if (db != null && !db.isOpen())
                 open();
             db.setTransactionSuccessful();
-            Log.i("DB_APP","In dbTransactionSucessFull");
+            Log.i("DB_APP", "In dbTransactionSucessFull");
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
     public void updateServerStatus(String status) {
         try {
             if (db != null && !db.isOpen())
@@ -397,11 +406,13 @@ public class DbHelper extends SQLiteOpenHelper {
         }
     }
 
-    public long getCountOfRows(String table, String whereClause, String[] whereArgs) {if (db != null && !db.isOpen())
+    public long getCountOfRows(String table, String whereClause, String[] whereArgs) {
         if (db != null && !db.isOpen())
-            open();
-        return  DatabaseUtils.queryNumEntries(db, table, whereClause, whereArgs);
+            if (db != null && !db.isOpen())
+                open();
+        return DatabaseUtils.queryNumEntries(db, table, whereClause, whereArgs);
     }
+
     public long getCountOfRows(String tableName) {
 
         if (db != null && !db.isOpen())

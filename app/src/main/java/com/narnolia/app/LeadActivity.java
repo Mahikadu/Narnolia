@@ -1,13 +1,12 @@
 package com.narnolia.app;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.text.Editable;
 import android.text.Html;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
@@ -30,6 +29,7 @@ import java.util.List;
 public class LeadActivity extends AbstractActivity {
 
     private Context mContext;
+    private ProgressDialog progressDialog;
     EditText fname,mname,lname,mobileno, location, city, pincode;
     TextView tv_source_of_lead, tv_sub_source_of_lead, tv_fname,tv_mname,tv_lname,
             tv_mobile_no, tv_location, tv_city, tv_pincode, tv_prospective_products;
@@ -54,6 +54,7 @@ public class LeadActivity extends AbstractActivity {
 
         try {
             mContext = LeadActivity.this;
+            progressDialog = new ProgressDialog(mContext);
 
             getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 

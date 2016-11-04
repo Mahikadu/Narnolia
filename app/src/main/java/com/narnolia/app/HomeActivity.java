@@ -15,6 +15,8 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.narnolia.app.libs.Utils;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -24,7 +26,7 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
     LinearLayout linear_dashboard, linear_create_lead, linear_update_lead, linear_master,
             linear_setting, linear_mis_reports, linear_notification;
     private Context mContext;
-
+    private Utils utils;
     String[] strLeadArray = null;
 
 
@@ -44,7 +46,7 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
 
             setHeader();
 
-
+            utils = new Utils(mContext);
             //Dashboard icon reference
             linear_dashboard = (LinearLayout) findViewById(R.id.linear_dashboard);
             linear_create_lead = (LinearLayout) findViewById(R.id.linear_create_lead);
@@ -94,6 +96,7 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
                             .setCancelable(false)
                             .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
+                                    utils.logout(mContext);
                                     pushActivity(mContext, LoginActivity.class, null, true);
                                 }
                             })
@@ -104,7 +107,6 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
                             });
                     AlertDialog alert = builder.create();
                     alert.show();
-
 
                 }
             });
