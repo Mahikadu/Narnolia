@@ -6,7 +6,7 @@
     <string name="password">Password</string>
     <string name="username">Username</string>
     <string name="text_footer">Powered By smartforce CRM</string>
-    <string name="forgetPassword"><u>Forgot password?  </u></string>
+    <string name="forgetPassword"><u>Forgot Password?  </u></string>
 
 
     //home screen
@@ -81,6 +81,7 @@
     <string name="opportunity">Opportunity Pitched</string>
     <string name="business">Business Opportunity</string>
     <string name="reqmob">Mobile Number is Required</string>
+    <string name="name">Name is Required</string>
     <string name="reqcity">City is Required</string>
     <string name="reqpincode">Pincode is Required</string>
     <string name="text_lead_created">Lead Created</string>

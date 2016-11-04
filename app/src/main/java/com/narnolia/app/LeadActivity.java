@@ -140,6 +140,68 @@ public class LeadActivity extends AbstractActivity {
 
                 }
             });
+            //......................madnetary Edit text validation.
+            fname.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+                    if (fname.length()>0){fname.setError(null);}
+                }
+            });
+            mname.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+                    if (mname.length()>0){mname.setError(null);}
+                }
+            });
+            lname.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+                    if (lname.length()>0){lname.setError(null);}
+                }
+            });
+            city.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+                    if (city.length()>0){city
+                            .setError(null);}
+                }
+            });
 
             fetchSourcedata();
             fetchSubSourcedata();
@@ -282,27 +344,52 @@ public class LeadActivity extends AbstractActivity {
     }
     private void validateDetails(){
         try {
-            String str_mob,str_city,str_pincode;
+            String str_fname,str_mname,str_lname,str_mob,str_city,str_pincode;
             mobileno.setError(null);
             city.setError(null);
             pincode.setError(null);
+            fname.setError(null);
+            mname.setError(null);
+            lname.setError(null);
+            str_fname=fname.getText().toString().trim();
+            str_mname=mname.getText().toString().trim();
+            str_lname=lname.getText().toString().trim();
             str_mob=mobileno.getText().toString().trim();
             str_city=city.getText().toString().trim();
             str_pincode=pincode.getText().toString().trim();
-            View focusView = null;
-            if (TextUtils.isEmpty(str_mob)) {
 
+            View focusView = null;
+            if (TextUtils.isEmpty(str_fname)) {
+                fname.setError(getString(R.string.name));
+                focusView = fname;
+                focusView.requestFocus();
+
+                return;
+            }
+            if (TextUtils.isEmpty(str_mname)) {
+                mname.setError(getString(R.string.name));
+                focusView = mname;
+                focusView.requestFocus();
+                return;
+            }
+            if (TextUtils.isEmpty(str_lname)) {
+                lname.setError(getString(R.string.name));
+                focusView = lname;
+                focusView.requestFocus();
+                return;
+            }
+            if (TextUtils.isEmpty(str_mob)) {
                 mobileno.setError(getString(R.string.reqmob));
                 focusView = mobileno;
                 focusView.requestFocus();
                 return;
             }
-           if (TextUtils.isEmpty(str_city)){
-               city.setError(getString(R.string.reqcity));
-               focusView=city;
-               focusView.requestFocus();
-               return;
-           }
+            if (TextUtils.isEmpty(str_city)){
+                city.setError(getString(R.string.reqcity));
+                focusView=city;
+                focusView.requestFocus();
+                return;
+            }
             if (TextUtils.isEmpty(str_pincode)) {
 
                 pincode.setError(getString(R.string.reqpincode));

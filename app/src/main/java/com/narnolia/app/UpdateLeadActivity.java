@@ -5,7 +5,10 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.Html;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
@@ -98,6 +101,68 @@ public class UpdateLeadActivity extends AbstractActivity {
             next_metting_date = (EditText) findViewById(R.id.edt_next_meeting);
             metting_agenda = (EditText) findViewById(R.id.edt_meeting_agenda);
             lead_update_log = (EditText) findViewById(R.id.edt_lead_update_log);
+            //..................edit text validations.......
+            fname.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+                    if (fname.length()>0){fname.setError(null);}
+                }
+            });
+            mname.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+                    if (mname.length()>0){mname.setError(null);}
+                }
+            });
+            lname.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+                    if (lname.length()>0){lname.setError(null);}
+                }
+            });
+            city.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+                    if (city.length()>0){city
+                            .setError(null);}
+                }
+            });
 
             //.............TextView Ref
             tv_lead_name = (TextView) findViewById(R.id.txt_lead_name);
@@ -269,6 +334,13 @@ public class UpdateLeadActivity extends AbstractActivity {
             //................Button ........
             bt_update_lead = (Button) findViewById(R.id.btn_update);
             bt_close_lead = (Button) findViewById(R.id.btn_close);
+            //....................update lead click event...
+            bt_update_lead.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    validateDetails();
+                }
+            });
             try {
                 //.............date of birth date picker
 
@@ -402,7 +474,72 @@ public class UpdateLeadActivity extends AbstractActivity {
             e.printStackTrace();
         }
     }
+    //...............validatations.....
+    private void validateDetails(){
+        try {
+            String str_fname,str_mname,str_lname,str_mob,str_city,str_pincode;
+            mobileno.setError(null);
+            city.setError(null);
+            pincode.setError(null);
+            fname.setError(null);
+            mname.setError(null);
+            lname.setError(null);
+            str_fname=fname.getText().toString().trim();
+            str_mname=mname.getText().toString().trim();
+            str_lname=lname.getText().toString().trim();
+            str_mob=mobileno.getText().toString().trim();
+            str_city=city.getText().toString().trim();
+            str_pincode=pincode.getText().toString().trim();
 
+            View focusView = null;
+            if (TextUtils.isEmpty(str_fname)) {
+                fname.setError(getString(R.string.name));
+                focusView = fname;
+                focusView.requestFocus();
+
+                return;
+            }
+            if (TextUtils.isEmpty(str_mname)) {
+                mname.setError(getString(R.string.name));
+                focusView = mname;
+                focusView.requestFocus();
+                return;
+            }
+            if (TextUtils.isEmpty(str_lname)) {
+                lname.setError(getString(R.string.name));
+                focusView = lname;
+                focusView.requestFocus();
+                return;
+            }
+            if (TextUtils.isEmpty(str_mob)) {
+                mobileno.setError(getString(R.string.reqmob));
+                focusView = mobileno;
+                focusView.requestFocus();
+                return;
+            }
+            if (TextUtils.isEmpty(str_city)){
+                city.setError(getString(R.string.reqcity));
+                focusView=city;
+                focusView.requestFocus();
+                return;
+            }
+            if (TextUtils.isEmpty(str_pincode)) {
+
+                pincode.setError(getString(R.string.reqpincode));
+                focusView = pincode;
+                focusView.requestFocus();
+                return;
+            }
+            if (spinner_source_of_lead.getCount()==0){
+                focusView=spinner_source_of_lead;
+                focusView.requestFocus();
+                return;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     private void fetchSubSourcedata() {
         try {
 
