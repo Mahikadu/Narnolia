@@ -44,10 +44,18 @@ public class LeadActivity extends AbstractActivity {
     String[] strSubLeadArray = null;
     String[] strProductArray = null;
 
+    private String empcode;
+    private SharedPref sharedPref;
+    private TextView admin;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lead);
+
+        sharedPref = new SharedPref(LeadActivity.this);
+        empcode = sharedPref.getLoginId();
+
 
         initView();
 
@@ -57,6 +65,9 @@ public class LeadActivity extends AbstractActivity {
         try {
             mContext = LeadActivity.this;
             progressDialog = new ProgressDialog(mContext);
+
+            admin = (TextView) findViewById(R.id.admin);
+            admin.setText(empcode);
 
             getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 

@@ -35,6 +35,7 @@
         </include>
     </LinearLayout>
 
+
     <LinearLayout
         android:id="@+id/home_layout"
         android:layout_width="match_parent"
@@ -49,6 +50,29 @@
         android:orientation="vertical"
         android:padding="10dp"
         android:weightSum="1.2">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/linear_header"
+            >
+
+            <TextView
+                android:id="@+id/welcome"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@+id/admin"
+                android:text="@string/welcome"
+                android:textColor="@color/colorRed" />
+
+            <TextView
+                android:id="@+id/admin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:textColor="@color/colorRed" />
+
+        </RelativeLayout>
 
         <LinearLayout
             android:id="@+id/toplayout"

@@ -63,11 +63,18 @@ public class UpdateLeadActivity extends AbstractActivity {
     private List<String> spinSubSourceLeadList;
     String[] strLeadArray = null;
     String[] strSubLeadArray = null;
+    private String empcode;
+    private SharedPref sharedPref;
+    private TextView admin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lead_update);
+
+        sharedPref = new SharedPref(UpdateLeadActivity.this);
+        empcode = sharedPref.getLoginId();
+
         initView();
 
     }
@@ -80,6 +87,9 @@ public class UpdateLeadActivity extends AbstractActivity {
 
         try {
             mContext = UpdateLeadActivity.this;
+
+            admin = (TextView) findViewById(R.id.admin);
+            admin.setText(empcode);
 
             getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 

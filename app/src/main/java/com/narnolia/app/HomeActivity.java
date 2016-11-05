@@ -28,6 +28,9 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
     private Context mContext;
     private Utils utils;
     String[] strLeadArray = null;
+    private String empcode;
+    private SharedPref sharedPref;
+    private TextView admin;
 
 
     private List<String> spinSourceLeadList;
@@ -36,6 +39,9 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        sharedPref = new SharedPref(HomeActivity.this);
+        empcode = sharedPref.getLoginId();
 
         initView();
     }
@@ -47,6 +53,10 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
             setHeader();
 
             utils = new Utils(mContext);
+
+            admin = (TextView) findViewById(R.id.admin);
+            admin.setText(empcode);
+
             //Dashboard icon reference
             linear_dashboard = (LinearLayout) findViewById(R.id.linear_dashboard);
             linear_create_lead = (LinearLayout) findViewById(R.id.linear_create_lead);

@@ -136,6 +136,7 @@
 
     //other
     <string name="open">Open</string>
+    <string name="welcome">Welcome:</string>
 
     //Master spinner
     <string-array name="titles">
