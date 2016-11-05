@@ -147,20 +147,21 @@
 
                 <EditText
                     android:id="@+id/edt_fname"
-                    android:inputType="textPersonName"
-                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/layout_margin"
                     android:layout_weight="1"
                     android:background="@drawable/edit_background"
+                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
                     android:drawablePadding="@dimen/view_padding"
                     android:hint="@string/hintfname"
+                    android:inputType="textPersonName"
                     android:maxLength="50"
                     android:padding="@dimen/view_padding"
                     android:singleLine="true"
                     android:textColor="@android:color/black" />
             </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/linear_Mname"
                 android:layout_width="match_parent"
@@ -180,20 +181,21 @@
 
                 <EditText
                     android:id="@+id/edt_mname"
-                    android:inputType="textPersonName"
-                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/layout_margin"
                     android:layout_weight="1"
                     android:background="@drawable/edit_background"
+                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
                     android:drawablePadding="@dimen/view_padding"
                     android:hint="@string/hintmname"
+                    android:inputType="textPersonName"
                     android:maxLength="50"
                     android:padding="@dimen/view_padding"
                     android:singleLine="true"
                     android:textColor="@android:color/black" />
             </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/linear_Lname"
                 android:layout_width="match_parent"
@@ -213,15 +215,15 @@
 
                 <EditText
                     android:id="@+id/edt_lname"
-                    android:inputType="textPersonName"
-                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/layout_margin"
                     android:layout_weight="1"
                     android:background="@drawable/edit_background"
+                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
                     android:drawablePadding="@dimen/view_padding"
                     android:hint="@string/hintlname"
+                    android:inputType="textPersonName"
                     android:maxLength="50"
                     android:padding="@dimen/view_padding"
                     android:singleLine="true"
@@ -247,7 +249,6 @@
 
                 <EditText
                     android:id="@+id/edt_mob_no"
-                    android:inputType="phone"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/layout_margin"
@@ -255,6 +256,7 @@
                     android:background="@drawable/edit_background"
                     android:drawablePadding="@dimen/view_padding"
                     android:hint="@string/hintmobileno"
+                    android:inputType="phone"
                     android:maxLength="10"
                     android:padding="@dimen/view_padding"
                     android:singleLine="true"
@@ -280,7 +282,6 @@
 
                 <EditText
                     android:id="@+id/edt_email"
-                    android:inputType="textEmailAddress"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/layout_margin"
@@ -288,6 +289,7 @@
                     android:background="@drawable/edit_background"
                     android:drawablePadding="@dimen/view_padding"
                     android:hint="@string/hintemail"
+                    android:inputType="textEmailAddress"
                     android:maxLength="50"
                     android:padding="@dimen/view_padding"
                     android:singleLine="true"
@@ -371,7 +373,6 @@
 
                 <EditText
                     android:id="@+id/edt_address"
-                    android:inputType="text"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/layout_margin"
@@ -379,6 +380,7 @@
                     android:background="@drawable/edit_background"
                     android:drawablePadding="@dimen/view_padding"
                     android:hint="@string/hintaddress"
+                    android:inputType="text"
                     android:maxLength="100"
                     android:padding="@dimen/view_padding"
                     android:singleLine="true"
@@ -404,7 +406,6 @@
 
                 <EditText
                     android:id="@+id/edt_flat"
-                    android:inputType="text"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/layout_margin"
@@ -412,6 +413,7 @@
                     android:background="@drawable/edit_background"
                     android:drawablePadding="@dimen/view_padding"
                     android:hint="@string/hintvillage"
+                    android:inputType="text"
                     android:maxLength="50"
                     android:padding="@dimen/view_padding"
                     android:singleLine="true"
@@ -437,7 +439,6 @@
 
                 <EditText
                     android:id="@+id/edt_street"
-                    android:inputType="text"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/layout_margin"
@@ -445,6 +446,7 @@
                     android:background="@drawable/edit_background"
                     android:drawablePadding="@dimen/view_padding"
                     android:hint="@string/hintstreet"
+                    android:inputType="text"
                     android:maxLength="50"
                     android:padding="@dimen/view_padding"
                     android:singleLine="true"
@@ -470,7 +472,6 @@
 
                 <EditText
                     android:id="@+id/edt_location"
-                    android:inputType="text"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/layout_margin"
@@ -478,6 +479,7 @@
                     android:background="@drawable/edit_background"
                     android:drawablePadding="@dimen/view_padding"
                     android:hint="@string/hintlocation"
+                    android:inputType="text"
                     android:maxLength="50"
                     android:padding="@dimen/view_padding"
                     android:singleLine="true"
@@ -503,15 +505,15 @@
 
                 <EditText
                     android:id="@+id/edt_city"
-                    android:inputType="text"
-                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/layout_margin"
                     android:layout_weight="1"
                     android:background="@drawable/edit_background"
+                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
                     android:drawablePadding="@dimen/view_padding"
                     android:hint="@string/hintcity"
+                    android:inputType="text"
                     android:maxLength="50"
                     android:padding="@dimen/view_padding"
                     android:singleLine="true"
@@ -537,7 +539,6 @@
 
                 <EditText
                     android:id="@+id/edt_pincode"
-                    android:inputType="number"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/layout_margin"
@@ -545,6 +546,7 @@
                     android:background="@drawable/edit_background"
                     android:drawablePadding="@dimen/view_padding"
                     android:hint="@string/hintpincode"
+                    android:inputType="number"
                     android:maxLength="6"
                     android:padding="@dimen/view_padding"
                     android:singleLine="true"
@@ -577,6 +579,7 @@
                     android:drawablePadding="@dimen/view_padding" />
 
             </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/linear_non_salaried"
                 android:layout_width="match_parent"
@@ -584,9 +587,9 @@
                 android:orientation="horizontal"
                 android:padding="10dp"
                 android:visibility="gone">
+
                 <EditText
                     android:id="@+id/edt_non_salaried"
-                    android:inputType="text"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/layout_margin"
@@ -594,6 +597,7 @@
                     android:background="@drawable/edit_background"
                     android:drawablePadding="@dimen/view_padding"
                     android:hint="@string/hintdetails"
+                    android:inputType="text"
                     android:maxLength="50"
                     android:padding="@dimen/view_padding"
                     android:singleLine="true"
@@ -697,6 +701,7 @@
                 </RadioGroup>
 
             </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/linear_meeting_status_not_connected"
                 android:layout_width="match_parent"
@@ -718,21 +723,26 @@
                 <EditText
                     android:id="@+id/edt_reason"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="80dp"
                     android:layout_marginTop="@dimen/layout_margin"
                     android:layout_weight="1"
                     android:background="@drawable/edit_background"
                     android:drawablePadding="@dimen/view_padding"
-                    android:maxLength="50"
+                    android:inputType="textMultiLine"
+                    android:overScrollMode="always"
                     android:padding="@dimen/view_padding"
+                    android:scrollbarStyle="insideInset"
+                    android:scrollbars="vertical"
                     android:textColor="@android:color/black" />
             </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/linear_meeting_status_connected"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone">
+
                 <LinearLayout
                     android:id="@+id/lead_status"
                     android:layout_width="match_parent"
@@ -758,6 +768,7 @@
                         android:layout_weight="1"
                         android:drawablePadding="@dimen/view_padding" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:id="@+id/opportunity_pitched"
                     android:layout_width="match_parent"
@@ -783,6 +794,7 @@
                         android:layout_weight="1"
                         android:drawablePadding="@dimen/view_padding" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:id="@+id/opportunity"
                     android:layout_width="match_parent"
@@ -806,11 +818,12 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:padding="10dp">
+
                     <include
                         layout="@layout/opportunity_table_layout"
                         android:layout_width="fill_parent"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
                 </LinearLayout>
 
 
@@ -820,8 +833,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:padding="10dp"
-                    android:visibility="gone"
-                    >
+                    android:visibility="gone">
 
                     <TextView
                         android:id="@+id/txt_remark"
@@ -841,24 +853,25 @@
                         android:layout_weight="1"
                         android:background="@drawable/edit_background"
                         android:drawablePadding="@dimen/view_padding"
-                        android:maxLength="50"
                         android:hint="@string/hintremark"
+                        android:maxLength="50"
                         android:padding="@dimen/view_padding"
                         android:singleLine="true"
                         android:textColor="@android:color/black" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:id="@+id/linear_competitor"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:visibility="gone">
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:padding="10dp"
-                        >
+                        android:padding="10dp">
 
                         <TextView
                             android:id="@+id/txt_competitor"
@@ -878,19 +891,20 @@
                             android:layout_weight="1"
                             android:background="@drawable/edit_background"
                             android:drawablePadding="@dimen/view_padding"
-                            android:maxLength="50"
-                            android:inputType="text"
                             android:hint="@string/competitor"
+                            android:inputType="text"
+                            android:maxLength="50"
                             android:padding="@dimen/view_padding"
                             android:singleLine="true"
                             android:textColor="@android:color/black" />
                     </LinearLayout>
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:padding="10dp"
-                        >
+                        android:padding="10dp">
+
                         <TextView
                             android:id="@+id/txt_product"
                             android:layout_width="0dp"
@@ -903,26 +917,28 @@
 
                         <EditText
                             android:id="@+id/edt_product"
-                            android:inputType="text"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/layout_margin"
                             android:layout_weight="1"
                             android:background="@drawable/edit_background"
                             android:drawablePadding="@dimen/view_padding"
-                            android:maxLength="50"
                             android:hint="@string/product"
+                            android:inputType="text"
+                            android:maxLength="50"
                             android:padding="@dimen/view_padding"
                             android:singleLine="true"
                             android:textColor="@android:color/black" />
                     </LinearLayout>
                 </LinearLayout>
+
                 <LinearLayout
                     android:id="@+id/linear_research"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:visibility="gone">
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -947,11 +963,13 @@
                             android:layout_weight="1"
                             android:drawablePadding="@dimen/view_padding" />
                     </LinearLayout>
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:padding="10dp">
+
                         <TextView
                             android:id="@+id/txt_duration"
                             android:layout_width="0dp"
@@ -961,6 +979,7 @@
                             android:text="@string/duration"
                             android:textAppearance="?android:attr/textAppearanceMedium"
                             android:textColor="@android:color/black" />
+
                         <Spinner
                             android:id="@+id/spin_duration"
                             style="@style/spinner_style"
@@ -970,12 +989,6 @@
                             android:drawablePadding="@dimen/view_padding" />
                     </LinearLayout>
                 </LinearLayout>
-
-
-
-
-
-
 
 
             </LinearLayout>
@@ -1031,13 +1044,13 @@
 
                 <EditText
                     android:id="@+id/edt_meeting_agenda"
-                    android:inputType="text"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/layout_margin"
                     android:layout_weight="1"
                     android:background="@drawable/edit_background"
                     android:drawablePadding="@dimen/view_padding"
+                    android:inputType="text"
                     android:maxLength="50"
                     android:padding="@dimen/view_padding"
                     android:singleLine="true"
@@ -1064,18 +1077,18 @@
                 <EditText
                     android:id="@+id/edt_lead_update_log"
                     android:layout_width="0dp"
+                    android:layout_height="80dp"
                     android:layout_marginTop="@dimen/layout_margin"
                     android:layout_weight="1"
                     android:background="@drawable/edit_background"
-                    android:drawablePadding="@dimen/view_padding"
-                    android:layout_height="200dp"
-                    android:padding="@dimen/view_padding"
                     android:inputType="textMultiLine"
-                    android:singleLine="false"
                     android:overScrollMode="always"
+                    android:padding="@dimen/view_padding"
                     android:scrollbarStyle="insideInset"
                     android:scrollbars="vertical"
                     android:textColor="@android:color/black" />
+
+
             </LinearLayout>
 
             <LinearLayout
