@@ -544,7 +544,7 @@ public class UpdateLeadActivity extends AbstractActivity {
         try {
 
             spinSubSourceLeadList = new ArrayList<>();
-            String SubSourceLead = "SubSource";
+            String SubSourceLead = "SubSource ";
 
             String where = " where type like " + "'" + SubSourceLead + "'";
             Cursor cursor2 = Narnolia.dbCon.fetchFromSelect(DbHelper.TABLE_M_PARAMETER, where);

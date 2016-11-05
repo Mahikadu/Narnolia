@@ -5,8 +5,10 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.Html;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
@@ -230,15 +232,15 @@ public class LeadActivity extends AbstractActivity {
             String SourceLead = "SourceLead";
 
             String where = " where type like " + "'" + SourceLead + "'";
-            Cursor cursor2 = Narnolia.dbCon.fetchFromSelect(DbHelper.TABLE_M_PARAMETER, where);
-            if (cursor2 != null && cursor2.getCount() > 0) {
-                cursor2.moveToFirst();
+            Cursor cursor1 = Narnolia.dbCon.fetchFromSelect(DbHelper.TABLE_M_PARAMETER, where);
+            if (cursor1 != null && cursor1.getCount() > 0) {
+                cursor1.moveToFirst();
                 do {
                     String branch = "";
-                    branch = cursor2.getString(cursor2.getColumnIndex("value"));
+                    branch = cursor1.getString(cursor1.getColumnIndex("value"));
                     spinSourceLeadList.add(branch);
-                } while (cursor2.moveToNext());
-                cursor2.close();
+                } while (cursor1.moveToNext());
+                cursor1.close();
             }
             if (spinSourceLeadList.size() > 0) {
                 strLeadArray = new String[spinSourceLeadList.size() + 1];
@@ -272,8 +274,7 @@ public class LeadActivity extends AbstractActivity {
         try {
 
             spinSubSourceLeadList = new ArrayList<>();
-            String SubSourceLead = "SubSource";
-
+            String SubSourceLead = "SubSource ";
             String where = " where type like " + "'" + SubSourceLead + "'";
             Cursor cursor2 = Narnolia.dbCon.fetchFromSelect(DbHelper.TABLE_M_PARAMETER, where);
             if (cursor2 != null && cursor2.getCount() > 0) {
@@ -310,18 +311,18 @@ public class LeadActivity extends AbstractActivity {
         try {
 
             spinProductList = new ArrayList<>();
-            String Product = "Product";
+            String Product = "Product   ";
 
             String where = " where type like " + "'" + Product + "'";
-            Cursor cursor2 = Narnolia.dbCon.fetchFromSelect(DbHelper.TABLE_M_PARAMETER, where);
-            if (cursor2 != null && cursor2.getCount() > 0) {
-                cursor2.moveToFirst();
+            Cursor cursor3 = Narnolia.dbCon.fetchFromSelect(DbHelper.TABLE_M_PARAMETER, where);
+            if (cursor3 != null && cursor3.getCount() > 0) {
+                cursor3.moveToFirst();
                 do {
                     String productvalue = "";
-                    productvalue = cursor2.getString(cursor2.getColumnIndex("value"));
+                    productvalue = cursor3.getString(cursor3.getColumnIndex("value"));
                     spinProductList.add(productvalue);
-                } while (cursor2.moveToNext());
-                cursor2.close();
+                } while (cursor3.moveToNext());
+                cursor3.close();
             }
             if (spinProductList.size() > 0) {
                 strProductArray = new String[spinProductList.size() + 1];
