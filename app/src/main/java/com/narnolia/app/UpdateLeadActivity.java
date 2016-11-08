@@ -25,6 +25,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.narnolia.app.dbconfig.DbHelper;
+import com.narnolia.app.libs.Utils;
+import com.narnolia.app.model.LeadInfoModel;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -39,6 +41,7 @@ import java.util.List;
 public class UpdateLeadActivity extends AbstractActivity {
 
     private Context mContext;
+    private LeadInfoModel leadInfoModel;
 
     EditText fname,mname,lname, mobileno, email, date_of_birth, address, flat, street, location, city,
             pincode, next_metting_date, metting_agenda, lead_update_log;
@@ -66,6 +69,10 @@ public class UpdateLeadActivity extends AbstractActivity {
     private String empcode;
     private SharedPref sharedPref;
     private TextView admin;
+
+    private String LeadId;
+    int directLeadId;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -173,6 +180,15 @@ public class UpdateLeadActivity extends AbstractActivity {
                             .setError(null);}
                 }
             });
+
+            leadInfoModel = (LeadInfoModel) getIntent().getSerializableExtra(Utils.KEY_LEAD_DATA);
+            LeadId = leadInfoModel.getLead_id();
+            directLeadId = leadInfoModel.getDirect_lead_id();
+
+            String firstname = leadInfoModel.getFirstname();
+
+
+            populateData();
 
             //.............TextView Ref
             tv_lead_name = (TextView) findViewById(R.id.txt_lead_name);
@@ -639,5 +655,29 @@ public class UpdateLeadActivity extends AbstractActivity {
     private void goBack() {
         pushActivity(mContext, HomeActivity.class, null, true);
         finish();
+    }
+
+    private void populateData(){
+        try{
+
+            fname.setText(leadInfoModel.getFirstname());
+            mname.setText(leadInfoModel.getMiddlename());
+            lname.setText(leadInfoModel.getLastname());
+            mobileno.setText(leadInfoModel.getMobile_no());
+            location.setText(leadInfoModel.getLocation());
+            city.setText(leadInfoModel.getCity());
+            pincode.setText(leadInfoModel.getPincode());
+
+            if (leadInfoModel.getSource_of_lead() != null && leadInfoModel.getSource_of_lead().trim().length() > 0) {
+                spinner_source_of_lead.setSelection(spinSourceLeadList.indexOf(leadInfoModel.getSource_of_lead()) + 1);
+            }
+
+            if (leadInfoModel.getSub_source() != null && leadInfoModel.getSub_source().trim().length() > 0) {
+                spinner_sub_source.setSelection(spinSubSourceLeadList.indexOf(leadInfoModel.getSub_source()) + 1);
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 }

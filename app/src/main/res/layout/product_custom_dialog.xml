@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/linear_alert"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:background="@drawable/customborder"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/size_5"
+            android:background="@color/colorGray">
+
+
+            <TextView
+                android:id="@+id/textcheck"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:padding="@dimen/view_padding"
+                android:text="Check all"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@color/coloryellow"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textuncheck"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_toRightOf="@+id/textcheck"
+                android:padding="@dimen/view_padding"
+                android:text="Uncheck all"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@color/coloryellow"
+                android:textStyle="bold" />
+
+
+        </RelativeLayout>
+
+
+        <ScrollView
+            android:id="@+id/mechantScrollview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <LinearLayout
+                android:id="@+id/productLinearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+            </LinearLayout>
+        </ScrollView>
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

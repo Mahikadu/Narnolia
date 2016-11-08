@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.Resources;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,8 +15,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.narnolia.app.dbconfig.DbHelper;
 import com.narnolia.app.libs.Utils;
+import com.narnolia.app.model.LeadInfoModel;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,6 +35,9 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
     private String empcode;
     private SharedPref sharedPref;
     private TextView admin;
+
+    LeadInfoModel leadInfoModel;
+    List<LeadInfoModel> leadInfoModelList;
 
 
     private List<String> spinSourceLeadList;
@@ -48,6 +55,8 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
 
     private void initView() {
         try {
+
+            getAllLeadData();
             mContext = HomeActivity.this;
 
             setHeader();
@@ -136,7 +145,9 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
                 pushActivity(mContext, LeadActivity.class, null, true);
                 break;
             case R.id.linear_update_lead:
-                pushActivity(mContext, UpdateLeadActivity.class, null, true);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(Utils.KEY_LEAD_DATA, leadInfoModel);
+                pushActivity(mContext, UpdateLeadActivity.class, bundle, true);
                 break;
             case R.id.linear_master:
 
@@ -333,5 +344,91 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
         });
     }
 
+
+    public void getAllLeadData() {
+
+        leadInfoModelList = new ArrayList<>();
+        try {
+            // WHERE clause
+            //String where = " where last_sync = '0'";
+            Cursor cursor = Narnolia.dbCon.getAllDataFromTable(DbHelper.TABLE_DIRECT_LEAD);
+            if (cursor != null && cursor.getCount() > 0) {
+                cursor.moveToFirst();
+                do {
+                    leadInfoModel = createLeadInfoModel(cursor);
+                    leadInfoModelList.add(leadInfoModel);
+
+                } while (cursor.moveToNext());
+                cursor.close();
+
+            }else {
+                Toast.makeText(HomeActivity.this, "No data found..!",Toast.LENGTH_SHORT).show();
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public LeadInfoModel createLeadInfoModel(Cursor cursor) {
+         leadInfoModel = new LeadInfoModel();
+        try {
+            leadInfoModel.setStages(cursor.getString(cursor.getColumnIndex("stages")));
+            leadInfoModel.setLead_id(cursor.getString(cursor.getColumnIndex("lead_id")));
+            leadInfoModel.setDirect_lead_id(cursor.getInt(cursor.getColumnIndex("direct_lead_id")));
+            leadInfoModel.setSource_of_lead(cursor.getString(cursor.getColumnIndex("source_of_lead")));
+            leadInfoModel.setSub_source(cursor.getString(cursor.getColumnIndex("sub_source")));
+            leadInfoModel.setFirstname(cursor.getString(cursor.getColumnIndex("fname")));
+            leadInfoModel.setMiddlename(cursor.getString(cursor.getColumnIndex("mname")));
+            leadInfoModel.setLastname(cursor.getString(cursor.getColumnIndex("lname")));
+            leadInfoModel.setDob(cursor.getString(cursor.getColumnIndex("dob")));
+            leadInfoModel.setAge(cursor.getString(cursor.getColumnIndex("age")));
+            leadInfoModel.setMobile_no(cursor.getString(cursor.getColumnIndex("mobile_no")));
+            leadInfoModel.setAddress1(cursor.getString(cursor.getColumnIndex("address1")));
+            leadInfoModel.setAddress2(cursor.getString(cursor.getColumnIndex("address2")));
+            leadInfoModel.setAddress3(cursor.getString(cursor.getColumnIndex("address3")));
+            leadInfoModel.setLocation(cursor.getString(cursor.getColumnIndex("location")));
+            leadInfoModel.setCity(cursor.getString(cursor.getColumnIndex("city")));
+            leadInfoModel.setPincode(cursor.getString(cursor.getColumnIndex("pincode")));
+            leadInfoModel.setEmail_id(cursor.getString(cursor.getColumnIndex("email_id")));
+            leadInfoModel.setAnnual_income(cursor.getString(cursor.getColumnIndex("annual_income")));
+            leadInfoModel.setOccupation(cursor.getString(cursor.getColumnIndex("occupation")));
+            leadInfoModel.setCreatedfrom(cursor.getString(cursor.getColumnIndex("created_from")));
+            leadInfoModel.setAppversion(cursor.getString(cursor.getColumnIndex("app_version")));
+            leadInfoModel.setAppdt(cursor.getString(cursor.getColumnIndex("app_dt")));
+            leadInfoModel.setFlag(cursor.getString(cursor.getColumnIndex("flag")));
+            leadInfoModel.setAllocateduserid(cursor.getString(cursor.getColumnIndex("allocated_user_id")));
+            leadInfoModel.setBrokerdetls(cursor.getString(cursor.getColumnIndex("other_broker_dealt_with")));
+            leadInfoModel.setMeetingstatus(cursor.getString(cursor.getColumnIndex("meeting_status")));
+            leadInfoModel.setLeadstatus(cursor.getString(cursor.getColumnIndex("lead_status")));
+            leadInfoModel.setCompitatorname(cursor.getString(cursor.getColumnIndex("competitor_name")));
+            leadInfoModel.setProduct(cursor.getString(cursor.getColumnIndex("product")));
+            leadInfoModel.setRemark(cursor.getString(cursor.getColumnIndex("remarks")));
+            leadInfoModel.setTypeofsearch(cursor.getString(cursor.getColumnIndex("typeofsearch")));
+            leadInfoModel.setDuration(cursor.getString(cursor.getColumnIndex("duration")));
+            leadInfoModel.setPanno(cursor.getString(cursor.getColumnIndex("pan_no")));
+            leadInfoModel.setB_margin(cursor.getString(cursor.getColumnIndex("b_margin")));
+            leadInfoModel.setB_aum(cursor.getString(cursor.getColumnIndex("b_aum")));
+            leadInfoModel.setB_sip(cursor.getString(cursor.getColumnIndex("b_sip")));
+            leadInfoModel.setB_number(cursor.getString(cursor.getColumnIndex("b_number")));
+            leadInfoModel.setB_value(cursor.getString(cursor.getColumnIndex("b_value")));
+            leadInfoModel.setB_premium(cursor.getString(cursor.getColumnIndex("b_premium")));
+            leadInfoModel.setReason(cursor.getString(cursor.getColumnIndex("reason")));
+            leadInfoModel.setMeetingdt(cursor.getString(cursor.getColumnIndex("next_meeting_date")));
+            leadInfoModel.setMeetingagenda(cursor.getString(cursor.getColumnIndex("meeting_agenda")));
+            leadInfoModel.setLead_updatelog(cursor.getString(cursor.getColumnIndex("lead_update_log")));
+            leadInfoModel.setCreatedby(cursor.getString(cursor.getColumnIndex("created_by")));
+            leadInfoModel.setCreateddt(cursor.getString(cursor.getColumnIndex("created_dt")));
+            leadInfoModel.setUpdateddt(cursor.getString(cursor.getColumnIndex("updated_dt")));
+            leadInfoModel.setUpdatedby(cursor.getString(cursor.getColumnIndex("updated_by")));
+            leadInfoModel.setBusiness_opp(cursor.getString(cursor.getColumnIndex("business_opportunity")));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return leadInfoModel;
+
+    }
 
 }

@@ -18,8 +18,8 @@ public class DatabaseCopy {
 
     Context context;
 
-    String DB_file_path = "/data/data/com.idbi.app/databases/Narnolia";
-    String DB_name = "Narnolia.db";
+    String DB_file_path = "/data/data/com.narnolia.app/databases/Narnolia";
+    String DB_name = "Narnolia";
 
 
 

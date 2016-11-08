@@ -87,6 +87,16 @@ public class DataBaseCon {
         return dbHelper.rawQuery(query);
     }
 
+    public Cursor fetchAll(String tbl) {
+        String query = null;
+        try {
+            query = "select * from " + tbl;
+            Log.i("TAG", "query :" + query);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return dbHelper.rawQuery(query);
+    }
     public int getCountOfRows(String tbl) {
         int count = 0;
         try {

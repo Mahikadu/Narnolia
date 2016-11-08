@@ -134,6 +134,59 @@
     <string name="column_masterdetails_transfer">transfer</string>
     <string name="column_masterdetails_flag">flag</string>
 
+    //save lead column name
+    <string name="column_direct_lead_id">direct_lead_id</string>
+    <string name="column_lead_id">lead_id</string>
+    <string name="column_stages">stages</string>
+    <string name="column_source_of_lead">source_of_lead</string>
+    <string name="column_sub_source">sub_source</string>
+    <string name="column_customer_id">customer_id</string>
+    <string name="column_firstname">fname</string>
+    <string name="column_middlename">mname</string>
+    <string name="column_lastname">lname</string>
+    <string name="column_dob">dob</string>
+    <string name="column_age">age</string>
+    <string name="column_mobile_no">mobile_no</string>
+    <string name="column_address1">address_1</string>
+    <string name="column_address2">address_2</string>
+    <string name="column_address3">address_3</string>
+    <string name="column_location">location</string>
+    <string name="column_city">city</string>
+    <string name="column_pincode">pincode</string>
+    <string name="column_email_id">email_id</string>
+    <string name="column_annual_income">annual_income</string>
+    <string name="column_occupation">occupation</string>
+    <string name="column_created_from">created_from</string>
+    <string name="column_app_version">app_version</string>
+    <string name="column_app_dt">app_dt</string>
+    <string name="column_flag">flag</string>
+    <string name="column_allocated_user_id">allocated_user_id</string>
+    <string name="column_other_broker_dealt_with">other_broker_dealt_with</string>
+    <string name="column_meeting_status">meeting_status</string>
+    <string name="column_lead_status">lead_status</string>
+    <string name="column_competitor_name">competitor_name</string>
+    <string name="column_product">product</string>
+    <string name="column_remarks">remarks</string>
+    <string name="column_typeofsearch">typeofsearch</string>
+    <string name="column_duration">duration</string>
+    <string name="column_pan_no">pan_no</string>
+    <string name="column_b_margin">b_margin</string>
+    <string name="column_b_aum">b_aum</string>
+    <string name="column_b_sip">b_sip</string>
+    <string name="column_b_number">b_number</string>
+    <string name="column_b_value">b_value</string>
+    <string name="column_b_premium">b_premium</string>
+    <string name="column_reason">reason</string>
+    <string name="column_next_meeting_date">next_meeting_date</string>
+    <string name="column_meeting_agenda">meeting_agenda</string>
+    <string name="column_lead_update_log">lead_update_log</string>
+    <string name="column_created_by">created_by</string>
+    <string name="column_created_dt">created_dt</string>
+    <string name="column_updated_dt">updated_dt</string>
+    <string name="column_updated_by">updated_by</string>
+    <string name="column_business_opportunity">business_opportunity</string>
+
+
     //other
     <string name="open">Open</string>
     <string name="welcome">Welcome:</string>

@@ -134,7 +134,8 @@ public class DbHelper extends SQLiteOpenHelper {
                 try {
                     if ((names[i].equalsIgnoreCase(_ctxt.getString(R.string.column_masterdetails_id)))) {
                         try {
-                            values1.put(names[i], Integer.parseInt(values[i]));
+                            int value = Integer.parseInt(values[i]);
+                            values1.put(names[i], value);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }

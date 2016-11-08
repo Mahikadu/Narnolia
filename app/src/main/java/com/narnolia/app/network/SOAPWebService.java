@@ -7,6 +7,7 @@ import com.narnolia.app.libs.Utils;
 
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.serialization.SoapObject;
+import org.ksoap2.serialization.SoapPrimitive;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 
@@ -28,29 +29,35 @@ public class SOAPWebService {
         context = con;
     }
 
-    public SoapObject SaveLead(String lead_source,String sub_source, String fname, String mname, String lname,
-                               String mobileno, String city, String pincode, String empcode, String app_date, String createdFrom,
-                               String app_version, String createdby, String location){
+    public SoapPrimitive SaveLead(String lead_source, String sub_source, String empcode, String fname, String mname,
+                                  String lname, String mobileno, String location, String city,
+                                  String pincode, String app_version, String Stages, String createdby, String app_date,
+                                  String createdFrom, String L_flag, String allocated_user_id){
 
-       SoapObject result = null;
+        SoapPrimitive result = null;
 
         try{
             SoapObject request = new SoapObject(NAMESPACE,"SaveLead");
 
             request.addProperty("lead_source",lead_source);
             request.addProperty("sub_source",sub_source);
+            request.addProperty("empcode",empcode);
             request.addProperty("fname",fname);
             request.addProperty("mname",mname);
             request.addProperty("lname",lname);
             request.addProperty("mobileno",mobileno);
+            request.addProperty("location",location);
             request.addProperty("city",city);
             request.addProperty("pincode",pincode);
-            request.addProperty("empcode",empcode);
+            request.addProperty("app_version",app_version);
+            request.addProperty("Stages",Stages);
+            request.addProperty("createdby",createdby);
             request.addProperty("app_date",app_date);
             request.addProperty("createdFrom",createdFrom);
-            request.addProperty("app_version",app_version);
-            request.addProperty("createdby",createdby);
-            request.addProperty("location",location);
+            request.addProperty("L_flag",L_flag);
+            request.addProperty("allocated_user_id",allocated_user_id);
+
+
 
             SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
                     SoapEnvelope.VER11);// soap envelop with version
@@ -64,7 +71,7 @@ public class SOAPWebService {
             Log.i("TAG", "envelope" + envelope);
 
             // response soap object
-            result = (SoapObject) envelope.getResponse();
+            result = (SoapPrimitive) envelope.getResponse();
             Log.i("TAG", "response :" + result);
 
             return result;
