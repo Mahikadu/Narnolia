@@ -53,6 +53,14 @@ public class UpdateLeadActivity extends AbstractActivity {
     RadioGroup rg_meeting_status;
     RadioButton rb_contact, rb_not_contact;
     LinearLayout connect,notconnect,linear_non_salaried,linear_remark,linear_competitor,linear_research;
+    //.........Edit Text Strings
+    String str_fname,str_mname,str_lname,str_mobile_no,str_email,str_date_of_birth,str_address,str_flat,str_street,str_laocion,str_city,
+            str_pincode,str_next_meeting_date,str_metting_agenda,str_lead_update_log;
+    //........Spineer Strings
+    String str_spinner_lead_name, str_spinner_source_of_lead, str_spinner_sub_source, str_spinner_age_group,
+            str_spinner_occupation,str_spinner_annual_income, str_spinner_other_broker,str_spinner_lead_status,str_spinner_research_type,str_spinner_duration;
+    //......Radio Group String
+    String str_rg_meeting_status;
     Button bt_update_lead, bt_close_lead;
     private DatePickerDialog datePickerDialog,datePickerDialog1;   //date picker declare
     private SimpleDateFormat dateFormatter;      //date format declare
@@ -199,7 +207,6 @@ public class UpdateLeadActivity extends AbstractActivity {
             tv_fname = (TextView) findViewById(R.id.txt_fname);
             tv_fname.setText(Html.fromHtml("<font color=\"red\">*</font>"+"<font color=\"black\">First Name</font>\n"));
             tv_mname = (TextView) findViewById(R.id.txt_mname);
-            tv_mname.setText(Html.fromHtml("<font color=\"red\">*</font>"+"<font color=\"black\">Middle Name</font>\n"));
             tv_lname = (TextView) findViewById(R.id.txt_lname);
             tv_lname.setText(Html.fromHtml("<font color=\"red\">*</font>"+"<font color=\"black\">Last Name</font>\n"));
             tv_mobile_no = (TextView) findViewById(R.id.txt_mob_no);
@@ -643,6 +650,48 @@ public class UpdateLeadActivity extends AbstractActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+    }
+
+    private void updateOrInsertInDb(){
+        //........Edit text get Text
+        str_fname=fname.getText().toString().toString();
+        str_mname=mname.getText().toString().trim();
+        str_lname=lname.getText().toString().trim();
+        str_mobile_no=mobileno.getText().toString().trim();
+        str_email=email.getText().toString().trim();
+        str_date_of_birth=date_of_birth.getText().toString().trim();
+        str_address=address.getText().toString().trim();
+        str_flat=flat.getText().toString().trim();
+        str_street=street.getText().toString().trim();
+        str_laocion=location.getText().toString().trim();
+        str_city=city.getText().toString().trim();
+        str_pincode=pincode.getText().toString().trim();
+        str_next_meeting_date=next_metting_date.getText().toString().trim();
+        str_metting_agenda=metting_agenda.getText().toString().trim();
+        str_lead_update_log=lead_update_log.getText().toString().trim();
+        //.......spinner text get Text
+
+        str_spinner_lead_name=spinner_lead_name.getSelectedItem().toString();
+        str_spinner_source_of_lead=spinner_source_of_lead.getSelectedItem().toString();
+        str_spinner_sub_source=spinner_sub_source.getSelectedItem().toString();
+        str_spinner_age_group=spinner_age_group.getSelectedItem().toString();
+        str_spinner_occupation=spinner_occupation.getSelectedItem().toString();
+        str_spinner_annual_income=spinner_annual_income.getSelectedItem().toString();
+        str_spinner_other_broker=spinner_other_broker.getSelectedItem().toString();
+        str_spinner_lead_status=spinner_lead_status.getSelectedItem().toString();
+        str_spinner_research_type=spinner_research_type.getSelectedItem().toString();
+        str_spinner_duration=spinner_duration.getSelectedItem().toString();
+
+
+        //......Radio Group get Text
+        rg_meeting_status.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                RadioButton rb = (RadioButton) rg_meeting_status.findViewById(checkedId);
+                str_rg_meeting_status = rb.getText().toString();
+            }
+        });
     }
 
 

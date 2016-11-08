@@ -101,6 +101,21 @@
                     android:layout_weight="1"
                     android:drawablePadding="@dimen/view_padding" />
             </LinearLayout>
+            <LinearLayout
+                android:id="@+id/linear_lead_details_hidden"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:background="@color/black"
+                android:layout_height="1dp"
+                android:layout_marginTop="@dimen/size_10"
+                android:layout_marginLeft="@dimen/size_16"
+                android:layout_marginRight="@dimen/size_16">
+
+            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/liner_source_of_lead"
@@ -1115,6 +1130,7 @@
                     android:textColor="@android:color/black" />
 
 
+
             </LinearLayout>
 
             <LinearLayout
@@ -1143,6 +1159,7 @@
                     android:background="@color/colorRed"
                     android:text="@string/closelead"
                     android:textColor="@color/colorWhite" />
+            </LinearLayout>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

@@ -33,7 +33,7 @@ public class DatabaseCopy {
         System.out.println("callllllllllllll");
         try {
             // Database from asset folder
-            in = am.open(DB_name);
+             in = am.open(DB_name);
             // Database copied into application folder
 
             if (new File(DB_file_path).exists()) {
@@ -60,7 +60,7 @@ public class DatabaseCopy {
                 try {
                     File f = new File(DB_file_path);
                     f.getParentFile().mkdirs();
-                    out = new FileOutputStream(f);
+                     out = new FileOutputStream(f);
 
                     copyFile(in, out);
                     System.out.println("DB created");

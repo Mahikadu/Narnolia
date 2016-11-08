@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <LinearLayout
+        android:id="@+id/linear_next_metting_layout"
+        android:layout_width="match_parent"
+        android:layout_height="270dp"
+        android:orientation="vertical"
+        android:background="@drawable/customborder">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorGray"
+            >
+
+
+            <TextView
+                android:id="@+id/textTitle_next"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/iv_logout"
+                android:layout_toRightOf="@+id/iv_home"
+                android:text="@string/next_meeting"
+                android:gravity="center"
+                android:textColor="@color/coloryellow"
+                android:padding="@dimen/view_padding"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/iv_close_dial"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="@android:color/transparent"
+                android:padding="@dimen/view_padding"
+                android:text="x"
+                android:textStyle="bold"
+                android:textColor="@color/colorWhite"/>
+        </RelativeLayout>
+
+
+        <LinearLayout
+            android:id="@+id/linear_next_meeting_dialog"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/txt_next_meeting_dialog"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/layout_margin"
+                android:layout_weight="1"
+                android:text="@string/nextmeeting"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@android:color/black" />
+
+            <EditText
+                android:id="@+id/edt_next_meeting_dialog"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/layout_margin"
+                android:layout_weight="1"
+                android:background="@drawable/edit_background"
+                android:drawablePadding="@dimen/view_padding"
+                android:maxLength="50"
+                android:padding="@dimen/view_padding"
+                android:singleLine="true"
+                android:textColor="@android:color/black" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linear_meeting_ahgenda_dialog"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/txt_meeting_agenda_dialog"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/layout_margin"
+                android:layout_weight="1"
+                android:text="@string/mettingagenda"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@android:color/black" />
+
+            <EditText
+                android:id="@+id/edt_meeting_agenda_dialog"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/layout_margin"
+                android:layout_weight="1"
+                android:background="@drawable/edit_background"
+                android:drawablePadding="@dimen/view_padding"
+                android:inputType="text"
+                android:maxLength="50"
+                android:padding="@dimen/view_padding"
+                android:singleLine="true"
+                android:textColor="@android:color/black" />
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:background="@color/colorGray">
+
+        </LinearLayout>
+
+
+        <Button
+            android:id="@+id/btn1_submit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/colorRed"
+            android:text="@string/submit"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:layout_gravity="left"
+            android:layout_marginTop="10dp"
+            android:textColor="@android:color/white" />
+
+    </LinearLayout>
+
+
+
+
+</RelativeLayout>

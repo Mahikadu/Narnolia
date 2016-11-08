@@ -144,11 +144,11 @@ public class LeadActivity extends AbstractActivity {
             tv_sub_source_of_lead = (TextView) findViewById(R.id.txt1_sub_source);
             tv_sub_source_of_lead.setText(Html.fromHtml("<font color=\"red\">*</font>" + "<font color=\"black\">Sub Source</font>\n"));
             tv_fname = (TextView) findViewById(R.id.txt1_fname);
-            tv_fname.setText(Html.fromHtml("<font color=\"red\">*</font>" + "<font color=\"black\">First Name</font>\n"));
-            tv_mname = (TextView) findViewById(R.id.txt1_mname);
-            tv_mname.setText(Html.fromHtml("<font color=\"red\">*</font>" + "<font color=\"black\">Middle Name</font>\n"));
-            tv_lname = (TextView) findViewById(R.id.txt1_lname);
-            tv_lname.setText(Html.fromHtml("<font color=\"red\">*</font>" + "<font color=\"black\">Last Name</font>\n"));
+            tv_fname.setText(Html.fromHtml("<font color=\"red\">*</font>"+"<font color=\"black\">First Name</font>\n"));
+            tv_mname=(TextView)findViewById(R.id.txt1_mname);
+
+            tv_lname=(TextView)findViewById(R.id.txt1_lname);
+            tv_lname.setText(Html.fromHtml("<font color=\"red\">*</font>"+"<font color=\"black\">Last Name</font>\n"));
             tv_mobile_no = (TextView) findViewById(R.id.txt1_mobile_no);
             tv_mobile_no.setText(Html.fromHtml("<font color=\"red\">*</font>" + "<font color=\"black\">Mobile Number</font>\n"));
             tv_location = (TextView) findViewById(R.id.txt1_location);

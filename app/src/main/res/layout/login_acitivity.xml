@@ -51,6 +51,14 @@
             android:maxLines="1"
             android:inputType="text"
             />
+        <TextView
+            android:id="@+id/t_username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorRed"
+            android:text="@string/user_name"
+            android:layout_gravity="center"
+            android:visibility="gone"/>
 
         <EditText
             android:id="@+id/etPassword"
@@ -66,6 +74,14 @@
             android:inputType="textPassword"
             android:maxLines="1"
             />
+        <TextView
+            android:id="@+id/t_password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/pass"
+            android:textColor="@color/colorRed"
+            android:layout_gravity="center"
+            android:visibility="gone"/>
 
         <Button
             android:id="@+id/buttonLogin"

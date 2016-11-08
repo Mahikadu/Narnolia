@@ -53,7 +53,6 @@
     <string name="hintdetails">Please Enter Details</string>
     <string name="hintremark">remark</string>
 
-
     <string name="createlead">Create Lead</string>
     <string name="cancellead">Cancel Lead</string>
     <string name="createandclose">Create and Close lead</string>
@@ -190,6 +189,13 @@
     //other
     <string name="open">Open</string>
     <string name="welcome">Welcome:</string>
+    <string name="submit">Submit</string>
+    <string name="next_meeting">Next Meeting</string>
+    <string name="close">Close the lead</string>
+
+    <string name="user_name">User name is Required.</string>
+    <string name="pass">Password is Required.</string>
+
 
     //Master spinner
     <string-array name="titles">
@@ -250,5 +256,21 @@
         <item>6 month</item>
         <item>Others</item>
     </string-array>
+
+   <!-- coumn name in tabele M_category-->
+    <string name="column_M_id">id</string>
+     <string name="column_M_Product_type_id">Product_type_id</string>
+    <string name="column_M_Category">Category</string>
+    <string name="column_M_Subcategory">Subcategory</string>
+    <string name="column_M_Status">status</string>
+  <!--  column in table direct lead ST details-->
+    <string name="column_dld_id">id</string>
+    <string name="column_did_lead_id">lead_id</string>
+    <string name="column_did_ST_type_id">ST_type_id</string>
+    <!--column in table direct lead category details-->
+    <string name="column_cd_id">id</string>
+    <string name="column_cd_lead_id">lead_id</string>
+    <string name="column_cd_producttype_id">producttype_id</string>
+    <string name="column_cd_category_id">category_id</string>
 
 </resources>

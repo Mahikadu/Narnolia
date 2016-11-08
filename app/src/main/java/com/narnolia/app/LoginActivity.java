@@ -7,11 +7,14 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.narnolia.app.dbconfig.DbHelper;
 import com.narnolia.app.libs.Utils;
@@ -35,6 +38,7 @@ public class LoginActivity extends AbstractActivity {
 
 
     EditText username, password;
+    TextView t_username,t_password;
     Button Login;
     private String strPass, strUser;
 
@@ -59,6 +63,48 @@ public class LoginActivity extends AbstractActivity {
             username = (EditText) findViewById(R.id.etUserName);
             password = (EditText) findViewById(R.id.etPassword);
 
+            //..........text view validations.
+            t_username=(TextView)findViewById(R.id.t_username);
+            t_password=(TextView)findViewById(R.id.t_password);
+            //.........Text watcher for hiding tex views......
+            username.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+                    if (username.length()>0){
+                        t_username.setVisibility(View.GONE);
+                    }
+                }
+            });
+            password.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+                    if (password.length()>0){
+                        t_password.setVisibility(View.GONE);
+                    }
+                }
+            });
+
+
 
 
             Login = (Button) findViewById(R.id.buttonLogin);
@@ -71,11 +117,16 @@ public class LoginActivity extends AbstractActivity {
                         View focusView = null;
                         strUser = username.getText().toString().trim();
                         strPass = password.getText().toString().trim();
-
+                        if (TextUtils.isEmpty(strUser)&&TextUtils.isEmpty(strPass)){
+                            t_username.setVisibility(View.VISIBLE);
+                            t_password.setVisibility(View.VISIBLE);
+                        }
                         if (TextUtils.isEmpty(strUser)) {
-                            displayMessage("Enter UserName");
+                            //   displayMessage("Enter UserName");
+                            t_username.setVisibility(View.VISIBLE);
                         } else if (TextUtils.isEmpty(strPass)) {
-                            displayMessage("Enter Password");
+                            //displayMessage("Enter Password");
+                            t_password.setVisibility(View.VISIBLE);
                         } else {
                             if (isConnectingToInternet()) {
                                 new UserLogin().execute();
