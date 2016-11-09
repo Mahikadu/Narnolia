@@ -8,6 +8,9 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.narnolia.app.R;
+import com.narnolia.app.model.LeadInfoModel;
+
+import java.util.List;
 
 /**
  * Created by Admin on 25-10-2016.
@@ -17,28 +20,29 @@ public class DashboardAdapter extends BaseAdapter{
 
     private static LayoutInflater inflater = null;
     public Context _context;
-    String countryList[];
+    private LeadInfoModel leadInfoModel;
+    private List<LeadInfoModel> leadInfoModles;
 
-
-    public DashboardAdapter(Context mContext,String[] countryList) {
+    public DashboardAdapter(Context mContext,List<LeadInfoModel> leadInfoModles) {
         this._context = mContext;
-        this.countryList = countryList;
+        this.leadInfoModles = leadInfoModles;
+
 
     }
 
     @Override
     public int getCount() {
-        return countryList.length;
+        return leadInfoModles.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return null;
+        return leadInfoModles.get(position);
     }
 
     @Override
     public long getItemId(int position) {
-        return 0;
+        return position;
     }
 
     @Override
@@ -70,17 +74,17 @@ public class DashboardAdapter extends BaseAdapter{
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-
-        viewHolder.tvLeadId.setText("Lead ID");
-        viewHolder.tvCustName.setText("Name");
-        viewHolder.tvMobile.setText("Mobile Number");
-        viewHolder.tvCity.setText("City");
-        viewHolder.tvPincode.setText("Pincode");
-        viewHolder.tvLastMeet_date.setText("Last Meeting Date");
-        viewHolder.tvLastMeet_update.setText("Last Meeting Update");
-        viewHolder.tvLeadStatus.setText("Lead Status");
-        viewHolder.tvNextMeet.setText("Next Meeting");
-        viewHolder.tvCloseLead.setText("Close Lead");
+        leadInfoModel = leadInfoModles.get(position);
+        viewHolder.tvLeadId.setText(leadInfoModel.getLead_id());
+        viewHolder.tvCustName.setText(leadInfoModel.getFirstname());
+        viewHolder.tvMobile.setText(leadInfoModel.getMobile_no());
+        viewHolder.tvCity.setText(leadInfoModel.getCity());
+        viewHolder.tvPincode.setText(leadInfoModel.getPincode());
+        viewHolder.tvLastMeet_date.setText(leadInfoModel.getMeetingdt());
+        viewHolder.tvLastMeet_update.setText(leadInfoModel.getUpdatedby());
+       viewHolder.tvLeadStatus.setText(leadInfoModel.getLeadstatus());
+       // viewHolder.tvNextMeet.setText(leadInfoModel.getUpdateddt());
+       // viewHolder.tvCloseLead.setText(leadInfoModel.getLead_id());
 
         return convertView;
     }

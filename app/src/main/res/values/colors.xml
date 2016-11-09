@@ -14,6 +14,8 @@
     <color name="black">#000</color>
     <color name="gray">#808080</color>
     <color name="gray1">#aaa</color>
+
+    <color name="gray2">#d1cfcf</color>
     <color name="colorGray">#696969</color>
     <color name="colorBlue">#0926e2</color>
 </resources>

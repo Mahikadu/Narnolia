@@ -35,24 +35,51 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorWhite"
-        android:orientation="vertical"
         android:layout_above="@+id/tvFooter"
         android:layout_below="@+id/linear_header"
         android:layout_marginBottom="30dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginTop="3dp">
+        android:layout_marginTop="3dp"
+        android:background="@color/colorWhite"
+        android:orientation="vertical">
 
-        <ListView
-            android:id="@+id/biList"
+
+        <LinearLayout
+            android:id="@+id/dash_header"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="10dp"
-            android:shrinkColumns="*"
-            android:stretchColumns="*"></ListView>
+            android:layout_height="@dimen/size_80"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
 
+            <include
+                android:id="@+id/layout_header"
+                layout="@layout/dashboard_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </include>
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TableLayout
+                    android:id="@+id/tableLaout_lead"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:shrinkColumns="*"
+                    android:stretchColumns="*"></TableLayout>
+            </ScrollView>
+        </LinearLayout>
+    </LinearLayout>
 
     <TextView
         android:id="@+id/tvFooter"

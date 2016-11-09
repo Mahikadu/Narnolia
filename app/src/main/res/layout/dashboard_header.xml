@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TableRow xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="@dimen/size_80"
-    >
-
+    android:background="@color/black">
 
     <TextView
         android:id="@+id/tvLeadId"
@@ -13,9 +12,9 @@
         android:background="@drawable/table_row_item"
         android:gravity="center"
         android:padding="@dimen/view_padding"
-        android:text="Medium Text"
+        android:text="Lead ID"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@android:color/black"
+        android:textColor="@android:color/white"
         android:textStyle="bold" />
 
     <TextView
@@ -26,9 +25,9 @@
         android:background="@drawable/table_row_item"
         android:gravity="center"
         android:padding="@dimen/view_padding"
-        android:text="Medium Text"
+        android:text="Name"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@android:color/black"
+        android:textColor="@android:color/white"
         android:textStyle="bold" />
 
     <TextView
@@ -39,9 +38,9 @@
         android:background="@drawable/table_row_item"
         android:gravity="center"
         android:padding="@dimen/view_padding"
-        android:text="Medium Text"
+        android:text="Mobile Number"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@android:color/black"
+        android:textColor="@android:color/white"
         android:textStyle="bold" />
 
 
@@ -55,9 +54,9 @@
         android:background="@drawable/table_row_item"
         android:gravity="center"
         android:padding="@dimen/view_padding"
-        android:text="Medium Text"
+        android:text="City"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@android:color/black"
+        android:textColor="@android:color/white"
         android:textStyle="bold" />
 
     <TextView
@@ -68,9 +67,9 @@
         android:background="@drawable/table_row_item"
         android:gravity="center"
         android:padding="@dimen/view_padding"
-        android:text="Medium Text"
+        android:text="Pincode"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@android:color/black"
+        android:textColor="@android:color/white"
         android:textStyle="bold" />
 
     <TextView
@@ -81,9 +80,9 @@
         android:background="@drawable/table_row_item"
         android:gravity="center"
         android:padding="@dimen/view_padding"
-        android:text="Medium Text"
+        android:text="Last Meeting Date"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@android:color/black"
+        android:textColor="@android:color/white"
         android:textStyle="bold" />
 
     <TextView
@@ -94,9 +93,9 @@
         android:background="@drawable/table_row_item"
         android:gravity="center"
         android:padding="@dimen/view_padding"
-        android:text="Medium Text"
+        android:text="Last Metting Update"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@android:color/black"
+        android:textColor="@android:color/white"
         android:textStyle="bold" />
 
     <TextView
@@ -107,9 +106,9 @@
         android:background="@drawable/table_row_item"
         android:gravity="center"
         android:padding="@dimen/view_padding"
-        android:text="Medium Text"
+        android:text="Lead Status"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@android:color/black"
+        android:textColor="@android:color/white"
         android:textStyle="bold" />
 
     <TextView
@@ -117,7 +116,7 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="0.6"
-        android:background="@drawable/corner"
+        android:background="@drawable/table_row_item"
         android:gravity="center"
         android:padding="@dimen/view_padding"
         android:text="Next Metting"
@@ -130,12 +129,12 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="0.6"
-        android:background="@drawable/close_lead"
+        android:background="@drawable/table_row_item"
         android:gravity="center"
         android:padding="@dimen/view_padding"
         android:text="Close Lead"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@color/colorGray"
+        android:textColor="@android:color/white"
         android:textStyle="bold" />
 
-</TableRow>
+</LinearLayout>
