@@ -23,6 +23,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.narnolia.app.dbconfig.DbHelper;
 import com.narnolia.app.libs.Utils;
@@ -42,6 +43,7 @@ public class UpdateLeadActivity extends AbstractActivity {
 
     private Context mContext;
     private LeadInfoModel leadInfoModel;
+    private List<LeadInfoModel>leadInfoModelList;
 
     EditText fname,mname,lname, mobileno, email, date_of_birth, address, flat, street, location, city,
             pincode, next_metting_date, metting_agenda, lead_update_log;
@@ -52,7 +54,7 @@ public class UpdateLeadActivity extends AbstractActivity {
             tv_occupation, tv_annual_income, tv_other_broker, tv_meeting_status, tv_meeting_agenda, tv_lead_update_log,tv_lead_status;
     RadioGroup rg_meeting_status;
     RadioButton rb_contact, rb_not_contact;
-    LinearLayout connect,notconnect,linear_non_salaried,linear_remark,linear_competitor,linear_research;
+    LinearLayout connect,notconnect,linear_non_salaried,linear_remark,linear_competitor,linear_research,linear_lead_details_hidden;
     //.........Edit Text Strings
     String str_fname,str_mname,str_lname,str_mobile_no,str_email,str_date_of_birth,str_address,str_flat,str_street,str_laocion,str_city,
             str_pincode,str_next_meeting_date,str_metting_agenda,str_lead_update_log;
@@ -72,9 +74,11 @@ public class UpdateLeadActivity extends AbstractActivity {
     private List<String> spinDurationArray = new ArrayList<String>(); //Other Brokers array
     private List<String> spinSourceLeadList;
     private List<String> spinSubSourceLeadList;
+    private List<String> spinLeadNameList;
     String[] strLeadArray = null;
     String[] strSubLeadArray = null;
-    private String empcode;
+    String[] strLeadNameArray;
+    private String empcode,fullname;
     private SharedPref sharedPref;
     private TextView admin;
 
@@ -189,14 +193,47 @@ public class UpdateLeadActivity extends AbstractActivity {
                 }
             });
 
-            leadInfoModel = (LeadInfoModel) getIntent().getSerializableExtra(Utils.KEY_LEAD_DATA);
-            LeadId = leadInfoModel.getLead_id();
-            directLeadId = leadInfoModel.getDirect_lead_id();
+            leadInfoModelList = new ArrayList<>();
+            spinLeadNameList = new ArrayList<>();
+            try {
+                // WHERE clause
+                //String where = " where last_sync = '0'";
+                Cursor cursor = Narnolia.dbCon.getAllDataFromTable(DbHelper.TABLE_DIRECT_LEAD);
+                if (cursor != null && cursor.getCount() > 0) {
+                    cursor.moveToFirst();
+                    do {
+                        leadInfoModel = createLeadInfoModel(cursor);
+                        leadInfoModelList.add(leadInfoModel);
 
-            String firstname = leadInfoModel.getFirstname();
+                    } while (cursor.moveToNext());
+                    cursor.close();
 
+                }else {
+                    Toast.makeText(mContext, "No data found..!",Toast.LENGTH_SHORT).show();
+                }
 
-            populateData();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            if(leadInfoModelList.size()>0) {
+
+                for(int i = 0; i<leadInfoModelList.size(); i++) {
+                    leadInfoModel = leadInfoModelList.get(i);
+                    String firstname = leadInfoModel.getFirstname();
+                    String middlename = leadInfoModel.getMiddlename();
+                    String lastname = leadInfoModel.getLastname();
+                    String lead_id_info = leadInfoModel.getLead_id();
+                    fullname = firstname + " " + middlename + " " + lastname + " " + "(" + lead_id_info + ")";
+
+                    spinLeadNameList.add(fullname);
+                }
+
+                strLeadNameArray = new String[spinLeadNameList.size() + 1];
+                strLeadNameArray[0] = "Select Lead Name";
+                for (int i = 0; i < spinLeadNameList.size(); i++) {
+                    strLeadNameArray[i + 1] = spinLeadNameList.get(i);
+                }
+            }
 
             //.............TextView Ref
             tv_lead_name = (TextView) findViewById(R.id.txt_lead_name);
@@ -247,6 +284,7 @@ public class UpdateLeadActivity extends AbstractActivity {
             //.................radio group layout......
             connect=(LinearLayout)findViewById(R.id.linear_meeting_status_connected);
             notconnect=(LinearLayout)findViewById(R.id.linear_meeting_status_not_connected);
+            linear_lead_details_hidden=(LinearLayout)findViewById(R.id.linear_lead_details_hidden);
             //...............intenal linear layouts
             linear_non_salaried=(LinearLayout)findViewById(R.id.linear_non_salaried);
             linear_remark=(LinearLayout)findViewById(R.id.linear_remark);
@@ -254,6 +292,56 @@ public class UpdateLeadActivity extends AbstractActivity {
             linear_research=(LinearLayout)findViewById(R.id.linear_research);
 
             //spinner OnItemSelectedListener
+            spinner_lead_name.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                    if(position==0){
+                        linear_lead_details_hidden.setVisibility(View.GONE);
+
+                    }
+                    if (position != 0){
+
+                        if ( strLeadNameArray != null && strLeadNameArray.length > 0){
+                            String leadData = spinner_lead_name.getSelectedItem().toString();
+                            String [] strLead = leadData.split("\\(");
+                            String leadId = strLead[1].substring(0,strLead[1].length()-1);
+
+                            try {
+                                // WHERE clause
+                                String where = " where lead_id = '"+leadId+"'";
+                                Cursor cursor = Narnolia.dbCon.fetchFromSelect(DbHelper.TABLE_DIRECT_LEAD,where);
+                                if (cursor != null && cursor.getCount() > 0) {
+                                    cursor.moveToFirst();
+                                    do {
+                                        leadInfoModel = createLeadInfoModel(cursor);
+//                                        leadInfoModelList.add(leadInfoModel);
+
+                                    } while (cursor.moveToNext());
+                                    cursor.close();
+
+                                }else {
+                                    Toast.makeText(mContext, "No data found..!",Toast.LENGTH_SHORT).show();
+                                }
+
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+
+                            linear_lead_details_hidden.setVisibility(View.VISIBLE);
+
+                            populateData(leadInfoModel);
+                        }
+                    }
+
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
+
             spinner_source_of_lead.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -604,6 +692,7 @@ public class UpdateLeadActivity extends AbstractActivity {
 
                 spinner_sub_source.setAdapter(adapter1);
             }
+
             //........................Age Group spinner
             spinAgeGroupArray.addAll(Arrays.asList(getResources().getStringArray(R.array.age_group)));
             if (spinAgeGroupArray!=null&&spinAgeGroupArray.size()>0) {
@@ -645,6 +734,13 @@ public class UpdateLeadActivity extends AbstractActivity {
                 ArrayAdapter<String> adapter7= new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, spinDurationArray);
                 adapter7.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spinner_duration.setAdapter(adapter7);
+            }
+
+            if (spinLeadNameList != null && spinLeadNameList.size() > 0) {
+                ArrayAdapter<String> adapter8 = new ArrayAdapter<String>(mContext, android.R.layout.simple_spinner_item, strLeadNameArray);
+                adapter8.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+                spinner_lead_name.setAdapter(adapter8);
             }
 
         } catch (Exception e) {
@@ -706,9 +802,10 @@ public class UpdateLeadActivity extends AbstractActivity {
         finish();
     }
 
-    private void populateData(){
+    private void populateData(LeadInfoModel leadInfoModel){
         try{
 
+            if(leadInfoModel != null){
             fname.setText(leadInfoModel.getFirstname());
             mname.setText(leadInfoModel.getMiddlename());
             lname.setText(leadInfoModel.getLastname());
@@ -725,8 +822,69 @@ public class UpdateLeadActivity extends AbstractActivity {
                 spinner_sub_source.setSelection(spinSubSourceLeadList.indexOf(leadInfoModel.getSub_source()) + 1);
             }
 
+        }
         }catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    public LeadInfoModel createLeadInfoModel(Cursor cursor) {
+        leadInfoModel = new LeadInfoModel();
+        try {
+            leadInfoModel.setStages(cursor.getString(cursor.getColumnIndex("stages")));
+            leadInfoModel.setLead_id(cursor.getString(cursor.getColumnIndex("lead_id")));
+            leadInfoModel.setDirect_lead_id(cursor.getInt(cursor.getColumnIndex("direct_lead_id")));
+            leadInfoModel.setSource_of_lead(cursor.getString(cursor.getColumnIndex("source_of_lead")));
+            leadInfoModel.setSub_source(cursor.getString(cursor.getColumnIndex("sub_source")));
+            leadInfoModel.setFirstname(cursor.getString(cursor.getColumnIndex("fname")));
+            leadInfoModel.setMiddlename(cursor.getString(cursor.getColumnIndex("mname")));
+            leadInfoModel.setLastname(cursor.getString(cursor.getColumnIndex("lname")));
+            leadInfoModel.setDob(cursor.getString(cursor.getColumnIndex("dob")));
+            leadInfoModel.setAge(cursor.getString(cursor.getColumnIndex("age")));
+            leadInfoModel.setMobile_no(cursor.getString(cursor.getColumnIndex("mobile_no")));
+            leadInfoModel.setAddress1(cursor.getString(cursor.getColumnIndex("address1")));
+            leadInfoModel.setAddress2(cursor.getString(cursor.getColumnIndex("address2")));
+            leadInfoModel.setAddress3(cursor.getString(cursor.getColumnIndex("address3")));
+            leadInfoModel.setLocation(cursor.getString(cursor.getColumnIndex("location")));
+            leadInfoModel.setCity(cursor.getString(cursor.getColumnIndex("city")));
+            leadInfoModel.setPincode(cursor.getString(cursor.getColumnIndex("pincode")));
+            leadInfoModel.setEmail_id(cursor.getString(cursor.getColumnIndex("email_id")));
+            leadInfoModel.setAnnual_income(cursor.getString(cursor.getColumnIndex("annual_income")));
+            leadInfoModel.setOccupation(cursor.getString(cursor.getColumnIndex("occupation")));
+            leadInfoModel.setCreatedfrom(cursor.getString(cursor.getColumnIndex("created_from")));
+            leadInfoModel.setAppversion(cursor.getString(cursor.getColumnIndex("app_version")));
+            leadInfoModel.setAppdt(cursor.getString(cursor.getColumnIndex("app_dt")));
+            leadInfoModel.setFlag(cursor.getString(cursor.getColumnIndex("flag")));
+            leadInfoModel.setAllocateduserid(cursor.getString(cursor.getColumnIndex("allocated_user_id")));
+            leadInfoModel.setBrokerdetls(cursor.getString(cursor.getColumnIndex("other_broker_dealt_with")));
+            leadInfoModel.setMeetingstatus(cursor.getString(cursor.getColumnIndex("meeting_status")));
+            leadInfoModel.setLeadstatus(cursor.getString(cursor.getColumnIndex("lead_status")));
+            leadInfoModel.setCompitatorname(cursor.getString(cursor.getColumnIndex("competitor_name")));
+            leadInfoModel.setProduct(cursor.getString(cursor.getColumnIndex("product")));
+            leadInfoModel.setRemark(cursor.getString(cursor.getColumnIndex("remarks")));
+            leadInfoModel.setTypeofsearch(cursor.getString(cursor.getColumnIndex("typeofsearch")));
+            leadInfoModel.setDuration(cursor.getString(cursor.getColumnIndex("duration")));
+            leadInfoModel.setPanno(cursor.getString(cursor.getColumnIndex("pan_no")));
+            leadInfoModel.setB_margin(cursor.getString(cursor.getColumnIndex("b_margin")));
+            leadInfoModel.setB_aum(cursor.getString(cursor.getColumnIndex("b_aum")));
+            leadInfoModel.setB_sip(cursor.getString(cursor.getColumnIndex("b_sip")));
+            leadInfoModel.setB_number(cursor.getString(cursor.getColumnIndex("b_number")));
+            leadInfoModel.setB_value(cursor.getString(cursor.getColumnIndex("b_value")));
+            leadInfoModel.setB_premium(cursor.getString(cursor.getColumnIndex("b_premium")));
+            leadInfoModel.setReason(cursor.getString(cursor.getColumnIndex("reason")));
+            leadInfoModel.setMeetingdt(cursor.getString(cursor.getColumnIndex("next_meeting_date")));
+            leadInfoModel.setMeetingagenda(cursor.getString(cursor.getColumnIndex("meeting_agenda")));
+            leadInfoModel.setLead_updatelog(cursor.getString(cursor.getColumnIndex("lead_update_log")));
+            leadInfoModel.setCreatedby(cursor.getString(cursor.getColumnIndex("created_by")));
+            leadInfoModel.setCreateddt(cursor.getString(cursor.getColumnIndex("created_dt")));
+            leadInfoModel.setUpdateddt(cursor.getString(cursor.getColumnIndex("updated_dt")));
+            leadInfoModel.setUpdatedby(cursor.getString(cursor.getColumnIndex("updated_by")));
+            leadInfoModel.setBusiness_opp(cursor.getString(cursor.getColumnIndex("business_opportunity")));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return leadInfoModel;
+
     }
 }

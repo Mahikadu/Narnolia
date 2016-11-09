@@ -145,9 +145,7 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
                 pushActivity(mContext, LeadActivity.class, null, true);
                 break;
             case R.id.linear_update_lead:
-                Bundle bundle = new Bundle();
-                bundle.putSerializable(Utils.KEY_LEAD_DATA, leadInfoModel);
-                pushActivity(mContext, UpdateLeadActivity.class, bundle, true);
+                pushActivity(mContext, UpdateLeadActivity.class, null, true);
                 break;
             case R.id.linear_master:
 
