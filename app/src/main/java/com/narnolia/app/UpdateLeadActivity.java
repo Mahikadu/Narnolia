@@ -1,9 +1,11 @@
 package com.narnolia.app;
 
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.res.Resources;
 import android.database.Cursor;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.Html;
@@ -14,6 +16,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -33,7 +36,11 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by USER on 10/24/2016.
@@ -44,9 +51,13 @@ public class UpdateLeadActivity extends AbstractActivity {
     private Context mContext;
     private LeadInfoModel leadInfoModel;
     private List<LeadInfoModel>leadInfoModelList;
+    private Map<String, List<String>> spinPincodeArray;
+    private List<String> spinCityArray;
+    private ArrayAdapter<String> adapter9;
+    private ProgressDialog progressDialog;
 
-    EditText fname,mname,lname, mobileno, email, date_of_birth, address, flat, street, location, city,
-            pincode, next_metting_date, metting_agenda, lead_update_log;
+    EditText fname,mname,lname, mobileno, email, date_of_birth, address, flat, street, location,next_metting_date, metting_agenda, lead_update_log;
+    AutoCompleteTextView editCity,autoPincode;
     Spinner spinner_lead_name, spinner_source_of_lead, spinner_sub_source, spinner_age_group,
             spinner_occupation, spinner_annual_income, spinner_other_broker,spinner_lead_status,spinner_research_type,spinner_duration;
     TextView tv_lead_name, tv_source_of_lead, tv_sub_source, tv_fname,tv_mname,tv_lname, tv_mobile_no, tv_email,
@@ -93,7 +104,8 @@ public class UpdateLeadActivity extends AbstractActivity {
 
         sharedPref = new SharedPref(UpdateLeadActivity.this);
         empcode = sharedPref.getLoginId();
-
+        spinPincodeArray = new HashMap<>();
+        spinCityArray = new ArrayList<>();
         initView();
 
     }
@@ -113,7 +125,9 @@ public class UpdateLeadActivity extends AbstractActivity {
             getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
             setHeader();
-
+//............Auto complete text view
+            editCity = (AutoCompleteTextView) findViewById(R.id.edt_city);
+            autoPincode = (AutoCompleteTextView) findViewById(R.id.edt_pincode);
             //............Edit Text Ref
             fname = (EditText) findViewById(R.id.edt_fname);
             mname=(EditText)findViewById(R.id.edt_mname);
@@ -125,11 +139,10 @@ public class UpdateLeadActivity extends AbstractActivity {
             flat = (EditText) findViewById(R.id.edt_flat);
             street = (EditText) findViewById(R.id.edt_street);
             location = (EditText) findViewById(R.id.edt_location);
-            city = (EditText) findViewById(R.id.edt_city);
-            pincode = (EditText) findViewById(R.id.edt_pincode);
             next_metting_date = (EditText) findViewById(R.id.edt_next_meeting);
             metting_agenda = (EditText) findViewById(R.id.edt_meeting_agenda);
             lead_update_log = (EditText) findViewById(R.id.edt_lead_update_log);
+            new LoadCityData().execute();//........................................Load city data
             //..................edit text validations.......
             fname.addTextChangedListener(new TextWatcher() {
                 @Override
@@ -146,21 +159,7 @@ public class UpdateLeadActivity extends AbstractActivity {
                     if (fname.length()>0){fname.setError(null);}
                 }
             });
-            mname.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                }
 
-                @Override
-                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                }
-
-                @Override
-                public void afterTextChanged(Editable editable) {
-                    if (mname.length()>0){mname.setError(null);}
-                }
-            });
             lname.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -176,7 +175,7 @@ public class UpdateLeadActivity extends AbstractActivity {
                     if (lname.length()>0){lname.setError(null);}
                 }
             });
-            city.addTextChangedListener(new TextWatcher() {
+            editCity.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 }
@@ -188,7 +187,7 @@ public class UpdateLeadActivity extends AbstractActivity {
 
                 @Override
                 public void afterTextChanged(Editable editable) {
-                    if (city.length()>0){city
+                    if (editCity.length()>0){editCity
                             .setError(null);}
                 }
             });
@@ -224,7 +223,7 @@ public class UpdateLeadActivity extends AbstractActivity {
                     String lastname = leadInfoModel.getLastname();
                     String lead_id_info = leadInfoModel.getLead_id();
                     fullname = firstname + " " + middlename + " " + lastname + " " + "(" + lead_id_info + ")";
-
+                    Collections.sort(spinLeadNameList);
                     spinLeadNameList.add(fullname);
                 }
 
@@ -438,6 +437,122 @@ public class UpdateLeadActivity extends AbstractActivity {
                     // TODO Auto-generated method stub
 
                 }
+
+            });
+            editCity.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                    try {
+                        if (spinPincodeArray.containsKey(parent.getItemAtPosition(position))) {
+
+                            autoPincode.setText("");
+                            String city1 = (String) parent.getItemAtPosition(position);
+
+                            editCity.setError(null);
+
+
+                            String selection = mContext.getString(R.string.column_m_pin_district) + " = ?";
+
+                            // WHERE clause arguments
+                            String[] selectionArgs = {(String) parent.getItemAtPosition(position)};
+                            String pincodeColNames[] = {getString(R.string.column_m_pin_pincode)};
+                            Cursor cursor = Narnolia.dbCon.fetch(DbHelper.TABLE_M_PINCODE_TABLE, pincodeColNames, selection, selectionArgs, getString(R.string.column_m_pin_pincode), null, true, null, null);
+                            String pincode, city;
+                            List<String> pincodeList;
+                            if (cursor != null && cursor.getCount() > 0) {
+                                cursor.moveToFirst();
+                                do {
+                                    pincode = cursor.getString(cursor.getColumnIndex(getString(R.string.column_m_pin_pincode)));
+                                    //
+                                    pincodeList = new ArrayList<>();
+                                    if (spinPincodeArray.containsKey(city1)) {
+                                        pincodeList.addAll(spinPincodeArray.get(city1));
+                                        pincodeList.add(pincode);
+                                    } else {
+                                        pincodeList.add(pincode);
+                                        //
+                                    }
+                                    if (pincodeList.size() > 0) {
+                                        spinPincodeArray.put(city1, pincodeList);
+                                    }
+
+                                } while (cursor.moveToNext());
+                                cursor.close();
+                                if (pincodeList.size() > 0) {
+                                    final String[] strPinArr = new String[pincodeList.size()];
+                                    strPinArr[0] = getString(R.string.select_pincode);
+                                    pincodeList.remove(0);
+
+                                    for (int i = 0; i < pincodeList.size(); i++) {
+                                        strPinArr[i + 1] = pincodeList.get(i);
+                                    }
+
+                                    adapter9 = new ArrayAdapter<String>(mContext, android.R.layout.simple_spinner_dropdown_item, strPinArr);
+                                    adapter9.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                    autoPincode.setAdapter(adapter9);
+                                    pincodeList.clear();
+
+                                    autoPincode.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                                        @Override
+                                        public void onFocusChange(View view, boolean hasFocus) {
+                                            if (!hasFocus) {
+                                                String val = autoPincode.getText() + "";
+
+                                                if (Arrays.asList(strPinArr).contains(val)) {
+                                                    System.out.println("CITY CITY CITY");
+                                                } else {
+                                                    autoPincode.setError("Invalid Pincode");
+                                                }
+                                            }
+                                        }
+                                    });
+
+                                } else {
+                                    autoPincode.setError(null);
+                                    String[] strPinArr = new String[pincodeList.size()];
+                                    strPinArr[0] = getString(R.string.select_pincode);
+                                    adapter9 = new ArrayAdapter<String>(mContext, android.R.layout.simple_spinner_dropdown_item, strPinArr);
+                                    adapter9.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                    autoPincode.setAdapter(adapter9);
+                                    pincodeList.clear();
+                                }
+                            }
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+
+            autoPincode.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    try {
+                        autoPincode.setError(null);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+
+            editCity.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                @Override
+                public void onFocusChange(View view, boolean hasFocus) {
+                    try {
+                        if (!hasFocus) {
+                            String val = editCity.getText() + "";
+
+                            if (spinPincodeArray.containsKey(val)) {
+                                System.out.println("CITY CITY CITY");
+                            } else {
+                                editCity.setError("Invalid City");
+                            }
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
             });
             fetchSourcedata();
             fetchSubSourcedata();
@@ -568,6 +683,7 @@ public class UpdateLeadActivity extends AbstractActivity {
                 } while (cursor2.moveToNext());
                 cursor2.close();
             }
+            Collections.sort(spinSourceLeadList);
             if (spinSourceLeadList.size() > 0) {
                 strLeadArray = new String[spinSourceLeadList.size() + 1];
                 strLeadArray[0] = "Select Source Lead";
@@ -600,8 +716,8 @@ public class UpdateLeadActivity extends AbstractActivity {
         try {
             String str_fname,str_mname,str_lname,str_mob,str_city,str_pincode;
             mobileno.setError(null);
-            city.setError(null);
-            pincode.setError(null);
+            editCity.setError(null);
+            autoPincode.setError(null);
             fname.setError(null);
             mname.setError(null);
             lname.setError(null);
@@ -609,8 +725,8 @@ public class UpdateLeadActivity extends AbstractActivity {
             str_mname=mname.getText().toString().trim();
             str_lname=lname.getText().toString().trim();
             str_mob=mobileno.getText().toString().trim();
-            str_city=city.getText().toString().trim();
-            str_pincode=pincode.getText().toString().trim();
+            str_city=editCity.getText().toString().trim();
+            str_pincode=autoPincode.getText().toString().trim();
 
             View focusView = null;
             if (TextUtils.isEmpty(str_fname)) {
@@ -620,12 +736,7 @@ public class UpdateLeadActivity extends AbstractActivity {
 
                 return;
             }
-            if (TextUtils.isEmpty(str_mname)) {
-                mname.setError(getString(R.string.name));
-                focusView = mname;
-                focusView.requestFocus();
-                return;
-            }
+
             if (TextUtils.isEmpty(str_lname)) {
                 lname.setError(getString(R.string.name));
                 focusView = lname;
@@ -639,15 +750,15 @@ public class UpdateLeadActivity extends AbstractActivity {
                 return;
             }
             if (TextUtils.isEmpty(str_city)){
-                city.setError(getString(R.string.reqcity));
-                focusView=city;
+                editCity.setError(getString(R.string.reqcity));
+                focusView=editCity;
                 focusView.requestFocus();
                 return;
             }
             if (TextUtils.isEmpty(str_pincode)) {
 
-                pincode.setError(getString(R.string.reqpincode));
-                focusView = pincode;
+                autoPincode.setError(getString(R.string.reqpincode));
+                focusView = autoPincode;
                 focusView.requestFocus();
                 return;
             }
@@ -678,6 +789,7 @@ public class UpdateLeadActivity extends AbstractActivity {
                 } while (cursor2.moveToNext());
                 cursor2.close();
             }
+            Collections.sort(spinSubSourceLeadList);
             if (spinSubSourceLeadList.size() > 0) {
                 strSubLeadArray = new String[spinSubSourceLeadList.size() + 1];
                 strSubLeadArray[0] = "Select Sub Source Lead";
@@ -761,8 +873,8 @@ public class UpdateLeadActivity extends AbstractActivity {
         str_flat=flat.getText().toString().trim();
         str_street=street.getText().toString().trim();
         str_laocion=location.getText().toString().trim();
-        str_city=city.getText().toString().trim();
-        str_pincode=pincode.getText().toString().trim();
+        str_city=editCity.getText().toString().trim();
+        str_pincode=autoPincode.getText().toString().trim();
         str_next_meeting_date=next_metting_date.getText().toString().trim();
         str_metting_agenda=metting_agenda.getText().toString().trim();
         str_lead_update_log=lead_update_log.getText().toString().trim();
@@ -806,23 +918,23 @@ public class UpdateLeadActivity extends AbstractActivity {
         try{
 
             if(leadInfoModel != null){
-            fname.setText(leadInfoModel.getFirstname());
-            mname.setText(leadInfoModel.getMiddlename());
-            lname.setText(leadInfoModel.getLastname());
-            mobileno.setText(leadInfoModel.getMobile_no());
-            location.setText(leadInfoModel.getLocation());
-            city.setText(leadInfoModel.getCity());
-            pincode.setText(leadInfoModel.getPincode());
+                fname.setText(leadInfoModel.getFirstname());
+                mname.setText(leadInfoModel.getMiddlename());
+                lname.setText(leadInfoModel.getLastname());
+                mobileno.setText(leadInfoModel.getMobile_no());
+                location.setText(leadInfoModel.getLocation());
+                editCity.setText(leadInfoModel.getCity());
+                autoPincode.setText(leadInfoModel.getPincode());
 
-            if (leadInfoModel.getSource_of_lead() != null && leadInfoModel.getSource_of_lead().trim().length() > 0) {
-                spinner_source_of_lead.setSelection(spinSourceLeadList.indexOf(leadInfoModel.getSource_of_lead()) + 1);
+                if (leadInfoModel.getSource_of_lead() != null && leadInfoModel.getSource_of_lead().trim().length() > 0) {
+                    spinner_source_of_lead.setSelection(spinSourceLeadList.indexOf(leadInfoModel.getSource_of_lead()) + 1);
+                }
+
+                if (leadInfoModel.getSub_source() != null && leadInfoModel.getSub_source().trim().length() > 0) {
+                    spinner_sub_source.setSelection(spinSubSourceLeadList.indexOf(leadInfoModel.getSub_source()) + 1);
+                }
+
             }
-
-            if (leadInfoModel.getSub_source() != null && leadInfoModel.getSub_source().trim().length() > 0) {
-                spinner_sub_source.setSelection(spinSubSourceLeadList.indexOf(leadInfoModel.getSub_source()) + 1);
-            }
-
-        }
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -885,6 +997,97 @@ public class UpdateLeadActivity extends AbstractActivity {
             e.printStackTrace();
         }
         return leadInfoModel;
+
+    }
+
+    private void fetchDataFromDB() {
+        try {
+            String pincodeColumnNames[] = {getString(R.string.column_m_pin_pincode), getString(R.string.column_m_pin_district)};
+
+            Cursor cursor = Narnolia.dbCon.fetch(DbHelper.TABLE_M_PINCODE_TABLE, pincodeColumnNames, null, null, getString(R.string.column_m_pin_district), null, false, getString(R.string.column_m_pin_district), null);
+
+            String pincode, city;
+
+            try {
+                if (cursor != null && cursor.getCount() > 0) {
+                    cursor.moveToFirst();
+                    do {
+                        pincode = cursor.getString(cursor.getColumnIndex(getString(R.string.column_m_pin_pincode)));
+                        city = cursor.getString(cursor.getColumnIndex(getString(R.string.column_m_pin_district)));
+                        List<String> pincodeList = new ArrayList<>();
+                        if (spinPincodeArray.containsKey(city)) {
+
+
+                            pincodeList.addAll(spinPincodeArray.get(city));
+                            pincodeList.add(pincode);
+                        } else {
+                            pincodeList.add(pincode);
+                            spinCityArray.add(city);
+
+                        }
+                        if (pincodeList.size() > 0) {
+                            spinPincodeArray.put(city, pincodeList);
+                        }
+
+                    } while (cursor.moveToNext());
+                    cursor.close();
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public class LoadCityData extends AsyncTask<Void, Void, Void> {
+
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            if (progressDialog != null && !progressDialog.isShowing()) {
+                progressDialog.show();
+            }
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+
+            fetchDataFromDB();
+
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+
+            try {
+
+// Create the adapter and set it to the AutoCompleteTextView
+                if (spinCityArray != null && spinCityArray.size() > 0) {
+                    ArrayAdapter<String> adapterPin =
+                            new ArrayAdapter<String>(mContext, android.R.layout.simple_list_item_1, spinCityArray);
+                    editCity.setAdapter(adapterPin);
+                }
+
+
+                if (progressDialog != null && progressDialog.isShowing()) {
+                    progressDialog.dismiss();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+
+
+        }
+
 
     }
 }

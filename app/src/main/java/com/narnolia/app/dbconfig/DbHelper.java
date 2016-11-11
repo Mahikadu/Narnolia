@@ -25,6 +25,7 @@ public class DbHelper extends SQLiteOpenHelper {
     public static final String TABLE_DIRECT_LEAD = "table_Direct_lead";
     public static final String TABLE_M_CATEGORY = "table_M_Category";
     public static final String TABLE_DIRECT_LEAD_ST_DTLS = "table_direct_lead_st_dtls";
+    public static  final String TABLE_M_PINCODE_TABLE = "pincode";
 
     public static final int DATABASE_VERSION = 2;
     private static DbHelper dbInstance = null;

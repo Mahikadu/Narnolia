@@ -108,702 +108,35 @@
                 android:orientation="vertical"
                 android:visibility="gone"
                 >
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:background="@color/black"
-                android:layout_height="1dp"
-                android:layout_marginTop="@dimen/size_10"
-                android:layout_marginLeft="@dimen/size_16"
-                android:layout_marginRight="@dimen/size_16">
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/liner_source_of_lead"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="10dp">
-
-                <TextView
-                    android:id="@+id/txt_source_of_lead"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/layout_margin"
-                    android:layout_weight="1"
-                    android:text="@string/Sourceoflead"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@android:color/black" />
-
-                <Spinner
-                    android:id="@+id/spin_source_of_lead"
-                    style="@style/spinner_style"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:drawablePadding="@dimen/view_padding" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/linear_sub_source"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="10dp">
-
-                <TextView
-                    android:id="@+id/txt_sub_source"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/layout_margin"
-                    android:layout_weight="1"
-                    android:text="@string/subsource"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@android:color/black" />
-
-                <Spinner
-                    android:id="@+id/spin_sub_source"
-                    style="@style/spinner_style"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:drawablePadding="@dimen/view_padding" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/linear_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="10dp">
-
-                <TextView
-                    android:id="@+id/txt_fname"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/layout_margin"
-                    android:layout_weight="1"
-                    android:text="@string/fname"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@android:color/black" />
-
-                <EditText
-                    android:id="@+id/edt_fname"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/layout_margin"
-                    android:layout_weight="1"
-                    android:background="@drawable/edit_background"
-                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-                    android:drawablePadding="@dimen/view_padding"
-                    android:hint="@string/hintfname"
-                    android:inputType="textPersonName"
-                    android:maxLength="50"
-                    android:padding="@dimen/view_padding"
-                    android:singleLine="true"
-                    android:textColor="@android:color/black" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/linear_Mname"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="10dp">
-
-                <TextView
-                    android:id="@+id/txt_mname"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/layout_margin"
-                    android:layout_weight="1"
-                    android:text="@string/mname"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@android:color/black" />
-
-                <EditText
-                    android:id="@+id/edt_mname"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/layout_margin"
-                    android:layout_weight="1"
-                    android:background="@drawable/edit_background"
-                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-                    android:drawablePadding="@dimen/view_padding"
-                    android:hint="@string/hintmname"
-                    android:inputType="textPersonName"
-                    android:maxLength="50"
-                    android:padding="@dimen/view_padding"
-                    android:singleLine="true"
-                    android:textColor="@android:color/black" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/linear_Lname"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="10dp">
-
-                <TextView
-                    android:id="@+id/txt_lname"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/layout_margin"
-                    android:layout_weight="1"
-                    android:text="@string/lname"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@android:color/black" />
-
-                <EditText
-                    android:id="@+id/edt_lname"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/layout_margin"
-                    android:layout_weight="1"
-                    android:background="@drawable/edit_background"
-                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-                    android:drawablePadding="@dimen/view_padding"
-                    android:hint="@string/hintlname"
-                    android:inputType="textPersonName"
-                    android:maxLength="50"
-                    android:padding="@dimen/view_padding"
-                    android:singleLine="true"
-                    android:textColor="@android:color/black" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/linear_mno"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="10dp">
-
-                <TextView
-                    android:id="@+id/txt_mob_no"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/layout_margin"
-                    android:layout_weight="1"
-                    android:text="@string/mobileno"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@android:color/black" />
-
-                <EditText
-                    android:id="@+id/edt_mob_no"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/layout_margin"
-                    android:layout_weight="1"
-                    android:background="@drawable/edit_background"
-                    android:drawablePadding="@dimen/view_padding"
-                    android:hint="@string/hintmobileno"
-                    android:inputType="phone"
-                    android:maxLength="10"
-                    android:padding="@dimen/view_padding"
-                    android:singleLine="true"
-                    android:textColor="@android:color/black" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/linear_email"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="10dp">
-
-                <TextView
-                    android:id="@+id/txt_email"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/layout_margin"
-                    android:layout_weight="1"
-                    android:text="@string/email"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@android:color/black" />
-
-                <EditText
-                    android:id="@+id/edt_email"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/layout_margin"
-                    android:layout_weight="1"
-                    android:background="@drawable/edit_background"
-                    android:drawablePadding="@dimen/view_padding"
-                    android:hint="@string/hintemail"
-                    android:inputType="textEmailAddress"
-                    android:maxLength="50"
-                    android:padding="@dimen/view_padding"
-                    android:singleLine="true"
-                    android:textColor="@android:color/black" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/liner_age_group"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="10dp">
-
-                <TextView
-                    android:id="@+id/txt_age_group"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/layout_margin"
-                    android:layout_weight="1"
-                    android:text="@string/agegroup"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@android:color/black" />
-
-                <Spinner
-                    android:id="@+id/spin_age_group"
-                    style="@style/spinner_style"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:drawablePadding="@dimen/view_padding" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/linear_date_of_birth"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="10dp">
-
-                <TextView
-                    android:id="@+id/txt_date_of_birth"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/layout_margin"
-                    android:layout_weight="1"
-                    android:text="@string/dateofbirth"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@android:color/black" />
-
-                <EditText
-                    android:id="@+id/edt_date_of_birth"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/layout_margin"
-                    android:layout_weight="1"
-                    android:background="@drawable/edit_background"
-                    android:drawablePadding="@dimen/view_padding"
-                    android:hint="@string/hintdateofbirth"
-                    android:maxLength="10"
-                    android:padding="@dimen/view_padding"
-                    android:singleLine="true"
-                    android:textColor="@android:color/black" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/linear_address"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="10dp">
-
-                <TextView
-                    android:id="@+id/txt_address"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/layout_margin"
-                    android:layout_weight="1"
-                    android:text="@string/address"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@android:color/black" />
-
-                <EditText
-                    android:id="@+id/edt_address"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/layout_margin"
-                    android:layout_weight="1"
-                    android:background="@drawable/edit_background"
-                    android:drawablePadding="@dimen/view_padding"
-                    android:hint="@string/hintaddress"
-                    android:inputType="text"
-                    android:maxLength="100"
-                    android:padding="@dimen/view_padding"
-                    android:singleLine="true"
-                    android:textColor="@android:color/black" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/linear_flat"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="10dp">
-
-                <TextView
-                    android:id="@+id/txt_flat"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/layout_margin"
-                    android:layout_weight="1"
-                    android:text="@string/flatorvillage"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@android:color/black" />
-
-                <EditText
-                    android:id="@+id/edt_flat"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/layout_margin"
-                    android:layout_weight="1"
-                    android:background="@drawable/edit_background"
-                    android:drawablePadding="@dimen/view_padding"
-                    android:hint="@string/hintvillage"
-                    android:inputType="text"
-                    android:maxLength="50"
-                    android:padding="@dimen/view_padding"
-                    android:singleLine="true"
-                    android:textColor="@android:color/black" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/linear_street"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="10dp">
-
-                <TextView
-                    android:id="@+id/txt_street"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/layout_margin"
-                    android:layout_weight="1"
-                    android:text="@string/streetorpostoffice"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@android:color/black" />
-
-                <EditText
-                    android:id="@+id/edt_street"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/layout_margin"
-                    android:layout_weight="1"
-                    android:background="@drawable/edit_background"
-                    android:drawablePadding="@dimen/view_padding"
-                    android:hint="@string/hintstreet"
-                    android:inputType="text"
-                    android:maxLength="50"
-                    android:padding="@dimen/view_padding"
-                    android:singleLine="true"
-                    android:textColor="@android:color/black" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/linear_location"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="10dp">
-
-                <TextView
-                    android:id="@+id/txt_location"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/layout_margin"
-                    android:layout_weight="1"
-                    android:text="@string/location"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@android:color/black" />
-
-                <EditText
-                    android:id="@+id/edt_location"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/layout_margin"
-                    android:layout_weight="1"
-                    android:background="@drawable/edit_background"
-                    android:drawablePadding="@dimen/view_padding"
-                    android:hint="@string/hintlocation"
-                    android:inputType="text"
-                    android:maxLength="50"
-                    android:padding="@dimen/view_padding"
-                    android:singleLine="true"
-                    android:textColor="@android:color/black" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/linear_city"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="10dp">
-
-                <TextView
-                    android:id="@+id/txt_city"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/layout_margin"
-                    android:layout_weight="1"
-                    android:text="@string/city"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@android:color/black" />
-
-                <EditText
-                    android:id="@+id/edt_city"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/layout_margin"
-                    android:layout_weight="1"
-                    android:background="@drawable/edit_background"
-                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-                    android:drawablePadding="@dimen/view_padding"
-                    android:hint="@string/hintcity"
-                    android:inputType="text"
-                    android:maxLength="50"
-                    android:padding="@dimen/view_padding"
-                    android:singleLine="true"
-                    android:textColor="@android:color/black" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/linear_pincode"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="10dp">
-
-                <TextView
-                    android:id="@+id/txt_pincode"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/layout_margin"
-                    android:layout_weight="1"
-                    android:text="@string/pincode"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@android:color/black" />
-
-                <EditText
-                    android:id="@+id/edt_pincode"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/layout_margin"
-                    android:layout_weight="1"
-                    android:background="@drawable/edit_background"
-                    android:drawablePadding="@dimen/view_padding"
-                    android:hint="@string/hintpincode"
-                    android:inputType="number"
-                    android:maxLength="6"
-                    android:padding="@dimen/view_padding"
-                    android:singleLine="true"
-                    android:textColor="@android:color/black" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/linear_occupation"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="10dp">
-
-                <TextView
-                    android:id="@+id/txt_occupation"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/layout_margin"
-                    android:layout_weight="1"
-                    android:text="@string/occupation"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@android:color/black" />
-
-                <Spinner
-                    android:id="@+id/spin_occupation"
-                    style="@style/spinner_style"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:drawablePadding="@dimen/view_padding" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/linear_non_salaried"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="10dp"
-                android:visibility="gone">
-
-                <EditText
-                    android:id="@+id/edt_non_salaried"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/layout_margin"
-                    android:layout_weight="1"
-                    android:background="@drawable/edit_background"
-                    android:drawablePadding="@dimen/view_padding"
-                    android:hint="@string/hintdetails"
-                    android:inputType="text"
-                    android:maxLength="50"
-                    android:padding="@dimen/view_padding"
-                    android:singleLine="true"
-                    android:textColor="@android:color/black" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/linear_annual_income"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="10dp">
-
-                <TextView
-                    android:id="@+id/txt_annual_income"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/layout_margin"
-                    android:layout_weight="1"
-                    android:text="@string/annualincome"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@android:color/black" />
-
-                <Spinner
-                    android:id="@+id/spin_annual_income"
-                    style="@style/spinner_style"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:drawablePadding="@dimen/view_padding" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/other_broker"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="10dp">
-
-                <TextView
-                    android:id="@+id/txt_other_broker"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/layout_margin"
-                    android:layout_weight="1"
-                    android:text="@string/otherbroker"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@android:color/black" />
-
-                <Spinner
-                    android:id="@+id/spin_other_broker"
-                    style="@style/spinner_style"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:drawablePadding="@dimen/view_padding" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/liner_meeting_status"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="10dp">
-
-                <TextView
-                    android:id="@+id/txt_meeting_status"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/layout_margin"
-                    android:layout_weight="1"
-                    android:text="@string/mettingstatus"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@android:color/black" />
-
-                <RadioGroup
-
-                    android:id="@+id/rg_metting_status"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <RadioButton
-                        android:id="@+id/rb_contact"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/layout_margin"
-                        android:text="@string/contacted"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:textColor="@android:color/black" />
-
-                    <RadioButton
-                        android:id="@+id/rb_not_contact"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                        android:layout_marginTop="@dimen/layout_margin"
-                        android:text="@string/notcontacted"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:textColor="@android:color/black" />
-                </RadioGroup>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/linear_meeting_status_not_connected"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="10dp"
-                android:visibility="gone">
-
-                <TextView
-                    android:id="@+id/txt_reason"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/layout_margin"
-                    android:layout_weight="1"
-                    android:text="@string/reason"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@android:color/black" />
-
-                <EditText
-                    android:id="@+id/edt_reason"
-                    android:layout_width="0dp"
-                    android:layout_height="80dp"
-                    android:layout_marginTop="@dimen/layout_margin"
-                    android:layout_weight="1"
-                    android:background="@drawable/edit_background"
-                    android:drawablePadding="@dimen/view_padding"
-                    android:inputType="textMultiLine"
-                    android:overScrollMode="always"
-                    android:padding="@dimen/view_padding"
-                    android:scrollbarStyle="insideInset"
-                    android:scrollbars="vertical"
-                    android:textColor="@android:color/black" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/linear_meeting_status_connected"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:visibility="gone">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:background="@color/black"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/size_10"
+                    android:layout_marginLeft="@dimen/size_16"
+                    android:layout_marginRight="@dimen/size_16">
+
+                </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/lead_status"
+                    android:id="@+id/liner_source_of_lead"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:padding="10dp">
 
                     <TextView
-                        android:id="@+id/tvLeadStatus_connected"
+                        android:id="@+id/txt_source_of_lead"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/layout_margin"
                         android:layout_weight="1"
-                        android:text="@string/leadstatus"
+                        android:text="@string/Sourceoflead"
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:textColor="@android:color/black" />
 
                     <Spinner
-                        android:id="@+id/spin_lead_status"
+                        android:id="@+id/spin_source_of_lead"
                         style="@style/spinner_style"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -812,24 +145,24 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/opportunity_pitched"
+                    android:id="@+id/linear_sub_source"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:padding="10dp">
 
                     <TextView
-                        android:id="@+id/tvOpportunity_pitched"
+                        android:id="@+id/txt_sub_source"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/layout_margin"
                         android:layout_weight="1"
-                        android:text="@string/opportunity"
+                        android:text="@string/subsource"
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:textColor="@android:color/black" />
 
                     <Spinner
-                        android:id="@+id/spin_opportunity_pitched"
+                        android:id="@+id/spin_sub_source"
                         style="@style/spinner_style"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -838,64 +171,33 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/opportunity"
+                    android:id="@+id/linear_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:padding="10dp">
 
                     <TextView
-                        android:id="@+id/tvBusinessOpportunity"
+                        android:id="@+id/txt_fname"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/layout_margin"
                         android:layout_weight="1"
-                        android:text="@string/business"
-                        android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:textColor="@android:color/black" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:padding="10dp">
-
-                    <include
-                        layout="@layout/opportunity_table_layout"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1" />
-                </LinearLayout>
-
-
-                <LinearLayout
-                    android:id="@+id/linear_remark"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:padding="10dp"
-                    android:visibility="gone">
-
-                    <TextView
-                        android:id="@+id/txt_remark"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/layout_margin"
-                        android:layout_weight="1"
-                        android:text="@string/remark"
+                        android:text="@string/fname"
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:textColor="@android:color/black" />
 
                     <EditText
-                        android:id="@+id/edt_remark"
+                        android:id="@+id/edt_fname"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/layout_margin"
                         android:layout_weight="1"
                         android:background="@drawable/edit_background"
+                        android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
                         android:drawablePadding="@dimen/view_padding"
-                        android:hint="@string/hintremark"
+                        android:hint="@string/hintfname"
+                        android:inputType="textPersonName"
                         android:maxLength="50"
                         android:padding="@dimen/view_padding"
                         android:singleLine="true"
@@ -903,102 +205,605 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/linear_competitor"
+                    android:id="@+id/linear_Mname"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:visibility="gone">
+                    android:orientation="horizontal"
+                    android:padding="10dp">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
+                    <TextView
+                        android:id="@+id/txt_mname"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:padding="10dp">
+                        android:layout_marginTop="@dimen/layout_margin"
+                        android:layout_weight="1"
+                        android:text="@string/mname"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@android:color/black" />
 
-                        <TextView
-                            android:id="@+id/txt_competitor"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/layout_margin"
-                            android:layout_weight="1"
-                            android:text="@string/competitor"
-                            android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:textColor="@android:color/black" />
-
-                        <EditText
-                            android:id="@+id/edt_competitor"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/layout_margin"
-                            android:layout_weight="1"
-                            android:background="@drawable/edit_background"
-                            android:drawablePadding="@dimen/view_padding"
-                            android:hint="@string/competitor"
-                            android:inputType="text"
-                            android:maxLength="50"
-                            android:padding="@dimen/view_padding"
-                            android:singleLine="true"
-                            android:textColor="@android:color/black" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
+                    <EditText
+                        android:id="@+id/edt_mname"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:padding="10dp">
-
-                        <TextView
-                            android:id="@+id/txt_product"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/layout_margin"
-                            android:layout_weight="1"
-                            android:text="@string/product"
-                            android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:textColor="@android:color/black" />
-
-                        <EditText
-                            android:id="@+id/edt_product"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/layout_margin"
-                            android:layout_weight="1"
-                            android:background="@drawable/edit_background"
-                            android:drawablePadding="@dimen/view_padding"
-                            android:hint="@string/product"
-                            android:inputType="text"
-                            android:maxLength="50"
-                            android:padding="@dimen/view_padding"
-                            android:singleLine="true"
-                            android:textColor="@android:color/black" />
-                    </LinearLayout>
+                        android:layout_marginTop="@dimen/layout_margin"
+                        android:layout_weight="1"
+                        android:background="@drawable/edit_background"
+                        android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                        android:drawablePadding="@dimen/view_padding"
+                        android:hint="@string/hintmname"
+                        android:inputType="textPersonName"
+                        android:maxLength="50"
+                        android:padding="@dimen/view_padding"
+                        android:singleLine="true"
+                        android:textColor="@android:color/black" />
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/linear_research"
+                    android:id="@+id/linear_Lname"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:id="@+id/txt_lname"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/layout_margin"
+                        android:layout_weight="1"
+                        android:text="@string/lname"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@android:color/black" />
+
+                    <EditText
+                        android:id="@+id/edt_lname"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/layout_margin"
+                        android:layout_weight="1"
+                        android:background="@drawable/edit_background"
+                        android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                        android:drawablePadding="@dimen/view_padding"
+                        android:hint="@string/hintlname"
+                        android:inputType="textPersonName"
+                        android:maxLength="50"
+                        android:padding="@dimen/view_padding"
+                        android:singleLine="true"
+                        android:textColor="@android:color/black" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linear_mno"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:id="@+id/txt_mob_no"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/layout_margin"
+                        android:layout_weight="1"
+                        android:text="@string/mobileno"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@android:color/black" />
+
+                    <EditText
+                        android:id="@+id/edt_mob_no"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/layout_margin"
+                        android:layout_weight="1"
+                        android:background="@drawable/edit_background"
+                        android:drawablePadding="@dimen/view_padding"
+                        android:hint="@string/hintmobileno"
+                        android:inputType="phone"
+                        android:maxLength="10"
+                        android:padding="@dimen/view_padding"
+                        android:singleLine="true"
+                        android:textColor="@android:color/black" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linear_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:id="@+id/txt_email"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/layout_margin"
+                        android:layout_weight="1"
+                        android:text="@string/email"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@android:color/black" />
+
+                    <EditText
+                        android:id="@+id/edt_email"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/layout_margin"
+                        android:layout_weight="1"
+                        android:background="@drawable/edit_background"
+                        android:drawablePadding="@dimen/view_padding"
+                        android:hint="@string/hintemail"
+                        android:inputType="textEmailAddress"
+                        android:maxLength="50"
+                        android:padding="@dimen/view_padding"
+                        android:singleLine="true"
+                        android:textColor="@android:color/black" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/liner_age_group"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:id="@+id/txt_age_group"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/layout_margin"
+                        android:layout_weight="1"
+                        android:text="@string/agegroup"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@android:color/black" />
+
+                    <Spinner
+                        android:id="@+id/spin_age_group"
+                        style="@style/spinner_style"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:drawablePadding="@dimen/view_padding" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linear_date_of_birth"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:id="@+id/txt_date_of_birth"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/layout_margin"
+                        android:layout_weight="1"
+                        android:text="@string/dateofbirth"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@android:color/black" />
+
+                    <EditText
+                        android:id="@+id/edt_date_of_birth"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/layout_margin"
+                        android:layout_weight="1"
+                        android:background="@drawable/edit_background"
+                        android:drawablePadding="@dimen/view_padding"
+                        android:hint="@string/hintdateofbirth"
+                        android:maxLength="10"
+                        android:padding="@dimen/view_padding"
+                        android:singleLine="true"
+                        android:textColor="@android:color/black" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linear_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:id="@+id/txt_address"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/layout_margin"
+                        android:layout_weight="1"
+                        android:text="@string/address"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@android:color/black" />
+
+                    <EditText
+                        android:id="@+id/edt_address"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/layout_margin"
+                        android:layout_weight="1"
+                        android:background="@drawable/edit_background"
+                        android:drawablePadding="@dimen/view_padding"
+                        android:hint="@string/hintaddress"
+                        android:inputType="text"
+                        android:maxLength="100"
+                        android:padding="@dimen/view_padding"
+                        android:singleLine="true"
+                        android:textColor="@android:color/black" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linear_flat"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:id="@+id/txt_flat"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/layout_margin"
+                        android:layout_weight="1"
+                        android:text="@string/flatorvillage"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@android:color/black" />
+
+                    <EditText
+                        android:id="@+id/edt_flat"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/layout_margin"
+                        android:layout_weight="1"
+                        android:background="@drawable/edit_background"
+                        android:drawablePadding="@dimen/view_padding"
+                        android:hint="@string/hintvillage"
+                        android:inputType="text"
+                        android:maxLength="50"
+                        android:padding="@dimen/view_padding"
+                        android:singleLine="true"
+                        android:textColor="@android:color/black" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linear_street"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:id="@+id/txt_street"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/layout_margin"
+                        android:layout_weight="1"
+                        android:text="@string/streetorpostoffice"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@android:color/black" />
+
+                    <EditText
+                        android:id="@+id/edt_street"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/layout_margin"
+                        android:layout_weight="1"
+                        android:background="@drawable/edit_background"
+                        android:drawablePadding="@dimen/view_padding"
+                        android:hint="@string/hintstreet"
+                        android:inputType="text"
+                        android:maxLength="50"
+                        android:padding="@dimen/view_padding"
+                        android:singleLine="true"
+                        android:textColor="@android:color/black" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linear_location"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:id="@+id/txt_location"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/layout_margin"
+                        android:layout_weight="1"
+                        android:text="@string/location"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@android:color/black" />
+
+                    <EditText
+                        android:id="@+id/edt_location"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/layout_margin"
+                        android:layout_weight="1"
+                        android:background="@drawable/edit_background"
+                        android:drawablePadding="@dimen/view_padding"
+                        android:hint="@string/hintlocation"
+                        android:inputType="text"
+                        android:maxLength="50"
+                        android:padding="@dimen/view_padding"
+                        android:singleLine="true"
+                        android:textColor="@android:color/black" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linear_city"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:id="@+id/txt_city"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/layout_margin"
+                        android:layout_weight="1"
+                        android:text="@string/city"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@android:color/black" />
+
+                    <AutoCompleteTextView
+                        android:id="@+id/edt_city"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/layout_margin"
+                        android:layout_weight="1"
+                        android:background="@drawable/edit_background"
+                        android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                        android:drawablePadding="@dimen/view_padding"
+                        android:hint="@string/hintcity"
+                        android:inputType="text"
+                        android:maxLength="50"
+                        android:padding="@dimen/view_padding"
+                        android:singleLine="true"
+                        android:textColor="@android:color/black" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linear_pincode"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:id="@+id/txt_pincode"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/layout_margin"
+                        android:layout_weight="1"
+                        android:text="@string/pincode"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@android:color/black" />
+
+                    <AutoCompleteTextView
+                        android:id="@+id/edt_pincode"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/layout_margin"
+                        android:layout_weight="1"
+                        android:background="@drawable/edit_background"
+                        android:drawablePadding="@dimen/view_padding"
+                        android:hint="@string/hintpincode"
+                        android:inputType="number"
+                        android:maxLength="6"
+                        android:padding="@dimen/view_padding"
+                        android:singleLine="true"
+                        android:textColor="@android:color/black" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linear_occupation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:id="@+id/txt_occupation"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/layout_margin"
+                        android:layout_weight="1"
+                        android:text="@string/occupation"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@android:color/black" />
+
+                    <Spinner
+                        android:id="@+id/spin_occupation"
+                        style="@style/spinner_style"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:drawablePadding="@dimen/view_padding" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linear_non_salaried"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="10dp"
+                    android:visibility="gone">
+
+                    <EditText
+                        android:id="@+id/edt_non_salaried"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/layout_margin"
+                        android:layout_weight="1"
+                        android:background="@drawable/edit_background"
+                        android:drawablePadding="@dimen/view_padding"
+                        android:hint="@string/hintdetails"
+                        android:inputType="text"
+                        android:maxLength="50"
+                        android:padding="@dimen/view_padding"
+                        android:singleLine="true"
+                        android:textColor="@android:color/black" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linear_annual_income"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:id="@+id/txt_annual_income"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/layout_margin"
+                        android:layout_weight="1"
+                        android:text="@string/annualincome"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@android:color/black" />
+
+                    <Spinner
+                        android:id="@+id/spin_annual_income"
+                        style="@style/spinner_style"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:drawablePadding="@dimen/view_padding" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/other_broker"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:id="@+id/txt_other_broker"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/layout_margin"
+                        android:layout_weight="1"
+                        android:text="@string/otherbroker"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@android:color/black" />
+
+                    <Spinner
+                        android:id="@+id/spin_other_broker"
+                        style="@style/spinner_style"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:drawablePadding="@dimen/view_padding" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/liner_meeting_status"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:id="@+id/txt_meeting_status"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/layout_margin"
+                        android:layout_weight="1"
+                        android:text="@string/mettingstatus"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@android:color/black" />
+
+                    <RadioGroup
+
+                        android:id="@+id/rg_metting_status"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <RadioButton
+                            android:id="@+id/rb_contact"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/layout_margin"
+                            android:text="@string/contacted"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textColor="@android:color/black" />
+
+                        <RadioButton
+                            android:id="@+id/rb_not_contact"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                            android:layout_marginTop="@dimen/layout_margin"
+                            android:text="@string/notcontacted"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textColor="@android:color/black" />
+                    </RadioGroup>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linear_meeting_status_not_connected"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="10dp"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/txt_reason"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/layout_margin"
+                        android:layout_weight="1"
+                        android:text="@string/reason"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@android:color/black" />
+
+                    <EditText
+                        android:id="@+id/edt_reason"
+                        android:layout_width="0dp"
+                        android:layout_height="80dp"
+                        android:layout_marginTop="@dimen/layout_margin"
+                        android:layout_weight="1"
+                        android:background="@drawable/edit_background"
+                        android:drawablePadding="@dimen/view_padding"
+                        android:inputType="textMultiLine"
+                        android:overScrollMode="always"
+                        android:padding="@dimen/view_padding"
+                        android:scrollbarStyle="insideInset"
+                        android:scrollbars="vertical"
+                        android:textColor="@android:color/black" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linear_meeting_status_connected"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:visibility="gone">
 
                     <LinearLayout
+                        android:id="@+id/lead_status"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:padding="10dp">
 
                         <TextView
-                            android:id="@+id/txt_research_type"
+                            android:id="@+id/tvLeadStatus_connected"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/layout_margin"
                             android:layout_weight="1"
-                            android:text="@string/research_type"
+                            android:text="@string/leadstatus"
                             android:textAppearance="?android:attr/textAppearanceMedium"
                             android:textColor="@android:color/black" />
 
                         <Spinner
-                            android:id="@+id/spin_research_type"
+                            android:id="@+id/spin_lead_status"
                             style="@style/spinner_style"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -1007,160 +812,355 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/opportunity_pitched"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:padding="10dp">
 
                         <TextView
-                            android:id="@+id/txt_duration"
+                            android:id="@+id/tvOpportunity_pitched"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/layout_margin"
                             android:layout_weight="1"
-                            android:text="@string/duration"
+                            android:text="@string/opportunity"
                             android:textAppearance="?android:attr/textAppearanceMedium"
                             android:textColor="@android:color/black" />
 
                         <Spinner
-                            android:id="@+id/spin_duration"
+                            android:id="@+id/spin_opportunity_pitched"
                             style="@style/spinner_style"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:drawablePadding="@dimen/view_padding" />
                     </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/opportunity"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="10dp">
+
+                        <TextView
+                            android:id="@+id/tvBusinessOpportunity"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/layout_margin"
+                            android:layout_weight="1"
+                            android:text="@string/business"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textColor="@android:color/black" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="10dp">
+
+                        <include
+                            layout="@layout/opportunity_table_layout"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1" />
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:id="@+id/linear_remark"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="10dp"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:id="@+id/txt_remark"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/layout_margin"
+                            android:layout_weight="1"
+                            android:text="@string/remark"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textColor="@android:color/black" />
+
+                        <EditText
+                            android:id="@+id/edt_remark"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/layout_margin"
+                            android:layout_weight="1"
+                            android:background="@drawable/edit_background"
+                            android:drawablePadding="@dimen/view_padding"
+                            android:hint="@string/hintremark"
+                            android:maxLength="50"
+                            android:padding="@dimen/view_padding"
+                            android:singleLine="true"
+                            android:textColor="@android:color/black" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/linear_competitor"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:padding="10dp">
+
+                            <TextView
+                                android:id="@+id/txt_competitor"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/layout_margin"
+                                android:layout_weight="1"
+                                android:text="@string/competitor"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:textColor="@android:color/black" />
+
+                            <EditText
+                                android:id="@+id/edt_competitor"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/layout_margin"
+                                android:layout_weight="1"
+                                android:background="@drawable/edit_background"
+                                android:drawablePadding="@dimen/view_padding"
+                                android:hint="@string/competitor"
+                                android:inputType="text"
+                                android:maxLength="50"
+                                android:padding="@dimen/view_padding"
+                                android:singleLine="true"
+                                android:textColor="@android:color/black" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:padding="10dp">
+
+                            <TextView
+                                android:id="@+id/txt_product"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/layout_margin"
+                                android:layout_weight="1"
+                                android:text="@string/product"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:textColor="@android:color/black" />
+
+                            <EditText
+                                android:id="@+id/edt_product"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/layout_margin"
+                                android:layout_weight="1"
+                                android:background="@drawable/edit_background"
+                                android:drawablePadding="@dimen/view_padding"
+                                android:hint="@string/product"
+                                android:inputType="text"
+                                android:maxLength="50"
+                                android:padding="@dimen/view_padding"
+                                android:singleLine="true"
+                                android:textColor="@android:color/black" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/linear_research"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:padding="10dp">
+
+                            <TextView
+                                android:id="@+id/txt_research_type"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/layout_margin"
+                                android:layout_weight="1"
+                                android:text="@string/research_type"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:textColor="@android:color/black" />
+
+                            <Spinner
+                                android:id="@+id/spin_research_type"
+                                style="@style/spinner_style"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:drawablePadding="@dimen/view_padding" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:padding="10dp">
+
+                            <TextView
+                                android:id="@+id/txt_duration"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/layout_margin"
+                                android:layout_weight="1"
+                                android:text="@string/duration"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:textColor="@android:color/black" />
+
+                            <Spinner
+                                android:id="@+id/spin_duration"
+                                style="@style/spinner_style"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:drawablePadding="@dimen/view_padding" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+
                 </LinearLayout>
 
 
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:id="@+id/linear_next_meeting"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="10dp">
-
-                <TextView
-                    android:id="@+id/txt_next_meeting"
-                    android:layout_width="0dp"
+                <LinearLayout
+                    android:id="@+id/linear_next_meeting"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/layout_margin"
-                    android:layout_weight="1"
-                    android:text="@string/nextmeeting"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@android:color/black" />
+                    android:orientation="horizontal"
+                    android:padding="10dp">
 
-                <EditText
-                    android:id="@+id/edt_next_meeting"
-                    android:layout_width="0dp"
+                    <TextView
+                        android:id="@+id/txt_next_meeting"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/layout_margin"
+                        android:layout_weight="1"
+                        android:text="@string/nextmeeting"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@android:color/black" />
+
+                    <EditText
+                        android:id="@+id/edt_next_meeting"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/layout_margin"
+                        android:layout_weight="1"
+                        android:background="@drawable/edit_background"
+                        android:drawablePadding="@dimen/view_padding"
+                        android:maxLength="50"
+                        android:padding="@dimen/view_padding"
+                        android:singleLine="true"
+                        android:textColor="@android:color/black" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linear_meeting_ahgenda"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/layout_margin"
-                    android:layout_weight="1"
-                    android:background="@drawable/edit_background"
-                    android:drawablePadding="@dimen/view_padding"
-                    android:maxLength="50"
-                    android:padding="@dimen/view_padding"
-                    android:singleLine="true"
-                    android:textColor="@android:color/black" />
-            </LinearLayout>
+                    android:orientation="horizontal"
+                    android:padding="10dp">
 
-            <LinearLayout
-                android:id="@+id/linear_meeting_ahgenda"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="10dp">
+                    <TextView
+                        android:id="@+id/txt_meeting_agenda"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/layout_margin"
+                        android:layout_weight="1"
+                        android:text="@string/mettingagenda"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@android:color/black" />
 
-                <TextView
-                    android:id="@+id/txt_meeting_agenda"
-                    android:layout_width="0dp"
+                    <EditText
+                        android:id="@+id/edt_meeting_agenda"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/layout_margin"
+                        android:layout_weight="1"
+                        android:background="@drawable/edit_background"
+                        android:drawablePadding="@dimen/view_padding"
+                        android:inputType="text"
+                        android:maxLength="50"
+                        android:padding="@dimen/view_padding"
+                        android:singleLine="true"
+                        android:textColor="@android:color/black" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/lead_update_log"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/layout_margin"
-                    android:layout_weight="1"
-                    android:text="@string/mettingagenda"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@android:color/black" />
+                    android:orientation="horizontal"
+                    android:padding="10dp">
 
-                <EditText
-                    android:id="@+id/edt_meeting_agenda"
-                    android:layout_width="0dp"
+                    <TextView
+                        android:id="@+id/txt_lead_update_log"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/layout_margin"
+                        android:layout_weight="1"
+                        android:text="@string/leadupdatelog"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@android:color/black" />
+
+                    <EditText
+                        android:id="@+id/edt_lead_update_log"
+                        android:layout_width="0dp"
+                        android:layout_height="80dp"
+                        android:layout_marginTop="@dimen/layout_margin"
+                        android:layout_weight="1"
+                        android:background="@drawable/edit_background"
+                        android:inputType="textMultiLine"
+                        android:overScrollMode="always"
+                        android:padding="@dimen/view_padding"
+                        android:scrollbarStyle="insideInset"
+                        android:scrollbars="vertical"
+                        android:textColor="@android:color/black" />
+
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linear_update_close"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/layout_margin"
-                    android:layout_weight="1"
-                    android:background="@drawable/edit_background"
-                    android:drawablePadding="@dimen/view_padding"
-                    android:inputType="text"
-                    android:maxLength="50"
-                    android:padding="@dimen/view_padding"
-                    android:singleLine="true"
-                    android:textColor="@android:color/black" />
-            </LinearLayout>
+                    android:orientation="horizontal"
+                    android:padding="10dp">
 
-            <LinearLayout
-                android:id="@+id/lead_update_log"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="10dp">
+                    <Button
+                        android:id="@+id/btn_update"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/size_10"
+                        android:layout_weight="1"
+                        android:background="@color/colorRed"
+                        android:text="@string/updatelead"
+                        android:textColor="@color/colorWhite" />
 
-                <TextView
-                    android:id="@+id/txt_lead_update_log"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/layout_margin"
-                    android:layout_weight="1"
-                    android:text="@string/leadupdatelog"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@android:color/black" />
-
-                <EditText
-                    android:id="@+id/edt_lead_update_log"
-                    android:layout_width="0dp"
-                    android:layout_height="80dp"
-                    android:layout_marginTop="@dimen/layout_margin"
-                    android:layout_weight="1"
-                    android:background="@drawable/edit_background"
-                    android:inputType="textMultiLine"
-                    android:overScrollMode="always"
-                    android:padding="@dimen/view_padding"
-                    android:scrollbarStyle="insideInset"
-                    android:scrollbars="vertical"
-                    android:textColor="@android:color/black" />
-
-
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/linear_update_close"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="10dp">
-
-                <Button
-                    android:id="@+id/btn_update"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/size_10"
-                    android:layout_weight="1"
-                    android:background="@color/colorRed"
-                    android:text="@string/updatelead"
-                    android:textColor="@color/colorWhite" />
-
-                <Button
-                    android:id="@+id/btn_close"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/size_10"
-                    android:layout_weight="1"
-                    android:background="@color/colorRed"
-                    android:text="@string/closelead"
-                    android:textColor="@color/colorWhite" />
-            </LinearLayout>
+                    <Button
+                        android:id="@+id/btn_close"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/size_10"
+                        android:layout_weight="1"
+                        android:background="@color/colorRed"
+                        android:text="@string/closelead"
+                        android:textColor="@color/colorWhite" />
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

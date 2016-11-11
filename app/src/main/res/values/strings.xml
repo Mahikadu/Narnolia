@@ -184,6 +184,9 @@
     <string name="column_updated_dt">updated_dt</string>
     <string name="column_updated_by">updated_by</string>
     <string name="column_business_opportunity">business_opportunity</string>
+    <string name="column_m_pin_district">district</string>
+    <string name="column_m_pin_pincode">pincode</string>
+    <string name="select_pincode">Select Pincode</string>
 
 
     //other

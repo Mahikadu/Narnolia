@@ -23,6 +23,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -45,8 +46,13 @@ import com.narnolia.app.network.SOAPWebService;
 import org.ksoap2.serialization.SoapPrimitive;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -58,7 +64,10 @@ public class LeadActivity extends AbstractActivity {
     private Context mContext;
     protected Utils utils;
     private ProgressDialog progressDialog;
-    EditText fname, mname, lname, mobileno, location, city, pincode;
+    EditText fname, mname, lname, mobileno, location;
+    private AutoCompleteTextView editCity, autoPincode;
+    private Map<String, List<String>> spinPincodeArray;
+    private List<String> spinCityArray;
     TextView tv_source_of_lead, tv_sub_source_of_lead, tv_fname, tv_mname, tv_lname,
             tv_mobile_no, tv_location, tv_city, tv_pincode, tv_prospective_products, tv_prospective_products1;
 
@@ -69,7 +78,7 @@ public class LeadActivity extends AbstractActivity {
             strDuration, strPanNo, strB_Margin, strB_aum, strB_sip, strB_number, strB_value, strB_premium, strReason,
             strMeetingdt, strMeetingAgenda, strLead_Updatelog, strCreatedby, strCreateddt, strUpdateddt, strUpdatedby,
             strBusiness_opp;
-
+    private ArrayAdapter<String> adapter9;
     Spinner spinner_source_of_lead, spinner_sub_source;
     Button btn_create, btn_cancel, btn_create_close;
     private List<String> spinSourceLeadList;
@@ -87,7 +96,7 @@ public class LeadActivity extends AbstractActivity {
     private SharedPref sharedPref;
     private TextView admin;
 
-    private LinearLayout productLayout;
+    private LinearLayout productLayout,customer_id;
     private  CheckBox checkbox;
     public ProductDetailsModel productDetailsModel;
     private CategoryDetailsModel categoryDetailsModel;
@@ -106,6 +115,8 @@ public class LeadActivity extends AbstractActivity {
         sharedPref = new SharedPref(LeadActivity.this);
         empcode = sharedPref.getLoginId();
 
+        spinPincodeArray = new HashMap<>();
+        spinCityArray = new ArrayList<>();
 
         initView();
 
@@ -135,9 +146,12 @@ public class LeadActivity extends AbstractActivity {
             lname = (EditText) findViewById(R.id.edt1_lname);
             mobileno = (EditText) findViewById(R.id.edt1_mobile_no);
             location = (EditText) findViewById(R.id.edt1_location);
-            city = (EditText) findViewById(R.id.edt1_city);
-            pincode = (EditText) findViewById(R.id.edt1_pincode);
 
+            //................Auto Complete Text View......
+            editCity=(AutoCompleteTextView)findViewById(R.id.edt1_city);
+            autoPincode=(AutoCompleteTextView) findViewById(R.id.edt1_pincode);
+            //..............linear layout...........
+            customer_id=(LinearLayout)findViewById(R.id.linear1_cust_id);
 
             //..............Text View.....
             tv_source_of_lead = (TextView) findViewById(R.id.txt1_source_of_lead);
@@ -147,7 +161,6 @@ public class LeadActivity extends AbstractActivity {
             tv_fname = (TextView) findViewById(R.id.txt1_fname);
             tv_fname.setText(Html.fromHtml("<font color=\"red\">*</font>" + "<font color=\"black\">First Name</font>\n"));
             tv_mname = (TextView) findViewById(R.id.txt1_mname);
-            tv_mname.setText(Html.fromHtml("<font color=\"red\">*</font>" + "<font color=\"black\">Middle Name</font>\n"));
             tv_lname = (TextView) findViewById(R.id.txt1_lname);
             tv_lname.setText(Html.fromHtml("<font color=\"red\">*</font>" + "<font color=\"black\">Last Name</font>\n"));
             tv_mobile_no = (TextView) findViewById(R.id.txt1_mobile_no);
@@ -167,11 +180,14 @@ public class LeadActivity extends AbstractActivity {
                 }
             });
 
-
+            new LoadCityData().execute();//........................................Load city data
             //...............Spinner...
             spinner_source_of_lead = (Spinner) findViewById(R.id.spin1_source_of_lead);
             spinner_sub_source = (Spinner) findViewById(R.id.spin1_sub_source);
             // spinner_prospective_product = (Spinner) findViewById(R.id.spin1_prospective_product);
+
+
+
 
             //spinner OnItemSelectedListener
             spinner_source_of_lead.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -180,6 +196,17 @@ public class LeadActivity extends AbstractActivity {
                     if (strLeadArray != null && strLeadArray.length > 0) {
                         strSourceofLead = spinner_source_of_lead.getSelectedItem().toString();
 //                        fetchDistrCodeBranchName(strServiceBranchCode);
+                        String occuString;
+                        occuString = parent.getItemAtPosition(position).toString();
+                        if (occuString != null) {
+                            if (occuString.equalsIgnoreCase("Client Reference")) {
+
+                                customer_id.setVisibility(View.VISIBLE);
+
+                            } else {
+                                customer_id.setVisibility(View.GONE);
+                            }
+                        }
                     }
                 }
 
@@ -204,20 +231,7 @@ public class LeadActivity extends AbstractActivity {
                 }
             });
 
-          /*  spinner_prospective_product.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    if (strLeadArray != null && strLeadArray.length > 0) {
-                        String strProduct = spinner_prospective_product.getSelectedItem().toString();
-//                        fetchDistrCodeBranchName(strServiceBranchCode);
-                    }
-                }
 
-                @Override
-                public void onNothingSelected(AdapterView<?> parent) {
-
-                }
-            });*/
             //......................madnetary Edit text validation.
             fname.addTextChangedListener(new TextWatcher() {
                 @Override
@@ -236,23 +250,7 @@ public class LeadActivity extends AbstractActivity {
                     }
                 }
             });
-            mname.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                }
 
-                @Override
-                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                }
-
-                @Override
-                public void afterTextChanged(Editable editable) {
-                    if (mname.length() > 0) {
-                        mname.setError(null);
-                    }
-                }
-            });
             lname.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -270,7 +268,7 @@ public class LeadActivity extends AbstractActivity {
                     }
                 }
             });
-            city.addTextChangedListener(new TextWatcher() {
+            editCity.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 }
@@ -282,11 +280,133 @@ public class LeadActivity extends AbstractActivity {
 
                 @Override
                 public void afterTextChanged(Editable editable) {
-                    if (city.length() > 0) {
-                        city.setError(null);
+                    if (editCity.length() > 0) {
+                        editCity.setError(null);
                     }
                 }
             });
+            //..........................................City Pincode
+            editCity.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                    try {
+                        if (spinPincodeArray.containsKey(parent.getItemAtPosition(position))) {
+
+                            autoPincode.setText("");
+                            String city1 = (String) parent.getItemAtPosition(position);
+
+                            editCity.setError(null);
+
+
+                            String selection = mContext.getString(R.string.column_m_pin_district) + " = ?";
+
+                            // WHERE clause arguments
+                            String[] selectionArgs = {(String) parent.getItemAtPosition(position)};
+                            String pincodeColNames[] = {getString(R.string.column_m_pin_pincode)};
+                            Cursor cursor = Narnolia.dbCon.fetch(DbHelper.TABLE_M_PINCODE_TABLE, pincodeColNames, selection, selectionArgs, getString(R.string.column_m_pin_pincode), null, true, null, null);
+                            String pincode, city;
+                            List<String> pincodeList;
+                            if (cursor != null && cursor.getCount() > 0) {
+                                cursor.moveToFirst();
+                                do {
+                                    pincode = cursor.getString(cursor.getColumnIndex(getString(R.string.column_m_pin_pincode)));
+                                    //
+                                    pincodeList = new ArrayList<>();
+                                    if (spinPincodeArray.containsKey(city1)) {
+                                        pincodeList.addAll(spinPincodeArray.get(city1));
+                                        pincodeList.add(pincode);
+                                    } else {
+                                        pincodeList.add(pincode);
+                                        //
+                                    }
+                                    if (pincodeList.size() > 0) {
+                                        spinPincodeArray.put(city1, pincodeList);
+                                    }
+
+                                } while (cursor.moveToNext());
+                                cursor.close();
+                                if (pincodeList.size() > 0) {
+                                    final String[] strPinArr = new String[pincodeList.size()];
+                                    strPinArr[0] = getString(R.string.select_pincode);
+                                    pincodeList.remove(0);
+
+                                    for (int i = 0; i < pincodeList.size(); i++) {
+                                        strPinArr[i + 1] = pincodeList.get(i);
+                                    }
+
+                                    adapter9 = new ArrayAdapter<String>(mContext, android.R.layout.simple_spinner_dropdown_item, strPinArr);
+                                    adapter9.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                    autoPincode.setAdapter(adapter9);
+                                    pincodeList.clear();
+
+                                    autoPincode.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                                        @Override
+                                        public void onFocusChange(View view, boolean hasFocus) {
+                                            if (!hasFocus) {
+                                                String val = autoPincode.getText() + "";
+
+                                                if (Arrays.asList(strPinArr).contains(val)) {
+                                                    System.out.println("CITY CITY CITY");
+                                                } else {
+                                                    autoPincode.setError("Invalid Pincode");
+                                                }
+                                            }
+                                        }
+                                    });
+
+                                } else {
+                                    autoPincode.setError(null);
+                                    String[] strPinArr = new String[pincodeList.size()];
+                                    strPinArr[0] = getString(R.string.select_pincode);
+                                    adapter9 = new ArrayAdapter<String>(mContext, android.R.layout.simple_spinner_dropdown_item, strPinArr);
+                                    adapter9.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                    autoPincode.setAdapter(adapter9);
+                                    pincodeList.clear();
+                                }
+                            }
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+
+            autoPincode.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    try {
+                        autoPincode.setError(null);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+
+            editCity.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                @Override
+                public void onFocusChange(View view, boolean hasFocus) {
+                    try {
+                        if (!hasFocus) {
+                            String val = editCity.getText() + "";
+
+                            if (spinPincodeArray.containsKey(val)) {
+                                System.out.println("CITY CITY CITY");
+                            } else {
+                                editCity.setError("Invalid City");
+                            }
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+
+
+
+
+
+
 
             fetchSourcedata();
             fetchSubSourcedata();
@@ -331,6 +451,7 @@ public class LeadActivity extends AbstractActivity {
                 } while (cursor1.moveToNext());
                 cursor1.close();
             }
+            Collections.sort(spinSourceLeadList);
             if (spinSourceLeadList.size() > 0) {
                 strLeadArray = new String[spinSourceLeadList.size() + 1];
                 strLeadArray[0] = "Select Source Lead";
@@ -338,22 +459,12 @@ public class LeadActivity extends AbstractActivity {
                     strLeadArray[i + 1] = spinSourceLeadList.get(i);
                 }
             }
-
-           /* spinSourceLeadList.addAll(Arrays.asList(getResources().getStringArray(R.array.source_array)));
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, spinSourceLeadList);
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-            spinner_source_of_lead.setAdapter(adapter);*/
-
-
             if (spinSourceLeadList != null && spinSourceLeadList.size() > 0) {
                 ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(mContext, android.R.layout.simple_spinner_item, strLeadArray);
                 adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
                 spinner_source_of_lead.setAdapter(adapter1);
             }
-
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -375,6 +486,7 @@ public class LeadActivity extends AbstractActivity {
                 } while (cursor2.moveToNext());
                 cursor2.close();
             }
+            Collections.sort(spinSubSourceLeadList);
             if (spinSubSourceLeadList.size() > 0) {
                 strSubLeadArray = new String[spinSubSourceLeadList.size() + 1];
                 strSubLeadArray[0] = "Select Sub Source Lead";
@@ -396,49 +508,12 @@ public class LeadActivity extends AbstractActivity {
         }
     }
 
-   /* private void fetchProductata() {
-        try {
-
-         *//*   spinProductList = new ArrayList<>();
-            String Product = "Product   ";
-
-            String where = " where type like " + "'" + Product + "'";
-            Cursor cursor3 = Narnolia.dbCon.fetchFromSelect(DbHelper.TABLE_M_PARAMETER, where);
-            if (cursor3 != null && cursor3.getCount() > 0) {
-                cursor3.moveToFirst();
-                do {
-                    String productvalue = "";
-                    productvalue = cursor3.getString(cursor3.getColumnIndex("value"));
-                    spinProductList.add(productvalue);
-                } while (cursor3.moveToNext());
-                cursor3.close();
-            }
-            if (spinProductList.size() > 0) {
-                strProductArray = new String[spinProductList.size() + 1];
-                strProductArray[0] = "Select option";
-                for (int i = 0; i < spinProductList.size(); i++) {
-                    strProductArray[i + 1] = spinProductList.get(i);
-                }
-            }
-
-            if (spinProductList != null && spinProductList.size() > 0) {
-                ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(mContext, android.R.layout.simple_spinner_item, strProductArray);
-                adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-                spinner_prospective_product.setAdapter(adapter1);
-            }
-*//*
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }*/
 
     private void validateDetails() {
         try {
             mobileno.setError(null);
-            city.setError(null);
-            pincode.setError(null);
+            editCity.setError(null);
+            autoPincode.setError(null);
             fname.setError(null);
             mname.setError(null);
             lname.setError(null);
@@ -447,8 +522,8 @@ public class LeadActivity extends AbstractActivity {
             str_mname = mname.getText().toString().trim();
             str_lname = lname.getText().toString().trim();
             str_mob = mobileno.getText().toString().trim();
-            str_city = city.getText().toString().trim();
-            str_pincode = pincode.getText().toString().trim();
+            str_city = editCity.getText().toString().trim();
+            str_pincode = autoPincode.getText().toString().trim();
             strlocation = location.getText().toString().trim();
 
             View focusView = null;
@@ -459,12 +534,7 @@ public class LeadActivity extends AbstractActivity {
 
                 return;
             }
-            if (TextUtils.isEmpty(str_mname)) {
-                mname.setError(getString(R.string.name));
-                focusView = mname;
-                focusView.requestFocus();
-                return;
-            }
+
             if (TextUtils.isEmpty(str_lname)) {
                 lname.setError(getString(R.string.name));
                 focusView = lname;
@@ -478,15 +548,15 @@ public class LeadActivity extends AbstractActivity {
                 return;
             }
             if (TextUtils.isEmpty(str_city)) {
-                city.setError(getString(R.string.reqcity));
-                focusView = city;
+                editCity.setError(getString(R.string.reqcity));
+                focusView = editCity;
                 focusView.requestFocus();
                 return;
             }
             if (TextUtils.isEmpty(str_pincode)) {
 
-                pincode.setError(getString(R.string.reqpincode));
-                focusView = pincode;
+                autoPincode.setError(getString(R.string.reqpincode));
+                focusView = autoPincode;
                 focusView.requestFocus();
                 return;
             }
@@ -495,7 +565,6 @@ public class LeadActivity extends AbstractActivity {
                 focusView.requestFocus();
                 return;
             }
-
             if (isConnectingToInternet()) {
 
                 new InsertLeadData().execute();
@@ -861,7 +930,48 @@ public class LeadActivity extends AbstractActivity {
             e.printStackTrace();
         }
     }
+    private void fetchDataFromDB() {
+        try {
+            String pincodeColumnNames[] = {getString(R.string.column_m_pin_pincode), getString(R.string.column_m_pin_district)};
 
+            Cursor cursor = Narnolia.dbCon.fetch(DbHelper.TABLE_M_PINCODE_TABLE, pincodeColumnNames, null, null, getString(R.string.column_m_pin_district), null, false, getString(R.string.column_m_pin_district), null);
+
+            String pincode, city;
+
+            try {
+                if (cursor != null && cursor.getCount() > 0) {
+                    cursor.moveToFirst();
+                    do {
+                        pincode = cursor.getString(cursor.getColumnIndex(getString(R.string.column_m_pin_pincode)));
+                        city = cursor.getString(cursor.getColumnIndex(getString(R.string.column_m_pin_district)));
+                        List<String> pincodeList = new ArrayList<>();
+                        if (spinPincodeArray.containsKey(city)) {
+
+
+                            pincodeList.addAll(spinPincodeArray.get(city));
+                            pincodeList.add(pincode);
+                        } else {
+                            pincodeList.add(pincode);
+                            spinCityArray.add(city);
+
+                        }
+                        if (pincodeList.size() > 0) {
+                            spinPincodeArray.put(city, pincodeList);
+                        }
+
+                    } while (cursor.moveToNext());
+                    cursor.close();
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     private void resetFields(){
         try{
             fname.setText("");
@@ -869,8 +979,8 @@ public class LeadActivity extends AbstractActivity {
             lname.setText("");
             mobileno.setText("");
             location.setText("");
-            city.setText("");
-            pincode.setText("");
+            editCity.setText("");
+            autoPincode.setText("");
             spinner_source_of_lead.setSelection(0);
             spinner_sub_source.setSelection(0);
 
@@ -879,5 +989,54 @@ public class LeadActivity extends AbstractActivity {
         }
 
     }
+    public class LoadCityData extends AsyncTask<Void, Void, Void> {
+
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            if (progressDialog != null && !progressDialog.isShowing()) {
+                progressDialog.show();
+            }
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+
+            fetchDataFromDB();
+
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+
+            try {
+
+// Create the adapter and set it to the AutoCompleteTextView
+                if (spinCityArray != null && spinCityArray.size() > 0) {
+                    ArrayAdapter<String> adapterPin =
+                            new ArrayAdapter<String>(mContext, android.R.layout.simple_list_item_1, spinCityArray);
+                    editCity.setAdapter(adapterPin);
+                }
+
+
+                if (progressDialog != null && progressDialog.isShowing()) {
+                    progressDialog.dismiss();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+
+
+        }
+
+
+    }
+
 
 }

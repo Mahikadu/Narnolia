@@ -103,6 +103,34 @@
             </LinearLayout>
 
 
+
+            <LinearLayout
+                android:id="@+id/linear1_sub_source"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+                <TextView
+                    android:id="@+id/txt1_sub_source"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/layout_margin"
+                    android:layout_weight="1"
+                    android:text="@string/subsource"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@android:color/black" />
+
+                <Spinner
+                    android:id="@+id/spin1_sub_source"
+                    style="@style/spinner_style"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:drawablePadding="@dimen/view_padding" />
+            </LinearLayout>
+
+
             <LinearLayout
                 android:id="@+id/linear1_cust_id"
                 android:layout_width="match_parent"
@@ -139,31 +167,8 @@
             </LinearLayout>
 
 
-            <LinearLayout
-                android:id="@+id/linear1_sub_source"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="10dp">
 
-                <TextView
-                    android:id="@+id/txt1_sub_source"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/layout_margin"
-                    android:layout_weight="1"
-                    android:text="@string/subsource"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@android:color/black" />
 
-                <Spinner
-                    android:id="@+id/spin1_sub_source"
-                    style="@style/spinner_style"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:drawablePadding="@dimen/view_padding" />
-            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/linear1_Fname"
@@ -352,7 +357,7 @@
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="@android:color/black" />
 
-                <EditText
+                <AutoCompleteTextView
                     android:id="@+id/edt1_city"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -388,7 +393,7 @@
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="@android:color/black" />
 
-                <EditText
+                <AutoCompleteTextView
                     android:id="@+id/edt1_pincode"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
