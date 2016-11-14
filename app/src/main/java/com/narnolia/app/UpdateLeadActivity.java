@@ -56,10 +56,11 @@ public class UpdateLeadActivity extends AbstractActivity {
     private ArrayAdapter<String> adapter9;
     private ProgressDialog progressDialog;
 
-    EditText fname,mname,lname, mobileno, email, date_of_birth, address, flat, street, location,next_metting_date, metting_agenda, lead_update_log;
+    EditText fname,mname,lname, mobileno, email, date_of_birth, address, flat, street, location,next_metting_date, metting_agenda, lead_update_log,reason,
+            margin,aum,sip,number,value,premium,remark,compitator,product;
     AutoCompleteTextView editCity,autoPincode;
     Spinner spinner_lead_name, spinner_source_of_lead, spinner_sub_source, spinner_age_group,
-            spinner_occupation, spinner_annual_income, spinner_other_broker,spinner_lead_status,spinner_research_type,spinner_duration;
+            spinner_occupation, spinner_annual_income, spinner_other_broker,spinner_lead_status,spinner_research_type,spinner_duration,spinner_opprtunity_pitched;
     TextView tv_lead_name, tv_source_of_lead, tv_sub_source, tv_fname,tv_mname,tv_lname, tv_mobile_no, tv_email,
             tv_age_group, tv_date_of_birth, tv_address, tv_flat, tv_street, tv_location, tv_city, tv_pincode,
             tv_occupation, tv_annual_income, tv_other_broker, tv_meeting_status, tv_meeting_agenda, tv_lead_update_log,tv_lead_status;
@@ -142,6 +143,21 @@ public class UpdateLeadActivity extends AbstractActivity {
             next_metting_date = (EditText) findViewById(R.id.edt_next_meeting);
             metting_agenda = (EditText) findViewById(R.id.edt_meeting_agenda);
             lead_update_log = (EditText) findViewById(R.id.edt_lead_update_log);
+            reason=(EditText)findViewById(R.id.edt_reason);  //........when radio button is not connected
+            //.....inside table edit text
+            margin=(EditText)findViewById(R.id.edt_margin);
+            aum=(EditText)findViewById(R.id.edt_aum);
+            sip=(EditText)findViewById(R.id.edt_sip);
+            number=(EditText)findViewById(R.id.edt_number);
+            value=(EditText)findViewById(R.id.edt_value);
+            premium=(EditText)findViewById(R.id.edt_premium);
+            //......spinner slection not intersted
+            remark=(EditText)findViewById(R.id.edt_remark);
+            compitator=(EditText)findViewById(R.id.edt_competitor);
+            product=(EditText)findViewById(R.id.edt_product);
+
+
+
             new LoadCityData().execute();//........................................Load city data
             //..................edit text validations.......
             fname.addTextChangedListener(new TextWatcher() {
@@ -280,6 +296,9 @@ public class UpdateLeadActivity extends AbstractActivity {
             spinner_lead_status=(Spinner)findViewById(R.id.spin_lead_status);
             spinner_duration=(Spinner)findViewById(R.id.spin_duration);
             spinner_research_type=(Spinner)findViewById(R.id.spin_research_type);
+            spinner_opprtunity_pitched=(Spinner)findViewById(R.id.spin_opportunity_pitched);
+
+
             //.................radio group layout......
             connect=(LinearLayout)findViewById(R.id.linear_meeting_status_connected);
             notconnect=(LinearLayout)findViewById(R.id.linear_meeting_status_not_connected);
@@ -329,7 +348,11 @@ public class UpdateLeadActivity extends AbstractActivity {
 
                             linear_lead_details_hidden.setVisibility(View.VISIBLE);
 
-                            populateData(leadInfoModel);
+                            try {
+                                populateData(leadInfoModel);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
                         }
                     }
 
@@ -922,6 +945,7 @@ public class UpdateLeadActivity extends AbstractActivity {
                 mname.setText(leadInfoModel.getMiddlename());
                 lname.setText(leadInfoModel.getLastname());
                 mobileno.setText(leadInfoModel.getMobile_no());
+                email.setText(leadInfoModel.getEmail_id());
                 location.setText(leadInfoModel.getLocation());
                 editCity.setText(leadInfoModel.getCity());
                 autoPincode.setText(leadInfoModel.getPincode());
@@ -941,6 +965,7 @@ public class UpdateLeadActivity extends AbstractActivity {
     }
 
     public LeadInfoModel createLeadInfoModel(Cursor cursor) {
+
         leadInfoModel = new LeadInfoModel();
         try {
             leadInfoModel.setStages(cursor.getString(cursor.getColumnIndex("stages")));
