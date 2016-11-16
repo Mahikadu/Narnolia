@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -25,6 +26,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static java.security.AccessController.getContext;
+
 public class HomeActivity extends AbstractActivity implements View.OnClickListener {
 
     LinearLayout linear_dashboard, linear_create_lead, linear_update_lead, linear_master,
@@ -40,7 +43,7 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
     List<LeadInfoModel> leadInfoModelList;
 
 
-    private List<String> spinSourceLeadList;
+    String spinMasterList[]={"--select--","Prakash","Bhavin","Chirag","Yakub"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -172,7 +175,6 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
 
     private void showMasterDialog(){
 
-        spinSourceLeadList = new ArrayList<>();
        final AlertDialog.Builder DialogMaster = new AlertDialog.Builder(this);
 
         LayoutInflater li = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -192,20 +194,32 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
                 .findViewById(R.id.spin_master);
 
 
-        spinSourceLeadList.addAll(Arrays.asList(getResources().getStringArray(R.array.titles)));
 
-        if (spinSourceLeadList.size() > 0) {
-            strLeadArray = new String[spinSourceLeadList.size() + 1];
-            strLeadArray[0] = "---Select---";
-            for (int i = 0; i < spinSourceLeadList.size(); i++) {
-                strLeadArray[i + 1] = spinSourceLeadList.get(i);
+
+        ArrayAdapter<String> adapterMaster = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, spinMasterList) {
+            @Override
+            public View getDropDownView(int position, View convertView, ViewGroup parent)
+            {
+                View v = null;
+                // If this is the initial dummy entry, make it hidden
+                if (position == 0) {
+                    TextView tv = new TextView(getContext());
+                    tv.setHeight(0);
+                    tv.setVisibility(View.GONE);
+                    v = tv;
+                }
+                else {
+                    // Pass convertView as null to prevent reuse of special case views
+                    v = super.getDropDownView(position, null, parent);
+                }
+                // Hide scroll bar because it appears sometimes unnecessarily, this does not prevent scrolling
+                parent.setVerticalScrollBarEnabled(false);
+                return v;
             }
-        }
+        };
 
-        ArrayAdapter<String> adapterMaster = new ArrayAdapter<String>(mContext, android.R.layout.simple_spinner_item, strLeadArray);
         adapterMaster.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerMaster.setAdapter(adapterMaster);
-
         spinnerMaster.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
             public void onItemSelected(AdapterView<?> parent, View arg1,
@@ -231,7 +245,7 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
 
     private void showSettingDialog(){
 
-        spinSourceLeadList = new ArrayList<>();
+
         final AlertDialog.Builder DialogMaster = new AlertDialog.Builder(this);
 
         LayoutInflater li = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -250,18 +264,30 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
         Spinner spinnerMaster = (Spinner) showMaster
                 .findViewById(R.id.spin_master);
 
-        spinSourceLeadList.addAll(Arrays.asList(getResources().getStringArray(R.array.titles)));
 
-        if (spinSourceLeadList.size() > 0) {
-            strLeadArray = new String[spinSourceLeadList.size() + 1];
-            strLeadArray[0] = "---Select---";
-            for (int i = 0; i < spinSourceLeadList.size(); i++) {
-                strLeadArray[i + 1] = spinSourceLeadList.get(i);
+
+        ArrayAdapter<String> adapterMaster = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, spinMasterList) {
+            @Override
+            public View getDropDownView(int position, View convertView, ViewGroup parent)
+            {
+                View v = null;
+                // If this is the initial dummy entry, make it hidden
+                if (position == 0) {
+                    TextView tv = new TextView(getContext());
+                    tv.setHeight(0);
+                    tv.setVisibility(View.GONE);
+                    v = tv;
+                }
+                else {
+                    // Pass convertView as null to prevent reuse of special case views
+                    v = super.getDropDownView(position, null, parent);
+                }
+                // Hide scroll bar because it appears sometimes unnecessarily, this does not prevent scrolling
+                parent.setVerticalScrollBarEnabled(false);
+                return v;
             }
-        }
+        };
 
-
-        ArrayAdapter<String> adapterMaster = new ArrayAdapter<String>(mContext, android.R.layout.simple_spinner_item, strLeadArray);
         adapterMaster.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerMaster.setAdapter(adapterMaster);
 
@@ -288,7 +314,7 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
 
     private void showReportDialog(){
 
-        spinSourceLeadList = new ArrayList<>();
+
         final AlertDialog.Builder DialogMaster = new AlertDialog.Builder(this);
 
         LayoutInflater li = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -308,16 +334,29 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
                 .findViewById(R.id.spin_master);
 
 
-        spinSourceLeadList.addAll(Arrays.asList(getResources().getStringArray(R.array.titles)));
 
-        if (spinSourceLeadList.size() > 0) {
-            strLeadArray = new String[spinSourceLeadList.size() + 1];
-            strLeadArray[0] = "---Select---";
-            for (int i = 0; i < spinSourceLeadList.size(); i++) {
-                strLeadArray[i + 1] = spinSourceLeadList.get(i);
+        ArrayAdapter<String> adapterMaster = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, spinMasterList) {
+            @Override
+            public View getDropDownView(int position, View convertView, ViewGroup parent)
+            {
+                View v = null;
+                // If this is the initial dummy entry, make it hidden
+                if (position == 0) {
+                    TextView tv = new TextView(getContext());
+                    tv.setHeight(0);
+                    tv.setVisibility(View.GONE);
+                    v = tv;
+                }
+                else {
+                    // Pass convertView as null to prevent reuse of special case views
+                    v = super.getDropDownView(position, null, parent);
+                }
+                // Hide scroll bar because it appears sometimes unnecessarily, this does not prevent scrolling
+                parent.setVerticalScrollBarEnabled(false);
+                return v;
             }
-        }
-        ArrayAdapter<String> adapterMaster = new ArrayAdapter<String>(mContext, android.R.layout.simple_spinner_item, strLeadArray);
+        };
+
         adapterMaster.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerMaster.setAdapter(adapterMaster);
 

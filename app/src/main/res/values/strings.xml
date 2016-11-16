@@ -217,48 +217,10 @@
         <item>60 yrs and above</item>
     </string-array>
 
-//occupation array
-    <string-array name="occupation_array">
-    <item>Select Occupation</item>
-        <item>Salaried</item>
-        <item>Non-Salaried</item>
-    </string-array>
-//Annual Income
-    <string-array name="annual_income_aaray">
-        <item>Select Annual Income</item>
-        <item>0-5,00,000</item>
-        <item>5,00,000-10,00,000</item>
-        <item>10,00,000-25,00,00</item>
-        <item>25,00,000 and above</item>
-    </string-array>
-//broker Array
-    <string-array name="brokers_array">
-        <item>Select Other Brokers Dealt with</item>
-        <item>TOP 20</item>
-        <item>Others</item>
-        <item>None</item>
-    </string-array>
-    //lead status array
-    <string-array name="lead_status_array">
-        <item>Select Lead Status</item>
-        <item>Hot</item>
-        <item>Warm</item>
-        <item>Cold</item>
-        <item>Not Intersted</item>
-        <item>Wrong Contact Details</item>
-        <item>Lost</item>
-        <item>Lost to Competitor</item>
-        <item>Research Servicing</item>
-        <item>On-boarding</item>
-    </string-array>
-//Duration array
-    <string-array name="duration_array">
-        <item>Select Duration</item>
-        <item>1 month</item>
-        <item>3 month</item>
-        <item>6 month</item>
-        <item>Others</item>
-    </string-array>
+
+
+
+
 
    <!-- coumn name in tabele M_category-->
     <string name="column_M_id">id</string>

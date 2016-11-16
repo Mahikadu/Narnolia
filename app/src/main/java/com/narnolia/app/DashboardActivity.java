@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -47,7 +48,7 @@ public class DashboardActivity extends AbstractActivity {
     private List<LeadInfoModel> leadInfoModelList;
     private DatePickerDialog datePickerDialog;  //date picker declare
     private SimpleDateFormat dateFormatter;
-    private List<String> spinLeadStatusArray = new ArrayList<String>();
+    String spinLeadStatusArray[]={"Select Lead Status","Hot","Warm","Cold","Not Intersted","Wrong Contact Details","Lost","Lost to Competitor","Research Servicing","On-boarding"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -303,12 +304,30 @@ public class DashboardActivity extends AbstractActivity {
         final AlertDialog showMaster1 = DialogMaster.show();
         Spinner spinner_lead_status=(Spinner)showMaster1.findViewById(R.id.spin_lead_status_dilog);
 
-        spinLeadStatusArray.addAll(Arrays.asList(getResources().getStringArray(R.array.lead_status_array)));
-        if (spinLeadStatusArray!=null&&spinLeadStatusArray.size()>0) {
-            ArrayAdapter<String> adapter= new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, spinLeadStatusArray);
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            spinner_lead_status.setAdapter(adapter);
-        }
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, spinLeadStatusArray) {
+            @Override
+            public View getDropDownView(int position, View convertView, ViewGroup parent)
+            {
+                View v = null;
+                // If this is the initial dummy entry, make it hidden
+                if (position == 0) {
+                    TextView tv = new TextView(getContext());
+                    tv.setHeight(0);
+                    tv.setVisibility(View.GONE);
+                    v = tv;
+                }
+                else {
+                    // Pass convertView as null to prevent reuse of special case views
+                    v = super.getDropDownView(position, null, parent);
+                }
+                // Hide scroll bar because it appears sometimes unnecessarily, this does not prevent scrolling
+                parent.setVerticalScrollBarEnabled(false);
+                return v;
+            }
+        };
+
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_lead_status.setAdapter(adapter);
 
         Button btnDismissMaster = (Button) showMaster1.findViewById(R.id.iv_close);
         btnDismissMaster.setOnClickListener(new Button.OnClickListener() {

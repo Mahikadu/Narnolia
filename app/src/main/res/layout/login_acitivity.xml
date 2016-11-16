@@ -17,7 +17,7 @@
     <LinearLayout
         android:id="@+id/login_layout"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="340dp"
         android:orientation="vertical"
         android:background="@color/colorWhite"
         android:layout_marginLeft="30dp"

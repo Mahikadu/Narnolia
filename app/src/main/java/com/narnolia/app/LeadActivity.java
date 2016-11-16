@@ -460,9 +460,29 @@ public class LeadActivity extends AbstractActivity {
                 }
             }
             if (spinSourceLeadList != null && spinSourceLeadList.size() > 0) {
-                ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(mContext, android.R.layout.simple_spinner_item, strLeadArray);
-                adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, strLeadArray) {
+                    @Override
+                    public View getDropDownView(int position, View convertView, ViewGroup parent)
+                    {
+                        View v = null;
+                        // If this is the initial dummy entry, make it hidden
+                        if (position == 0) {
+                            TextView tv = new TextView(getContext());
+                            tv.setHeight(0);
+                            tv.setVisibility(View.GONE);
+                            v = tv;
+                        }
+                        else {
+                            // Pass convertView as null to prevent reuse of special case views
+                            v = super.getDropDownView(position, null, parent);
+                        }
+                        // Hide scroll bar because it appears sometimes unnecessarily, this does not prevent scrolling
+                        parent.setVerticalScrollBarEnabled(false);
+                        return v;
+                    }
+                };
 
+                adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spinner_source_of_lead.setAdapter(adapter1);
             }
         } catch (Exception e) {
@@ -496,9 +516,29 @@ public class LeadActivity extends AbstractActivity {
             }
 
             if (spinSubSourceLeadList != null && spinSubSourceLeadList.size() > 0) {
-                ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(mContext, android.R.layout.simple_spinner_item, strSubLeadArray);
-                adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, strSubLeadArray) {
+                    @Override
+                    public View getDropDownView(int position, View convertView, ViewGroup parent)
+                    {
+                        View v = null;
+                        // If this is the initial dummy entry, make it hidden
+                        if (position == 0) {
+                            TextView tv = new TextView(getContext());
+                            tv.setHeight(0);
+                            tv.setVisibility(View.GONE);
+                            v = tv;
+                        }
+                        else {
+                            // Pass convertView as null to prevent reuse of special case views
+                            v = super.getDropDownView(position, null, parent);
+                        }
+                        // Hide scroll bar because it appears sometimes unnecessarily, this does not prevent scrolling
+                        parent.setVerticalScrollBarEnabled(false);
+                        return v;
+                    }
+                };
 
+                adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spinner_sub_source.setAdapter(adapter1);
             }
 
