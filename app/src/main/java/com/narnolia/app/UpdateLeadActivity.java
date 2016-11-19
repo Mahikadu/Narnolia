@@ -3,6 +3,8 @@ package com.narnolia.app;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.os.AsyncTask;
@@ -32,6 +34,9 @@ import android.widget.Toast;
 import com.narnolia.app.dbconfig.DbHelper;
 import com.narnolia.app.libs.Utils;
 import com.narnolia.app.model.LeadInfoModel;
+import com.narnolia.app.network.SOAPWebService;
+
+import org.ksoap2.serialization.SoapPrimitive;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -56,10 +61,21 @@ public class UpdateLeadActivity extends AbstractActivity {
     private List<String> spinCityArray;
     private ArrayAdapter<String> adapter9;
     private ProgressDialog progressDialog;
-
+    private String responseId;
+    public Utils utils;
+    //..................................................................
+    private String strLeadId,strCustomerID,strAge,
+            strAddr1, strAddr2, strAddr3, strEmail, strIncome,
+            strCreatedfrom, strAppVersion, strAppdt, strFlag, strAllocated_userid, strBrokerDelts,
+            strMeetingStatus, strLeadStatus, strCompitator_Name, strProduct, strRemark,
+            strDuration, strPanNo, strB_Margin, strB_aum, strB_sip, strB_number, strB_value, strB_premium,strEmpCode, strReason,
+            strMeetingdt, strMeetingAgenda, strLead_Updatelog, strCreatedby, strCreateddt, strUpdateddt, strUpdatedby
+            ,strBusiness_opp,strLastMeetingDate,strLastMeetingUpdate;
+    //.......................................................................
     EditText fname,mname,lname, mobileno, email, date_of_birth, address, flat, street, location,next_metting_date, metting_agenda, lead_update_log,reason,
             margin,aum,sip,number,value,premium,remark,compitator,product;
     AutoCompleteTextView editCity,autoPincode;
+    String lead_id_info,leadId;
     Spinner spinner_lead_name, spinner_source_of_lead, spinner_sub_source, spinner_age_group,
             spinner_occupation, spinner_annual_income, spinner_other_broker,spinner_lead_status,spinner_research_type,spinner_duration,spinner_opprtunity_pitched;
     TextView tv_lead_name, tv_source_of_lead, tv_sub_source, tv_fname,tv_mname,tv_lname, tv_mobile_no, tv_email,
@@ -70,7 +86,7 @@ public class UpdateLeadActivity extends AbstractActivity {
     LinearLayout connect,notconnect,linear_non_salaried,linear_remark,linear_competitor,linear_research,linear_lead_details_hidden;
     //.........Edit Text Strings
     String str_fname,str_mname,str_lname,str_mobile_no,str_email,str_date_of_birth,str_address,str_flat,str_street,str_laocion,str_city,
-            str_pincode,str_next_meeting_date,str_metting_agenda,str_lead_update_log;
+            str_pincode,str_next_meeting_date,str_metting_agenda,str_lead_update_log,str_reason;
     //........Spineer Strings
     String str_spinner_lead_name, str_spinner_source_of_lead, str_spinner_sub_source, str_spinner_age_group,
             str_spinner_occupation,str_spinner_annual_income, str_spinner_other_broker,str_spinner_lead_status,str_spinner_research_type,str_spinner_duration;
@@ -95,20 +111,25 @@ public class UpdateLeadActivity extends AbstractActivity {
     private SharedPref sharedPref;
     private TextView admin;
 
-    private String LeadId;
-    int directLeadId;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lead_update);
 
+        leadInfoModelList = new ArrayList<LeadInfoModel>();
+        spinLeadNameList = new ArrayList<>();
+
+        fetchDataOfLeadDetails();
+
         sharedPref = new SharedPref(UpdateLeadActivity.this);
         empcode = sharedPref.getLoginId();
         spinPincodeArray = new HashMap<>();
         spinCityArray = new ArrayList<>();
+
         initView();
+
+
 
     }
     private void hide_keyboard(Context context, View view) {
@@ -120,7 +141,7 @@ public class UpdateLeadActivity extends AbstractActivity {
 
         try {
             mContext = UpdateLeadActivity.this;
-
+            utils = new Utils(mContext);
             admin = (TextView) findViewById(R.id.admin);
             admin.setText(empcode);
 
@@ -156,7 +177,6 @@ public class UpdateLeadActivity extends AbstractActivity {
             remark=(EditText)findViewById(R.id.edt_remark);
             compitator=(EditText)findViewById(R.id.edt_competitor);
             product=(EditText)findViewById(R.id.edt_product);
-
 
 
             new LoadCityData().execute();//........................................Load city data
@@ -209,47 +229,9 @@ public class UpdateLeadActivity extends AbstractActivity {
                 }
             });
 
-            leadInfoModelList = new ArrayList<>();
-            spinLeadNameList = new ArrayList<>();
-            try {
-                // WHERE clause
-                //String where = " where last_sync = '0'";
-                Cursor cursor = Narnolia.dbCon.getAllDataFromTable(DbHelper.TABLE_DIRECT_LEAD);
-                if (cursor != null && cursor.getCount() > 0) {
-                    cursor.moveToFirst();
-                    do {
-                        leadInfoModel = createLeadInfoModel(cursor);
-                        leadInfoModelList.add(leadInfoModel);
 
-                    } while (cursor.moveToNext());
-                    cursor.close();
 
-                }else {
-                    Toast.makeText(mContext, "No data found..!",Toast.LENGTH_SHORT).show();
-                }
 
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            if(leadInfoModelList.size()>0) {
-
-                for(int i = 0; i<leadInfoModelList.size(); i++) {
-                    leadInfoModel = leadInfoModelList.get(i);
-                    String firstname = leadInfoModel.getFirstname();
-                    String middlename = leadInfoModel.getMiddlename();
-                    String lastname = leadInfoModel.getLastname();
-                    String lead_id_info = leadInfoModel.getLead_id();
-                    fullname = firstname + " " + middlename + " " + lastname + " " + "(" + lead_id_info + ")";
-                    Collections.sort(spinLeadNameList);
-                    spinLeadNameList.add(fullname);
-                }
-
-                strLeadNameArray = new String[spinLeadNameList.size() + 1];
-                strLeadNameArray[0] = "Select Lead Name";
-                for (int i = 0; i < spinLeadNameList.size(); i++) {
-                    strLeadNameArray[i + 1] = spinLeadNameList.get(i);
-                }
-            }
 
             //.............TextView Ref
             tv_lead_name = (TextView) findViewById(R.id.txt_lead_name);
@@ -324,7 +306,7 @@ public class UpdateLeadActivity extends AbstractActivity {
                         if ( strLeadNameArray != null && strLeadNameArray.length > 0){
                             String leadData = spinner_lead_name.getSelectedItem().toString();
                             String [] strLead = leadData.split("\\(");
-                            String leadId = strLead[1].substring(0,strLead[1].length()-1);
+                            leadId = strLead[1].substring(0,strLead[1].length()-1);
 
                             try {
                                 // WHERE clause
@@ -591,6 +573,10 @@ public class UpdateLeadActivity extends AbstractActivity {
             rb_contact = (RadioButton) findViewById(R.id.rb_contact);
             rb_not_contact = (RadioButton) findViewById(R.id.rb_not_contact);
 
+
+
+
+
             //................Button ........
             bt_update_lead = (Button) findViewById(R.id.btn_update);
             bt_close_lead = (Button) findViewById(R.id.btn_close);
@@ -599,6 +585,8 @@ public class UpdateLeadActivity extends AbstractActivity {
                 @Override
                 public void onClick(View view) {
                     validateDetails();
+
+
                 }
             });
             try {
@@ -615,7 +603,7 @@ public class UpdateLeadActivity extends AbstractActivity {
 
                     }
                 }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
-
+                datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
                 date_of_birth.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -632,7 +620,7 @@ public class UpdateLeadActivity extends AbstractActivity {
                         next_metting_date.setText(dateFormatter.format(newDate.getTime()));
                     }
                 }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
-
+                datePickerDialog1.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
                 next_metting_date.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -643,6 +631,9 @@ public class UpdateLeadActivity extends AbstractActivity {
                     @Override
                     public void onCheckedChanged(RadioGroup group, int checkedId) {
                         View radiobutton = group.findViewById(checkedId);
+
+                        RadioButton rb = (RadioButton) rg_meeting_status.findViewById(checkedId);
+                        str_rg_meeting_status = rb.getText().toString();
                         int index = group.indexOfChild(radiobutton);
                         if (index == 0) {
                             connect.setVisibility(View.VISIBLE);
@@ -659,6 +650,56 @@ public class UpdateLeadActivity extends AbstractActivity {
                 e.printStackTrace();
             }
         } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void  fetchDataOfLeadDetails(){
+        try {
+            // WHERE clause
+            //String where = " where last_sync = '0'";
+            Cursor cursor = Narnolia.dbCon.getAllDataFromTable(DbHelper.TABLE_DIRECT_LEAD);
+            if (cursor != null && cursor.getCount() > 0) {
+                cursor.moveToFirst();
+                do {
+                    leadInfoModel = createLeadInfoModel(cursor);
+                    leadInfoModelList.add(leadInfoModel);
+
+                } while (cursor.moveToNext());
+                cursor.close();
+
+            }else {
+                Toast.makeText(mContext, "No data found..!",Toast.LENGTH_SHORT).show();
+            }
+            setLeadDetailValue();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void setLeadDetailValue(){
+        try{
+            if(leadInfoModelList.size()>0) {
+
+                for(int i = 0; i<leadInfoModelList.size(); i++) {
+                    final LeadInfoModel leadInfoModel = leadInfoModelList.get(i);
+                    str_fname = leadInfoModel.getFirstname();
+                    str_mname = leadInfoModel.getMiddlename();
+                    str_lname = leadInfoModel.getLastname();
+                    lead_id_info = leadInfoModel.getLead_id();
+                    fullname = str_fname + " " + str_mname + " " + str_lname + " " + "(" + lead_id_info + ")";
+                    Collections.sort(spinLeadNameList);
+                    spinLeadNameList.add(fullname);
+                }
+
+                strLeadNameArray = new String[spinLeadNameList.size() + 1];
+                strLeadNameArray[0] = "Select Lead Name";
+                for (int i = 0; i < spinLeadNameList.size(); i++) {
+                    strLeadNameArray[i + 1] = spinLeadNameList.get(i);
+                }
+            }
+        }catch (Exception e){
             e.printStackTrace();
         }
     }
@@ -757,19 +798,53 @@ public class UpdateLeadActivity extends AbstractActivity {
     //...............validatations.....
     private void validateDetails(){
         try {
-            String str_fname,str_mname,str_lname,str_mob,str_city,str_pincode;
+
             mobileno.setError(null);
             editCity.setError(null);
             autoPincode.setError(null);
             fname.setError(null);
-            mname.setError(null);
             lname.setError(null);
             str_fname=fname.getText().toString().trim();
-            str_mname=mname.getText().toString().trim();
             str_lname=lname.getText().toString().trim();
-            str_mob=mobileno.getText().toString().trim();
             str_city=editCity.getText().toString().trim();
             str_pincode=autoPincode.getText().toString().trim();
+            //...............on button click refrences........
+            str_mname=mname.getText().toString().trim();
+            str_mobile_no=mobileno.getText().toString().trim();
+            str_email=email.getText().toString().trim();
+            str_date_of_birth=date_of_birth.getText().toString().trim();
+            str_address=address.getText().toString().trim();
+            str_flat=flat.getText().toString().trim();
+            str_street=street.getText().toString().trim();
+            str_laocion=location.getText().toString().trim();
+            str_next_meeting_date=next_metting_date.getText().toString().trim();
+            str_metting_agenda=metting_agenda.getText().toString().trim();
+            str_lead_update_log=lead_update_log.getText().toString().trim();
+            //.......spinner text get Text
+            str_spinner_lead_name=spinner_lead_name.getSelectedItem().toString();
+            str_spinner_source_of_lead=spinner_source_of_lead.getSelectedItem().toString();
+            str_spinner_sub_source=spinner_sub_source.getSelectedItem().toString();
+            str_spinner_age_group=spinner_age_group.getSelectedItem().toString();
+            str_spinner_occupation=spinner_occupation.getSelectedItem().toString();
+            str_spinner_annual_income=spinner_annual_income.getSelectedItem().toString();
+            str_spinner_other_broker=spinner_other_broker.getSelectedItem().toString();
+            str_spinner_lead_status=spinner_lead_status.getSelectedItem().toString();
+         //   str_spinner_research_type=spinner_research_type.getSelectedItem().toString();
+            str_spinner_duration=spinner_duration.getSelectedItem().toString();
+            str_flat=flat.getText().toString().trim();
+            str_street=street.getText().toString().trim();
+            str_reason=reason.getText().toString().trim();
+            strB_Margin=margin.getText().toString().trim();
+            strB_aum=aum.getText().toString().trim();
+            strB_sip=sip.getText().toString().trim();
+            strB_number=number.getText().toString().trim();
+            strB_value=value.getText().toString().trim();
+            strB_premium=premium.getText().toString().trim();
+            strRemark=remark.getText().toString().trim();
+            strCompitator_Name=compitator.getText().toString().trim();
+            strProduct=product.getText().toString().trim();
+
+
 
             View focusView = null;
             if (TextUtils.isEmpty(str_fname)) {
@@ -786,7 +861,7 @@ public class UpdateLeadActivity extends AbstractActivity {
                 focusView.requestFocus();
                 return;
             }
-            if (TextUtils.isEmpty(str_mob)) {
+            if (TextUtils.isEmpty(str_mobile_no)) {
                 mobileno.setError(getString(R.string.reqmob));
                 focusView = mobileno;
                 focusView.requestFocus();
@@ -809,6 +884,13 @@ public class UpdateLeadActivity extends AbstractActivity {
                 focusView=spinner_source_of_lead;
                 focusView.requestFocus();
                 return;
+            }
+            if (isConnectingToInternet()) {
+
+                new UpdateLeadData().execute();
+
+            } else {
+                updateInDb();
             }
 
         } catch (Exception e) {
@@ -1056,46 +1138,6 @@ public class UpdateLeadActivity extends AbstractActivity {
 
     }
 
-    private void updateOrInsertInDb(){
-        //........Edit text get Text
-        str_fname=fname.getText().toString().toString();
-        str_mname=mname.getText().toString().trim();
-        str_lname=lname.getText().toString().trim();
-        str_mobile_no=mobileno.getText().toString().trim();
-        str_email=email.getText().toString().trim();
-        str_date_of_birth=date_of_birth.getText().toString().trim();
-        str_address=address.getText().toString().trim();
-        str_flat=flat.getText().toString().trim();
-        str_street=street.getText().toString().trim();
-        str_laocion=location.getText().toString().trim();
-        str_city=editCity.getText().toString().trim();
-        str_pincode=autoPincode.getText().toString().trim();
-        str_next_meeting_date=next_metting_date.getText().toString().trim();
-        str_metting_agenda=metting_agenda.getText().toString().trim();
-        str_lead_update_log=lead_update_log.getText().toString().trim();
-        //.......spinner text get Text
-
-        str_spinner_lead_name=spinner_lead_name.getSelectedItem().toString();
-        str_spinner_source_of_lead=spinner_source_of_lead.getSelectedItem().toString();
-        str_spinner_sub_source=spinner_sub_source.getSelectedItem().toString();
-        str_spinner_age_group=spinner_age_group.getSelectedItem().toString();
-        str_spinner_occupation=spinner_occupation.getSelectedItem().toString();
-        str_spinner_annual_income=spinner_annual_income.getSelectedItem().toString();
-        str_spinner_other_broker=spinner_other_broker.getSelectedItem().toString();
-        str_spinner_lead_status=spinner_lead_status.getSelectedItem().toString();
-        str_spinner_research_type=spinner_research_type.getSelectedItem().toString();
-        str_spinner_duration=spinner_duration.getSelectedItem().toString();
-
-
-        //......Radio Group get Text
-        rg_meeting_status.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                RadioButton rb = (RadioButton) rg_meeting_status.findViewById(checkedId);
-                str_rg_meeting_status = rb.getText().toString();
-            }
-        });
-    }
 
 
     @Override
@@ -1151,9 +1193,9 @@ public class UpdateLeadActivity extends AbstractActivity {
             leadInfoModel.setDob(cursor.getString(cursor.getColumnIndex("dob")));
             leadInfoModel.setAge(cursor.getString(cursor.getColumnIndex("age")));
             leadInfoModel.setMobile_no(cursor.getString(cursor.getColumnIndex("mobile_no")));
-            leadInfoModel.setAddress1(cursor.getString(cursor.getColumnIndex("address1")));
-            leadInfoModel.setAddress2(cursor.getString(cursor.getColumnIndex("address2")));
-            leadInfoModel.setAddress3(cursor.getString(cursor.getColumnIndex("address3")));
+            leadInfoModel.setAddress1(cursor.getString(cursor.getColumnIndex("address_1")));
+            leadInfoModel.setAddress2(cursor.getString(cursor.getColumnIndex("address_2")));
+            leadInfoModel.setAddress3(cursor.getString(cursor.getColumnIndex("address_3")));
             leadInfoModel.setLocation(cursor.getString(cursor.getColumnIndex("location")));
             leadInfoModel.setCity(cursor.getString(cursor.getColumnIndex("city")));
             leadInfoModel.setPincode(cursor.getString(cursor.getColumnIndex("pincode")));
@@ -1287,4 +1329,121 @@ public class UpdateLeadActivity extends AbstractActivity {
 
 
     }
+    private void updateInDb() {
+
+        try {
+            int directLeadId;
+//            lead_id_info = "";
+            String strLastSync = "0";
+            String strStages = "Lead Updated";
+            String strFlag = "U";
+
+            directLeadId = leadInfoModel.getDirect_lead_id();
+
+            // WHERE   clause
+            String selection = "lead_id" + " = ?";
+
+            // WHERE clause arguments
+            String[] selectionArgs = {leadId};
+
+            // for now strcurrency becomes blank as " "; please change it later
+            String valuesArray[] = { "" + directLeadId,leadId,strStages, str_spinner_source_of_lead, str_spinner_sub_source, strCustomerID, str_fname, str_mname, str_lname,
+                    str_date_of_birth, strAge, str_mobile_no, strAddr1, strAddr2, strAddr3, str_laocion, str_city, str_pincode, strEmail, strIncome,
+                    str_spinner_occupation, strCreatedfrom, strAppVersion, strAppdt, strFlag, strAllocated_userid, strBrokerDelts,
+                    strMeetingStatus, strLeadStatus, strCompitator_Name, strProduct, strRemark, str_spinner_research_type,
+                    strDuration, strPanNo, strB_Margin, strB_aum, strB_sip, strB_number, strB_value, strB_premium, strReason,
+                    strMeetingdt, strMeetingAgenda, strLead_Updatelog, strCreatedby, strCreateddt, strUpdateddt, strUpdatedby,
+                    strBusiness_opp};
+
+
+            boolean result = Narnolia.dbCon.update(DbHelper.TABLE_DIRECT_LEAD, selection, valuesArray, utils.columnNamesLeadUpdate, selectionArgs);
+
+
+            if (result) {
+
+                displayMessage("Insert Data Succesfully");
+
+                pushActivity(mContext, HomeActivity.class, null, true);
+            }
+
+        } catch (
+                Exception e
+                )
+
+        {
+            e.printStackTrace();
+        }
+    }
+    //............................................................................................
+    public class UpdateLeadData extends AsyncTask<String, Void, SoapPrimitive> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            try {
+                if (progressDialog != null && !progressDialog.isShowing()) {
+                    progressDialog.show();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        protected SoapPrimitive doInBackground(String... params) {
+
+            PackageManager manager = mContext.getPackageManager();
+            String versionName = "";
+            try {
+                PackageInfo info = manager.getPackageInfo(mContext.getPackageName(), 0);
+                String packageName = info.packageName;
+                int versionCode = info.versionCode;
+                versionName = info.versionName;
+              /*  status = params[0];
+                stages = params[1];
+                stagesTobeSend = params[1];
+                if (isUpdate && leadInfoModel != null && LeadId.contains(String.valueOf(leadInfoModel.getDirect_lead_id()))) {
+                    stagesTobeSend = mContext.getString(R.string.text_lead_created);
+                } else {
+
+                }*/
+            } catch (Exception e) {
+                // TODO Auto-generated catch block
+            }
+            // strOccupation  = 1 and strDesignation = 1  also currency = "" these are hardcoded values we need to change when we get master data
+            SOAPWebService webService = new SOAPWebService(mContext);
+            String stages = "Lead Updated";
+            String flag = "U";
+
+            SoapPrimitive object = webService.UpdateLead(leadId,str_spinner_source_of_lead, str_spinner_sub_source, "", str_fname, str_mname, str_lname, str_mobile_no,
+                    str_email, strAge, str_date_of_birth,str_address, "", "",str_laocion ,str_city,str_pincode,str_spinner_occupation,strIncome,str_spinner_other_broker,str_rg_meeting_status,str_spinner_lead_status,strRemark,strCompitator_Name,strProduct,
+                    "",str_spinner_duration,"","",strB_Margin,strB_aum,strB_sip,strB_number
+                    ,strB_value,strB_premium,str_next_meeting_date,str_metting_agenda,str_lead_update_log,flag,"","","","","1","","","");
+
+            return object;
+
+        }
+        @Override
+        protected void onPostExecute(SoapPrimitive soapObject) {
+            super.onPostExecute(soapObject);
+            try {
+                if (progressDialog != null && progressDialog.isShowing()) {
+                    progressDialog.dismiss();
+                }
+                responseId = String.valueOf(soapObject);
+                if (responseId.contains("ERROR") || responseId.contains("null")) {
+                    Toast.makeText(mContext, "Please check Internet Connection", Toast.LENGTH_LONG).show();
+                } else {
+                    displayMessage("Lead Updated Successfully");
+                    updateInDb();
+
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
+    }
 }
+
