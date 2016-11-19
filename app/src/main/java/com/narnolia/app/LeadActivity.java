@@ -562,7 +562,7 @@ public class LeadActivity extends AbstractActivity {
             str_mname = mname.getText().toString().trim();
             str_lname = lname.getText().toString().trim();
             str_mob = mobileno.getText().toString().trim();
-            str_city = editCity.getText().toString().trim();
+            str_city = editCity.getText().toString();
             str_pincode = autoPincode.getText().toString().trim();
             strlocation = location.getText().toString().trim();
 
@@ -865,14 +865,7 @@ public class LeadActivity extends AbstractActivity {
                 String packageName = info.packageName;
                 int versionCode = info.versionCode;
                 versionName = info.versionName;
-              /*  status = params[0];
-                stages = params[1];
-                stagesTobeSend = params[1];
-                if (isUpdate && leadInfoModel != null && LeadId.contains(String.valueOf(leadInfoModel.getDirect_lead_id()))) {
-                    stagesTobeSend = mContext.getString(R.string.text_lead_created);
-                } else {
 
-                }*/
             } catch (Exception e) {
                 // TODO Auto-generated catch block
             }
@@ -882,7 +875,7 @@ public class LeadActivity extends AbstractActivity {
             String flag = "C";
 
             SoapPrimitive object = webService.SaveLead(strSourceofLead, strSubSourceofLead, "", str_fname, str_mname, str_lname, str_mob,
-                    strlocation, str_city, str_pincode, "1",stages, "", "", "", flag, "");
+                    strlocation, str_city, str_pincode,"1",stages, "", "", "", flag, "");
 
             return object;
 

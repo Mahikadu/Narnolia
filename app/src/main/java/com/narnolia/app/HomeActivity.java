@@ -422,9 +422,9 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
             leadInfoModel.setDob(cursor.getString(cursor.getColumnIndex("dob")));
             leadInfoModel.setAge(cursor.getString(cursor.getColumnIndex("age")));
             leadInfoModel.setMobile_no(cursor.getString(cursor.getColumnIndex("mobile_no")));
-            leadInfoModel.setAddress1(cursor.getString(cursor.getColumnIndex("address1")));
-            leadInfoModel.setAddress2(cursor.getString(cursor.getColumnIndex("address2")));
-            leadInfoModel.setAddress3(cursor.getString(cursor.getColumnIndex("address3")));
+            leadInfoModel.setAddress1(cursor.getString(cursor.getColumnIndex("address_1")));
+            leadInfoModel.setAddress2(cursor.getString(cursor.getColumnIndex("address_2")));
+            leadInfoModel.setAddress3(cursor.getString(cursor.getColumnIndex("address_3")));
             leadInfoModel.setLocation(cursor.getString(cursor.getColumnIndex("location")));
             leadInfoModel.setCity(cursor.getString(cursor.getColumnIndex("city")));
             leadInfoModel.setPincode(cursor.getString(cursor.getColumnIndex("pincode")));
