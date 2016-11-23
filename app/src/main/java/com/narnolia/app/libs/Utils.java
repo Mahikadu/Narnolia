@@ -64,7 +64,7 @@ public class Utils {
 
         columnNamesLead = Arrays.copyOf(leadArray, leadArray.length);
 
-        String[] leadArray1 = {mContext.getString(R.string.column_lead_id),
+        String[] updateLeadArray = {mContext.getString(R.string.column_lead_id),
                 mContext.getString(R.string.column_stages),
                 mContext.getString(R.string.column_source_of_lead),
                 mContext.getString(R.string.column_sub_source), mContext.getString(R.string.column_customer_id),
@@ -92,7 +92,7 @@ public class Utils {
                 mContext.getString(R.string.column_created_dt), mContext.getString(R.string.column_updated_dt),
                 mContext.getString(R.string.column_updated_by), mContext.getString(R.string.column_business_opportunity)};
 
-        columnNamesLeadUpdate = Arrays.copyOf(leadArray, leadArray1.length);
+        columnNamesLeadUpdate = Arrays.copyOf(leadArray, updateLeadArray.length);
 
     }
 

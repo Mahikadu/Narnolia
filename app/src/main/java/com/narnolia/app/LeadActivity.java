@@ -63,7 +63,7 @@ public class LeadActivity extends AbstractActivity {
     private Context mContext;
     protected Utils utils;
     private ProgressDialog progressDialog;
-    EditText fname, mname, lname, mobileno, location;
+    EditText fname, mname, lname, mobileno, location,customer_id;
     private AutoCompleteTextView editCity, autoPincode;
     private Map<String, List<String>> spinPincodeArray;
     private List<String> spinCityArray;
@@ -95,7 +95,7 @@ public class LeadActivity extends AbstractActivity {
     private SharedPref sharedPref;
     private TextView admin;
 
-    private LinearLayout productLayout,customer_id;
+    private LinearLayout productLayout,linear_customer_id;
     private  CheckBox checkbox;
     public ProductDetailsModel productDetailsModel;
     private CategoryDetailsModel categoryDetailsModel;
@@ -145,12 +145,13 @@ public class LeadActivity extends AbstractActivity {
             lname = (EditText) findViewById(R.id.edt1_lname);
             mobileno = (EditText) findViewById(R.id.edt1_mobile_no);
             location = (EditText) findViewById(R.id.edt1_location);
+            customer_id=(EditText)findViewById(R.id.edt1_cust_id);
 
             //................Auto Complete Text View......
             editCity=(AutoCompleteTextView)findViewById(R.id.edt1_city);
             autoPincode=(AutoCompleteTextView) findViewById(R.id.edt1_pincode);
             //..............linear layout...........
-            customer_id=(LinearLayout)findViewById(R.id.linear1_cust_id);
+            linear_customer_id=(LinearLayout)findViewById(R.id.linear1_cust_id);
 
             //..............Text View.....
             tv_source_of_lead = (TextView) findViewById(R.id.txt1_source_of_lead);
@@ -195,15 +196,15 @@ public class LeadActivity extends AbstractActivity {
                     if (strLeadArray != null && strLeadArray.length > 0) {
                         strSourceofLead = spinner_source_of_lead.getSelectedItem().toString();
 //                        fetchDistrCodeBranchName(strServiceBranchCode);
-                        String occuString;
-                        occuString = parent.getItemAtPosition(position).toString();
-                        if (occuString != null) {
-                            if (occuString.equalsIgnoreCase("Client Reference")) {
+                        String sourceString;
+                        sourceString = parent.getItemAtPosition(position).toString();
+                        if (sourceString != null) {
+                            if (sourceString.equalsIgnoreCase("Client Reference")) {
 
-                                customer_id.setVisibility(View.VISIBLE);
+                                linear_customer_id.setVisibility(View.VISIBLE);
 
                             } else {
-                                customer_id.setVisibility(View.GONE);
+                                linear_customer_id.setVisibility(View.GONE);
                             }
                         }
                     }
@@ -564,6 +565,7 @@ public class LeadActivity extends AbstractActivity {
             str_city = editCity.getText().toString();
             str_pincode = autoPincode.getText().toString().trim();
             strlocation = location.getText().toString().trim();
+            strCustomerID=customer_id.getText().toString().trim();
 
             View focusView = null;
             if (TextUtils.isEmpty(str_fname)) {
@@ -873,7 +875,7 @@ public class LeadActivity extends AbstractActivity {
             String stages = "Lead Created";
             String flag = "C";
 
-            SoapPrimitive object = webService.SaveLead(strSourceofLead, strSubSourceofLead, "", str_fname, str_mname, str_lname, str_mob,
+            SoapPrimitive object = webService.SaveLead(strSourceofLead, strSubSourceofLead,strCustomerID, str_fname, str_mname, str_lname, str_mob,
                     strlocation, str_city, str_pincode,"1",stages, "", "", "", flag, "");
 
             return object;

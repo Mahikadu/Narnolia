@@ -63,8 +63,9 @@ public class UpdateLeadActivity extends AbstractActivity {
     private ProgressDialog progressDialog;
     private String responseId;
     public Utils utils;
+
     //..................................................................
-    private String strLeadId,strCustomerID,strAge,
+    private String strLeadId,strAge,
             strAddr1, strAddr2, strAddr3, strEmail, strIncome,
             strCreatedfrom, strAppVersion, strAppdt, strFlag, strAllocated_userid, strBrokerDelts,
             strMeetingStatus, strLeadStatus, strCompitator_Name, strProduct, strRemark,
@@ -72,8 +73,8 @@ public class UpdateLeadActivity extends AbstractActivity {
             strMeetingdt, strMeetingAgenda, strLead_Updatelog, strCreatedby, strCreateddt, strUpdateddt, strUpdatedby
             ,strBusiness_opp,strLastMeetingDate,strLastMeetingUpdate;
     //.......................................................................
-    EditText fname,mname,lname, mobileno, email, date_of_birth, address, flat, street, location,next_metting_date, metting_agenda, lead_update_log,reason,
-            margin,aum,sip,number,value,premium,remark,compitator,product;
+    EditText customer_id,fname,mname,lname, mobileno, email, date_of_birth, address, flat, street, location,next_metting_date, metting_agenda, lead_update_log,reason,
+            margin,aum,sip,number,value,premium,remark,compitator,product,last_meeting_dt,last_meeting_update;
     AutoCompleteTextView editCity,autoPincode;
     String lead_id_info,leadId;
     Spinner spinner_lead_name, spinner_source_of_lead, spinner_sub_source, spinner_age_group,
@@ -83,9 +84,9 @@ public class UpdateLeadActivity extends AbstractActivity {
             tv_occupation, tv_annual_income, tv_other_broker, tv_meeting_status, tv_meeting_agenda, tv_lead_update_log,tv_lead_status;
     RadioGroup rg_meeting_status;
     RadioButton rb_contact, rb_not_contact;
-    LinearLayout connect,notconnect,linear_non_salaried,linear_remark,linear_competitor,linear_research,linear_lead_details_hidden;
+    LinearLayout connect,notconnect,linear_non_salaried,linear_remark,linear_competitor,linear_research,linear_lead_details_hidden,linear_customer_id;
     //.........Edit Text Strings
-    String str_fname,str_mname,str_lname,str_mobile_no,str_email,str_date_of_birth,str_address,str_flat,str_street,str_laocion,str_city,
+    String str_cust_id,str_fname,str_mname,str_lname,str_mobile_no,str_email,str_date_of_birth,str_address,str_flat,str_street,str_laocion,str_city,
             str_pincode,str_next_meeting_date,str_metting_agenda,str_lead_update_log,str_reason;
     //........Spineer Strings
     String str_spinner_lead_name, str_spinner_source_of_lead, str_spinner_sub_source, str_spinner_age_group,
@@ -93,7 +94,7 @@ public class UpdateLeadActivity extends AbstractActivity {
     //......Radio Group String
     String str_rg_meeting_status;
     Button bt_update_lead, bt_close_lead;
-    private DatePickerDialog datePickerDialog,datePickerDialog1;   //date picker declare
+    private DatePickerDialog datePickerDialog,datePickerDialog1,datePickerDialog2;   //date picker declare
     private SimpleDateFormat dateFormatter;      //date format declare
     private List<String> spinAgeGroupArray = new ArrayList<String>(); //age group array
     String spinOccupationArray[] = {"Select Occupation","Salaried", "Non-Salaried"};//Occupation array
@@ -104,8 +105,14 @@ public class UpdateLeadActivity extends AbstractActivity {
     private List<String> spinSourceLeadList;
     private List<String> spinSubSourceLeadList;
     private List<String> spinLeadNameList;
+    private List<String> spinOccupationList=new ArrayList<String>(Arrays.asList(spinOccupationArray));
+    private List<String>spinAnnualIncomeList=new ArrayList<String>(Arrays.asList(spinAnnualInacomeArray));
+    private List<String>spinOtherBrokerList=new ArrayList<String>(Arrays.asList(spinOtherBrokersArray));
+    private List<String>spinDurationList=new ArrayList<String>(Arrays.asList(spinDurationArray));
+    private List<String>spinLeadStatusList=new ArrayList<String>(Arrays.asList(spinLeadStatusArray));
     String[] strLeadArray = null;
     String[] strSubLeadArray = null;
+    String[] strAgeArray=null;
     String[] strLeadNameArray;
     private String empcode,fullname;
     private SharedPref sharedPref;
@@ -152,6 +159,7 @@ public class UpdateLeadActivity extends AbstractActivity {
             editCity = (AutoCompleteTextView) findViewById(R.id.edt_city);
             autoPincode = (AutoCompleteTextView) findViewById(R.id.edt_pincode);
             //............Edit Text Ref
+            customer_id=(EditText)findViewById(R.id.edt_cust_id);
             fname = (EditText) findViewById(R.id.edt_fname);
             mname=(EditText)findViewById(R.id.edt_mname);
             lname=(EditText)findViewById(R.id.edt_lname);
@@ -177,6 +185,9 @@ public class UpdateLeadActivity extends AbstractActivity {
             remark=(EditText)findViewById(R.id.edt_remark);
             compitator=(EditText)findViewById(R.id.edt_competitor);
             product=(EditText)findViewById(R.id.edt_product);
+            last_meeting_dt=(EditText)findViewById(R.id.edt_last_meeting);
+            last_meeting_update=(EditText)findViewById(R.id.edt_meeting_update);
+
 
 
             new LoadCityData().execute();//........................................Load city data
@@ -291,6 +302,7 @@ public class UpdateLeadActivity extends AbstractActivity {
             linear_remark=(LinearLayout)findViewById(R.id.linear_remark);
             linear_competitor=(LinearLayout)findViewById(R.id.linear_competitor);
             linear_research=(LinearLayout)findViewById(R.id.linear_research);
+            linear_customer_id=(LinearLayout)findViewById(R.id.linear_cust_id);
 
             //spinner OnItemSelectedListener
             spinner_lead_name.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -351,8 +363,18 @@ public class UpdateLeadActivity extends AbstractActivity {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                     if ( strLeadArray != null && strLeadArray.length > 0){
-                        String strSourceofLead = spinner_source_of_lead.getSelectedItem().toString();
-//                        fetchDistrCodeBranchName(strServiceBranchCode);
+                        str_spinner_source_of_lead = spinner_source_of_lead.getSelectedItem().toString();
+                        String sourceString;
+                        sourceString = parent.getItemAtPosition(position).toString();
+                        if (sourceString != null) {
+                            if (sourceString.equalsIgnoreCase("Client Reference")) {
+
+                                linear_customer_id.setVisibility(View.VISIBLE);
+
+                            } else {
+                                linear_customer_id.setVisibility(View.GONE);
+                            }
+                        }
                     }
                 }
 
@@ -370,12 +392,12 @@ public class UpdateLeadActivity extends AbstractActivity {
 //                        fetchDistrCodeBranchName(strServiceBranchCode);
                     }
                 }
-
                 @Override
                 public void onNothingSelected(AdapterView<?> parent) {
 
                 }
             });
+
 //.........................spinner occupation item selection
             spinner_occupation.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
@@ -627,12 +649,28 @@ public class UpdateLeadActivity extends AbstractActivity {
                         datePickerDialog1.show();
                     }
                 });
+                datePickerDialog2 = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+
+                    public void onDateSet(DatePicker view, int monthOfYear, int dayOfMonth, int year) {
+                        Calendar newDate = Calendar.getInstance();
+                        newDate.set(monthOfYear, dayOfMonth, year);
+                        last_meeting_dt.setText(dateFormatter.format(newDate.getTime()));
+                    }
+                }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+                last_meeting_dt.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        datePickerDialog2.show();
+                    }
+                });
+
+
                 rg_meeting_status.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(RadioGroup group, int checkedId) {
                         View radiobutton = group.findViewById(checkedId);
 
-                        RadioButton rb = (RadioButton) rg_meeting_status.findViewById(checkedId);
+                        RadioButton rb = (RadioButton) findViewById(checkedId);
                         str_rg_meeting_status = rb.getText().toString();
                         int index = group.indexOfChild(radiobutton);
                         if (index == 0) {
@@ -809,20 +847,19 @@ public class UpdateLeadActivity extends AbstractActivity {
             str_city=editCity.getText().toString().trim();
             str_pincode=autoPincode.getText().toString().trim();
             //...............on button click refrences........
+            str_cust_id=customer_id.getText().toString().trim();
             str_mname=mname.getText().toString().trim();
             str_mobile_no=mobileno.getText().toString().trim();
             str_email=email.getText().toString().trim();
             str_date_of_birth=date_of_birth.getText().toString().trim();
             str_address=address.getText().toString().trim();
             str_flat=flat.getText().toString().trim();
-            str_street=street.getText().toString().trim();
             str_laocion=location.getText().toString().trim();
             str_next_meeting_date=next_metting_date.getText().toString().trim();
             str_metting_agenda=metting_agenda.getText().toString().trim();
             str_lead_update_log=lead_update_log.getText().toString().trim();
             //.......spinner text get Text
             str_spinner_lead_name=spinner_lead_name.getSelectedItem().toString();
-            str_spinner_source_of_lead=spinner_source_of_lead.getSelectedItem().toString();
             str_spinner_sub_source=spinner_sub_source.getSelectedItem().toString();
             str_spinner_age_group=spinner_age_group.getSelectedItem().toString();
             str_spinner_occupation=spinner_occupation.getSelectedItem().toString();
@@ -831,7 +868,7 @@ public class UpdateLeadActivity extends AbstractActivity {
             str_spinner_lead_status=spinner_lead_status.getSelectedItem().toString();
          //   str_spinner_research_type=spinner_research_type.getSelectedItem().toString();
             str_spinner_duration=spinner_duration.getSelectedItem().toString();
-            str_flat=flat.getText().toString().trim();
+
             str_street=street.getText().toString().trim();
             str_reason=reason.getText().toString().trim();
             strB_Margin=margin.getText().toString().trim();
@@ -843,6 +880,9 @@ public class UpdateLeadActivity extends AbstractActivity {
             strRemark=remark.getText().toString().trim();
             strCompitator_Name=compitator.getText().toString().trim();
             strProduct=product.getText().toString().trim();
+            strLastMeetingDate=last_meeting_dt.getText().toString().trim();
+            strLastMeetingUpdate=last_meeting_update.getText().toString().trim();
+
 
 
 
@@ -980,7 +1020,7 @@ public class UpdateLeadActivity extends AbstractActivity {
             }
             //........................Occupation Spinner
 
-            ArrayAdapter<String> adapter3 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, spinOccupationArray) {
+            ArrayAdapter<String> adapter3 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, spinOccupationList) {
                 @Override
                 public View getDropDownView(int position, View convertView, ViewGroup parent)
                 {
@@ -1005,7 +1045,7 @@ public class UpdateLeadActivity extends AbstractActivity {
             adapter3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             spinner_occupation.setAdapter(adapter3);
             //............................Annual Income Spinner
-            ArrayAdapter<String> adapter4 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, spinAnnualInacomeArray) {
+            ArrayAdapter<String> adapter4 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, spinAnnualIncomeList) {
                 @Override
                 public View getDropDownView(int position, View convertView, ViewGroup parent)
                 {
@@ -1030,7 +1070,7 @@ public class UpdateLeadActivity extends AbstractActivity {
             adapter4.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             spinner_annual_income.setAdapter(adapter4);
             //............................Other Brokers Spinner
-            ArrayAdapter<String> adapter5 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, spinOtherBrokersArray) {
+            ArrayAdapter<String> adapter5 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, spinOtherBrokerList) {
                 @Override
                 public View getDropDownView(int position, View convertView, ViewGroup parent)
                 {
@@ -1055,7 +1095,7 @@ public class UpdateLeadActivity extends AbstractActivity {
             adapter5.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             spinner_other_broker.setAdapter(adapter5);
             //.............................Lead Staus Array
-            ArrayAdapter<String> adapter6 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, spinLeadStatusArray) {
+            ArrayAdapter<String> adapter6 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, spinLeadStatusList) {
                 @Override
                 public View getDropDownView(int position, View convertView, ViewGroup parent)
                 {
@@ -1080,7 +1120,7 @@ public class UpdateLeadActivity extends AbstractActivity {
             adapter6.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             spinner_lead_status.setAdapter(adapter6);
             //.........................Duration Array
-            ArrayAdapter<String> adapter7 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, spinDurationArray) {
+            ArrayAdapter<String> adapter7 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, spinDurationList) {
                 @Override
                 public View getDropDownView(int position, View convertView, ViewGroup parent)
                 {
@@ -1155,6 +1195,7 @@ public class UpdateLeadActivity extends AbstractActivity {
         try{
 
             if(leadInfoModel != null){
+                customer_id.setText(leadInfoModel.getCustomerID());
                 fname.setText(leadInfoModel.getFirstname());
                 mname.setText(leadInfoModel.getMiddlename());
                 lname.setText(leadInfoModel.getLastname());
@@ -1163,6 +1204,24 @@ public class UpdateLeadActivity extends AbstractActivity {
                 location.setText(leadInfoModel.getLocation());
                 editCity.setText(leadInfoModel.getCity());
                 autoPincode.setText(leadInfoModel.getPincode());
+                date_of_birth.setText(leadInfoModel.getDob());
+              address.setText(leadInfoModel.getAddress1());
+                flat.setText(leadInfoModel.getAddress2());
+                street.setText(leadInfoModel.getAddress3());
+                margin.setText(leadInfoModel.getB_margin());
+                aum.setText(leadInfoModel.getB_aum());
+                sip.setText(leadInfoModel.getB_sip());
+                number.setText(leadInfoModel.getB_number());
+                value.setText(leadInfoModel.getB_value());
+                premium.setText(leadInfoModel.getB_value());
+                next_metting_date.setText(leadInfoModel.getMeetingdt());
+                metting_agenda.setText(leadInfoModel.getMeetingagenda());
+                lead_update_log.setText(leadInfoModel.getLead_updatelog());
+                reason.setText(leadInfoModel.getReason());
+                remark.setText(leadInfoModel.getRemark());
+                compitator.setText(leadInfoModel.getCompitatorname());
+                product.setText(leadInfoModel.getProduct());
+
 
                 if (leadInfoModel.getSource_of_lead() != null && leadInfoModel.getSource_of_lead().trim().length() > 0) {
                     spinner_source_of_lead.setSelection(spinSourceLeadList.indexOf(leadInfoModel.getSource_of_lead()) + 1);
@@ -1170,6 +1229,31 @@ public class UpdateLeadActivity extends AbstractActivity {
 
                 if (leadInfoModel.getSub_source() != null && leadInfoModel.getSub_source().trim().length() > 0) {
                     spinner_sub_source.setSelection(spinSubSourceLeadList.indexOf(leadInfoModel.getSub_source()) + 1);
+                }
+                if (leadInfoModel.getAge() != null && leadInfoModel.getAge().trim().length() > 0) {
+                    spinner_age_group.setSelection(spinAgeGroupArray.indexOf(leadInfoModel.getAge()));
+                }
+                if (leadInfoModel.getOccupation() != null && leadInfoModel.getOccupation().trim().length() > 0) {
+                    spinner_occupation.setSelection(spinOccupationList.indexOf(leadInfoModel.getOccupation()));
+                }
+                if (leadInfoModel.getAnnual_income() != null && leadInfoModel.getAnnual_income().trim().length() > 0) {
+                    spinner_annual_income.setSelection(spinAnnualIncomeList.indexOf(leadInfoModel.getAnnual_income()));
+                }
+                if (leadInfoModel.getBrokerdetls() != null && leadInfoModel.getBrokerdetls().trim().length() > 0) {
+                    spinner_other_broker.setSelection(spinOtherBrokerList.indexOf(leadInfoModel.getBrokerdetls()));
+                }
+                if (leadInfoModel.getLeadstatus() != null && leadInfoModel.getLeadstatus().trim().length() > 0) {
+                    spinner_lead_status.setSelection(spinLeadStatusList.indexOf(leadInfoModel.getLeadstatus()));
+                }
+                if (leadInfoModel.getDuration() != null && leadInfoModel.getDuration().trim().length() > 0) {
+                    spinner_duration.setSelection(spinDurationList.indexOf(leadInfoModel.getDuration()));
+                }
+
+
+                if (leadInfoModel.getMeetingstatus() != null && leadInfoModel.getMeetingstatus().equalsIgnoreCase("Contacted")) {
+                    rb_contact.setChecked(true);
+                } else if (leadInfoModel.getMeetingstatus() != null && leadInfoModel.getMeetingstatus().equalsIgnoreCase("Not Contacted")) {
+                    rb_not_contact.setChecked(true);
                 }
 
             }
@@ -1187,6 +1271,7 @@ public class UpdateLeadActivity extends AbstractActivity {
             leadInfoModel.setDirect_lead_id(cursor.getInt(cursor.getColumnIndex("direct_lead_id")));
             leadInfoModel.setSource_of_lead(cursor.getString(cursor.getColumnIndex("source_of_lead")));
             leadInfoModel.setSub_source(cursor.getString(cursor.getColumnIndex("sub_source")));
+            leadInfoModel.setCustomerID(cursor.getString(cursor.getColumnIndex("customer_id")));
             leadInfoModel.setFirstname(cursor.getString(cursor.getColumnIndex("fname")));
             leadInfoModel.setMiddlename(cursor.getString(cursor.getColumnIndex("mname")));
             leadInfoModel.setLastname(cursor.getString(cursor.getColumnIndex("lname")));
@@ -1347,12 +1432,12 @@ public class UpdateLeadActivity extends AbstractActivity {
             String[] selectionArgs = {leadId};
 
             // for now strcurrency becomes blank as " "; please change it later
-            String valuesArray[] = { "" + directLeadId,leadId,strStages, str_spinner_source_of_lead, str_spinner_sub_source, strCustomerID, str_fname, str_mname, str_lname,
-                    str_date_of_birth, strAge, str_mobile_no, strAddr1, strAddr2, strAddr3, str_laocion, str_city, str_pincode, strEmail, strIncome,
-                    str_spinner_occupation, strCreatedfrom, strAppVersion, strAppdt, strFlag, strAllocated_userid, strBrokerDelts,
-                    strMeetingStatus, strLeadStatus, strCompitator_Name, strProduct, strRemark, str_spinner_research_type,
-                    strDuration, strPanNo, strB_Margin, strB_aum, strB_sip, strB_number, strB_value, strB_premium, strReason,
-                    strMeetingdt, strMeetingAgenda, strLead_Updatelog, strCreatedby, strCreateddt, strUpdateddt, strUpdatedby,
+            String valuesArray[] = { "" + directLeadId,leadId,strStages, str_spinner_source_of_lead, str_spinner_sub_source, str_cust_id, str_fname, str_mname, str_lname,
+                    str_date_of_birth, str_spinner_age_group, str_mobile_no, str_address, str_flat, str_street, str_laocion, str_city, str_pincode, str_email, str_spinner_annual_income,
+                    str_spinner_occupation, strCreatedfrom, strAppVersion, strAppdt, strFlag, strAllocated_userid, str_spinner_other_broker,
+                    str_rg_meeting_status, str_spinner_lead_status, strCompitator_Name, strProduct, strRemark, str_spinner_research_type,
+                    str_spinner_duration, strPanNo, strB_Margin, strB_aum, strB_sip, strB_number, strB_value, strB_premium, str_reason,
+                    str_next_meeting_date, str_metting_agenda, str_lead_update_log, strCreatedby, strCreateddt, strUpdateddt, strUpdatedby,
                     strBusiness_opp};
 
 
@@ -1415,9 +1500,9 @@ public class UpdateLeadActivity extends AbstractActivity {
             String stages = "Lead Updated";
             String flag = "U";
 
-            SoapPrimitive object = webService.UpdateLead(leadId,str_spinner_source_of_lead, str_spinner_sub_source, "", str_fname, str_mname, str_lname, str_mobile_no,
-                    str_email, strAge, str_date_of_birth,str_address, "", "",str_laocion ,str_city,str_pincode,str_spinner_occupation,strIncome,str_spinner_other_broker,str_rg_meeting_status,str_spinner_lead_status,strRemark,strCompitator_Name,strProduct,
-                    "",str_spinner_duration,"","",strB_Margin,strB_aum,strB_sip,strB_number
+            SoapPrimitive object = webService.UpdateLead(leadId,str_spinner_source_of_lead, str_spinner_sub_source,str_cust_id, str_fname, str_mname, str_lname, str_mobile_no,
+                    str_email, str_spinner_age_group, str_date_of_birth,str_address,str_flat,str_street,str_laocion ,str_city,str_pincode,str_spinner_occupation,str_spinner_annual_income,str_spinner_other_broker,str_rg_meeting_status,str_spinner_lead_status,strRemark,strCompitator_Name,strProduct,
+                    "",str_spinner_duration,"",str_reason,strB_Margin,strB_aum,strB_sip,strB_number
                     ,strB_value,strB_premium,str_next_meeting_date,str_metting_agenda,str_lead_update_log,flag,"","","","","1","","","");
 
             return object;

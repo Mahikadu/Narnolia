@@ -170,6 +170,45 @@
                         android:drawablePadding="@dimen/view_padding" />
                 </LinearLayout>
 
+
+                <LinearLayout
+                    android:id="@+id/linear_cust_id"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="10dp"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/txt_cust_id"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/layout_margin"
+                        android:layout_weight="1"
+                        android:text="@string/cust_id"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@android:color/black" />
+
+                    <EditText
+                        android:id="@+id/edt_cust_id"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/layout_margin"
+                        android:layout_weight="1"
+                        android:background="@drawable/edit_background"
+                        android:drawablePadding="@dimen/view_padding"
+                        android:hint="@string/hintcustid"
+                        android:inputType="text"
+                        android:maxLength="50"
+                        android:padding="@dimen/view_padding"
+                        android:singleLine="true"
+                        android:textColor="@android:color/black" />
+                </LinearLayout>
+
+
+
+
+
                 <LinearLayout
                     android:id="@+id/linear_name"
                     android:layout_width="match_parent"
@@ -810,7 +849,38 @@
                             android:layout_weight="1"
                             android:drawablePadding="@dimen/view_padding" />
                     </LinearLayout>
+                    <LinearLayout
+                        android:id="@+id/linear_remark"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="10dp"
+                        android:visibility="gone">
 
+                        <TextView
+                            android:id="@+id/txt_remark"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/layout_margin"
+                            android:layout_weight="1"
+                            android:text="@string/remark"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textColor="@android:color/black" />
+
+                        <EditText
+                            android:id="@+id/edt_remark"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/layout_margin"
+                            android:layout_weight="1"
+                            android:background="@drawable/edit_background"
+                            android:drawablePadding="@dimen/view_padding"
+                            android:hint="@string/hintremark"
+                            android:maxLength="50"
+                            android:padding="@dimen/view_padding"
+                            android:singleLine="true"
+                            android:textColor="@android:color/black" />
+                    </LinearLayout>
                     <LinearLayout
                         android:id="@+id/opportunity_pitched"
                         android:layout_width="match_parent"
@@ -869,38 +939,7 @@
                     </LinearLayout>
 
 
-                    <LinearLayout
-                        android:id="@+id/linear_remark"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:padding="10dp"
-                        android:visibility="gone">
 
-                        <TextView
-                            android:id="@+id/txt_remark"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/layout_margin"
-                            android:layout_weight="1"
-                            android:text="@string/remark"
-                            android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:textColor="@android:color/black" />
-
-                        <EditText
-                            android:id="@+id/edt_remark"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/layout_margin"
-                            android:layout_weight="1"
-                            android:background="@drawable/edit_background"
-                            android:drawablePadding="@dimen/view_padding"
-                            android:hint="@string/hintremark"
-                            android:maxLength="50"
-                            android:padding="@dimen/view_padding"
-                            android:singleLine="true"
-                            android:textColor="@android:color/black" />
-                    </LinearLayout>
 
                     <LinearLayout
                         android:id="@+id/linear_competitor"
@@ -1034,6 +1073,78 @@
 
 
                 </LinearLayout>
+
+
+
+
+
+                <LinearLayout
+                    android:id="@+id/linear_last_meeting"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:id="@+id/txt_last_meeting"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/layout_margin"
+                        android:layout_weight="1"
+                        android:text="@string/lastmeeting"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@android:color/black" />
+
+                    <EditText
+                        android:id="@+id/edt_last_meeting"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/layout_margin"
+                        android:layout_weight="1"
+                        android:background="@drawable/edit_background"
+                        android:drawablePadding="@dimen/view_padding"
+                        android:maxLength="50"
+                        android:padding="@dimen/view_padding"
+                        android:singleLine="true"
+                        android:textColor="@android:color/black" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linear_meeting_update"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:id="@+id/txt_meeting_update"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/layout_margin"
+                        android:layout_weight="1"
+                        android:text="@string/lastmettingupdate"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@android:color/black" />
+
+                    <EditText
+                        android:id="@+id/edt_meeting_update"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/layout_margin"
+                        android:layout_weight="1"
+                        android:background="@drawable/edit_background"
+                        android:drawablePadding="@dimen/view_padding"
+                        android:inputType="text"
+                        android:maxLength="50"
+                        android:padding="@dimen/view_padding"
+                        android:singleLine="true"
+                        android:textColor="@android:color/black" />
+                </LinearLayout>
+
+
+
+
+
 
 
                 <LinearLayout
