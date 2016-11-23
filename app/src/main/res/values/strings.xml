@@ -193,6 +193,7 @@
     <string name="open">Open</string>
     <string name="welcome">Welcome:</string>
     <string name="submit">Submit</string>
+    <string name="closebtn">Close</string>
     <string name="next_meeting">Next Meeting</string>
     <string name="close">Close the lead</string>
 

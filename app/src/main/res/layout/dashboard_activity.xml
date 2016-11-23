@@ -49,8 +49,8 @@
             android:id="@+id/dash_header"
             android:layout_width="match_parent"
             android:layout_height="@dimen/size_90"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp">
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp">
 
             <include
                 android:id="@+id/layout_header"
@@ -73,8 +73,8 @@
                     android:id="@+id/tableLaout_lead"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
                     android:shrinkColumns="*"
                     android:stretchColumns="*"></TableLayout>
             </ScrollView>

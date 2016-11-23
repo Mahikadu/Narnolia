@@ -1,21 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:id="@+id/linear_next_metting_layout"
         android:layout_width="match_parent"
-        android:layout_height="270dp"
-        android:orientation="vertical"
-        android:background="@drawable/customborder">
+        android:layout_height="280dp"
+        android:background="@drawable/customborder"
+        android:orientation="vertical">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorGray"
-            >
+            android:background="@color/colorGray">
 
 
             <TextView
@@ -26,11 +24,11 @@
                 android:layout_centerVertical="true"
                 android:layout_toLeftOf="@+id/iv_logout"
                 android:layout_toRightOf="@+id/iv_home"
-                android:text="@string/next_meeting"
                 android:gravity="center"
-                android:textColor="@color/coloryellow"
                 android:padding="@dimen/view_padding"
+                android:text="@string/next_meeting"
                 android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@color/coloryellow"
                 android:textStyle="bold" />
 
             <Button
@@ -43,8 +41,8 @@
                 android:background="@android:color/transparent"
                 android:padding="@dimen/view_padding"
                 android:text="x"
-                android:textStyle="bold"
-                android:textColor="@color/colorWhite"/>
+                android:textColor="@color/colorWhite"
+                android:textStyle="bold" />
         </RelativeLayout>
 
 
@@ -112,33 +110,52 @@
         </LinearLayout>
 
 
-
         <LinearLayout
-            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
-            android:background="@color/colorGray">
+            android:background="@color/colorGray"
+            android:orientation="horizontal">
 
         </LinearLayout>
 
 
-        <Button
-            android:id="@+id/btn1_submit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/colorRed"
-            android:text="@string/submit"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:layout_gravity="left"
-            android:layout_marginTop="10dp"
-            android:textColor="@android:color/white" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/btn1_submit"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:background="@color/colorRed"
+                android:layout_toLeftOf="@+id/btn1_close"
+                android:paddingLeft="15dp"
+                android:gravity="center"
+                android:paddingRight="15dp"
+                android:layout_marginRight="20dp"
+                android:text="@string/submit"
+                android:textColor="@android:color/white" />
+
+            <Button
+                android:id="@+id/btn1_close"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="10dp"
+                android:background="@color/colorRed"
+                android:paddingLeft="15dp"
+                android:gravity="center"
+                android:paddingRight="15dp"
+                android:text="@string/closebtn"
+                android:textColor="@android:color/white" />
+
+        </RelativeLayout>
+
 
     </LinearLayout>
-
-
 
 
 </RelativeLayout>

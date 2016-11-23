@@ -23,10 +23,7 @@ import com.narnolia.app.libs.Utils;
 import com.narnolia.app.model.LeadInfoModel;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-
-import static java.security.AccessController.getContext;
 
 public class HomeActivity extends AbstractActivity implements View.OnClickListener {
 
@@ -73,16 +70,16 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
             linear_dashboard = (LinearLayout) findViewById(R.id.linear_dashboard);
             linear_create_lead = (LinearLayout) findViewById(R.id.linear_create_lead);
             linear_update_lead = (LinearLayout) findViewById(R.id.linear_update_lead);
-            linear_master = (LinearLayout) findViewById(R.id.linear_master);
-            linear_setting = (LinearLayout) findViewById(R.id.linear_setting);
+//            linear_master = (LinearLayout) findViewById(R.id.linear_master);
+//            linear_setting = (LinearLayout) findViewById(R.id.linear_setting);
             linear_mis_reports = (LinearLayout) findViewById(R.id.linear_mis_reports);
             linear_notification = (LinearLayout) findViewById(R.id.linear_notification);
 
             linear_dashboard.setOnClickListener(this);
             linear_create_lead.setOnClickListener(this);
             linear_update_lead.setOnClickListener(this);
-            linear_master.setOnClickListener(this);
-            linear_setting.setOnClickListener(this);
+//            linear_master.setOnClickListener(this);
+//            linear_setting.setOnClickListener(this);
             linear_mis_reports.setOnClickListener(this);
             linear_notification.setOnClickListener(this);
 
@@ -150,7 +147,7 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
             case R.id.linear_update_lead:
                 pushActivity(mContext, UpdateLeadActivity.class, null, true);
                 break;
-            case R.id.linear_master:
+          /*  case R.id.linear_master:
 
                 showMasterDialog();
 
@@ -159,10 +156,10 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
 
                 showSettingDialog();
 
-                break;
+                break;*/
             case R.id.linear_mis_reports:
 
-                showReportDialog();
+              //  showReportDialog();
 
             break;
             case R.id.linear_notification:

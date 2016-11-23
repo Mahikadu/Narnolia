@@ -47,7 +47,6 @@ import org.ksoap2.serialization.SoapPrimitive;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -773,7 +772,7 @@ public class LeadActivity extends AbstractActivity {
                     CategoryLinearLayout
                             .setLayoutParams(CategoryLinearLayout_LayoutParams);
 
-                    checkbox = new CheckBox(mContext);
+                     checkbox = new CheckBox(mContext);
                     LinearLayout.LayoutParams childParam2 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                     childParam2.weight = 0.9f;
                     checkbox.setLayoutParams(childParam2);

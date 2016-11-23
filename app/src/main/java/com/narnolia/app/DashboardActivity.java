@@ -10,7 +10,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -28,7 +27,6 @@ import com.narnolia.app.model.LeadInfoModel;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
@@ -289,6 +287,14 @@ public class DashboardActivity extends AbstractActivity {
 
 
         Button btnDismissMaster = (Button) showMaster.findViewById(R.id.iv_close_dial);
+        Button submit = (Button) showMaster.findViewById(R.id.btn1_submit);
+        Button close = (Button) showMaster.findViewById(R.id.btn1_close);
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showMaster.dismiss();
+            }
+        });
         btnDismissMaster.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -330,6 +336,14 @@ public class DashboardActivity extends AbstractActivity {
         spinner_lead_status.setAdapter(adapter);
 
         Button btnDismissMaster = (Button) showMaster1.findViewById(R.id.iv_close);
+        Button submit = (Button) showMaster1.findViewById(R.id.btn1_create_close_lead);
+        Button close = (Button) showMaster1.findViewById(R.id.btn1_closelead);
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showMaster1.dismiss();
+            }
+        });
         btnDismissMaster.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {

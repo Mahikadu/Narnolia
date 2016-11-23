@@ -9,12 +9,12 @@
         android:id="@+id/tvLeadId"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="0.8"
+        android:layout_weight="0.6"
         android:background="@drawable/table_row_item"
         android:gravity="center"
         android:padding="@dimen/view_padding"
         android:text="Medium Text"
-        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textAppearance="?android:attr/textAppearanceSmall"
         android:textColor="@android:color/black"
         android:textStyle="bold" />
 
@@ -22,12 +22,12 @@
         android:id="@+id/tvCustName"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="0.6"
+        android:layout_weight="0.7"
         android:background="@drawable/table_row_item"
         android:gravity="center"
         android:padding="@dimen/view_padding"
         android:text="Medium Text"
-        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textAppearance="?android:attr/textAppearanceSmall"
         android:textColor="@android:color/black"
         android:textStyle="bold" />
 
@@ -35,12 +35,12 @@
         android:id="@+id/tvMobile"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="0.8"
+        android:layout_weight="0.9"
         android:background="@drawable/table_row_item"
         android:gravity="center"
         android:padding="@dimen/view_padding"
         android:text="Medium Text"
-        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textAppearance="?android:attr/textAppearanceSmall"
         android:textColor="@android:color/black"
         android:textStyle="bold" />
 
@@ -56,7 +56,7 @@
         android:gravity="center"
         android:padding="@dimen/view_padding"
         android:text="Medium Text"
-        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textAppearance="?android:attr/textAppearanceSmall"
         android:textColor="@android:color/black"
         android:textStyle="bold" />
 
@@ -69,7 +69,7 @@
         android:gravity="center"
         android:padding="@dimen/view_padding"
         android:text="Medium Text"
-        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textAppearance="?android:attr/textAppearanceSmall"
         android:textColor="@android:color/black"
         android:textStyle="bold" />
 
@@ -82,7 +82,7 @@
         android:gravity="center"
         android:padding="@dimen/view_padding"
         android:text="Medium Text"
-        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textAppearance="?android:attr/textAppearanceSmall"
         android:textColor="@android:color/black"
         android:textStyle="bold" />
 
@@ -95,7 +95,7 @@
         android:gravity="center"
         android:padding="@dimen/view_padding"
         android:text="Medium Text"
-        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textAppearance="?android:attr/textAppearanceSmall"
         android:textColor="@android:color/black"
         android:textStyle="bold" />
 
@@ -108,7 +108,7 @@
         android:gravity="center"
         android:padding="@dimen/view_padding"
         android:text="Medium Text"
-        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textAppearance="?android:attr/textAppearanceSmall"
         android:textColor="@android:color/black"
         android:textStyle="bold" />
 
@@ -121,7 +121,7 @@
         android:gravity="center"
         android:padding="@dimen/view_padding"
         android:text="Next Metting"
-        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textAppearance="?android:attr/textAppearanceSmall"
         android:textColor="@android:color/white"
         android:textStyle="bold" />
 
@@ -134,7 +134,7 @@
         android:gravity="center"
         android:padding="@dimen/view_padding"
         android:text="Close Lead"
-        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textAppearance="?android:attr/textAppearanceSmall"
         android:textColor="@color/colorGray"
         android:textStyle="bold" />
 

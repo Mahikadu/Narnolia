@@ -166,9 +166,9 @@
             android:layout_height="0dp"
             android:layout_weight="0.4"
             android:orientation="horizontal"
-            android:weightSum="1.2">
+            android:weightSum="1">
 
-            <LinearLayout
+     <!--       <LinearLayout
                 android:id="@+id/linear_master"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -216,13 +216,14 @@
                     android:text="@string/setting"
                     android:textColor="@color/colorRed" />
 
-            </LinearLayout>
+            </LinearLayout>    -->
 
             <LinearLayout
                 android:id="@+id/linear_mis_reports"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.4"
+                android:layout_weight="0.5"
+                android:layout_marginLeft="50dp"
                 android:orientation="vertical"
                 android:gravity="center">
 
@@ -244,30 +245,13 @@
             </LinearLayout>
 
 
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/bottomlayout"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.4"
-            android:orientation="horizontal"
-            android:weightSum="1.2">
-
-            <LinearLayout
-                android:id="@+id/empty1"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.4"
-                android:orientation="vertical">
-
-            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/linear_notification"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.4"
+                android:layout_weight="0.5"
+                android:layout_marginRight="50dp"
                 android:orientation="vertical"
                 android:gravity="center">
 
@@ -289,14 +273,7 @@
 
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/empty2"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.4"
-                android:orientation="vertical">
 
-            </LinearLayout>
 
         </LinearLayout>
 
