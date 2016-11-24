@@ -1,5 +1,6 @@
 package com.narnolia.app;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -7,12 +8,16 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.database.Cursor;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -21,6 +26,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -33,7 +40,10 @@ import android.widget.Toast;
 
 import com.narnolia.app.dbconfig.DbHelper;
 import com.narnolia.app.libs.Utils;
+import com.narnolia.app.model.CategoryDetailsModel;
 import com.narnolia.app.model.LeadInfoModel;
+import com.narnolia.app.model.ProductDetailsModel;
+import com.narnolia.app.model.SubCategoryDetailsModel;
 import com.narnolia.app.network.SOAPWebService;
 
 import org.ksoap2.serialization.SoapPrimitive;
@@ -42,7 +52,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -52,7 +61,7 @@ import java.util.Map;
  * Created by USER on 10/24/2016.
  */
 
-public class UpdateLeadActivity extends AbstractActivity {
+public class UpdateLeadActivity extends AbstractActivity  implements View.OnClickListener, CompoundButton.OnCheckedChangeListener{
 
     private Context mContext;
     private LeadInfoModel leadInfoModel;
@@ -78,7 +87,7 @@ public class UpdateLeadActivity extends AbstractActivity {
     AutoCompleteTextView editCity,autoPincode;
     String lead_id_info,leadId;
     Spinner spinner_lead_name, spinner_source_of_lead, spinner_sub_source, spinner_age_group,
-            spinner_occupation, spinner_annual_income, spinner_other_broker,spinner_lead_status,spinner_research_type,spinner_duration,spinner_opprtunity_pitched;
+            spinner_occupation, spinner_annual_income, spinner_other_broker,spinner_lead_status,spinner_research_type,spinner_duration;
     TextView tv_lead_name, tv_source_of_lead, tv_sub_source, tv_fname,tv_mname,tv_lname, tv_mobile_no, tv_email,
             tv_age_group, tv_date_of_birth, tv_address, tv_flat, tv_street, tv_location, tv_city, tv_pincode,
             tv_occupation, tv_annual_income, tv_other_broker, tv_meeting_status, tv_meeting_agenda, tv_lead_update_log,tv_lead_status;
@@ -116,8 +125,25 @@ public class UpdateLeadActivity extends AbstractActivity {
     String[] strLeadNameArray;
     private String empcode,fullname;
     private SharedPref sharedPref;
-    private TextView admin;
+    private TextView admin,tv_prospective_products2;
 
+    AlertDialog.Builder DialogProduct;
+    AlertDialog showProduct;
+    int icount =0;
+
+    private LinearLayout productLayout;
+    private  CheckBox checkbox;
+    String str_CheckedItems;
+    public ProductDetailsModel productDetailsModel;
+    private CategoryDetailsModel categoryDetailsModel;
+    private SubCategoryDetailsModel subCategoryDetailsModel;
+
+    private List<ProductDetailsModel> spinProductList;
+    private List<CategoryDetailsModel> categoryDetailsModelList;
+    private List<SubCategoryDetailsModel> subCategoryDetailsModelList;
+
+    LinearLayout CategoryLinearLayout = null;
+    LinearLayout productInfoLinearLayout = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -158,6 +184,7 @@ public class UpdateLeadActivity extends AbstractActivity {
 //............Auto complete text view
             editCity = (AutoCompleteTextView) findViewById(R.id.edt_city);
             autoPincode = (AutoCompleteTextView) findViewById(R.id.edt_pincode);
+
             //............Edit Text Ref
             customer_id=(EditText)findViewById(R.id.edt_cust_id);
             fname = (EditText) findViewById(R.id.edt_fname);
@@ -188,7 +215,14 @@ public class UpdateLeadActivity extends AbstractActivity {
             last_meeting_dt=(EditText)findViewById(R.id.edt_last_meeting);
             last_meeting_update=(EditText)findViewById(R.id.edt_meeting_update);
 
-
+            tv_prospective_products2 = (TextView) findViewById(R.id.txt1_prospective_product2);
+            tv_prospective_products2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    icount = 0;
+                    showProductDialog();
+                }
+            });
 
             new LoadCityData().execute();//........................................Load city data
             //..................edit text validations.......
@@ -290,7 +324,6 @@ public class UpdateLeadActivity extends AbstractActivity {
             spinner_lead_status=(Spinner)findViewById(R.id.spin_lead_status);
             spinner_duration=(Spinner)findViewById(R.id.spin_duration);
             spinner_research_type=(Spinner)findViewById(R.id.spin_research_type);
-            spinner_opprtunity_pitched=(Spinner)findViewById(R.id.spin_opportunity_pitched);
 
 
             //.................radio group layout......
@@ -691,6 +724,401 @@ public class UpdateLeadActivity extends AbstractActivity {
             e.printStackTrace();
         }
     }
+
+    private void showProductDialog() {
+
+        // spinSourceLeadList = new ArrayList<>();
+        DialogProduct = new AlertDialog.Builder(this);
+
+        LayoutInflater li = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        final View dialogViewproduct = li.inflate(R.layout.product_custom_dialog, null);
+        DialogProduct.setView(dialogViewproduct);
+
+        showProduct = DialogProduct.show();
+
+        productLayout = (LinearLayout) showProduct.findViewById(R.id.productLinearLayout);
+
+        final Button submit = (Button) showProduct.findViewById(R.id.btn1_submit);
+
+        final TextView textcheck = (TextView) showProduct.findViewById(R.id.textcheck);
+        final TextView textuncheck = (TextView) showProduct.findViewById(R.id.textuncheck);
+
+        fillUI();
+
+        categoryDetailsModelList = new ArrayList<>();
+
+        Cursor cursor = null;
+        cursor = Narnolia.dbCon.fetchAlldata(DbHelper.TABLE_M_CATEGORY);
+        if (cursor != null && cursor.getCount() > 0) {
+            cursor.moveToFirst();
+            do {
+                String category = "";
+                categoryDetailsModel = new CategoryDetailsModel();
+                category = cursor.getString(cursor.getColumnIndex("Category"));
+                categoryDetailsModel.setCategory(category);
+                categoryDetailsModelList.add(categoryDetailsModel);
+                //      spinProductList.add(category);
+
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+
+        textcheck.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                //    submit.setVisibility(View.VISIBLE);
+                icount = 0;
+
+                try {
+
+                    if (productLayout.getChildCount() > 0) {
+                        for (int i = 0; i < productLayout.getChildCount(); i++) {
+
+                            LinearLayout prodInfoLayout = (LinearLayout) productLayout.getChildAt(i);
+
+                            if (prodInfoLayout.getChildCount() > 0) {
+                                for (int j = 2; j < prodInfoLayout.getChildCount(); j++) {
+                                    LinearLayout catLayout = (LinearLayout) prodInfoLayout.getChildAt(j);
+                                    if (catLayout.getChildCount() > 0) {
+                                        for (int k = 0; k < catLayout.getChildCount(); k++) {
+                                            View v = catLayout.getChildAt(k);
+
+                                            CheckBox checkbox1 = (CheckBox) v;
+
+                                            checkbox1.setChecked(true);
+
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+        });
+
+        textuncheck.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                //        submit.setVisibility(View.INVISIBLE);
+                icount = 0;
+                try {
+
+                    if (productLayout.getChildCount() > 0) {
+                        for (int i = 0; i < productLayout.getChildCount(); i++) {
+
+                            LinearLayout prodInfoLayout = (LinearLayout) productLayout.getChildAt(i);
+
+                            if (prodInfoLayout.getChildCount() > 0) {
+                                for (int j = 2; j < prodInfoLayout.getChildCount(); j++) {
+                                    LinearLayout catLayout = (LinearLayout) prodInfoLayout.getChildAt(j);
+                                    if (catLayout.getChildCount() > 0) {
+                                        for (int k = 0; k < catLayout.getChildCount(); k++) {
+                                            View v = catLayout.getChildAt(k);
+
+                                            CheckBox checkbox1 = (CheckBox) v;
+
+                                            checkbox1.setChecked(false);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+        });
+
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(icount>0)
+                {
+                    String name = + icount + " is Selected";
+                    tv_prospective_products2.setText(name);
+                    showProduct.dismiss();
+                }else
+                {
+                    tv_prospective_products2.setText("Prospective Products");
+                    showProduct.dismiss();
+                }
+
+            /*    String name = +icount+ "is Selected";
+                tv_prospective_products1.setText(name);*/
+            }
+        });
+
+    }
+
+    void fillUI() {
+        try {
+
+            productLayout.removeAllViews();
+
+            spinProductList = new ArrayList<>();
+
+            categoryDetailsModelList = new ArrayList<>();
+
+            subCategoryDetailsModelList = new ArrayList<>();
+
+            String Product = "Product   ";
+            String colName = "value,id";
+
+            String where = " where type like " + "'" + Product + "'";
+
+            Cursor cursor3=null;
+            cursor3 = Narnolia.dbCon.fetchDistictFromSelect(colName,DbHelper.TABLE_M_PARAMETER, where);
+
+
+            if (cursor3 != null && cursor3.getCount() > 0) {
+                cursor3.moveToFirst();
+                do {
+                    String productName = "";
+                    String productId = "";
+                    productDetailsModel = new ProductDetailsModel();
+                    productName = cursor3.getString(cursor3.getColumnIndex("value"));
+                    productId = cursor3.getString(cursor3.getColumnIndex("id"));
+                    productDetailsModel.setProdName(productName);
+                    productDetailsModel.setProdId(productId);
+                    //spinProductList.add(productDetailsModel);
+                    spinProductList.add(productDetailsModel);
+                } while (cursor3.moveToNext());
+
+            }
+            cursor3.close();
+
+            for (int count = 0; count < spinProductList.size(); count++) {
+                String productName = spinProductList.get(count).getProdName();
+
+                productInfoLinearLayout = new LinearLayout(mContext);
+                productInfoLinearLayout.setOrientation(LinearLayout.VERTICAL);
+                LinearLayout.LayoutParams merchantInfoLinearLayout_LayoutParams = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                merchantInfoLinearLayout_LayoutParams.setMargins(5, 5, 5, 5);
+                productInfoLinearLayout
+                        .setLayoutParams(merchantInfoLinearLayout_LayoutParams);
+
+                // Merchant name textview
+                TextView producttxt = new TextView(mContext);
+                producttxt.setTypeface(null, Typeface.BOLD);
+                producttxt.setText(productName);
+                producttxt.setTextSize(20);
+                producttxt.setGravity(Gravity.CENTER_HORIZONTAL);
+                LinearLayout.LayoutParams merchantnameTextView_LayoutParams = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                merchantnameTextView_LayoutParams.setMargins(5, 0, 0, 5);
+                producttxt
+                        .setLayoutParams(merchantnameTextView_LayoutParams);
+
+                // line view layout
+                LinearLayout lineviewlayout = new LinearLayout(mContext);
+                LinearLayout.LayoutParams lineview = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT, 2);
+                TextView line = new TextView(mContext);
+                line.setLayoutParams(lineview);
+                lineview.setMargins(3, 0, 3, 0);
+                line.setBackgroundColor(Color.GRAY);
+                lineviewlayout.addView(line);
+
+                productInfoLinearLayout.addView(producttxt);
+                productInfoLinearLayout.addView(lineviewlayout);
+
+                String prodId = spinProductList.get(count).getProdId();
+
+                try{
+                    Cursor cursor=null;
+
+                    categoryDetailsModelList.clear();
+                    where = " where Produt_type_id like " + "'" + prodId + "'";
+                    String product_type_id = "Category";
+                    cursor = Narnolia.dbCon.fetchDistictFromSelect(product_type_id,DbHelper.TABLE_M_CATEGORY, where);
+
+                    if (cursor != null && cursor.getCount() > 0) {
+                        cursor.moveToFirst();
+                        do {
+                            String category = "";
+                            categoryDetailsModel = new CategoryDetailsModel();
+                            category = cursor.getString(cursor.getColumnIndex("Category"));
+                            categoryDetailsModel.setCategory(category);
+                            categoryDetailsModelList.add(categoryDetailsModel);
+//                          spinProductList.add(productvalue);
+                            // cursor=null;
+                        } while (cursor.moveToNext());
+                    }
+                    cursor.close();
+                }
+                catch (Exception e){
+                    e.printStackTrace();
+                }
+
+                for (int i = 0; i < categoryDetailsModelList.size(); i++) {
+
+                    String category = categoryDetailsModelList.get(i).getCategory();
+
+                    try {
+                        Cursor cursor2 = null;
+
+                        subCategoryDetailsModelList.clear();
+                        String where1 = " where trim(Category) = '"+category + "'";
+                        cursor2 = Narnolia.dbCon.fetchAll2(category,DbHelper.TABLE_M_CATEGORY, where1);
+                        if (cursor2 != null && cursor2.getCount() > 0) {
+                            cursor2.moveToFirst();
+                            do {
+                                String subcategory = "";
+                                subCategoryDetailsModel = new SubCategoryDetailsModel();
+                                subcategory = cursor2.getString(cursor2.getColumnIndex("Subcategory"));
+                                subCategoryDetailsModel.setSubCategory(subcategory);
+                                subCategoryDetailsModelList.add(subCategoryDetailsModel);
+
+                            } while (cursor2.moveToNext());
+                        }
+                        cursor2.close();
+
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+
+
+                    for (int k = 0; k < subCategoryDetailsModelList.size(); k++) {
+
+                        String subcategory = subCategoryDetailsModelList.get(k).getSubCategory();
+
+                        CategoryLinearLayout = new LinearLayout(mContext);
+                        CategoryLinearLayout.setOrientation(LinearLayout.HORIZONTAL);
+                        LinearLayout.LayoutParams CategoryLinearLayout_LayoutParams = new LinearLayout.LayoutParams(
+                                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                        CategoryLinearLayout.setLayoutParams(CategoryLinearLayout_LayoutParams);
+
+                        checkbox = new CheckBox(mContext);
+                        checkbox.setId(k);
+
+                        checkbox.setOnClickListener(this);
+                        checkbox.setOnCheckedChangeListener(this);
+
+                        final LinearLayout.LayoutParams childParam2 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                        childParam2.weight = 0.9f;
+                        checkbox.setLayoutParams(childParam2);
+
+                        checkbox.setTypeface(null, Typeface.BOLD);
+                        checkbox.setText(category +"-"+ subcategory);
+                        LinearLayout.LayoutParams childParam1 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                        childParam1.weight = 0.1f;
+
+                        CategoryLinearLayout.addView(checkbox);
+
+
+                        productInfoLinearLayout.addView(CategoryLinearLayout);
+                    }
+                }
+                productLayout.addView(productInfoLinearLayout);
+            }
+        } catch (Exception e) {
+            // TODO: handle exception
+            e.printStackTrace();
+        }
+    }
+
+
+    @Override
+    public void onClick(View view) {
+        try {
+
+
+            if (productLayout.getChildCount() > 0) {
+                for (int i = 0; i < productLayout.getChildCount(); i++) {
+
+                    LinearLayout prodInfoLayout = (LinearLayout) productLayout.getChildAt(i);
+
+                    if (prodInfoLayout.getChildCount() > 0) {
+                        for (int j = 2; j < prodInfoLayout.getChildCount(); j++) {
+                            LinearLayout catLayout = (LinearLayout) prodInfoLayout.getChildAt(j);
+                            if (catLayout.getChildCount() > 0) {
+                                for (int k = 0; k < catLayout.getChildCount(); k++) {
+                                    View v = catLayout.getChildAt(k);
+
+                                    CheckBox checkbox1 = (CheckBox) v;
+                                    if (checkbox1.isChecked()) {
+
+                                        String selChkBoxValue = checkbox1.getText().toString();
+                                        //        Toast.makeText(mContext, "Selected chkbox value is:" + selChkBoxValue, Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    private int countCheck(boolean isChecked) {
+
+        icount += isChecked ? 1 : -1 ;
+        //  Toast.makeText(mContext, "Selected chkbox Count is:" + icount, Toast.LENGTH_SHORT).show();
+
+        return  icount;
+    }
+
+
+    @Override
+    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+        countCheck(b);
+        try {
+
+            if (productLayout.getChildCount() > 0) {
+                for (int i = 0; i < productLayout.getChildCount(); i++) {
+
+                    LinearLayout prodInfoLayout = (LinearLayout) productLayout.getChildAt(i);
+
+                    if (prodInfoLayout.getChildCount() > 0) {
+                        for (int j = 2; j < prodInfoLayout.getChildCount(); j++) {
+                            LinearLayout catLayout = (LinearLayout) prodInfoLayout.getChildAt(j);
+                            if (catLayout.getChildCount() > 0) {
+                                for (int k = 0; k < catLayout.getChildCount(); k++) {
+                                    View v = catLayout.getChildAt(k);
+
+                                    CheckBox checkbox1 = (CheckBox) v;
+
+                                    if (checkbox1.isChecked()) {
+
+                                        if(str_CheckedItems == null)
+                                        {
+                                            str_CheckedItems = compoundButton.getText().toString();
+                                            //      Toast.makeText(mContext, "Selected chkbox :" + str_CheckedItems, Toast.LENGTH_SHORT).show();
+                                        }
+                                        else
+                                        {
+                                            str_CheckedItems = str_CheckedItems+","+ compoundButton.getText().toString();
+                                            //         Toast.makeText(mContext, "Selected chkbox :" + str_CheckedItems, Toast.LENGTH_SHORT).show();
+                                        }
+
+                                        String selChkBoxValue = checkbox1.getText().toString();
+//                                        Toast.makeText(mContext, "Selected chkbox value is:" + selChkBoxValue, Toast.LENGTH_SHORT).show();
+
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
     private void  fetchDataOfLeadDetails(){
         try {

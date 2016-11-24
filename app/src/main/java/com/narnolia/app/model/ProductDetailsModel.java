@@ -11,6 +11,16 @@ public class ProductDetailsModel implements Serializable {
 
     private String prodName;
 
+    public String getProdId() {
+        return prodId;
+    }
+
+    public void setProdId(String prodId) {
+        this.prodId = prodId;
+    }
+
+    private String prodId;
+
     private ArrayList<CategoryDetailsModel> categoryModels = new ArrayList<>();
     public String getProdName() {
         return prodName;

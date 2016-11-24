@@ -1,10 +1,12 @@
 package com.narnolia.app;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.database.Cursor;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +23,9 @@ import android.widget.Toast;
 import com.narnolia.app.dbconfig.DbHelper;
 import com.narnolia.app.libs.Utils;
 import com.narnolia.app.model.LeadInfoModel;
+import com.narnolia.app.network.SOAPWebService;
+
+import org.ksoap2.serialization.SoapObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +40,8 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
     private String empcode;
     private SharedPref sharedPref;
     private TextView admin;
+    private ProgressDialog progressDialog;
+    private String responseId;
 
     LeadInfoModel leadInfoModel;
     List<LeadInfoModel> leadInfoModelList;
@@ -49,7 +56,9 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
 
         sharedPref = new SharedPref(HomeActivity.this);
         empcode = sharedPref.getLoginId();
+        progressDialog = new ProgressDialog(HomeActivity.this);
 
+      //  new GetLead().execute();
         initView();
     }
 
@@ -376,6 +385,53 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
                 showMaster.dismiss();
             }
         });
+    }
+
+    public class GetLead extends AsyncTask<Void, Void, SoapObject> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            try {
+                if (progressDialog != null && !progressDialog.isShowing()) {
+                    progressDialog.show();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
+
+        @Override
+        protected SoapObject doInBackground(Void... params) {
+
+            SoapObject object = null;
+            try {
+                String get_for = "app";
+                SOAPWebService webService = new SOAPWebService(mContext);
+                object = webService.GetLead(empcode,"",get_for);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return object;
+        }
+
+        @Override
+        protected void onPostExecute(SoapObject soapObject) {
+            super.onPostExecute(soapObject);
+            try {
+                responseId = String.valueOf(soapObject);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            finally {
+                if (progressDialog != null) {
+                        progressDialog.dismiss();
+                    }
+
+            }
+        }
     }
 
 

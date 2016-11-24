@@ -35,6 +35,7 @@ public class SplashActivity extends AbstractActivity implements Runnable {
     private Utils utils;
     private ProgressDialog progressDialog;
     private String responseId;
+
     private String mFlag,mTransfer,mlmd,mId, mType, mValue;
 
     @Override
@@ -47,6 +48,7 @@ public class SplashActivity extends AbstractActivity implements Runnable {
     private void initView() {
         try {
             mContext = this;
+
 
             progressDialog = new ProgressDialog(mContext);
             utils = new Utils(mContext);
@@ -267,5 +269,7 @@ public class SplashActivity extends AbstractActivity implements Runnable {
 
         }
     }
+
+
 
 }

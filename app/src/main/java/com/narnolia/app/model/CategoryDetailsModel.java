@@ -9,6 +9,17 @@ import java.util.ArrayList;
 
 public class CategoryDetailsModel implements Serializable{
     private String category;
+    private String subcategory;
+
+    public String getSubcategory() {
+        return subcategory;
+    }
+
+    public void setSubcategory(String subcategory) {
+        this.subcategory = subcategory;
+    }
+
+
     private ArrayList<SubCategoryDetailsModel> subcategoryModels = new ArrayList<>();
 
     public String getCategory() {
