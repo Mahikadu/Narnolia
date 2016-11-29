@@ -60,7 +60,8 @@ public class Utils {
                 mContext.getString(R.string.column_next_meeting_date), mContext.getString(R.string.column_meeting_agenda),
                 mContext.getString(R.string.column_lead_update_log), mContext.getString(R.string.column_created_by),
                 mContext.getString(R.string.column_created_dt), mContext.getString(R.string.column_updated_dt),
-                mContext.getString(R.string.column_updated_by), mContext.getString(R.string.column_business_opportunity)};
+                mContext.getString(R.string.column_updated_by),mContext.getString(R.string.column_emp_code),
+                mContext.getString(R.string.column_last_meeting_date), mContext.getString(R.string.column_last_meeting_update),mContext.getString(R.string.column_business_opportunity)};
 
         columnNamesLead = Arrays.copyOf(leadArray, leadArray.length);
 
@@ -90,7 +91,10 @@ public class Utils {
                 mContext.getString(R.string.column_next_meeting_date), mContext.getString(R.string.column_meeting_agenda),
                 mContext.getString(R.string.column_lead_update_log), mContext.getString(R.string.column_created_by),
                 mContext.getString(R.string.column_created_dt), mContext.getString(R.string.column_updated_dt),
-                mContext.getString(R.string.column_updated_by), mContext.getString(R.string.column_business_opportunity)};
+                mContext.getString(R.string.column_updated_by),mContext.getString(R.string.column_emp_code),
+                mContext.getString(R.string.column_last_meeting_date), mContext.getString(R.string.column_last_meeting_update),
+                mContext.getString(R.string.column_business_opportunity),
+                };
 
         columnNamesLeadUpdate = Arrays.copyOf(leadArray, updateLeadArray.length);
 

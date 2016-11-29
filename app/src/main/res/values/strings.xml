@@ -53,6 +53,7 @@
     <string name="hintstreet">Enter Street/Post office</string>
     <string name="hintdetails">Please Enter Details</string>
     <string name="hintremark">remark</string>
+    <string name="hintpanno">Enter Pan No</string>
 
     <string name="createlead">Create Lead</string>
     <string name="cancellead">Cancel Lead</string>
@@ -88,6 +89,7 @@
     <string name="reqpincode">Pincode is Required</string>
     <string name="text_lead_created">Lead Created</string>
     <string name="remark">Remark</string>
+    <string name="pan_no">Pan No</string>
     <string name="competitor">Competitor Name</string>
     <string name="product">Product</string>
     <string name="research_type">Type of research</string>
@@ -190,6 +192,9 @@
     <string name="column_m_pin_district">district</string>
     <string name="column_m_pin_pincode">pincode</string>
     <string name="select_pincode">Select Pincode</string>
+    <string name="column_emp_code">emp_code</string>
+    <string name="column_last_meeting_date">last_meeting_date</string>
+    <string name="column_last_meeting_update">last_meeting_update</string>
 
 
     //other

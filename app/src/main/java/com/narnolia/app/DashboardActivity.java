@@ -162,8 +162,8 @@ public class DashboardActivity extends AbstractActivity {
             leadInfoModel.setMobile_no("Mobile Number");
             leadInfoModel.setCity("City");
             leadInfoModel.setPincode("Pincode");
-            leadInfoModel.setMeetingdt("Last Metting Date");
-            leadInfoModel.setUpdatedby("Last Metting Update");
+            leadInfoModel.setLast_meeting_date("Last Metting Date");
+            leadInfoModel.setLast_meeting_update("Last Metting Update");
             leadInfoModel.setLeadstatus("Lead Status");
         } catch (Resources.NotFoundException e) {
             e.printStackTrace();
@@ -183,8 +183,8 @@ public class DashboardActivity extends AbstractActivity {
             leadInfoModel.setMobile_no(cursor.getString(cursor.getColumnIndex("mobile_no")));
             leadInfoModel.setCity(cursor.getString(cursor.getColumnIndex("city")));
             leadInfoModel.setPincode(cursor.getString(cursor.getColumnIndex("pincode")));
-            leadInfoModel.setMeetingdt(cursor.getString(cursor.getColumnIndex("next_meeting_date")));
-            leadInfoModel.setUpdatedby(cursor.getString(cursor.getColumnIndex("updated_by")));
+            leadInfoModel.setLast_meeting_date(cursor.getString(cursor.getColumnIndex("last_meeting_date")));
+            leadInfoModel.setLast_meeting_update(cursor.getString(cursor.getColumnIndex("last_meeting_update")));
             leadInfoModel.setLeadstatus(cursor.getString(cursor.getColumnIndex("lead_status")));
 
         } catch (Exception e) {
@@ -244,8 +244,8 @@ public class DashboardActivity extends AbstractActivity {
                 tvMobile.setText(leadInfoModel.getMobile_no());
                 tvCity.setText(leadInfoModel.getCity());
                 tvPincode.setText(leadInfoModel.getPincode());
-                tvLastMeet_date.setText(leadInfoModel.getMeetingdt());
-                tvLastMeet_update.setText(leadInfoModel.getUpdatedby());
+                tvLastMeet_date.setText(leadInfoModel.getLast_meeting_date());
+                tvLastMeet_update.setText(leadInfoModel.getLast_meeting_update());
                 tvLeadStatus.setText(leadInfoModel.getLeadstatus());
 //                tvNextMeet.setText(leadInfoModel.getUpdateddt());
 //                tvCloseLead.setText(leadInfoModel.getLead_id());
@@ -265,7 +265,7 @@ public class DashboardActivity extends AbstractActivity {
         try {
             final EditText edt_next_meeting_dialog=(EditText)showMaster.findViewById(R.id.edt_next_meeting_dialog);
             final Calendar newCalendar = Calendar.getInstance();
-            dateFormatter = new SimpleDateFormat("dd-MM-yyyy");
+            dateFormatter = new SimpleDateFormat("MM-dd-yyyy");
             datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
 
                 public void onDateSet(DatePicker view, int monthOfYear, int dayOfMonth, int year) {

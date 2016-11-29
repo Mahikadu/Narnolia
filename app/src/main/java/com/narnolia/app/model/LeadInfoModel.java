@@ -58,6 +58,9 @@ public class LeadInfoModel implements Serializable{
     String createddt;
     String updateddt;
     String updatedby;
+    String empcode;
+    String last_meeting_date;
+    String last_meeting_update;
     String business_opp;
 
 
@@ -452,6 +455,31 @@ public class LeadInfoModel implements Serializable{
 
     public void setUpdatedby(String updatedby) {
         this.updatedby = updatedby;
+    }
+
+    public String getEmpcode() {
+        return empcode;
+    }
+
+    public void setEmpcode(String empcode) {
+        this.empcode = empcode;
+    }
+
+    public String getLast_meeting_date() {
+        return last_meeting_date;
+    }
+
+    public void setLast_meeting_date(String last_meeting_date) {
+        this.last_meeting_date = last_meeting_date;
+    }
+
+
+    public String getLast_meeting_update() {
+        return last_meeting_update;
+    }
+
+    public void setLast_meeting_update(String last_meeting_update) {
+        this.last_meeting_update = last_meeting_update;
     }
 
     public String getBusiness_opp() {

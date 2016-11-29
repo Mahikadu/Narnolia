@@ -94,7 +94,6 @@ public class SOAPWebService {
             request.addProperty("lead_source",lead_source);
             request.addProperty("sub_source",sub_source);
             request.addProperty("customer_id",customer_id);
-            request.addProperty("empcode",empcode);
             request.addProperty("fname",fname);
             request.addProperty("mname",mname);
             request.addProperty("lname",lname);
@@ -131,6 +130,7 @@ public class SOAPWebService {
             request.addProperty("lead_update_log",lead_update_log);
             request.addProperty("status_flag",status_flag);
             request.addProperty("updatedby",updatedby);
+            request.addProperty("empcode",empcode);
             request.addProperty("last_meeting_date",last_meeting_date);
             request.addProperty("last_meeting_update",last_meeting_update);
             request.addProperty("app_version",app_version);

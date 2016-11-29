@@ -513,6 +513,9 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
             leadInfoModel.setCreateddt(cursor.getString(cursor.getColumnIndex("created_dt")));
             leadInfoModel.setUpdateddt(cursor.getString(cursor.getColumnIndex("updated_dt")));
             leadInfoModel.setUpdatedby(cursor.getString(cursor.getColumnIndex("updated_by")));
+            leadInfoModel.setEmpcode(cursor.getString(cursor.getColumnIndex("emp_code")));
+            leadInfoModel.setLast_meeting_date(cursor.getString(cursor.getColumnIndex("last_meeting_date")));
+            leadInfoModel.setLast_meeting_update(cursor.getString(cursor.getColumnIndex("last_meeting_update")));
             leadInfoModel.setBusiness_opp(cursor.getString(cursor.getColumnIndex("business_opportunity")));
 
         } catch (Exception e) {

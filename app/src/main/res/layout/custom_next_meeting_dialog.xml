@@ -67,6 +67,7 @@
                 android:id="@+id/edt_next_meeting_dialog"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:drawableRight="@drawable/cal"
                 android:layout_marginTop="@dimen/layout_margin"
                 android:layout_weight="1"
                 android:background="@drawable/edit_background"

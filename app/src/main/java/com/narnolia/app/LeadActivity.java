@@ -75,7 +75,7 @@ public class LeadActivity extends AbstractActivity implements View.OnClickListen
             strOccupation, strCreatedfrom, strAppVersion, strAppdt, strFlag, strAllocated_userid, strBrokerDelts,
             strMeetingStatus, strLeadStatus, strCompitator_Name, strProduct, strRemark, strTypeofSearch,
             strDuration, strPanNo, strB_Margin, strB_aum, strB_sip, strB_number, strB_value, strB_premium, strReason,
-            strMeetingdt, strMeetingAgenda, strLead_Updatelog, strCreatedby, strCreateddt, strUpdateddt, strUpdatedby,
+            strMeetingdt, strMeetingAgenda, strLead_Updatelog, strCreatedby, strCreateddt, strUpdateddt, strUpdatedby,strEmpCode,strLastMeetingDate,StrLastMeetingUpdate,
             strBusiness_opp;
     private ArrayAdapter<String> adapter9;
     Spinner spinner_source_of_lead, spinner_sub_source;
@@ -437,6 +437,7 @@ public class LeadActivity extends AbstractActivity implements View.OnClickListen
                 @Override
                 public void onClick(View view) {
                     validateDetails();
+                    pushActivity(mContext, HomeActivity.class, null, true);
                 }
             });
 
@@ -446,6 +447,7 @@ public class LeadActivity extends AbstractActivity implements View.OnClickListen
                     resetFields();
                 }
             });
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -1135,7 +1137,7 @@ public class LeadActivity extends AbstractActivity implements View.OnClickListen
             String stages = "Lead Created";
             String flag = "C";
 
-            SoapPrimitive object = webService.SaveLead(strSourceofLead, strSubSourceofLead,strCustomerID, str_fname, str_mname, str_lname, str_mob,
+            SoapPrimitive object = webService.SaveLead(strSourceofLead, strSubSourceofLead,"", str_fname, str_mname, str_lname, str_mob,
                     strlocation, str_city, str_pincode,"1",stages, "", "", "", flag, "");
 
             return object;
@@ -1194,7 +1196,7 @@ public class LeadActivity extends AbstractActivity implements View.OnClickListen
             String selection = "lead_id" + " = ?";
 
             // WHERE clause arguments
-            String[] selectionArgs = {LeadId};
+            String[] selectionArgs = {LeadId};// LeadId
 
             // for now strcurrency becomes blank as " "; please change it later
             String valuesArray[] = { "" + directLeadId,LeadId,strStages, strSourceofLead, strSubSourceofLead, strCustomerID, str_fname, str_mname, str_lname,
@@ -1202,7 +1204,7 @@ public class LeadActivity extends AbstractActivity implements View.OnClickListen
                     strOccupation, strCreatedfrom, strAppVersion, strAppdt, strFlag, strAllocated_userid, strBrokerDelts,
                     strMeetingStatus, strLeadStatus, strCompitator_Name, strProduct, strRemark, strTypeofSearch,
                     strDuration, strPanNo, strB_Margin, strB_aum, strB_sip, strB_number, strB_value, strB_premium, strReason,
-                    strMeetingdt, strMeetingAgenda, strLead_Updatelog, strCreatedby, strCreateddt, strUpdateddt, strUpdatedby,
+                    strMeetingdt, strMeetingAgenda, strLead_Updatelog, strCreatedby, strCreateddt, strUpdateddt, strUpdatedby,strEmpCode,strLastMeetingDate,StrLastMeetingUpdate,
                     strBusiness_opp};
 
 
@@ -1213,7 +1215,8 @@ public class LeadActivity extends AbstractActivity implements View.OnClickListen
 
                 displayMessage("Insert Data Succesfully");
 
-                pushActivity(mContext, HomeActivity.class, null, true);
+
+
             }
 
         } catch (

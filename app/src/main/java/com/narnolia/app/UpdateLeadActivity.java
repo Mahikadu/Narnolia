@@ -14,6 +14,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.Html;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.Gravity;
@@ -53,9 +54,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by USER on 10/24/2016.
@@ -83,7 +87,7 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
             ,strBusiness_opp,strLastMeetingDate,strLastMeetingUpdate;
     //.......................................................................
     EditText customer_id,fname,mname,lname, mobileno, email, date_of_birth, address, flat, street, location,next_metting_date, metting_agenda, lead_update_log,reason,
-            margin,aum,sip,number,value,premium,remark,compitator,product,last_meeting_dt,last_meeting_update;
+            margin,aum,sip,number,value,premium,remark,compitator,product,last_meeting_dt,last_meeting_update,pan_no,duration;
     AutoCompleteTextView editCity,autoPincode;
     String lead_id_info,leadId;
     Spinner spinner_lead_name, spinner_source_of_lead, spinner_sub_source, spinner_age_group,
@@ -93,7 +97,7 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
             tv_occupation, tv_annual_income, tv_other_broker, tv_meeting_status, tv_meeting_agenda, tv_lead_update_log,tv_lead_status;
     RadioGroup rg_meeting_status;
     RadioButton rb_contact, rb_not_contact;
-    LinearLayout connect,notconnect,linear_non_salaried,linear_remark,linear_competitor,linear_research,linear_lead_details_hidden,linear_customer_id;
+    LinearLayout connect,notconnect,linear_non_salaried,linear_remark,linear_competitor,linear_research,linear_lead_details_hidden,linear_customer_id,linear_pan_no,linear_duration;
     //.........Edit Text Strings
     String str_cust_id,str_fname,str_mname,str_lname,str_mobile_no,str_email,str_date_of_birth,str_address,str_flat,str_street,str_laocion,str_city,
             str_pincode,str_next_meeting_date,str_metting_agenda,str_lead_update_log,str_reason;
@@ -214,7 +218,8 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
             product=(EditText)findViewById(R.id.edt_product);
             last_meeting_dt=(EditText)findViewById(R.id.edt_last_meeting);
             last_meeting_update=(EditText)findViewById(R.id.edt_meeting_update);
-
+            pan_no=(EditText)findViewById(R.id.edt_pan_no);
+            duration=(EditText)findViewById(R.id.edt_duration);
             tv_prospective_products2 = (TextView) findViewById(R.id.txt1_prospective_product2);
             tv_prospective_products2.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -271,6 +276,54 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
                 public void afterTextChanged(Editable editable) {
                     if (editCity.length()>0){editCity
                             .setError(null);}
+                }
+            });
+            //.........................pan no validation......
+            pan_no.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    if (pan_no.length()==0){
+                        pan_no.setInputType(InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS);
+                    }
+                    if (pan_no.length()==5){
+                        pan_no.setInputType(InputType.TYPE_CLASS_NUMBER);
+                    }
+                    if (pan_no.length()==9){
+                        pan_no.setInputType(InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS);
+                    }
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+                    try {
+                        if ((pan_no.length() == 10)||(pan_no.length()==11)) {
+
+                            Pattern pattern = Pattern.compile("[A-Z]{5}[0-9]{4}[A-Z]{1}");
+                            Matcher matcher = pattern.matcher(editable);
+                            if (matcher.matches()) {
+                                pan_no.setError(null);
+                            } else {
+                                int pos = pan_no.length();
+                                if (pos == 0) {
+                                    pan_no.setError(null);
+                                } else {
+                                    pan_no.setError("PAN is not matching");
+                                }
+                            }
+                        } else {
+                            if (pan_no.length() == 0) {
+                                pan_no.setError(null);
+                            }
+                        }
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             });
 
@@ -336,6 +389,8 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
             linear_competitor=(LinearLayout)findViewById(R.id.linear_competitor);
             linear_research=(LinearLayout)findViewById(R.id.linear_research);
             linear_customer_id=(LinearLayout)findViewById(R.id.linear_cust_id);
+            linear_pan_no=(LinearLayout)findViewById(R.id.linear_pan_no);
+            linear_duration=(LinearLayout)findViewById(R.id.linear_duration);
 
             //spinner OnItemSelectedListener
             spinner_lead_name.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -460,10 +515,11 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
                 @Override
                 public void onItemSelected(AdapterView<?> parent,
                                            View view, int pos, long id) {
-                    String leadString,leadString1,leadString2;
+                    String leadString,leadString1,leadString2,leadString3;
                     leadString = parent.getItemAtPosition(pos).toString();
                     leadString1=parent.getItemAtPosition(pos).toString();
                     leadString2=parent.getItemAtPosition(pos).toString();
+                    leadString3=parent.getItemAtPosition(pos).toString();
                     if (leadString != null) {
                         if (leadString.equalsIgnoreCase("Not Intersted")) {
 
@@ -491,6 +547,15 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
                             linear_research.setVisibility(View.GONE);
                         }
                     }
+                    if (leadString3 != null) {
+                        if (leadString3.equalsIgnoreCase("On-boarding")) {
+
+                            linear_pan_no.setVisibility(View.VISIBLE);
+
+                        } else {
+                            linear_pan_no.setVisibility(View.GONE);
+                        }
+                    }
                 }
 
                 @Override
@@ -500,6 +565,55 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
                 }
 
             });
+            spinner_duration.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent,
+                                           View view, int pos1, long id) {
+                    String leadString,leadString1,leadString2,leadString3;
+                    leadString = parent.getItemAtPosition(pos1).toString();
+                    leadString1=parent.getItemAtPosition(pos1).toString();
+                    leadString2=parent.getItemAtPosition(pos1).toString();
+                    leadString3=parent.getItemAtPosition(pos1).toString();
+                    if (leadString != null) {
+                        int selMonth=0;
+                        Calendar cal = Calendar.getInstance();
+                        Date current = cal.getTime();
+                        cal.setTime(current);
+                        if (leadString.equalsIgnoreCase("1 month")) {
+                            selMonth = 1;
+                            cal.add(Calendar.MONTH, selMonth);
+                            String curDate = getDate(cal);
+                            linear_duration.setVisibility(View.VISIBLE);
+                            duration.setText(""+curDate);
+                        }else if (leadString1.equalsIgnoreCase("3 month")) {
+                            selMonth = 3;
+                            cal.add(Calendar.MONTH, selMonth);
+                            String curDate = getDate(cal);
+                            linear_duration.setVisibility(View.VISIBLE);
+                            duration.setText(""+curDate);
+                        }else if (leadString2.equalsIgnoreCase("6 month")) {
+                            selMonth = 6;
+                            cal.add(Calendar.MONTH, selMonth);
+                            String curDate = getDate(cal);
+                            linear_duration.setVisibility(View.VISIBLE);
+                            duration.setText(""+curDate);
+                        }else if (leadString3.equalsIgnoreCase("Others")) {
+                            duration.setText("");
+                        }
+
+                    }
+
+
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> arg0) {
+                    // TODO Auto-generated method stub
+
+                }
+
+            });
+
             editCity.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -644,11 +758,61 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
 
                 }
             });
+
+
+
+            last_meeting_update.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+                    String text=last_meeting_dt.getText().toString().trim();
+                    String text1=last_meeting_update.getText().toString().trim();
+                    lead_update_log.setText(text+"\n"+text1);
+                }
+            });
+            last_meeting_dt.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+                    String text=last_meeting_dt.getText().toString().trim();
+                    String text1=last_meeting_update.getText().toString().trim();
+                    lead_update_log.setText(text+"\n"+text1);
+                }
+            });
+
+
+
+
+
+            bt_close_lead.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    pushActivity(mContext, HomeActivity.class, null, true);
+                }
+            });
             try {
                 //.............date of birth date picker
 
                 final Calendar newCalendar = Calendar.getInstance();
-                dateFormatter = new SimpleDateFormat("dd-MM-yyyy");
+                dateFormatter = new SimpleDateFormat("MM-dd-yyyy");
                 datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
 
                     public void onDateSet(DatePicker view, int monthOfYear, int dayOfMonth, int year) {
@@ -724,6 +888,13 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
             e.printStackTrace();
         }
     }
+
+    private static String getDate(Calendar cal) {
+        return "" + (cal.get(Calendar.MONTH)+1) + "/"
+                + cal.get(Calendar.DATE) +"/"
+                + cal.get(Calendar.YEAR);
+
+     }
 
     private void showProductDialog() {
 
@@ -1294,7 +1465,7 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
             str_spinner_annual_income=spinner_annual_income.getSelectedItem().toString();
             str_spinner_other_broker=spinner_other_broker.getSelectedItem().toString();
             str_spinner_lead_status=spinner_lead_status.getSelectedItem().toString();
-         //   str_spinner_research_type=spinner_research_type.getSelectedItem().toString();
+            //   str_spinner_research_type=spinner_research_type.getSelectedItem().toString();
             str_spinner_duration=spinner_duration.getSelectedItem().toString();
 
             str_street=street.getText().toString().trim();
@@ -1310,6 +1481,7 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
             strProduct=product.getText().toString().trim();
             strLastMeetingDate=last_meeting_dt.getText().toString().trim();
             strLastMeetingUpdate=last_meeting_update.getText().toString().trim();
+            strPanNo=pan_no.getText().toString().trim();
 
 
 
@@ -1633,7 +1805,7 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
                 editCity.setText(leadInfoModel.getCity());
                 autoPincode.setText(leadInfoModel.getPincode());
                 date_of_birth.setText(leadInfoModel.getDob());
-              address.setText(leadInfoModel.getAddress1());
+                address.setText(leadInfoModel.getAddress1());
                 flat.setText(leadInfoModel.getAddress2());
                 street.setText(leadInfoModel.getAddress3());
                 margin.setText(leadInfoModel.getB_margin());
@@ -1649,7 +1821,9 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
                 remark.setText(leadInfoModel.getRemark());
                 compitator.setText(leadInfoModel.getCompitatorname());
                 product.setText(leadInfoModel.getProduct());
-
+                last_meeting_dt.setText(leadInfoModel.getLast_meeting_date());
+                last_meeting_update.setText(leadInfoModel.getLast_meeting_update());
+                pan_no.setText(leadInfoModel.getPanno());
 
                 if (leadInfoModel.getSource_of_lead() != null && leadInfoModel.getSource_of_lead().trim().length() > 0) {
                     spinner_source_of_lead.setSelection(spinSourceLeadList.indexOf(leadInfoModel.getSource_of_lead()) + 1);
@@ -1743,6 +1917,9 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
             leadInfoModel.setCreateddt(cursor.getString(cursor.getColumnIndex("created_dt")));
             leadInfoModel.setUpdateddt(cursor.getString(cursor.getColumnIndex("updated_dt")));
             leadInfoModel.setUpdatedby(cursor.getString(cursor.getColumnIndex("updated_by")));
+            leadInfoModel.setLast_meeting_date(cursor.getString(cursor.getColumnIndex("last_meeting_date")));
+            leadInfoModel.setEmpcode(cursor.getString(cursor.getColumnIndex("emp_code")));
+            leadInfoModel.setLast_meeting_update(cursor.getString(cursor.getColumnIndex("last_meeting_update")));
             leadInfoModel.setBusiness_opp(cursor.getString(cursor.getColumnIndex("business_opportunity")));
 
         } catch (Exception e) {
@@ -1865,8 +2042,8 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
                     str_spinner_occupation, strCreatedfrom, strAppVersion, strAppdt, strFlag, strAllocated_userid, str_spinner_other_broker,
                     str_rg_meeting_status, str_spinner_lead_status, strCompitator_Name, strProduct, strRemark, str_spinner_research_type,
                     str_spinner_duration, strPanNo, strB_Margin, strB_aum, strB_sip, strB_number, strB_value, strB_premium, str_reason,
-                    str_next_meeting_date, str_metting_agenda, str_lead_update_log, strCreatedby, strCreateddt, strUpdateddt, strUpdatedby,
-                    strBusiness_opp};
+                    str_next_meeting_date, str_metting_agenda, str_lead_update_log, strCreatedby, strCreateddt, strUpdateddt, strUpdatedby,strEmpCode,
+                    strLastMeetingDate,strLastMeetingUpdate,strBusiness_opp};
 
 
             boolean result = Narnolia.dbCon.update(DbHelper.TABLE_DIRECT_LEAD, selection, valuesArray, utils.columnNamesLeadUpdate, selectionArgs);
@@ -1930,8 +2107,8 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
 
             SoapPrimitive object = webService.UpdateLead(leadId,str_spinner_source_of_lead, str_spinner_sub_source,str_cust_id, str_fname, str_mname, str_lname, str_mobile_no,
                     str_email, str_spinner_age_group, str_date_of_birth,str_address,str_flat,str_street,str_laocion ,str_city,str_pincode,str_spinner_occupation,str_spinner_annual_income,str_spinner_other_broker,str_rg_meeting_status,str_spinner_lead_status,strRemark,strCompitator_Name,strProduct,
-                    "",str_spinner_duration,"",str_reason,strB_Margin,strB_aum,strB_sip,strB_number
-                    ,strB_value,strB_premium,str_next_meeting_date,str_metting_agenda,str_lead_update_log,flag,"","","","","1","","","");
+                    "",str_spinner_duration,strPanNo,str_reason,strB_Margin,strB_aum,strB_sip,strB_number
+                    ,strB_value,strB_premium,str_next_meeting_date,str_metting_agenda,str_lead_update_log,flag,"","",strLastMeetingDate,strLastMeetingUpdate,"1","","","");
 
             return object;
 
@@ -1946,8 +2123,8 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
                 responseId = String.valueOf(soapObject);
                 if (responseId.contains("ERROR") || responseId.contains("null")) {
                     Toast.makeText(mContext, "Please check Internet Connection", Toast.LENGTH_LONG).show();
-                } else {
-                    displayMessage("Lead Updated Successfully");
+                } else {                    displayMessage("Lead Updated Successfully");
+
                     updateInDb();
 
                 }

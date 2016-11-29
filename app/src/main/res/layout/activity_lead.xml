@@ -367,6 +367,7 @@
                     android:drawablePadding="@dimen/view_padding"
                     android:focusable="true"
                     android:focusableInTouchMode="true"
+                    android:imeOptions="actionNext"
                     android:hint="@string/hintcity"
                     android:inputType="text"
                     android:maxLength="50"

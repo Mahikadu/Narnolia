@@ -56,7 +56,7 @@ public class DbHelper extends SQLiteOpenHelper {
             "remarks VARCHAR(50), typeofsearch VARCHAR(50), duration VARCHAR(10), pan_no VARCHAR(50), b_margin VARCHAR(50), b_aum VARCHAR(50)," +
             "b_sip VARCHAR(50), b_number VARCHAR(50),b_value VARCHAR(50), b_premium VARCHAR(50),reason VARCHAR(50)),next_meeting_date VARCHAR(50)," +
             "meeting_agenda VARCHAR(50),lead_update_log VARCHAR(50),created_by VARCHAR(50),created_dt VARCHAR(50)," +
-            "updated_dt VARCHAR(50),updated_by VARCHAR(50),business_opportunity VARCHAR(50))";
+            "updated_dt VARCHAR(50),updated_by VARCHAR(50),empcode VARCHAR(50),last_meeting_date VARCHAR(50),last_meeting_update VARCHAR(50),business_opportunity VARCHAR(50))";
 
     private String strdirect_lead_st_dtls = "CREATE TABLE" + TABLE_M_CATEGORY + "(id INTEGER primary key," +
             "Produt_type_id VARCHAR(50),Category VARCHAR(50),Subcategory VARCHAR(50),Status VARCHAR(50))";
@@ -298,6 +298,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 }
             }
         } catch (Exception e) {
+            e.printStackTrace();
         }
         return isUpdated;
     }
