@@ -27,7 +27,10 @@ import com.narnolia.app.network.SOAPWebService;
 
 import org.ksoap2.serialization.SoapObject;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class HomeActivity extends AbstractActivity implements View.OnClickListener {
@@ -37,7 +40,7 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
     private Context mContext;
     private Utils utils;
     String[] strLeadArray = null;
-    private String empcode;
+    private String empcode,leadid;
     private SharedPref sharedPref;
     private TextView admin;
     private ProgressDialog progressDialog;
@@ -45,6 +48,17 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
 
     LeadInfoModel leadInfoModel;
     List<LeadInfoModel> leadInfoModelList;
+
+    private String strFlag,
+           leadId,str_cust_id, str_fname,str_mname,str_lname,str_mobile_no,str_email,str_date_of_birth,str_address,str_flat,str_street,str_laocion,str_city,
+            str_pincode,str_next_meeting_date,str_metting_agenda,str_lead_update_log,
+            str_reason,str_spinner_lead_name, str_spinner_source_of_lead, str_spinner_sub_source, str_spinner_age_group,
+            str_spinner_occupation,str_spinner_annual_income, str_spinner_other_broker,str_spinner_lead_status,str_spinner_research_type,
+            strCreatedfrom, strAppVersion, strAppdt, strAllocated_userid,
+    strCompitator_Name, strProduct, strRemark,str_rg_meeting_status,
+    strPanNo, strB_Margin, strB_aum, strB_sip, strB_number, strB_value, strB_premium,strEmpCode,
+    strCreatedby, strCreateddt, strUpdateddt, strUpdatedby
+    ,strBusiness_opp,strLastMeetingDate,strLastMeetingUpdate,str_spinner_duration;
 
 
     String spinMasterList[]={"--select--","Prakash","Bhavin","Chirag","Yakub"};
@@ -58,7 +72,7 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
         empcode = sharedPref.getLoginId();
         progressDialog = new ProgressDialog(HomeActivity.this);
 
-      //  new GetLead().execute();
+       new GetLead().execute();
         initView();
     }
 
@@ -407,9 +421,8 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
 
             SoapObject object = null;
             try {
-                String get_for = "app";
                 SOAPWebService webService = new SOAPWebService(mContext);
-                object = webService.GetLead(empcode,"",get_for);
+                object = webService.GetLead(empcode);
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -425,6 +438,315 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
             } catch (Exception e) {
                 e.printStackTrace();
             }
+            //response :anyType{Lead=anyType{Address1=null; Address2=null; Address3=null; Age=null; BranchCode=null; Channel=null;
+            //City=anyType{}; Country=null; Currency=null; DOB=null; Designation=null; Duration_date=null; Duration_date_2=null;
+            // EmailId=null; FName=KHSAGFK; Flag=null; Gender=null; Id=0; Income=null; LG_DST_Code=null; LName=null; L_Country=null;
+            // L_Std=null; Landline=null; Last_meeting_date=anyType{}; LeadSource=null; Lead_id=L30097; MName=null;
+            // MobileNo=9879879879; NextCallDate=null; Occupation=null; Pincode=anyType{}; Remarks=null; Result=null;
+            // Stages=null; SubSource=null; app_version=null; empcode=null; last_meeting_update=anyType{}; lead_status=anyType{};
+            // updated_date=null; };
+
+
+            try {
+                for (int i = 0; i < soapObject.getPropertyCount(); i++){
+                    SoapObject root = (SoapObject) soapObject.getProperty(i);
+
+
+                    if (root.getProperty("Address1") != null) {
+
+                        if (!root.getProperty("Address1").toString().equalsIgnoreCase("anyType{}")) {
+                            str_address = root.getProperty("Address1").toString();
+
+                        } else {
+                            str_address = "";
+                        }
+                    } else {
+                        str_address = "";
+                    }
+
+                    if (root.getProperty("Address2") != null) {
+
+                        if (!root.getProperty("Address2").toString().equalsIgnoreCase("anyType{}")) {
+                            str_flat = root.getProperty("Address2").toString();
+
+                        } else {
+                            str_flat = "";
+                        }
+                    } else {
+                        str_flat = "";
+                    }
+
+                    if (root.getProperty("Address3") != null) {
+
+                        if (!root.getProperty("Address3").toString().equalsIgnoreCase("anyType{}")) {
+                            str_street = root.getProperty("Address3").toString();
+
+                        } else {
+                            str_street = "";
+                        }
+                    } else {
+                        str_street = "";
+                    }
+
+                    if (root.getProperty("City") != null) {
+
+                        if (!root.getProperty("City").toString().equalsIgnoreCase("anyType{}")) {
+                            str_city = root.getProperty("City").toString();
+
+                        } else {
+                            str_city = "";
+                        }
+                    } else {
+                        str_city = "";
+                    }
+
+                    if (root.getProperty("Duration_date") != null) {
+
+                        if (!root.getProperty("Duration_date").toString().equalsIgnoreCase("anyType{}")) {
+                            str_spinner_duration = root.getProperty("Duration_date").toString();
+
+                        } else {
+                            str_spinner_duration = "";
+                        }
+                    } else {
+                        str_spinner_duration = "";
+                    }
+
+                    if (root.getProperty("EmailId") != null) {
+
+                        if (!root.getProperty("EmailId").toString().equalsIgnoreCase("anyType{}")) {
+                            str_email = root.getProperty("EmailId").toString();
+
+                        } else {
+                            str_email = "";
+                        }
+                    } else {
+                        str_email = "";
+                    }
+
+                    if (root.getProperty("FName") != null) {
+
+                        if (!root.getProperty("FName").toString().equalsIgnoreCase("anyType{}")) {
+                            str_fname = root.getProperty("FName").toString();
+
+                        } else {
+                            str_fname = "";
+                        }
+                    } else {
+                        str_fname = "";
+                    }
+
+                    if (root.getProperty("Income") != null) {
+
+                        if (!root.getProperty("Income").toString().equalsIgnoreCase("anyType{}")) {
+                            str_spinner_annual_income = root.getProperty("Income").toString();
+
+                        } else {
+                            str_spinner_annual_income = "";
+                        }
+                    } else {
+                        str_spinner_annual_income = "";
+                    }
+
+                    if (root.getProperty("LName") != null) {
+
+                        if (!root.getProperty("LName").toString().equalsIgnoreCase("anyType{}")) {
+                            str_lname = root.getProperty("LName").toString();
+
+                        } else {
+                            str_lname = "";
+                        }
+                    } else {
+                        str_lname = "";
+                    }
+
+                    if (root.getProperty("Flag") != null) {
+
+                        if (!root.getProperty("Flag").toString().equalsIgnoreCase("anyType{}")) {
+                            strFlag = root.getProperty("Flag").toString();
+
+                        } else {
+                            strFlag = "";
+                        }
+                    } else {
+                        strFlag = "";
+                    }
+
+                    if (root.getProperty("MName") != null) {
+
+                        if (!root.getProperty("MName").toString().equalsIgnoreCase("anyType{}")) {
+                            str_mname = root.getProperty("MName").toString();
+
+                        } else {
+                            str_mname = "";
+                        }
+                    } else {
+                        str_mname = "";
+                    }
+
+                    if (root.getProperty("Last_meeting_date") != null) {
+
+                        if (!root.getProperty("Last_meeting_date").toString().equalsIgnoreCase("anyType{}")) {
+                            strLastMeetingDate = root.getProperty("Last_meeting_date").toString();
+
+                        } else {
+                            strLastMeetingDate = "";
+                        }
+                    } else {
+                        strLastMeetingDate = "";
+                    }
+
+                    if (root.getProperty("last_meeting_update") != null) {
+
+                        if (!root.getProperty("last_meeting_update").toString().equalsIgnoreCase("anyType{}")) {
+                            strLastMeetingUpdate = root.getProperty("last_meeting_update").toString();
+
+                        } else {
+                            strLastMeetingUpdate = "";
+                        }
+                    } else {
+                        strLastMeetingUpdate = "";
+                    }
+
+                    if (root.getProperty("lead_status") != null) {
+
+                        if (!root.getProperty("lead_status").toString().equalsIgnoreCase("anyType{}")) {
+                            str_spinner_lead_status = root.getProperty("lead_status").toString();
+
+                        } else {
+                            str_spinner_lead_status = "";
+                        }
+                    } else {
+                        str_spinner_lead_status = "";
+                    }
+
+                    if (root.getProperty("updated_date") != null) {
+
+                        if (!root.getProperty("updated_date").toString().equalsIgnoreCase("anyType{}")) {
+                            strUpdateddt = root.getProperty("updated_date").toString();
+
+                        } else {
+                            strUpdateddt = "";
+                        }
+                    } else {
+                        strUpdateddt = "";
+                    }
+
+                    if (root.getProperty("DOB") != null) {
+
+                        if (!root.getProperty("DOB").toString().equalsIgnoreCase("anyType{}")) {
+                            String Dob = root.getProperty("DOB").toString();
+                            DateFormat inputDF = new SimpleDateFormat("MM/dd/yyyy");
+                            DateFormat outputDF = new SimpleDateFormat("MM/dd/yyyy");
+                            Date date = inputDF.parse(Dob);
+                            str_date_of_birth = outputDF.format(date);
+                        } else {
+                            str_date_of_birth = "";
+                        }
+                    } else {
+                        str_date_of_birth = "";
+                    }
+
+                    if (root.getProperty("Lead_id") != null) {
+
+                        if (!root.getProperty("Lead_id").toString().equalsIgnoreCase("anyType{}")) {
+                            leadId = root.getProperty("Lead_id").toString();
+
+                        } else {
+                            leadId = "";
+                        }
+                    } else {
+                        leadId = "";
+                    }
+
+                    if (root.getProperty("MobileNo") != null) {
+
+                        if (!root.getProperty("MobileNo").toString().equalsIgnoreCase("anyType{}")) {
+                            str_mobile_no = root.getProperty("MobileNo").toString();
+
+                        } else {
+                            str_mobile_no = "";
+                        }
+                    } else {
+                        str_mobile_no = "";
+                    }
+                    if (root.getProperty("Occupation") != null) {
+
+                        if (!root.getProperty("Occupation").toString().equalsIgnoreCase("anyType{}")) {
+                            str_spinner_occupation = root.getProperty("Occupation").toString();
+
+                        } else {
+                            str_spinner_occupation = "";
+                        }
+                    } else {
+                        str_spinner_occupation = "";
+                    }
+
+                    if (root.getProperty("Remarks") != null) {
+
+                        if (!root.getProperty("Remarks").toString().equalsIgnoreCase("anyType{}")) {
+                            strRemark = root.getProperty("Remarks").toString();
+
+                        } else {
+                            strRemark = "";
+                        }
+                    } else {
+                        strRemark = "";
+                    }
+
+                    if (root.getProperty("Pincode") != null) {
+
+                        if (!root.getProperty("Pincode").toString().equalsIgnoreCase("anyType{}")) {
+                            str_pincode = root.getProperty("Pincode").toString();
+
+                        } else {
+                            str_pincode = "";
+                        }
+                    } else {
+                        str_pincode = "";
+                    }
+
+                    if (root.getProperty("SubSource") != null) {
+
+                        if (!root.getProperty("SubSource").toString().equalsIgnoreCase("anyType{}")) {
+                            str_spinner_sub_source = root.getProperty("SubSource").toString();
+
+                        } else {
+                            str_spinner_sub_source = "";
+                        }
+                    } else {
+                        str_spinner_sub_source = "";
+                    }
+
+
+
+                    String strLastSync = "1";
+                    String strStages = "Lead Updated";
+                    String selection = mContext.getString(R.string.column_lead_id) + " = ?";
+                    String[] selectionArgs = {leadId};
+                    String valuesArray[] = { "" + "",leadId,strStages, str_spinner_source_of_lead, str_spinner_sub_source, str_cust_id, str_fname, str_mname, str_lname,
+                            str_date_of_birth, str_spinner_age_group, str_mobile_no, str_address, str_flat, str_street, str_laocion, str_city, str_pincode, str_email, str_spinner_annual_income,
+                            str_spinner_occupation, strCreatedfrom, strAppVersion, strAppdt, strFlag, strAllocated_userid, str_spinner_other_broker,
+                            str_rg_meeting_status, str_spinner_lead_status, strCompitator_Name, strProduct, strRemark, str_spinner_research_type,
+                            str_spinner_duration, strPanNo, strB_Margin, strB_aum, strB_sip, strB_number, strB_value, strB_premium, str_reason,
+                            str_next_meeting_date, str_metting_agenda, str_lead_update_log, strCreatedby, strCreateddt, strUpdateddt, strUpdatedby,strEmpCode,
+                            strLastMeetingDate,strLastMeetingUpdate,strBusiness_opp};
+
+                    boolean result = Narnolia.dbCon.update(DbHelper.TABLE_DIRECT_LEAD, selection, valuesArray, utils.columnNamesLeadUpdate, selectionArgs);
+
+
+
+
+
+
+
+
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+
             finally {
                 if (progressDialog != null) {
                         progressDialog.dismiss();
@@ -440,8 +762,8 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
         leadInfoModelList = new ArrayList<>();
         try {
             // WHERE clause
-            //String where = " where last_sync = '0'";
-            Cursor cursor = Narnolia.dbCon.getAllDataFromTable(DbHelper.TABLE_DIRECT_LEAD);
+            String where = " where flag NOT IN('D')";
+            Cursor cursor = Narnolia.dbCon.fetchFromSelect(DbHelper.TABLE_DIRECT_LEAD, where);
             if (cursor != null && cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 do {

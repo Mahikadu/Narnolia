@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
@@ -12,6 +13,7 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.Html;
 import android.text.InputType;
@@ -76,14 +78,15 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
     private ProgressDialog progressDialog;
     private String responseId;
     public Utils utils;
+    String lead__Id;
+    String strStages,strFlag;
+    boolean cliked=false;
 
     //..................................................................
-    private String strLeadId,strAge,
-            strAddr1, strAddr2, strAddr3, strEmail, strIncome,
-            strCreatedfrom, strAppVersion, strAppdt, strFlag, strAllocated_userid, strBrokerDelts,
-            strMeetingStatus, strLeadStatus, strCompitator_Name, strProduct, strRemark,
-            strDuration, strPanNo, strB_Margin, strB_aum, strB_sip, strB_number, strB_value, strB_premium,strEmpCode, strReason,
-            strMeetingdt, strMeetingAgenda, strLead_Updatelog, strCreatedby, strCreateddt, strUpdateddt, strUpdatedby
+    private String strCreatedfrom, strAppVersion, strAppdt, strAllocated_userid,
+            strCompitator_Name, strProduct, strRemark,
+           strPanNo, strB_Margin, strB_aum, strB_sip, strB_number, strB_value, strB_premium,strEmpCode,
+            strCreatedby, strCreateddt, strUpdateddt, strUpdatedby
             ,strBusiness_opp,strLastMeetingDate,strLastMeetingUpdate;
     //.......................................................................
     EditText customer_id,fname,mname,lname, mobileno, email, date_of_birth, address, flat, street, location,next_metting_date, metting_agenda, lead_update_log,reason,
@@ -130,6 +133,7 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
     private String empcode,fullname;
     private SharedPref sharedPref;
     private TextView admin,tv_prospective_products2;
+    private ArrayAdapter<String> adapter8 = null;
 
     AlertDialog.Builder DialogProduct;
     AlertDialog showProduct;
@@ -163,8 +167,11 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
         empcode = sharedPref.getLoginId();
         spinPincodeArray = new HashMap<>();
         spinCityArray = new ArrayList<>();
+        lead__Id = getIntent().getStringExtra("lead__Id");
 
         initView();
+
+
 
 
 
@@ -438,6 +445,7 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
                             }
                         }
                     }
+
 
                 }
 
@@ -731,8 +739,23 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
             });
             fetchSourcedata();
             fetchSubSourcedata();
+            // Set Lead to the Lead Spinner
+            try {
+                if (lead__Id != null && lead__Id.length() > 0){
+                    if (adapter8 != null){
+                        for (int i = 0;i<strLeadNameArray.length;i++){
+                            if (strLeadNameArray[i].contains(lead__Id)){
+                                int selLeadPos = adapter8.getPosition(strLeadNameArray[i]);
+                                spinner_lead_name.setSelection(selLeadPos);
+                            }
 
-
+                        }
+    //                     int selLeadPos = adapter8.getgetPosition(lead__Id);
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
 
             // ...............Radio Group.....
@@ -802,9 +825,19 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
 
 
 
+
             bt_close_lead.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    cliked=true;
+
+                    if (isConnectingToInternet()) {
+
+                        new UpdateLeadData().execute();
+
+                    } else {
+                        updateInDb();
+                    }
                     pushActivity(mContext, HomeActivity.class, null, true);
                 }
             });
@@ -1294,8 +1327,8 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
     private void  fetchDataOfLeadDetails(){
         try {
             // WHERE clause
-            //String where = " where last_sync = '0'";
-            Cursor cursor = Narnolia.dbCon.getAllDataFromTable(DbHelper.TABLE_DIRECT_LEAD);
+            String where = " where flag NOT IN('D')";
+            Cursor cursor = Narnolia.dbCon.fetchFromSelect(DbHelper.TABLE_DIRECT_LEAD, where);
             if (cursor != null && cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 do {
@@ -1746,7 +1779,7 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
             spinner_duration.setAdapter(adapter7);
 
             if (spinLeadNameList != null && spinLeadNameList.size() > 0) {
-                ArrayAdapter<String> adapter8 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, strLeadNameArray) {
+                adapter8 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, strLeadNameArray) {
                     @Override
                     public View getDropDownView(int position, View convertView, ViewGroup parent)
                     {
@@ -1814,8 +1847,24 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
                 number.setText(leadInfoModel.getB_number());
                 value.setText(leadInfoModel.getB_value());
                 premium.setText(leadInfoModel.getB_value());
-                next_metting_date.setText(leadInfoModel.getMeetingdt());
-                metting_agenda.setText(leadInfoModel.getMeetingagenda());
+                SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+                String lead__id1 = sharedPref.getString("lead__Id","");
+                String meeting_date=sharedPref.getString("meeting_date","");
+                String meeting_agenda=sharedPref.getString("meeting_agenda", "");
+
+
+                if(leadId.equals(lead__id1)){
+                    next_metting_date.setText(meeting_date);
+                    metting_agenda.setText(meeting_agenda);
+                }else {
+                    next_metting_date.setText(leadInfoModel.getMeetingdt());
+                    metting_agenda.setText(leadInfoModel.getMeetingagenda());
+                }
+
+
+             /*   next_metting_date.setText(leadInfoModel.getMeetingdt());
+                metting_agenda.setText(leadInfoModel.getMeetingagenda());*/
+
                 lead_update_log.setText(leadInfoModel.getLead_updatelog());
                 reason.setText(leadInfoModel.getReason());
                 remark.setText(leadInfoModel.getRemark());
@@ -2025,8 +2074,12 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
             int directLeadId;
 //            lead_id_info = "";
             String strLastSync = "0";
-            String strStages = "Lead Updated";
-            String strFlag = "U";
+            if (cliked){
+                strStages="closer of lead";
+                strFlag="D";
+            }else {
+                strStages = "Lead Updated";
+                strFlag = "U";}
 
             directLeadId = leadInfoModel.getDirect_lead_id();
 
@@ -2102,13 +2155,18 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
             }
             // strOccupation  = 1 and strDesignation = 1  also currency = "" these are hardcoded values we need to change when we get master data
             SOAPWebService webService = new SOAPWebService(mContext);
-            String stages = "Lead Updated";
-            String flag = "U";
+            if (cliked){
+                strStages="closer of lead";
+                strFlag="D";
+            }else {
+            strStages = "Lead Updated";
+             strFlag = "U";
+            }
 
             SoapPrimitive object = webService.UpdateLead(leadId,str_spinner_source_of_lead, str_spinner_sub_source,str_cust_id, str_fname, str_mname, str_lname, str_mobile_no,
                     str_email, str_spinner_age_group, str_date_of_birth,str_address,str_flat,str_street,str_laocion ,str_city,str_pincode,str_spinner_occupation,str_spinner_annual_income,str_spinner_other_broker,str_rg_meeting_status,str_spinner_lead_status,strRemark,strCompitator_Name,strProduct,
                     "",str_spinner_duration,strPanNo,str_reason,strB_Margin,strB_aum,strB_sip,strB_number
-                    ,strB_value,strB_premium,str_next_meeting_date,str_metting_agenda,str_lead_update_log,flag,"","",strLastMeetingDate,strLastMeetingUpdate,"1","","","");
+                    ,strB_value,strB_premium,str_next_meeting_date,str_metting_agenda,str_lead_update_log,strFlag,"","",strLastMeetingDate,strLastMeetingUpdate,"1","","","");
 
             return object;
 

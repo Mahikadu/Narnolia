@@ -127,7 +127,7 @@
             android:layout_height="wrap_content">
 
             <Button
-                android:id="@+id/btn1_submit"
+                android:id="@+id/btn1_submitv"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginTop="10dp"

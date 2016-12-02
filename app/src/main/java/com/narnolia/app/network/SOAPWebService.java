@@ -203,7 +203,7 @@ public class SOAPWebService {
 
     }
 
-    public SoapObject GetLead(String empcode,String leadid,String get_for) {
+    public SoapObject GetLead(String empcode) {
         SoapObject result3 = null;
 
         try {
@@ -211,12 +211,9 @@ public class SOAPWebService {
 //                    "GetLead_Empwise");// soap object
 
             SoapObject request = new SoapObject(NAMESPACE,
-                    "GetLead");// soap object
+                    "GetALLLead_Empwise");// soap object
 
             request.addProperty("empcode", empcode);
-            request.addProperty("leadid", leadid);
-            request.addProperty("get_for", get_for);
-
 
             SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
                     SoapEnvelope.VER11);// soap envelop with version
@@ -226,7 +223,7 @@ public class SOAPWebService {
             HttpTransportSE androidHttpTransport = new HttpTransportSE(Utils.URL);// http
             // transport
             // call
-            androidHttpTransport.call(SOAP_ACTION + "GetLead",
+            androidHttpTransport.call(SOAP_ACTION + "GetALLLead_Empwise",
                     envelope);
             Log.i("TAG", "envelope" + envelope);
 
