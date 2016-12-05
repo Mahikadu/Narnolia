@@ -373,6 +373,7 @@
                         android:inputType="textEmailAddress"
                         android:maxLength="50"
                         android:padding="@dimen/view_padding"
+                        android:imeOptions="actionDone"
                         android:singleLine="true"
                         android:textColor="@android:color/black" />
                 </LinearLayout>
@@ -430,10 +431,12 @@
                         android:background="@drawable/edit_background"
                         android:drawablePadding="@dimen/view_padding"
                         android:hint="@string/hintdateofbirth"
-                        android:imeOptions="actionNext"
                         android:maxLength="10"
                         android:padding="@dimen/view_padding"
                         android:singleLine="true"
+                        android:windowSoftInputMode="stateHidden"
+                        android:inputType="none"
+                        android:textIsSelectable="true"
                         android:textColor="@android:color/black" />
                 </LinearLayout>
 
@@ -631,7 +634,7 @@
                         android:drawablePadding="@dimen/view_padding"
                         android:hint="@string/hintpincode"
                         android:inputType="number"
-                        android:imeOptions="actionNext"
+                        android:imeOptions="actionDone"
                         android:maxLength="6"
                         android:padding="@dimen/view_padding"
                         android:singleLine="true"
@@ -945,13 +948,14 @@
                                 android:textAppearance="?android:attr/textAppearanceMedium"
                                 android:textColor="@android:color/black" />
 
-                            <Spinner
+                            <com.narnolia.app.multispinner.MultiSpinnerSearch
                                 android:id="@+id/spin_research_type"
                                 style="@style/spinner_style"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:drawablePadding="@dimen/view_padding" />
+
                         </LinearLayout>
 
                         <LinearLayout
@@ -1142,12 +1146,6 @@
 
 
 
-
-
-
-
-
-
                 </LinearLayout>
 
 
@@ -1182,8 +1180,10 @@
                         android:drawablePadding="@dimen/view_padding"
                         android:maxLength="50"
                         android:padding="@dimen/view_padding"
-                        android:imeOptions="actionNext"
+                        android:windowSoftInputMode="stateHidden"
+                        android:inputType="none"
                         android:singleLine="true"
+                        android:textIsSelectable="true"
                         android:textColor="@android:color/black" />
                 </LinearLayout>
 
@@ -1215,6 +1215,7 @@
                         android:inputType="text"
                         android:maxLength="50"
                         android:padding="@dimen/view_padding"
+                        android:imeOptions="actionDone"
                         android:singleLine="true"
                         android:textColor="@android:color/black" />
                 </LinearLayout>
@@ -1253,6 +1254,9 @@
                         android:drawablePadding="@dimen/view_padding"
                         android:maxLength="50"
                         android:padding="@dimen/view_padding"
+                        android:windowSoftInputMode="stateHidden"
+                        android:inputType="none"
+                        android:textIsSelectable="true"
                         android:imeOptions="actionNext"
                         android:singleLine="true"
                         android:textColor="@android:color/black" />

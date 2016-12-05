@@ -3,6 +3,7 @@ package com.narnolia.app;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
@@ -101,6 +102,10 @@ public class LeadActivity extends AbstractActivity implements View.OnClickListen
     AlertDialog.Builder DialogProduct;
     AlertDialog showProduct;
     int icount =0;
+    boolean cliked=false;
+    boolean create=false;
+    boolean pin=false;
+
 
 
     private LinearLayout productLayout,linear_customer_id;
@@ -366,7 +371,9 @@ public class LeadActivity extends AbstractActivity implements View.OnClickListen
                                                 if (Arrays.asList(strPinArr).contains(val)) {
                                                     System.out.println("CITY CITY CITY");
                                                 } else {
+
                                                     autoPincode.setError("Invalid Pincode");
+
                                                 }
                                             }
                                         }
@@ -436,9 +443,11 @@ public class LeadActivity extends AbstractActivity implements View.OnClickListen
             btn_create.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                      create=true;
                     validateDetails();
-                    pushActivity(mContext, HomeActivity.class, null, true);
-                }
+
+                   // pushActivity(mContext, HomeActivity.class, null, true);
+              }
             });
 
             btn_cancel.setOnClickListener(new View.OnClickListener() {
@@ -447,11 +456,19 @@ public class LeadActivity extends AbstractActivity implements View.OnClickListen
                     resetFields();
                 }
             });
+            btn_create_close.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    cliked=true;
+                    validateDetails();
+                }
+            });
 
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
 
     private void fetchSourcedata() {
         try {
@@ -591,10 +608,8 @@ public class LeadActivity extends AbstractActivity implements View.OnClickListen
                 fname.setError(getString(R.string.name));
                 focusView = fname;
                 focusView.requestFocus();
-
                 return;
             }
-
             if (TextUtils.isEmpty(str_lname)) {
                 lname.setError(getString(R.string.name));
                 focusView = lname;
@@ -614,17 +629,18 @@ public class LeadActivity extends AbstractActivity implements View.OnClickListen
                 return;
             }
             if (TextUtils.isEmpty(str_pincode)) {
-
                 autoPincode.setError(getString(R.string.reqpincode));
                 focusView = autoPincode;
                 focusView.requestFocus();
                 return;
             }
+
             if (spinner_source_of_lead.getCount() == 0) {
                 focusView = spinner_source_of_lead;
                 focusView.requestFocus();
                 return;
             }
+
             if (isConnectingToInternet()) {
 
                 new InsertLeadData().execute();
@@ -632,6 +648,11 @@ public class LeadActivity extends AbstractActivity implements View.OnClickListen
             } else {
                 updateOrInsertInDb();
             }
+
+            if (create){
+                pushActivity(mContext, HomeActivity.class, null, true);
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -1134,11 +1155,16 @@ public class LeadActivity extends AbstractActivity implements View.OnClickListen
             }
             // strOccupation  = 1 and strDesignation = 1  also currency = "" these are hardcoded values we need to change when we get master data
             SOAPWebService webService = new SOAPWebService(mContext);
-            String stages = "Lead Created";
-            String flag = "C";
+            if (cliked){
+                strStages="closer of lead";
+                strFlag="D";
+            }else {
+                strStages = "Lead Created";
+                strFlag = "C";
+            }
 
             SoapPrimitive object = webService.SaveLead(strSourceofLead, strSubSourceofLead,"", str_fname, str_mname, str_lname, str_mob,
-                    strlocation, str_city, str_pincode,"1",stages, "", "", "", flag, "");
+                    strlocation, str_city, str_pincode,"1",strStages, "", "", "", strFlag, "");
 
             return object;
 
@@ -1173,8 +1199,13 @@ public class LeadActivity extends AbstractActivity implements View.OnClickListen
             int directLeadId = 0;
             LeadId = "";
             String strLastSync = "0";
-            String strStages = "Lead Created";
-            String strFlag = "C";
+            if (cliked){
+                strStages="closer of lead";
+                strFlag="D";
+            }else {
+                strStages = "Lead Created";
+                strFlag = "C";
+            }
 
             if (isConnectingToInternet()) {
                 if (responseId.equalsIgnoreCase("TRUE")) {
@@ -1215,6 +1246,33 @@ public class LeadActivity extends AbstractActivity implements View.OnClickListen
 
                 displayMessage("Insert Data Succesfully");
 
+                if (cliked){
+                    AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+                    builder1.setTitle("Lead");
+                    builder1.setMessage("Lead "+ LeadId +" Created and Closed Sucessfully!");
+                    builder1.setCancelable(true);
+
+                    builder1.setPositiveButton(
+                            "Ok",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    pushActivity(mContext, HomeActivity.class, null, true);
+                                    dialog.cancel();
+                                }
+                            });
+
+              /*  builder1.setNegativeButton(
+                        "No",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });*/
+
+                    AlertDialog alert11 = builder1.create();
+                    alert11.show();
+
+                }
 
 
             }

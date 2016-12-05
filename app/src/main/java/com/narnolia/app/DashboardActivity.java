@@ -3,6 +3,7 @@ package com.narnolia.app;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -107,8 +108,8 @@ public class DashboardActivity extends AbstractActivity {
     public void fetchDataOfLeadDetails() {
         try {
             // WHERE   clause
-
-            Cursor cursor = Narnolia.dbCon.getAllDataFromTable(DbHelper.TABLE_DIRECT_LEAD);
+            String where = " where flag NOT IN('D')";
+            Cursor cursor = Narnolia.dbCon.fetchFromSelect(DbHelper.TABLE_DIRECT_LEAD, where);
             Log.i("TAG", "Cursor count:" + cursor.getCount());
             if (cursor != null && cursor.getCount() > 0) {
                 cursor.moveToFirst();
@@ -218,12 +219,7 @@ public class DashboardActivity extends AbstractActivity {
                    }
                });
                 TextView tvCloseLead = (TextView) tr.findViewById(R.id.tvCloseLead);
-                tvCloseLead.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        showClose_lead_Dialog();
-                    }
-                });
+
 
 
              /*   tvLeadId.setText("Lead ID");
@@ -251,6 +247,22 @@ public class DashboardActivity extends AbstractActivity {
 //                tvCloseLead.setText(leadInfoModel.getLead_id());
 
                 table_layout.addView(tr);
+                tvCloseLead.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        final String lead__Id= leadInfoModel.getLead_id();
+                        // showClose_lead_Dialog();
+                        try {
+                            Intent intent=new Intent(DashboardActivity.this,UpdateLeadActivity.class);
+
+                            intent.putExtra("lead__Id", lead__Id);
+
+                            startActivity(intent);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -274,7 +286,7 @@ public class DashboardActivity extends AbstractActivity {
                     edt_next_meeting_dialog.setText(dateFormatter.format(newDate.getTime()));
                 }
             }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
-
+            datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
             edt_next_meeting_dialog.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -288,6 +300,7 @@ public class DashboardActivity extends AbstractActivity {
 
         Button btnDismissMaster = (Button) showMaster.findViewById(R.id.iv_close_dial);
         Button submit = (Button) showMaster.findViewById(R.id.btn1_submit);
+
         Button close = (Button) showMaster.findViewById(R.id.btn1_close);
         close.setOnClickListener(new View.OnClickListener() {
             @Override

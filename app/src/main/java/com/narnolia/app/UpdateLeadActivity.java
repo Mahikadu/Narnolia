@@ -17,8 +17,10 @@ import android.text.Html;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -45,6 +47,10 @@ import com.narnolia.app.model.CategoryDetailsModel;
 import com.narnolia.app.model.LeadInfoModel;
 import com.narnolia.app.model.ProductDetailsModel;
 import com.narnolia.app.model.SubCategoryDetailsModel;
+import com.narnolia.app.multispinner.KeyPairBoolData;
+import com.narnolia.app.multispinner.MultiSpinnerListener;
+import com.narnolia.app.multispinner.MultiSpinnerSearch;
+import com.narnolia.app.multispinner.SpinnerListener;
 import com.narnolia.app.network.SOAPWebService;
 
 import org.ksoap2.serialization.SoapPrimitive;
@@ -76,14 +82,16 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
     private ProgressDialog progressDialog;
     private String responseId;
     public Utils utils;
+    String lead__Id;
+    String strStages,strFlag;
+    boolean cliked=false;
+
 
     //..................................................................
-    private String strLeadId,strAge,
-            strAddr1, strAddr2, strAddr3, strEmail, strIncome,
-            strCreatedfrom, strAppVersion, strAppdt, strFlag, strAllocated_userid, strBrokerDelts,
-            strMeetingStatus, strLeadStatus, strCompitator_Name, strProduct, strRemark,
-            strDuration, strPanNo, strB_Margin, strB_aum, strB_sip, strB_number, strB_value, strB_premium,strEmpCode, strReason,
-            strMeetingdt, strMeetingAgenda, strLead_Updatelog, strCreatedby, strCreateddt, strUpdateddt, strUpdatedby
+    private String strCreatedfrom, strAppVersion, strAppdt, strAllocated_userid,
+            strCompitator_Name, strProduct, strRemark,
+           strPanNo, strB_Margin, strB_aum, strB_sip, strB_number, strB_value, strB_premium,strEmpCode,
+            strCreatedby, strCreateddt, strUpdateddt, strUpdatedby
             ,strBusiness_opp,strLastMeetingDate,strLastMeetingUpdate;
     //.......................................................................
     EditText customer_id,fname,mname,lname, mobileno, email, date_of_birth, address, flat, street, location,next_metting_date, metting_agenda, lead_update_log,reason,
@@ -91,10 +99,11 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
     AutoCompleteTextView editCity,autoPincode;
     String lead_id_info,leadId;
     Spinner spinner_lead_name, spinner_source_of_lead, spinner_sub_source, spinner_age_group,
-            spinner_occupation, spinner_annual_income, spinner_other_broker,spinner_lead_status,spinner_research_type,spinner_duration;
+            spinner_occupation, spinner_annual_income, spinner_other_broker,spinner_lead_status,spinner_duration;
+    MultiSpinnerSearch spinner_research_type ;
     TextView tv_lead_name, tv_source_of_lead, tv_sub_source, tv_fname,tv_mname,tv_lname, tv_mobile_no, tv_email,
             tv_age_group, tv_date_of_birth, tv_address, tv_flat, tv_street, tv_location, tv_city, tv_pincode,
-            tv_occupation, tv_annual_income, tv_other_broker, tv_meeting_status, tv_meeting_agenda, tv_lead_update_log,tv_lead_status;
+            tv_occupation, tv_annual_income, tv_other_broker, tv_meeting_status, tv_meeting_agenda, tv_lead_update_log,tv_lead_status,tv_pan_no;
     RadioGroup rg_meeting_status;
     RadioButton rb_contact, rb_not_contact;
     LinearLayout connect,notconnect,linear_non_salaried,linear_remark,linear_competitor,linear_research,linear_lead_details_hidden,linear_customer_id,linear_pan_no,linear_duration;
@@ -118,6 +127,8 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
     private List<String> spinSourceLeadList;
     private List<String> spinSubSourceLeadList;
     private List<String> spinLeadNameList;
+    private List<String> spinResearchTypeList;
+    String [] strResearchArray=null;
     private List<String> spinOccupationList=new ArrayList<String>(Arrays.asList(spinOccupationArray));
     private List<String>spinAnnualIncomeList=new ArrayList<String>(Arrays.asList(spinAnnualInacomeArray));
     private List<String>spinOtherBrokerList=new ArrayList<String>(Arrays.asList(spinOtherBrokersArray));
@@ -130,6 +141,7 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
     private String empcode,fullname;
     private SharedPref sharedPref;
     private TextView admin,tv_prospective_products2;
+    private ArrayAdapter<String> adapter8 = null;
 
     AlertDialog.Builder DialogProduct;
     AlertDialog showProduct;
@@ -163,6 +175,7 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
         empcode = sharedPref.getLoginId();
         spinPincodeArray = new HashMap<>();
         spinCityArray = new ArrayList<>();
+        lead__Id = getIntent().getStringExtra("lead__Id");
 
         initView();
 
@@ -327,10 +340,6 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
                 }
             });
 
-
-
-
-
             //.............TextView Ref
             tv_lead_name = (TextView) findViewById(R.id.txt_lead_name);
             tv_source_of_lead = (TextView) findViewById(R.id.txt_source_of_lead);
@@ -364,7 +373,8 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
             tv_lead_update_log = (TextView) findViewById(R.id.txt_lead_update_log);
             tv_lead_status=(TextView)findViewById(R.id.tvLeadStatus_connected);
             tv_lead_status.setText(Html.fromHtml("<font color=\"red\">*</font>"+"<font color=\"black\">Lead Status</font>\n"));
-
+            tv_pan_no=(TextView)findViewById(R.id.txt_pan_no);
+            tv_pan_no.setText(Html.fromHtml("<font color=\"red\">*</font>"+"<font color=\"black\">Pan No</font>\n"));
 
             //....................spinner Ref........
             spinner_lead_name = (Spinner) findViewById(R.id.spin_lead_name);
@@ -376,7 +386,9 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
             spinner_other_broker = (Spinner) findViewById(R.id.spin_other_broker);
             spinner_lead_status=(Spinner)findViewById(R.id.spin_lead_status);
             spinner_duration=(Spinner)findViewById(R.id.spin_duration);
-            spinner_research_type=(Spinner)findViewById(R.id.spin_research_type);
+            spinner_research_type=(MultiSpinnerSearch) findViewById(R.id.spin_research_type);
+
+
 
 
             //.................radio group layout......
@@ -438,6 +450,7 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
                             }
                         }
                     }
+
 
                 }
 
@@ -729,10 +742,34 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
                     }
                 }
             });
+
             fetchSourcedata();
             fetchSubSourcedata();
 
+            fetchResearchTypedata();
 
+            try {
+              //  fetchResearchTypedata();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            // Set Lead to the Lead Spinner
+            try {
+                if (lead__Id != null && lead__Id.length() > 0){
+                    if (adapter8 != null){
+                        for (int i = 0;i<strLeadNameArray.length;i++){
+                            if (strLeadNameArray[i].contains(lead__Id)){
+                                int selLeadPos = adapter8.getPosition(strLeadNameArray[i]);
+                                spinner_lead_name.setSelection(selLeadPos);
+                            }
+
+                        }
+    //                     int selLeadPos = adapter8.getgetPosition(lead__Id);
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
 
             // ...............Radio Group.....
@@ -802,9 +839,19 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
 
 
 
+
             bt_close_lead.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    cliked=true;
+
+                    if (isConnectingToInternet()) {
+
+                        new UpdateLeadData().execute();
+
+                    } else {
+                        updateInDb();
+                    }
                     pushActivity(mContext, HomeActivity.class, null, true);
                 }
             });
@@ -854,6 +901,7 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
                         last_meeting_dt.setText(dateFormatter.format(newDate.getTime()));
                     }
                 }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+                datePickerDialog2.getDatePicker().setMaxDate(System.currentTimeMillis());
                 last_meeting_dt.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -1294,8 +1342,8 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
     private void  fetchDataOfLeadDetails(){
         try {
             // WHERE clause
-            //String where = " where last_sync = '0'";
-            Cursor cursor = Narnolia.dbCon.getAllDataFromTable(DbHelper.TABLE_DIRECT_LEAD);
+            String where = " where flag NOT IN('D')";
+            Cursor cursor = Narnolia.dbCon.fetchFromSelect(DbHelper.TABLE_DIRECT_LEAD, where);
             if (cursor != null && cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 do {
@@ -1432,6 +1480,9 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
             e.printStackTrace();
         }
     }
+    public boolean isEmailValid(CharSequence email) {
+        return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
+    }
     //...............validatations.....
     private void validateDetails(){
         try {
@@ -1514,12 +1565,22 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
                 return;
             }
             if (TextUtils.isEmpty(str_pincode)) {
-
                 autoPincode.setError(getString(R.string.reqpincode));
                 focusView = autoPincode;
                 focusView.requestFocus();
                 return;
             }
+
+
+            if (!TextUtils.isEmpty(str_email)) {
+                if (!isEmailValid(str_email)) {
+                    email.setError("Invalid email Id");
+                    focusView = email;
+                    focusView.requestFocus();
+                    return;
+                }
+            }
+
             if (spinner_source_of_lead.getCount()==0){
                 focusView=spinner_source_of_lead;
                 focusView.requestFocus();
@@ -1537,6 +1598,117 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
             e.printStackTrace();
         }
     }
+    private void fetchResearchTypedata() {
+        try {
+
+            spinResearchTypeList = new ArrayList<>();
+          //  final List<KeyPairBoolData> spinResearchTypeList = new ArrayList<>();
+          /*  String SubSourceLead = "SubSource ";
+
+            String where = " where type like " + "'" + SubSourceLead + "'";
+            Cursor cursor2 = Narnolia.dbCon.fetchFromSelect(DbHelper.TABLE_M_PARAMETER, where);*/
+            String ST = "ST";
+
+            String where1 = " where trim(type) like " + "'" + ST + "'";
+            Cursor cursor3 = Narnolia.dbCon.fetchFromSelect(DbHelper.TABLE_M_PARAMETER, where1);
+            if (cursor3 != null && cursor3.getCount() > 0) {
+                cursor3.moveToFirst();
+                do {
+                    String research = "";
+                    research = cursor3.getString(cursor3.getColumnIndex("value")).trim();
+                    spinResearchTypeList.add(research);
+                } while (cursor3.moveToNext());
+                cursor3.close();
+            }
+            /*Collections.sort(spinResearchTypeList);
+            if (spinResearchTypeList.size() > 0) {
+                strResearchArray = new String[spinResearchTypeList.size() + 1];
+                strResearchArray[0] = "Select an Option";
+                for (int i = 0; i < spinResearchTypeList.size(); i++) {
+                    strResearchArray[i + 1] = spinResearchTypeList.get(i);
+                }
+            }*/
+
+
+            final List<KeyPairBoolData> listArray = new ArrayList<>();
+
+            for (int i = 0; i < spinResearchTypeList.size(); i++) {
+                KeyPairBoolData h = new KeyPairBoolData();
+                h.setId(i + 1);
+                h.setName(spinResearchTypeList.get(i));
+                h.setSelected(false);
+                listArray.add(h);
+            }
+
+
+      /*      spinner_research_type.setItems(listArray, -1, new SpinnerListener() {
+
+                @Override
+                public void onItemsSelected(List<KeyPairBoolData> items) {
+
+                    for (int i = 0; i < items.size(); i++) {
+                        if (items.get(i).isSelected()) {
+                            Log.i("TAG", i + " : " + items.get(i).getName() + " : " + items.get(i).isSelected());
+                        }
+                    }
+                }
+            });*/
+
+        spinner_research_type.setItems(listArray, -1, new SpinnerListener() {
+
+            @Override
+            public void onItemsSelected(List<KeyPairBoolData> items) {
+
+                for (int i = 0; i < items.size(); i++) {
+                    if (items.get(i).isSelected()) {
+                        Log.i("TAG", i + " : " + items.get(i).getName() + " : " + items.get(i).isSelected());
+                        str_spinner_research_type=i+items.get(i).getName()+items.get(i).isSelected();
+                    }
+                }
+            }
+        });
+
+            spinner_research_type.setLimit(listArray.size(), new MultiSpinnerSearch.LimitExceedListener() {
+                @Override
+                public void onLimitListener(KeyPairBoolData data) {
+                    Toast.makeText(getApplicationContext(),
+                            "Limit exceed ", Toast.LENGTH_LONG).show(); // 2
+                }
+            });
+
+
+
+          /*  if (spinResearchTypeList != null && spinResearchTypeList.size() > 0) {
+                ArrayAdapter<String> researchtype = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, strResearchArray) {
+                    @Override
+                    public View getDropDownView(int position, View convertView, ViewGroup parent)
+                    {
+                        View v = null;
+                        // If this is the initial dummy entry, make it hidden
+                        if (position == 0) {
+                            TextView tv = new TextView(getContext());
+                            tv.setHeight(0);
+                            tv.setVisibility(View.GONE);
+                            v = tv;
+                        }
+                        else {
+                            // Pass convertView as null to prevent reuse of special case views
+                            v = super.getDropDownView(position, null, parent);
+                        }
+                        // Hide scroll bar because it appears sometimes unnecessarily, this does not prevent scrolling
+                        parent.setVerticalScrollBarEnabled(false);
+                        return v;
+                    }
+                };
+
+                researchtype.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spinner_research_type.setAdapter(researchtype);
+            }*/
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     private void fetchSubSourcedata() {
         try {
 
@@ -1746,7 +1918,7 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
             spinner_duration.setAdapter(adapter7);
 
             if (spinLeadNameList != null && spinLeadNameList.size() > 0) {
-                ArrayAdapter<String> adapter8 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, strLeadNameArray) {
+                adapter8 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, strLeadNameArray) {
                     @Override
                     public View getDropDownView(int position, View convertView, ViewGroup parent)
                     {
@@ -2025,8 +2197,12 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
             int directLeadId;
 //            lead_id_info = "";
             String strLastSync = "0";
-            String strStages = "Lead Updated";
-            String strFlag = "U";
+            if (cliked){
+                strStages="closer of lead";
+                strFlag="D";
+            }else {
+                strStages = "Lead Updated";
+                strFlag = "U";}
 
             directLeadId = leadInfoModel.getDirect_lead_id();
 
@@ -2102,13 +2278,18 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
             }
             // strOccupation  = 1 and strDesignation = 1  also currency = "" these are hardcoded values we need to change when we get master data
             SOAPWebService webService = new SOAPWebService(mContext);
-            String stages = "Lead Updated";
-            String flag = "U";
+            if (cliked){
+                strStages="closer of lead";
+                strFlag="D";
+            }else {
+            strStages = "Lead Updated";
+             strFlag = "U";
+            }
 
             SoapPrimitive object = webService.UpdateLead(leadId,str_spinner_source_of_lead, str_spinner_sub_source,str_cust_id, str_fname, str_mname, str_lname, str_mobile_no,
                     str_email, str_spinner_age_group, str_date_of_birth,str_address,str_flat,str_street,str_laocion ,str_city,str_pincode,str_spinner_occupation,str_spinner_annual_income,str_spinner_other_broker,str_rg_meeting_status,str_spinner_lead_status,strRemark,strCompitator_Name,strProduct,
                     "",str_spinner_duration,strPanNo,str_reason,strB_Margin,strB_aum,strB_sip,strB_number
-                    ,strB_value,strB_premium,str_next_meeting_date,str_metting_agenda,str_lead_update_log,flag,"","",strLastMeetingDate,strLastMeetingUpdate,"1","","","");
+                    ,strB_value,strB_premium,str_next_meeting_date,str_metting_agenda,str_lead_update_log,strFlag,"","",strLastMeetingDate,strLastMeetingUpdate,"1","","","");
 
             return object;
 
