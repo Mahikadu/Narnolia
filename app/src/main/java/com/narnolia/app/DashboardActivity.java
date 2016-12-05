@@ -4,9 +4,11 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,6 +49,7 @@ public class DashboardActivity extends AbstractActivity {
     private List<LeadInfoModel> leadInfoModelList;
     private DatePickerDialog datePickerDialog;  //date picker declare
     private SimpleDateFormat dateFormatter;
+    EditText edt_next_meeting_dialog,edt_next_meeting_agenda;
     String spinLeadStatusArray[]={"Select Lead Status","Hot","Warm","Cold","Not Intersted","Wrong Contact Details","Lost","Lost to Competitor","Research Servicing","On-boarding"};
 
     @Override
@@ -54,10 +57,12 @@ public class DashboardActivity extends AbstractActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dashboard_activity);
 
+
         mContext = DashboardActivity.this;
         leadInfoModelList = new ArrayList<LeadInfoModel>();
        // lvLead = (ListView) findViewById(R.id.biList);
         table_layout = (TableLayout) findViewById(R.id.tableLaout_lead);
+
 
         createInitialModel();
         fetchDataOfLeadDetails();
@@ -212,12 +217,7 @@ public class DashboardActivity extends AbstractActivity {
                 TextView tvLastMeet_update = (TextView) tr.findViewById(R.id.tvLastMeet_update);
                 TextView tvLeadStatus = (TextView) tr.findViewById(R.id.tvLeadStatus);
                 TextView tvNextMeet = (TextView) tr.findViewById(R.id.tvNextMeet);
-               tvNextMeet.setOnClickListener(new View.OnClickListener() {
-                   @Override
-                   public void onClick(View view) {
-                       showNext_Metting_Dialog();
-                   }
-               });
+
                 TextView tvCloseLead = (TextView) tr.findViewById(R.id.tvCloseLead);
 
 
@@ -263,19 +263,44 @@ public class DashboardActivity extends AbstractActivity {
                         }
                     }
                 });
+
+                tvNextMeet.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        showNext_Metting_Dialog(leadInfoModel.getLead_id());
+                    }
+                });
+                tvCloseLead.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        final String lead__Id= leadInfoModel.getLead_id();
+                        // showClose_lead_Dialog();
+                        try {
+                            Intent intent=new Intent(DashboardActivity.this,UpdateLeadActivity.class);
+
+                            intent.putExtra("lead__Id", lead__Id);
+
+                            startActivity(intent);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    private void showNext_Metting_Dialog(){
+    private void showNext_Metting_Dialog(final String lead__Id){
         final AlertDialog.Builder DialogMaster = new AlertDialog.Builder(this);
         LayoutInflater li = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         final View dialogViewMaster = li.inflate(R.layout.custom_next_meeting_dialog, null);
         DialogMaster.setView(dialogViewMaster);
         final AlertDialog showMaster = DialogMaster.show();
         try {
-            final EditText edt_next_meeting_dialog=(EditText)showMaster.findViewById(R.id.edt_next_meeting_dialog);
+            edt_next_meeting_dialog=(EditText)showMaster.findViewById(R.id.edt_next_meeting_dialog);
+            edt_next_meeting_agenda=(EditText)showMaster.findViewById(R.id.edt_meeting_agenda_dialog);
+
             final Calendar newCalendar = Calendar.getInstance();
             dateFormatter = new SimpleDateFormat("MM-dd-yyyy");
             datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
@@ -299,7 +324,26 @@ public class DashboardActivity extends AbstractActivity {
 
 
         Button btnDismissMaster = (Button) showMaster.findViewById(R.id.iv_close_dial);
-        Button submit = (Button) showMaster.findViewById(R.id.btn1_submit);
+        Button submit = (Button) showMaster.findViewById(R.id.btn1_submitv);
+
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(mContext);
+                SharedPreferences.Editor editor = sharedPref.edit();
+                String meeting_date=edt_next_meeting_dialog.getText().toString();
+                String meeting_agenda=edt_next_meeting_agenda.getText().toString();
+
+                editor.putString("lead__Id", lead__Id);
+                editor.putString("meeting_date",meeting_date);
+                editor.putString("meeting_agenda",meeting_agenda);
+                editor.commit();
+
+                showMaster.dismiss();
+
+            }
+        });
 
         Button close = (Button) showMaster.findViewById(R.id.btn1_close);
         close.setOnClickListener(new View.OnClickListener() {
@@ -315,6 +359,7 @@ public class DashboardActivity extends AbstractActivity {
             }
         });
     }
+
     private void showClose_lead_Dialog(){
         final AlertDialog.Builder DialogMaster = new AlertDialog.Builder(this);
         LayoutInflater li = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -350,6 +395,8 @@ public class DashboardActivity extends AbstractActivity {
 
         Button btnDismissMaster = (Button) showMaster1.findViewById(R.id.iv_close);
         Button submit = (Button) showMaster1.findViewById(R.id.btn1_create_close_lead);
+
+
         Button close = (Button) showMaster1.findViewById(R.id.btn1_closelead);
         close.setOnClickListener(new View.OnClickListener() {
             @Override

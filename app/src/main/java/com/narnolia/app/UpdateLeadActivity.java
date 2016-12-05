@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
@@ -12,6 +13,7 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.Html;
 import android.text.InputType;
@@ -178,6 +180,8 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
         lead__Id = getIntent().getStringExtra("lead__Id");
 
         initView();
+
+
 
 
 
@@ -745,6 +749,15 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
 
             fetchSourcedata();
             fetchSubSourcedata();
+            // Set Lead to the Lead Spinner
+            try {
+                if (lead__Id != null && lead__Id.length() > 0){
+                    if (adapter8 != null){
+                        for (int i = 0;i<strLeadNameArray.length;i++){
+                            if (strLeadNameArray[i].contains(lead__Id)){
+                                int selLeadPos = adapter8.getPosition(strLeadNameArray[i]);
+                                spinner_lead_name.setSelection(selLeadPos);
+                            }
 
             fetchResearchTypedata();
 
@@ -1986,8 +1999,24 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
                 number.setText(leadInfoModel.getB_number());
                 value.setText(leadInfoModel.getB_value());
                 premium.setText(leadInfoModel.getB_value());
-                next_metting_date.setText(leadInfoModel.getMeetingdt());
-                metting_agenda.setText(leadInfoModel.getMeetingagenda());
+                SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+                String lead__id1 = sharedPref.getString("lead__Id","");
+                String meeting_date=sharedPref.getString("meeting_date","");
+                String meeting_agenda=sharedPref.getString("meeting_agenda", "");
+
+
+                if(leadId.equals(lead__id1)){
+                    next_metting_date.setText(meeting_date);
+                    metting_agenda.setText(meeting_agenda);
+                }else {
+                    next_metting_date.setText(leadInfoModel.getMeetingdt());
+                    metting_agenda.setText(leadInfoModel.getMeetingagenda());
+                }
+
+
+             /*   next_metting_date.setText(leadInfoModel.getMeetingdt());
+                metting_agenda.setText(leadInfoModel.getMeetingagenda());*/
+
                 lead_update_log.setText(leadInfoModel.getLead_updatelog());
                 reason.setText(leadInfoModel.getReason());
                 remark.setText(leadInfoModel.getRemark());
