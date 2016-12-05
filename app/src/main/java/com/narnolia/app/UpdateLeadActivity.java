@@ -88,11 +88,14 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
     String strStages,strFlag;
     boolean cliked=false;
 
+    boolean flag = false;
+
+    public boolean[] selChkBoxArr = new boolean[50];
 
     //..................................................................
     private String strCreatedfrom, strAppVersion, strAppdt, strAllocated_userid,
             strCompitator_Name, strProduct, strRemark,
-           strPanNo, strB_Margin, strB_aum, strB_sip, strB_number, strB_value, strB_premium,strEmpCode,
+            strPanNo, strB_Margin, strB_aum, strB_sip, strB_number, strB_value, strB_premium,strEmpCode,
             strCreatedby, strCreateddt, strUpdateddt, strUpdatedby
             ,strBusiness_opp,strLastMeetingDate,strLastMeetingUpdate;
     //.......................................................................
@@ -117,7 +120,7 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
             str_spinner_occupation,str_spinner_annual_income, str_spinner_other_broker,str_spinner_lead_status,str_spinner_research_type,str_spinner_duration;
     //......Radio Group String
     String str_rg_meeting_status;
-    Button bt_update_lead, bt_close_lead;
+    Button bt_update_lead, bt_close_lead,btn1_opportunity_pitched2;
     private DatePickerDialog datePickerDialog,datePickerDialog1,datePickerDialog2;   //date picker declare
     private SimpleDateFormat dateFormatter;      //date format declare
     private List<String> spinAgeGroupArray = new ArrayList<String>(); //age group array
@@ -142,12 +145,13 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
     String[] strLeadNameArray;
     private String empcode,fullname;
     private SharedPref sharedPref;
-    private TextView admin,tv_prospective_products2;
+    private TextView admin;
     private ArrayAdapter<String> adapter8 = null;
 
     AlertDialog.Builder DialogProduct;
     AlertDialog showProduct;
     int icount =0;
+    int id;
 
     private LinearLayout productLayout;
     private  CheckBox checkbox;
@@ -162,6 +166,9 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
 
     LinearLayout CategoryLinearLayout = null;
     LinearLayout productInfoLinearLayout = null;
+
+    private boolean flagSelected = false;
+    private int selCounter = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -180,10 +187,6 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
         lead__Id = getIntent().getStringExtra("lead__Id");
 
         initView();
-
-
-
-
 
     }
     private void hide_keyboard(Context context, View view) {
@@ -237,14 +240,14 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
             last_meeting_update=(EditText)findViewById(R.id.edt_meeting_update);
             pan_no=(EditText)findViewById(R.id.edt_pan_no);
             duration=(EditText)findViewById(R.id.edt_duration);
-            tv_prospective_products2 = (TextView) findViewById(R.id.txt1_prospective_product2);
+            /*tv_prospective_products2 = (TextView) findViewById(R.id.txt1_prospective_product2);
             tv_prospective_products2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     icount = 0;
                     showProductDialog();
                 }
-            });
+            });*/
 
             new LoadCityData().execute();//........................................Load city data
             //..................edit text validations.......
@@ -749,20 +752,11 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
 
             fetchSourcedata();
             fetchSubSourcedata();
-            // Set Lead to the Lead Spinner
-            try {
-                if (lead__Id != null && lead__Id.length() > 0){
-                    if (adapter8 != null){
-                        for (int i = 0;i<strLeadNameArray.length;i++){
-                            if (strLeadNameArray[i].contains(lead__Id)){
-                                int selLeadPos = adapter8.getPosition(strLeadNameArray[i]);
-                                spinner_lead_name.setSelection(selLeadPos);
-                            }
 
             fetchResearchTypedata();
 
             try {
-              //  fetchResearchTypedata();
+                //  fetchResearchTypedata();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -777,7 +771,7 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
                             }
 
                         }
-    //                     int selLeadPos = adapter8.getgetPosition(lead__Id);
+                        //                     int selLeadPos = adapter8.getgetPosition(lead__Id);
                     }
                 }
             } catch (Exception e) {
@@ -799,6 +793,24 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
             //................Button ........
             bt_update_lead = (Button) findViewById(R.id.btn_update);
             bt_close_lead = (Button) findViewById(R.id.btn_close);
+
+            btn1_opportunity_pitched2 = (Button) findViewById(R.id.btn1_opportunity_pitched2);
+
+            btn1_opportunity_pitched2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    icount = 0;
+
+                    //Toast.makeText(mContext, "Selected chkbox COUNT value is:" +icount, Toast.LENGTH_SHORT).show();
+
+                    showProductDialog();
+
+                }
+            });
+
+
+
             //....................update lead click event...
             bt_update_lead.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -955,7 +967,7 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
                 + cal.get(Calendar.DATE) +"/"
                 + cal.get(Calendar.YEAR);
 
-     }
+    }
 
     private void showProductDialog() {
 
@@ -1076,11 +1088,15 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
                 if(icount>0)
                 {
                     String name = + icount + " is Selected";
-                    tv_prospective_products2.setText(name);
+                    //    tv_prospective_products2.setText(name);
+
+                    btn1_opportunity_pitched2.setText(name);
                     showProduct.dismiss();
                 }else
                 {
-                    tv_prospective_products2.setText("Prospective Products");
+                    //    tv_prospective_products2.setText("Prospective Products");
+
+                    btn1_opportunity_pitched2.setText("Opportunity Pitched");
                     showProduct.dismiss();
                 }
 
@@ -1128,28 +1144,125 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
             }
             cursor3.close();
 
-            for (int count = 0; count < spinProductList.size(); count++) {
-                String productName = spinProductList.get(count).getProdName();
 
+            int selCount = 0;
+            String selTextview = "";
+
+            for (int count = 0; count < spinProductList.size(); count++) {
+                final String productName = spinProductList.get(count).getProdName();
+                selCount = count;
                 productInfoLinearLayout = new LinearLayout(mContext);
                 productInfoLinearLayout.setOrientation(LinearLayout.VERTICAL);
                 LinearLayout.LayoutParams merchantInfoLinearLayout_LayoutParams = new LinearLayout.LayoutParams(
                         LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                 merchantInfoLinearLayout_LayoutParams.setMargins(5, 5, 5, 5);
-                productInfoLinearLayout
-                        .setLayoutParams(merchantInfoLinearLayout_LayoutParams);
+                productInfoLinearLayout.setLayoutParams(merchantInfoLinearLayout_LayoutParams);
 
                 // Merchant name textview
-                TextView producttxt = new TextView(mContext);
+                final TextView producttxt = new TextView(mContext);
                 producttxt.setTypeface(null, Typeface.BOLD);
                 producttxt.setText(productName);
+                producttxt.setId(count);
+//                producttxt.setOnClickListener(this);
+
+                producttxt.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        try {
+                            selCounter++;
+                            flagSelected = true;
+                            if (selCounter % 2 == 1) {//odd
+                                TextView textview = (TextView) view;
+                                id = textview.getId();
+
+                                for (int i = 0; i < productLayout.getChildCount(); i++) {
+
+                                    LinearLayout prodInfoLayout = (LinearLayout) productLayout.getChildAt(i);
+
+                                    if (prodInfoLayout.getChildCount() > 0) {
+
+                                        View view1 = prodInfoLayout.getChildAt(0);
+                                        TextView tvLayout = (TextView) view1;
+                                        if (tvLayout.getText().toString().equalsIgnoreCase(textview.getText().toString())) {
+                                            for (int j = 2; j < prodInfoLayout.getChildCount(); j++) {
+                                                LinearLayout subLayout = (LinearLayout) prodInfoLayout.getChildAt(j);
+                                                if (subLayout.getChildCount() > 0) {
+                                                    for (int k = 0; k < subLayout.getChildCount(); k++) {
+                                                        View v = subLayout.getChildAt(k);
+                                                        final CheckBox checkbox1 = (CheckBox) v;
+
+                                                        checkbox1.setChecked(true);
+
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            } else if (selCounter % 2 == 0) {//even
+                                TextView textview = (TextView) view;
+                                id = textview.getId();
+
+                                for (int i = 0; i < productLayout.getChildCount(); i++) {
+
+                                    LinearLayout prodInfoLayout = (LinearLayout) productLayout.getChildAt(i);
+
+                                    if (prodInfoLayout.getChildCount() > 0) {
+
+                                        View view1 = prodInfoLayout.getChildAt(0);
+                                        TextView tvLayout = (TextView) view1;
+                                        if (tvLayout.getText().toString().equalsIgnoreCase(textview.getText().toString())) {
+                                            for (int j = 2; j < prodInfoLayout.getChildCount(); j++) {
+                                                LinearLayout subLayout = (LinearLayout) prodInfoLayout.getChildAt(j);
+                                                if (subLayout.getChildCount() > 0) {
+                                                    for (int k = 0; k < subLayout.getChildCount(); k++) {
+                                                        View v = subLayout.getChildAt(k);
+                                                        final CheckBox checkbox1 = (CheckBox) v;
+                                                        checkbox1.setChecked(false);
+
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
+
+                            Log.e("Selected id =>", "" + id);
+                            //                          Toast.makeText(mContext, "Selected Text is:" + textview.getText().toString(), Toast.LENGTH_SHORT).show();
+
+                                    /*if (prodInfoLayout.getChildCount() > 0) {
+
+                                        for (int j = 2; j < prodInfoLayout.getChildCount(); j++) {
+                                            LinearLayout catLayout = (LinearLayout) prodInfoLayout.getChildAt(j);
+                                            if (catLayout.getChildCount() > 0) {
+                                                for (int k = 0; k < catLayout.getChildCount(); k++) {
+                                                    View v = catLayout.getChildAt(k);
+
+                                                    CheckBox checkbox1 = (CheckBox) v;
+                                                    if (checkbox1.isChecked()) {
+
+                                                        String selChkBoxValue = checkbox1.getText().toString();
+                                                        Toast.makeText(mContext, "Selected chkbox value is:" + selChkBoxValue, Toast.LENGTH_SHORT).show();
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }*/
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                });
                 producttxt.setTextSize(20);
                 producttxt.setGravity(Gravity.CENTER_HORIZONTAL);
                 LinearLayout.LayoutParams merchantnameTextView_LayoutParams = new LinearLayout.LayoutParams(
                         LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                 merchantnameTextView_LayoutParams.setMargins(5, 0, 0, 5);
-                producttxt
-                        .setLayoutParams(merchantnameTextView_LayoutParams);
+                producttxt.setLayoutParams(merchantnameTextView_LayoutParams);
 
                 // line view layout
                 LinearLayout lineviewlayout = new LinearLayout(mContext);
@@ -1165,7 +1278,6 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
                 productInfoLinearLayout.addView(lineviewlayout);
 
                 String prodId = spinProductList.get(count).getProdId();
-
                 try{
                     Cursor cursor=null;
 
@@ -1206,9 +1318,12 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
                             cursor2.moveToFirst();
                             do {
                                 String subcategory = "";
+                                int id;
                                 subCategoryDetailsModel = new SubCategoryDetailsModel();
                                 subcategory = cursor2.getString(cursor2.getColumnIndex("Subcategory"));
+                                id = Integer.parseInt(cursor2.getString(cursor2.getColumnIndex("id")));
                                 subCategoryDetailsModel.setSubCategory(subcategory);
+                                subCategoryDetailsModel.setId(id);
                                 subCategoryDetailsModelList.add(subCategoryDetailsModel);
 
                             } while (cursor2.moveToNext());
@@ -1218,7 +1333,6 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
                     }catch (Exception e){
                         e.printStackTrace();
                     }
-
 
                     for (int k = 0; k < subCategoryDetailsModelList.size(); k++) {
 
@@ -1231,10 +1345,24 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
                         CategoryLinearLayout.setLayoutParams(CategoryLinearLayout_LayoutParams);
 
                         checkbox = new CheckBox(mContext);
-                        checkbox.setId(k);
 
-                        checkbox.setOnClickListener(this);
+                        checkbox.setId(subCategoryDetailsModelList.get(k).getId());
+
+                        checkbox.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+
+                                selChkBoxArr[v.getId()] = true;
+//                                selChkBoxMap.put(v.getId(),true);
+
+                            }
+                        });
+
                         checkbox.setOnCheckedChangeListener(this);
+
+                        if (selChkBoxArr[checkbox.getId()]){
+                            checkbox.setChecked(true);
+                        }
 
                         final LinearLayout.LayoutParams childParam2 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                         childParam2.weight = 0.9f;
@@ -1246,7 +1374,6 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
                         childParam1.weight = 0.1f;
 
                         CategoryLinearLayout.addView(checkbox);
-
 
                         productInfoLinearLayout.addView(CategoryLinearLayout);
                     }
@@ -1615,7 +1742,7 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
         try {
 
             spinResearchTypeList = new ArrayList<>();
-          //  final List<KeyPairBoolData> spinResearchTypeList = new ArrayList<>();
+            //  final List<KeyPairBoolData> spinResearchTypeList = new ArrayList<>();
           /*  String SubSourceLead = "SubSource ";
 
             String where = " where type like " + "'" + SubSourceLead + "'";
@@ -1667,19 +1794,19 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
                 }
             });*/
 
-        spinner_research_type.setItems(listArray, -1, new SpinnerListener() {
+            spinner_research_type.setItems(listArray, -1, new SpinnerListener() {
 
-            @Override
-            public void onItemsSelected(List<KeyPairBoolData> items) {
+                @Override
+                public void onItemsSelected(List<KeyPairBoolData> items) {
 
-                for (int i = 0; i < items.size(); i++) {
-                    if (items.get(i).isSelected()) {
-                        Log.i("TAG", i + " : " + items.get(i).getName() + " : " + items.get(i).isSelected());
-                        str_spinner_research_type=i+items.get(i).getName()+items.get(i).isSelected();
+                    for (int i = 0; i < items.size(); i++) {
+                        if (items.get(i).isSelected()) {
+                            Log.i("TAG", i + " : " + items.get(i).getName() + " : " + items.get(i).isSelected());
+                            str_spinner_research_type=i+items.get(i).getName()+items.get(i).isSelected();
+                        }
                     }
                 }
-            }
-        });
+            });
 
             spinner_research_type.setLimit(listArray.size(), new MultiSpinnerSearch.LimitExceedListener() {
                 @Override
@@ -2003,8 +2130,6 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
                 String lead__id1 = sharedPref.getString("lead__Id","");
                 String meeting_date=sharedPref.getString("meeting_date","");
                 String meeting_agenda=sharedPref.getString("meeting_agenda", "");
-
-
                 if(leadId.equals(lead__id1)){
                     next_metting_date.setText(meeting_date);
                     metting_agenda.setText(meeting_agenda);
@@ -2012,11 +2137,6 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
                     next_metting_date.setText(leadInfoModel.getMeetingdt());
                     metting_agenda.setText(leadInfoModel.getMeetingagenda());
                 }
-
-
-             /*   next_metting_date.setText(leadInfoModel.getMeetingdt());
-                metting_agenda.setText(leadInfoModel.getMeetingagenda());*/
-
                 lead_update_log.setText(leadInfoModel.getLead_updatelog());
                 reason.setText(leadInfoModel.getReason());
                 remark.setText(leadInfoModel.getRemark());
@@ -2311,8 +2431,8 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
                 strStages="closer of lead";
                 strFlag="D";
             }else {
-            strStages = "Lead Updated";
-             strFlag = "U";
+                strStages = "Lead Updated";
+                strFlag = "U";
             }
 
             SoapPrimitive object = webService.UpdateLead(leadId,str_spinner_source_of_lead, str_spinner_sub_source,str_cust_id, str_fname, str_mname, str_lname, str_mobile_no,

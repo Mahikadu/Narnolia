@@ -95,6 +95,11 @@
     <string name="research_type">Type of research</string>
     <string name="duration">Duration</string>
 
+    <string name="prospectiveproduct1">Select Option</string>
+
+    <string name="opportunity_pitched2">Select Option</string>
+
+
     //table text
     <string name="margin">Margin</string>
     <string name="aum">AUM</string>

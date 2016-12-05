@@ -1101,7 +1101,17 @@
                             android:textAppearance="?android:attr/textAppearanceMedium"
                             android:textColor="@android:color/black" />
 
-                        <TextView
+                        <Button
+                            android:id="@+id/btn1_opportunity_pitched2"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5dp"
+                            android:background="@color/common_google_signin_btn_text_light_disabled"
+                            android:text="@string/opportunity_pitched2"
+                            android:textColor="@android:color/black"
+                            android:layout_weight="1" />
+
+                        <!--<TextView
                             android:id="@+id/txt1_prospective_product2"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -1109,7 +1119,7 @@
                             android:layout_weight="1"
                             android:text="@string/prospectiveproduct"
                             android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:textColor="@android:color/black" />
+                            android:textColor="@android:color/black" />-->
                     </LinearLayout>
 
                     <LinearLayout
@@ -1318,9 +1328,9 @@
                         android:layout_marginTop="@dimen/layout_margin"
                         android:layout_weight="1"
                         android:background="@drawable/edit_background"
-                       android:maxLines="10"
+                        android:maxLines="10"
                         android:overScrollMode="always"
-                       android:editable="false"
+                        android:editable="false"
                         android:padding="@dimen/view_padding"
                         android:scrollbarStyle="insideInset"
                         android:scrollbars="vertical"

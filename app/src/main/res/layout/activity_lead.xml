@@ -423,20 +423,32 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/layout_margin"
-                    android:layout_weight="1"
                     android:text="@string/prospectiveproduct"
+                    android:layout_weight="1"
+                    android:gravity="left|center"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="@android:color/black" />
 
-                <TextView
-                    android:id="@+id/txt1_prospective_product1"
+                <Button
+                    android:id="@+id/btn1_prospective_product1"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/layout_margin"
-                    android:layout_weight="1"
-                    android:text="@string/prospectiveproduct"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@android:color/black" />
+                    android:layout_margin="5dp"
+                    android:gravity="center"
+                    android:background="@color/common_google_signin_btn_text_light_disabled"
+                    android:text="@string/prospectiveproduct1"
+                    android:textColor="@android:color/black"
+                    android:layout_weight="1"/>
+
+                <!-- <TextView
+                     android:id="@+id/txt1_prospective_product1"
+                     android:layout_width="0dp"
+                     android:layout_height="wrap_content"
+                     android:layout_marginTop="@dimen/layout_margin"
+                     android:layout_weight="1"
+                     android:text="@string/prospectiveproduct"
+                     android:textAppearance="?android:attr/textAppearanceMedium"
+                     android:textColor="@android:color/black" />-->
             </LinearLayout>
 
             <!--   <LinearLayout

@@ -17,6 +17,7 @@ import android.text.Editable;
 import android.text.Html;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -59,7 +60,8 @@ import java.util.Map;
  * Created by USER on 10/24/2016.
  */
 
-public class LeadActivity extends AbstractActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
+
+public class LeadActivity extends AbstractActivity implements CompoundButton.OnCheckedChangeListener {
 
     private Context mContext;
     protected Utils utils;
@@ -69,7 +71,7 @@ public class LeadActivity extends AbstractActivity implements View.OnClickListen
     private Map<String, List<String>> spinPincodeArray;
     private List<String> spinCityArray;
     TextView tv_source_of_lead, tv_sub_source_of_lead, tv_fname, tv_mname, tv_lname,
-            tv_mobile_no, tv_location, tv_city, tv_pincode, tv_prospective_products, tv_prospective_products1;
+            tv_mobile_no, tv_location, tv_city, tv_pincode, tv_prospective_products;
 
     private String strStages, strSourceofLead, strSubSourceofLead, strCustomerID, str_fname, str_mname, str_lname,
             strDob, strAge, str_mob, strAddr1, strAddr2, strAddr3, strlocation, str_city, str_pincode, strEmail, strIncome,
@@ -80,7 +82,7 @@ public class LeadActivity extends AbstractActivity implements View.OnClickListen
             strBusiness_opp;
     private ArrayAdapter<String> adapter9;
     Spinner spinner_source_of_lead, spinner_sub_source;
-    Button btn_create, btn_cancel, btn_create_close;
+    Button btn_create, btn_cancel, btn_create_close,btn1_prospective_product1;
     private List<String> spinSourceLeadList;
     private List<String> spinSubSourceLeadList;
     //private List<String> spinProductList;
@@ -106,15 +108,17 @@ public class LeadActivity extends AbstractActivity implements View.OnClickListen
     boolean create=false;
     boolean pin=false;
 
+    int id;
 
+    private boolean flagSelected = false;
+    private int selCounter = 0;
+    public boolean[] selChkBoxArr = new boolean[50];
 
     private LinearLayout productLayout,linear_customer_id;
     private  CheckBox checkbox;
     public ProductDetailsModel productDetailsModel;
     private CategoryDetailsModel categoryDetailsModel;
     private SubCategoryDetailsModel subCategoryDetailsModel;
-
-
 
     LinearLayout CategoryLinearLayout = null;
     LinearLayout productInfoLinearLayout = null;
@@ -192,7 +196,7 @@ public class LeadActivity extends AbstractActivity implements View.OnClickListen
             tv_pincode = (TextView) findViewById(R.id.txt1_pincode);
             tv_pincode.setText(Html.fromHtml("<font color=\"red\">*</font>" + "<font color=\"black\">Pincode</font>\n"));
             tv_prospective_products = (TextView) findViewById(R.id.txt1_prospective_product);
-            tv_prospective_products1 = (TextView) findViewById(R.id.txt1_prospective_product1);
+/*            tv_prospective_products1 = (TextView) findViewById(R.id.txt1_prospective_product1);
 
             tv_prospective_products1.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -200,7 +204,7 @@ public class LeadActivity extends AbstractActivity implements View.OnClickListen
                     icount = 0;
                     showProductDialog();
                 }
-            });
+            });*/
 
             new LoadCityData().execute();//........................................Load city data
             //...............Spinner...
@@ -440,14 +444,30 @@ public class LeadActivity extends AbstractActivity implements View.OnClickListen
             btn_create = (Button) findViewById(R.id.btn1_create_lead);
             btn_cancel = (Button) findViewById(R.id.btn1_cancel_lead);
             btn_create_close = (Button) findViewById(R.id.btn1_create_close_lead);
+
+            btn1_prospective_product1 = (Button) findViewById(R.id.btn1_prospective_product1);
+
+            btn1_prospective_product1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    icount = 0;
+
+                    //Toast.makeText(mContext, "Selected chkbox COUNT value is:" +icount, Toast.LENGTH_SHORT).show();
+
+                    showProductDialog();
+
+                }
+            });
+
             btn_create.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                      create=true;
+                    create=true;
                     validateDetails();
 
-                   // pushActivity(mContext, HomeActivity.class, null, true);
-              }
+                    // pushActivity(mContext, HomeActivity.class, null, true);
+                }
             });
 
             btn_cancel.setOnClickListener(new View.OnClickListener() {
@@ -814,16 +834,14 @@ public class LeadActivity extends AbstractActivity implements View.OnClickListen
                 if(icount>0)
                 {
                     String name = + icount + " is Selected";
-                    tv_prospective_products1.setText(name);
+                    btn1_prospective_product1.setText(name);
                     showProduct.dismiss();
                 }else
                 {
-                    tv_prospective_products1.setText("Prospective Products");
+                    btn1_prospective_product1.setText("Prospective Products");
                     showProduct.dismiss();
                 }
 
-            /*    String name = +icount+ "is Selected";
-                tv_prospective_products1.setText(name);*/
             }
         });
 
@@ -866,28 +884,125 @@ public class LeadActivity extends AbstractActivity implements View.OnClickListen
             }
             cursor3.close();
 
-            for (int count = 0; count < spinProductList.size(); count++) {
-                String productName = spinProductList.get(count).getProdName();
 
+            int selCount = 0;
+            String selTextview = "";
+
+            for (int count = 0; count < spinProductList.size(); count++) {
+                final String productName = spinProductList.get(count).getProdName();
+                selCount = count;
                 productInfoLinearLayout = new LinearLayout(mContext);
                 productInfoLinearLayout.setOrientation(LinearLayout.VERTICAL);
                 LinearLayout.LayoutParams merchantInfoLinearLayout_LayoutParams = new LinearLayout.LayoutParams(
                         LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                 merchantInfoLinearLayout_LayoutParams.setMargins(5, 5, 5, 5);
-                productInfoLinearLayout
-                        .setLayoutParams(merchantInfoLinearLayout_LayoutParams);
+                productInfoLinearLayout.setLayoutParams(merchantInfoLinearLayout_LayoutParams);
 
                 // Merchant name textview
-                TextView producttxt = new TextView(mContext);
+                final TextView producttxt = new TextView(mContext);
                 producttxt.setTypeface(null, Typeface.BOLD);
                 producttxt.setText(productName);
+                producttxt.setId(count);
+//                producttxt.setOnClickListener(this);
+
+                producttxt.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        try {
+                            selCounter++;
+                            flagSelected = true;
+                            if (selCounter % 2 == 1) {//odd
+                                TextView textview = (TextView) view;
+                                id = textview.getId();
+
+                                for (int i = 0; i < productLayout.getChildCount(); i++) {
+
+                                    LinearLayout prodInfoLayout = (LinearLayout) productLayout.getChildAt(i);
+
+                                    if (prodInfoLayout.getChildCount() > 0) {
+
+                                        View view1 = prodInfoLayout.getChildAt(0);
+                                        TextView tvLayout = (TextView) view1;
+                                        if (tvLayout.getText().toString().equalsIgnoreCase(textview.getText().toString())) {
+                                            for (int j = 2; j < prodInfoLayout.getChildCount(); j++) {
+                                                LinearLayout subLayout = (LinearLayout) prodInfoLayout.getChildAt(j);
+                                                if (subLayout.getChildCount() > 0) {
+                                                    for (int k = 0; k < subLayout.getChildCount(); k++) {
+                                                        View v = subLayout.getChildAt(k);
+                                                        final CheckBox checkbox1 = (CheckBox) v;
+
+                                                        checkbox1.setChecked(true);
+
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            } else if (selCounter % 2 == 0) {//even
+                                TextView textview = (TextView) view;
+                                id = textview.getId();
+
+                                for (int i = 0; i < productLayout.getChildCount(); i++) {
+
+                                    LinearLayout prodInfoLayout = (LinearLayout) productLayout.getChildAt(i);
+
+                                    if (prodInfoLayout.getChildCount() > 0) {
+
+                                        View view1 = prodInfoLayout.getChildAt(0);
+                                        TextView tvLayout = (TextView) view1;
+                                        if (tvLayout.getText().toString().equalsIgnoreCase(textview.getText().toString())) {
+                                            for (int j = 2; j < prodInfoLayout.getChildCount(); j++) {
+                                                LinearLayout subLayout = (LinearLayout) prodInfoLayout.getChildAt(j);
+                                                if (subLayout.getChildCount() > 0) {
+                                                    for (int k = 0; k < subLayout.getChildCount(); k++) {
+                                                        View v = subLayout.getChildAt(k);
+                                                        final CheckBox checkbox1 = (CheckBox) v;
+                                                        checkbox1.setChecked(false);
+
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
+
+                            Log.e("Selected id =>", "" + id);
+                            //                          Toast.makeText(mContext, "Selected Text is:" + textview.getText().toString(), Toast.LENGTH_SHORT).show();
+
+                                    /*if (prodInfoLayout.getChildCount() > 0) {
+
+                                        for (int j = 2; j < prodInfoLayout.getChildCount(); j++) {
+                                            LinearLayout catLayout = (LinearLayout) prodInfoLayout.getChildAt(j);
+                                            if (catLayout.getChildCount() > 0) {
+                                                for (int k = 0; k < catLayout.getChildCount(); k++) {
+                                                    View v = catLayout.getChildAt(k);
+
+                                                    CheckBox checkbox1 = (CheckBox) v;
+                                                    if (checkbox1.isChecked()) {
+
+                                                        String selChkBoxValue = checkbox1.getText().toString();
+                                                        Toast.makeText(mContext, "Selected chkbox value is:" + selChkBoxValue, Toast.LENGTH_SHORT).show();
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }*/
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                });
                 producttxt.setTextSize(20);
                 producttxt.setGravity(Gravity.CENTER_HORIZONTAL);
                 LinearLayout.LayoutParams merchantnameTextView_LayoutParams = new LinearLayout.LayoutParams(
                         LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                 merchantnameTextView_LayoutParams.setMargins(5, 0, 0, 5);
-                producttxt
-                        .setLayoutParams(merchantnameTextView_LayoutParams);
+                producttxt.setLayoutParams(merchantnameTextView_LayoutParams);
 
                 // line view layout
                 LinearLayout lineviewlayout = new LinearLayout(mContext);
@@ -903,7 +1018,6 @@ public class LeadActivity extends AbstractActivity implements View.OnClickListen
                 productInfoLinearLayout.addView(lineviewlayout);
 
                 String prodId = spinProductList.get(count).getProdId();
-
                 try{
                     Cursor cursor=null;
 
@@ -944,9 +1058,12 @@ public class LeadActivity extends AbstractActivity implements View.OnClickListen
                             cursor2.moveToFirst();
                             do {
                                 String subcategory = "";
+                                int id;
                                 subCategoryDetailsModel = new SubCategoryDetailsModel();
                                 subcategory = cursor2.getString(cursor2.getColumnIndex("Subcategory"));
+                                id = Integer.parseInt(cursor2.getString(cursor2.getColumnIndex("id")));
                                 subCategoryDetailsModel.setSubCategory(subcategory);
+                                subCategoryDetailsModel.setId(id);
                                 subCategoryDetailsModelList.add(subCategoryDetailsModel);
 
                             } while (cursor2.moveToNext());
@@ -956,7 +1073,6 @@ public class LeadActivity extends AbstractActivity implements View.OnClickListen
                     }catch (Exception e){
                         e.printStackTrace();
                     }
-
 
                     for (int k = 0; k < subCategoryDetailsModelList.size(); k++) {
 
@@ -969,10 +1085,24 @@ public class LeadActivity extends AbstractActivity implements View.OnClickListen
                         CategoryLinearLayout.setLayoutParams(CategoryLinearLayout_LayoutParams);
 
                         checkbox = new CheckBox(mContext);
-                        checkbox.setId(k);
 
-                        checkbox.setOnClickListener(this);
+                        checkbox.setId(subCategoryDetailsModelList.get(k).getId());
+
+                        checkbox.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+
+                                selChkBoxArr[v.getId()] = true;
+//                                selChkBoxMap.put(v.getId(),true);
+
+                            }
+                        });
+
                         checkbox.setOnCheckedChangeListener(this);
+
+                        if (selChkBoxArr[checkbox.getId()]){
+                            checkbox.setChecked(true);
+                        }
 
                         final LinearLayout.LayoutParams childParam2 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                         childParam2.weight = 0.9f;
@@ -984,7 +1114,6 @@ public class LeadActivity extends AbstractActivity implements View.OnClickListen
                         childParam1.weight = 0.1f;
 
                         CategoryLinearLayout.addView(checkbox);
-
 
                         productInfoLinearLayout.addView(CategoryLinearLayout);
                     }
@@ -1033,41 +1162,6 @@ public class LeadActivity extends AbstractActivity implements View.OnClickListen
         client.disconnect();
     }
 
-    @Override
-    public void onClick(View view) {
-        try {
-
-
-            if (productLayout.getChildCount() > 0) {
-                for (int i = 0; i < productLayout.getChildCount(); i++) {
-
-                    LinearLayout prodInfoLayout = (LinearLayout) productLayout.getChildAt(i);
-
-                    if (prodInfoLayout.getChildCount() > 0) {
-                        for (int j = 2; j < prodInfoLayout.getChildCount(); j++) {
-                            LinearLayout catLayout = (LinearLayout) prodInfoLayout.getChildAt(j);
-                            if (catLayout.getChildCount() > 0) {
-                                for (int k = 0; k < catLayout.getChildCount(); k++) {
-                                    View v = catLayout.getChildAt(k);
-
-                                    CheckBox checkbox1 = (CheckBox) v;
-                                    if (checkbox1.isChecked()) {
-
-                                        String selChkBoxValue = checkbox1.getText().toString();
-                                        //        Toast.makeText(mContext, "Selected chkbox value is:" + selChkBoxValue, Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-
     private int countCheck(boolean isChecked) {
 
         icount += isChecked ? 1 : -1 ;
@@ -1088,6 +1182,9 @@ public class LeadActivity extends AbstractActivity implements View.OnClickListen
                     LinearLayout prodInfoLayout = (LinearLayout) productLayout.getChildAt(i);
 
                     if (prodInfoLayout.getChildCount() > 0) {
+
+                        // producttxt.setOnClickListener(this);
+
                         for (int j = 2; j < prodInfoLayout.getChildCount(); j++) {
                             LinearLayout catLayout = (LinearLayout) prodInfoLayout.getChildAt(j);
                             if (catLayout.getChildCount() > 0) {

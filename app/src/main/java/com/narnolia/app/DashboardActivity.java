@@ -60,7 +60,7 @@ public class DashboardActivity extends AbstractActivity {
 
         mContext = DashboardActivity.this;
         leadInfoModelList = new ArrayList<LeadInfoModel>();
-       // lvLead = (ListView) findViewById(R.id.biList);
+        // lvLead = (ListView) findViewById(R.id.biList);
         table_layout = (TableLayout) findViewById(R.id.tableLaout_lead);
 
 
@@ -250,10 +250,10 @@ public class DashboardActivity extends AbstractActivity {
                 tvCloseLead.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        final String lead__Id= leadInfoModel.getLead_id();
+                        final String lead__Id = leadInfoModel.getLead_id();
                         // showClose_lead_Dialog();
                         try {
-                            Intent intent=new Intent(DashboardActivity.this,UpdateLeadActivity.class);
+                            Intent intent = new Intent(DashboardActivity.this, UpdateLeadActivity.class);
 
                             intent.putExtra("lead__Id", lead__Id);
 
@@ -268,22 +268,6 @@ public class DashboardActivity extends AbstractActivity {
                     @Override
                     public void onClick(View view) {
                         showNext_Metting_Dialog(leadInfoModel.getLead_id());
-                    }
-                });
-                tvCloseLead.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        final String lead__Id= leadInfoModel.getLead_id();
-                        // showClose_lead_Dialog();
-                        try {
-                            Intent intent=new Intent(DashboardActivity.this,UpdateLeadActivity.class);
-
-                            intent.putExtra("lead__Id", lead__Id);
-
-                            startActivity(intent);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
                     }
                 });
             }
@@ -312,6 +296,7 @@ public class DashboardActivity extends AbstractActivity {
                 }
             }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
             datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
+
             edt_next_meeting_dialog.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -330,17 +315,21 @@ public class DashboardActivity extends AbstractActivity {
             @Override
             public void onClick(View view) {
 
-                SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(mContext);
-                SharedPreferences.Editor editor = sharedPref.edit();
-                String meeting_date=edt_next_meeting_dialog.getText().toString();
-                String meeting_agenda=edt_next_meeting_agenda.getText().toString();
+                try {
+                    SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(mContext);
+                    SharedPreferences.Editor editor = sharedPref.edit();
+                    String meeting_date=edt_next_meeting_dialog.getText().toString();
+                    String meeting_agenda=edt_next_meeting_agenda.getText().toString();
 
-                editor.putString("lead__Id", lead__Id);
-                editor.putString("meeting_date",meeting_date);
-                editor.putString("meeting_agenda",meeting_agenda);
-                editor.commit();
+                    editor.putString("lead__Id", lead__Id);
+                    editor.putString("meeting_date",meeting_date);
+                    editor.putString("meeting_agenda",meeting_agenda);
+                    editor.commit();
 
-                showMaster.dismiss();
+                    showMaster.dismiss();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
             }
         });
