@@ -106,7 +106,7 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
     int icount =0;
     boolean cliked=false;
     boolean create=false;
-    boolean pin=false;
+
 
     int id;
 
@@ -124,6 +124,7 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
     LinearLayout productInfoLinearLayout = null;
     ArrayList<Integer> checkedPositions = new ArrayList<Integer>();
     boolean flag = false;
+
 
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -294,6 +295,8 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
                     }
                 }
             });
+            //................mobile no validation........
+
             editCity.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -375,7 +378,6 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
                                                 if (Arrays.asList(strPinArr).contains(val)) {
                                                     System.out.println("CITY CITY CITY");
                                                 } else {
-
                                                     autoPincode.setError("Invalid Pincode");
 
                                                 }
@@ -603,6 +605,28 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
             e.printStackTrace();
         }
     }
+    public boolean isPhoneValid(String phoneNumber) {
+        if (phoneNumber == null) {
+            return false;
+        } else {
+            if (phoneNumber.length() < 6 || phoneNumber.length() > 10) {
+                return false;
+            } else {
+                return android.util.Patterns.PHONE.matcher(phoneNumber).matches();
+            }
+        }
+    }
+    public boolean isName(String name) {
+        if (name == null) {
+            return false;
+        } else {
+            if (name.length() < 3 ) {
+                return false;
+            } else {
+                return true;
+            }
+        }
+    }
 
 
     private void validateDetails() {
@@ -613,7 +637,6 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
             fname.setError(null);
             mname.setError(null);
             lname.setError(null);
-
             str_fname = fname.getText().toString().trim();
             str_mname = mname.getText().toString().trim();
             str_lname = lname.getText().toString().trim();
@@ -624,7 +647,9 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
             strCustomerID=customer_id.getText().toString().trim();
 
             View focusView = null;
-            if (TextUtils.isEmpty(str_fname)) {
+          //  if (TextUtils.isEmpty(str_fname))
+            if (!isName(str_fname))
+            {
                 fname.setError(getString(R.string.name));
                 focusView = fname;
                 focusView.requestFocus();
@@ -636,12 +661,21 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
                 focusView.requestFocus();
                 return;
             }
-            if (TextUtils.isEmpty(str_mob)) {
-                mobileno.setError(getString(R.string.reqmob));
-                focusView = mobileno;
+            if (!isName(str_lname))
+            {
+                lname.setError(getString(R.string.name));
+                focusView = fname;
                 focusView.requestFocus();
                 return;
             }
+//            if (TextUtils.isEmpty(str_mob)) {
+                if (!isPhoneValid(str_mob)) {
+                    mobileno.setError(getString(R.string.reqmob));
+                    focusView = mobileno;
+                    focusView.requestFocus();
+                    return;
+                }
+//            }
             if (TextUtils.isEmpty(str_city)) {
                 editCity.setError(getString(R.string.reqcity));
                 focusView = editCity;
@@ -713,6 +747,34 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
     private void goBack() {
         pushActivity(mContext, HomeActivity.class, null, true);
         finish();
+    }
+    private void resetProduct(){
+        icount = 0;
+        try {
+            if (productLayout.getChildCount() > 0) {
+                for (int i = 0; i < productLayout.getChildCount(); i++) {
+
+                    LinearLayout prodInfoLayout = (LinearLayout) productLayout.getChildAt(i);
+
+                    if (prodInfoLayout.getChildCount() > 0) {
+                        for (int j = 2; j < prodInfoLayout.getChildCount(); j++) {
+                            LinearLayout catLayout = (LinearLayout) prodInfoLayout.getChildAt(j);
+                            if (catLayout.getChildCount() > 0) {
+                                for (int k = 0; k < catLayout.getChildCount(); k++) {
+                                    View v = catLayout.getChildAt(k);
+
+                                    CheckBox checkbox1 = (CheckBox) v;
+
+                                    checkbox1.setChecked(false);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void showProductDialog() {
@@ -795,35 +857,7 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
         textuncheck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                //        submit.setVisibility(View.INVISIBLE);
-                icount = 0;
-                try {
-
-                    if (productLayout.getChildCount() > 0) {
-                        for (int i = 0; i < productLayout.getChildCount(); i++) {
-
-                            LinearLayout prodInfoLayout = (LinearLayout) productLayout.getChildAt(i);
-
-                            if (prodInfoLayout.getChildCount() > 0) {
-                                for (int j = 2; j < prodInfoLayout.getChildCount(); j++) {
-                                    LinearLayout catLayout = (LinearLayout) prodInfoLayout.getChildAt(j);
-                                    if (catLayout.getChildCount() > 0) {
-                                        for (int k = 0; k < catLayout.getChildCount(); k++) {
-                                            View v = catLayout.getChildAt(k);
-
-                                            CheckBox checkbox1 = (CheckBox) v;
-
-                                            checkbox1.setChecked(false);
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                resetProduct();
 
             }
         });
@@ -1435,6 +1469,8 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
             autoPincode.setText("");
             spinner_source_of_lead.setSelection(0);
             spinner_sub_source.setSelection(0);
+            resetProduct();
+            btn1_prospective_product1.setText("@string/prospectiveproduct1");
 
         }catch (Exception e){
             e.printStackTrace();
@@ -1474,7 +1510,6 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
                             new ArrayAdapter<String>(mContext, android.R.layout.simple_list_item_1, spinCityArray);
                     editCity.setAdapter(adapterPin);
                 }
-
 
                 if (progressDialog != null && progressDialog.isShowing()) {
                     progressDialog.dismiss();

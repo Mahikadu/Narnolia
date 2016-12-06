@@ -41,7 +41,7 @@
                 android:background="@android:color/transparent"
                 android:padding="@dimen/view_padding"
                 android:text="x"
-                android:textColor="@color/colorWhite"
+                android:textColor="@color/colorRed"
                 android:textStyle="bold" />
         </RelativeLayout>
 

@@ -9,6 +9,7 @@ import android.content.res.Resources;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -295,6 +296,7 @@ public class DashboardActivity extends AbstractActivity {
                     edt_next_meeting_dialog.setText(dateFormatter.format(newDate.getTime()));
                 }
             }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+            datePickerDialog.getDatePicker().setCalendarViewShown(false);
             datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
 
             edt_next_meeting_dialog.setOnClickListener(new View.OnClickListener() {
@@ -320,11 +322,25 @@ public class DashboardActivity extends AbstractActivity {
                     SharedPreferences.Editor editor = sharedPref.edit();
                     String meeting_date=edt_next_meeting_dialog.getText().toString();
                     String meeting_agenda=edt_next_meeting_agenda.getText().toString();
+                    View focusView = null;
+                    if (TextUtils.isEmpty(meeting_date)) {
+                        displayMessage("Please Select date");
+                        focusView = edt_next_meeting_dialog;
+                        focusView.requestFocus();
+                        return;
+                    }
+                    if (TextUtils.isEmpty(meeting_agenda)) {
+                        displayMessage("Please enter agenda");
+                        focusView = edt_next_meeting_agenda;
+                        focusView.requestFocus();
+                        return;
+                    }
 
                     editor.putString("lead__Id", lead__Id);
-                    editor.putString("meeting_date",meeting_date);
-                    editor.putString("meeting_agenda",meeting_agenda);
+                    editor.putString("meeting_date", meeting_date);
+                    editor.putString("meeting_agenda", meeting_agenda);
                     editor.commit();
+
 
                     showMaster.dismiss();
                 } catch (Exception e) {

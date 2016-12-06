@@ -83,8 +83,8 @@
     <string name="leadstatus">Lead Status</string>
     <string name="opportunity">Opportunity Pitched</string>
     <string name="business">Business Opportunity</string>
-    <string name="reqmob">Mobile Number is Required</string>
-    <string name="name">Name is Required</string>
+    <string name="reqmob">please enter 10 digit mobile no</string>
+    <string name="name">Please enter valid name</string>
     <string name="reqcity">City is Required</string>
     <string name="reqpincode">Pincode is Required</string>
     <string name="text_lead_created">Lead Created</string>
@@ -204,7 +204,7 @@
 
     //other
     <string name="open">Open</string>
-    <string name="welcome">Welcome:</string>
+    <string name="welcome">Welcome : </string>
     <string name="submit">Submit</string>
     <string name="closebtn">Close</string>
     <string name="next_meeting">Next Meeting</string>

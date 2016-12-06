@@ -894,6 +894,7 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
 
                     }
                 }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+                datePickerDialog.getDatePicker().setCalendarViewShown(false);
                 datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
                 date_of_birth.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -911,6 +912,7 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
                         next_metting_date.setText(dateFormatter.format(newDate.getTime()));
                     }
                 }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+                datePickerDialog1.getDatePicker().setCalendarViewShown(false);
                 datePickerDialog1.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
                 next_metting_date.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -926,6 +928,7 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
                         last_meeting_dt.setText(dateFormatter.format(newDate.getTime()));
                     }
                 }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+                datePickerDialog2.getDatePicker().setCalendarViewShown(false);
                 datePickerDialog2.getDatePicker().setMaxDate(System.currentTimeMillis());
                 last_meeting_dt.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -1623,6 +1626,28 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
     public boolean isEmailValid(CharSequence email) {
         return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
+    public boolean isName(String name) {
+        if (name == null) {
+            return false;
+        } else {
+            if (name.length() < 3 ) {
+                return false;
+            } else {
+                return true;
+            }
+        }
+    }
+    public boolean isPhoneValid(String phoneNumber) {
+        if (phoneNumber == null) {
+            return false;
+        } else {
+            if (phoneNumber.length() < 6 || phoneNumber.length() > 10) {
+                return false;
+            } else {
+                return android.util.Patterns.PHONE.matcher(phoneNumber).matches();
+            }
+        }
+    }
     //...............validatations.....
     private void validateDetails(){
         try {
@@ -1678,21 +1703,21 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
 
 
             View focusView = null;
-            if (TextUtils.isEmpty(str_fname)) {
+            if (!isName(str_fname))
+            {
                 fname.setError(getString(R.string.name));
                 focusView = fname;
                 focusView.requestFocus();
-
                 return;
             }
-
-            if (TextUtils.isEmpty(str_lname)) {
+            if (!isName(str_lname))
+            {
                 lname.setError(getString(R.string.name));
                 focusView = lname;
                 focusView.requestFocus();
                 return;
             }
-            if (TextUtils.isEmpty(str_mobile_no)) {
+            if (!isPhoneValid(str_mobile_no)) {
                 mobileno.setError(getString(R.string.reqmob));
                 focusView = mobileno;
                 focusView.requestFocus();
@@ -2375,8 +2400,14 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
 
 
             if (result) {
+                if (strFlag=="D"){
+                    displayMessage("Close Lead Data inserted");
+                }else if (strFlag=="U") {
 
-                displayMessage("Insert Data Succesfully");
+                    displayMessage("Insert Data Succesfully");
+                }
+
+
 
                 pushActivity(mContext, HomeActivity.class, null, true);
             }
@@ -2453,8 +2484,13 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
                 responseId = String.valueOf(soapObject);
                 if (responseId.contains("ERROR") || responseId.contains("null")) {
                     Toast.makeText(mContext, "Please check Internet Connection", Toast.LENGTH_LONG).show();
-                } else {                    displayMessage("Lead Updated Successfully");
+                } else {
+                    if (strFlag=="D"){
+                    displayMessage("Close Lead Successfully");
+                }else if (strFlag=="U") {
 
+                    displayMessage("Lead Updated Successfully");
+                }
                     updateInDb();
 
                 }
