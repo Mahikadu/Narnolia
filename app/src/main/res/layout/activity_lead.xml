@@ -166,6 +166,34 @@
                     android:textColor="@android:color/black" />
             </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/linear_spin_cust_id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="10dp"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/txt2_cust_id"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/layout_margin"
+                    android:layout_weight="1"
+                    android:text="@string/cust_id"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@android:color/black" />
+
+                <Spinner
+                    android:id="@+id/spin1_cust_id"
+                    style="@style/spinner_style"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:drawablePadding="@dimen/view_padding" />
+            </LinearLayout>
+
+
 
 
 

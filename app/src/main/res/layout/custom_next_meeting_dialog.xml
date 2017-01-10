@@ -75,9 +75,11 @@
                 android:maxLength="50"
                 android:padding="@dimen/view_padding"
                 android:singleLine="true"
-                android:textIsSelectable="true"
+                android:focusable="false"
+                android:clickable="false"
                 android:windowSoftInputMode="stateHidden"
                 android:inputType="none"
+                android:textIsSelectable="true"
                 android:textColor="@android:color/black" />
         </LinearLayout>
 

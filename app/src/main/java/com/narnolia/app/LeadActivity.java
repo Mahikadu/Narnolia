@@ -43,6 +43,8 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.narnolia.app.dbconfig.DbHelper;
 import com.narnolia.app.libs.Utils;
 import com.narnolia.app.model.CategoryDetailsModel;
+import com.narnolia.app.model.ClientDetailsModel;
+import com.narnolia.app.model.LeadInfoModel;
 import com.narnolia.app.model.ProductDetailsModel;
 import com.narnolia.app.model.SubCategoryDetailsModel;
 import com.narnolia.app.network.SOAPWebService;
@@ -65,13 +67,20 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
 
     private Context mContext;
     protected Utils utils;
-    private ProgressDialog progressDialog;
+    public ProgressDialog progressDialog;
     EditText fname, mname, lname, mobileno, location,customer_id;
     private AutoCompleteTextView editCity, autoPincode;
     private Map<String, List<String>> spinPincodeArray;
+    String selectedCatId = "";
+    String sourceString,subsource;
+    String ClinetId;
     private List<String> spinCityArray;
+    private List<String> spinClientIDList;
+    String[] strClientIDArray;
+    List<ClientDetailsModel>clientInfoModelList;
+    ClientDetailsModel clientDetailsModel;
     TextView tv_source_of_lead, tv_sub_source_of_lead, tv_fname, tv_mname, tv_lname,
-            tv_mobile_no, tv_location, tv_city, tv_pincode, tv_prospective_products;
+            tv_mobile_no, tv_location, tv_city, tv_pincode, tv_prospective_products,txt1_cust_id,txt2_cust_id;
 
     private String strStages, strSourceofLead, strSubSourceofLead, strCustomerID, str_fname, str_mname, str_lname,
             strDob, strAge, str_mob, strAddr1, strAddr2, strAddr3, strlocation, str_city, str_pincode, strEmail, strIncome,
@@ -81,7 +90,7 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
             strMeetingdt, strMeetingAgenda, strLead_Updatelog, strCreatedby, strCreateddt, strUpdateddt, strUpdatedby,strEmpCode,strLastMeetingDate,StrLastMeetingUpdate,
             strBusiness_opp;
     private ArrayAdapter<String> adapter9;
-    Spinner spinner_source_of_lead, spinner_sub_source;
+    Spinner spinner_source_of_lead, spinner_sub_source,spinner_cust_id;
     Button btn_create, btn_cancel, btn_create_close,btn1_prospective_product1;
     private List<String> spinSourceLeadList;
     private List<String> spinSubSourceLeadList;
@@ -93,7 +102,7 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
     String[] strLeadArray = null;
     String[] strSubLeadArray = null;
     String[] strProductArray = null;
-    private String responseId;
+    public String responseId ="";
     String LeadId;
 
     private String empcode;
@@ -114,7 +123,7 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
     private int selCounter = 0;
     public boolean[] selChkBoxArr = new boolean[50];
 
-    private LinearLayout productLayout,linear_customer_id;
+    private LinearLayout productLayout,linear_customer_id,linear_spin_customer_id;
     private  CheckBox checkbox;
     public ProductDetailsModel productDetailsModel;
     private CategoryDetailsModel categoryDetailsModel;
@@ -164,7 +173,6 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
 
             setHeader();
 
-
             //............Edit Text......
             fname = (EditText) findViewById(R.id.edt1_fname);
             mname = (EditText) findViewById(R.id.edt1_mname);
@@ -178,12 +186,17 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
             autoPincode=(AutoCompleteTextView) findViewById(R.id.edt1_pincode);
             //..............linear layout...........
             linear_customer_id=(LinearLayout)findViewById(R.id.linear1_cust_id);
+            linear_spin_customer_id=(LinearLayout)findViewById(R.id.linear_spin_cust_id);
 
             //..............Text View.....
             tv_source_of_lead = (TextView) findViewById(R.id.txt1_source_of_lead);
             tv_source_of_lead.setText(Html.fromHtml("<font color=\"red\">*</font>" + "<font color=\"black\">Source of Lead</font>\n"));
             tv_sub_source_of_lead = (TextView) findViewById(R.id.txt1_sub_source);
             tv_sub_source_of_lead.setText(Html.fromHtml("<font color=\"red\">*</font>" + "<font color=\"black\">Sub Source</font>\n"));
+            txt1_cust_id=(TextView)findViewById(R.id.txt1_cust_id);
+            txt1_cust_id.setText(Html.fromHtml("<font color=\"red\">*</font>" + "<font color=\"black\">Customer ID</font>\n"));
+            txt2_cust_id=(TextView)findViewById(R.id.txt2_cust_id);
+            txt2_cust_id.setText(Html.fromHtml("<font color=\"red\">*</font>" + "<font color=\"black\">Customer ID</font>\n"));
             tv_fname = (TextView) findViewById(R.id.txt1_fname);
             tv_fname.setText(Html.fromHtml("<font color=\"red\">*</font>" + "<font color=\"black\">First Name</font>\n"));
             tv_mname = (TextView) findViewById(R.id.txt1_mname);
@@ -211,6 +224,7 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
             //...............Spinner...
             spinner_source_of_lead = (Spinner) findViewById(R.id.spin1_source_of_lead);
             spinner_sub_source = (Spinner) findViewById(R.id.spin1_sub_source);
+            spinner_cust_id=(Spinner)findViewById(R.id.spin1_cust_id);
             // spinner_prospective_product = (Spinner) findViewById(R.id.spin1_prospective_product);
 
 
@@ -223,14 +237,35 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
                     if (strLeadArray != null && strLeadArray.length > 0) {
                         strSourceofLead = spinner_source_of_lead.getSelectedItem().toString();
 //                        fetchDistrCodeBranchName(strServiceBranchCode);
-                        String sourceString;
+
                         sourceString = parent.getItemAtPosition(position).toString();
                         if (sourceString != null) {
+                            try {
+                                if (sourceString.equalsIgnoreCase("In- house Leads (Existing)")&& subsource.equals("Existing Client")){
+                                    getAllClientData();//.............Client data method
+                                    linear_spin_customer_id.setVisibility(View.VISIBLE);
+                                }
+                                else
+                                {
+                                    fname.setEnabled(true);
+                                    fname.setText("");
+                                    customer_id.setEnabled(true);
+                                    customer_id.setText("");
+                                    linear_spin_customer_id.setVisibility(View.GONE);
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
                             if (sourceString.equalsIgnoreCase("Client Reference")) {
-
+                                linear_customer_id.setVisibility(View.VISIBLE);
+                            }else if (sourceString.equalsIgnoreCase("In- house Leads (Existing)"))
+                            {
                                 linear_customer_id.setVisibility(View.VISIBLE);
 
-                            } else {
+                            }else if (sourceString.equalsIgnoreCase("In- house Leads (New)"))
+                            {
+                                linear_customer_id.setVisibility(View.VISIBLE);
+                            }else {
                                 linear_customer_id.setVisibility(View.GONE);
                             }
                         }
@@ -242,13 +277,26 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
 
                 }
             });
-
             spinner_sub_source.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                     if (strSubLeadArray != null && strSubLeadArray.length > 0) {
                         strSubSourceofLead = spinner_sub_source.getSelectedItem().toString();
-//                        fetchDistrCodeBranchName(strServiceBranchCode);
+                         subsource=parent.getItemAtPosition(position).toString();
+                        if (subsource!=null){
+                            if (subsource.equalsIgnoreCase("Existing Client")&& sourceString.equals("In- house Leads (Existing)")){
+                                getAllClientData();//.............Client data method
+                                linear_spin_customer_id.setVisibility(View.VISIBLE);
+                            }
+                            else
+                            {   fname.setEnabled(true);
+                                fname.setText("");
+                                customer_id.setEnabled(true);
+                                customer_id.setText("");
+                                linear_spin_customer_id.setVisibility(View.GONE);
+                            }
+                        }
+
                     }
                 }
 
@@ -257,7 +305,58 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
 
                 }
             });
+//...............................Spinner Client Id..........
+            //spinner_cust_id
+            spinner_cust_id.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
+
+                    if (position != 0){
+
+                        if ( strClientIDArray != null && strClientIDArray.length > 0){
+                            String clientData = spinner_cust_id.getSelectedItem().toString();
+                            String [] strClient = clientData.split(" ");
+                            ClinetId = strClient[0];
+
+                            try {
+                                // WHERE clause
+                                String where = " where ClientID = '"+ClinetId+"'";
+                                Cursor cursor = Narnolia.dbCon.fetchFromSelect(DbHelper.TABLE_CLIENT_DETAILS,where);
+                                if (cursor != null && cursor.getCount() > 0) {
+                                    cursor.moveToFirst();
+                                    do {
+                                        clientDetailsModel = createClientDetailsModel(cursor);
+//                                        leadInfoModelList.add(leadInfoModel);
+
+                                    } while (cursor.moveToNext());
+                                    cursor.close();
+
+                                }else {
+                                    Toast.makeText(mContext, "No data found..!",Toast.LENGTH_SHORT).show();
+                                }
+
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+
+
+                            try {
+                                      populateClientData(clientDetailsModel);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+
+
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
 
             //......................madnetary Edit text validation.
             fname.addTextChangedListener(new TextWatcher() {
@@ -440,6 +539,8 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
 
             fetchSourcedata();
             fetchSubSourcedata();
+
+
             // fetchProductata();
 
             //..................Button.....
@@ -601,10 +702,54 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
             }
 
 
+
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
+    /*  if(leadInfoModelList.size()>0) {
+
+          for(int i = 0; i<leadInfoModelList.size(); i++) {
+              final LeadInfoModel leadInfoModel = leadInfoModelList.get(i);
+              str_fname = leadInfoModel.getFirstname();
+              str_mname = leadInfoModel.getMiddlename();
+              str_lname = leadInfoModel.getLastname();
+              lead_id_info = leadInfoModel.getLead_id();
+              fullname = str_fname + " " + str_mname + " " + str_lname + " " + "(" + lead_id_info + ")";
+              Collections.sort(spinLeadNameList);
+              spinLeadNameList.add(fullname);
+          }
+
+          strLeadNameArray = new String[spinLeadNameList.size() + 1];
+          strLeadNameArray[0] = "Select Lead Name";
+          for (int i = 0; i < spinLeadNameList.size(); i++) {
+              strLeadNameArray[i + 1] = spinLeadNameList.get(i);
+          }
+      }*/
+    private void setClientDetailValue(){
+        spinClientIDList = new ArrayList<>();
+        try {
+            if (clientInfoModelList.size()>0){
+                for (int i=0;i<clientInfoModelList.size();i++){
+                    final ClientDetailsModel clientDetailsModel=clientInfoModelList.get(i);
+                    String custid=clientDetailsModel.getClientID();
+                    String custname=clientDetailsModel.getClientName();
+                    String cust_id_name=custid+" "+custname +" ";
+                     Collections.sort(spinClientIDList);
+                    spinClientIDList.add(cust_id_name);
+                }
+                strClientIDArray=new String[spinClientIDList.size()+1];
+                strClientIDArray[0]="Select Client ID";
+                for (int i=0;i<spinClientIDList.size();i++){
+                    strClientIDArray[i+1]=spinClientIDList.get(i);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public boolean isPhoneValid(String phoneNumber) {
         if (phoneNumber == null) {
             return false;
@@ -647,7 +792,22 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
             strCustomerID=customer_id.getText().toString().trim();
 
             View focusView = null;
-          //  if (TextUtils.isEmpty(str_fname))
+            if (spinner_source_of_lead.getSelectedItemPosition()==0){
+                Toast.makeText(mContext, "Please select Source of Lead", Toast.LENGTH_SHORT).show();
+                focusView=spinner_source_of_lead;
+                focusView.requestFocus();
+                spinner_source_of_lead.setFocusable(true);
+                spinner_source_of_lead.requestFocusFromTouch();
+                return;
+            }
+            if (spinner_sub_source.getSelectedItemPosition()==0){
+                Toast.makeText(mContext, "Please select Sub Source of Lead", Toast.LENGTH_SHORT).show();
+                focusView=spinner_sub_source;
+                focusView.requestFocus();
+                spinner_sub_source.setFocusable(true);
+                spinner_sub_source.requestFocusFromTouch();
+                return;
+            }
             if (!isName(str_fname))
             {
                 fname.setError(getString(R.string.name));
@@ -669,12 +829,12 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
                 return;
             }
 //            if (TextUtils.isEmpty(str_mob)) {
-                if (!isPhoneValid(str_mob)) {
-                    mobileno.setError(getString(R.string.reqmob));
-                    focusView = mobileno;
-                    focusView.requestFocus();
-                    return;
-                }
+            if (!isPhoneValid(str_mob)) {
+                mobileno.setError(getString(R.string.reqmob));
+                focusView = mobileno;
+                focusView.requestFocus();
+                return;
+            }
 //            }
             if (TextUtils.isEmpty(str_city)) {
                 editCity.setError(getString(R.string.reqcity));
@@ -868,6 +1028,9 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
                 if(icount>0)
                 {
                     String name = + icount + " is Selected";
+
+                    selectedCatId = selectedCatId.length() > 0 ? selectedCatId.substring(0,selectedCatId.length() - 1) : "";
+
                     btn1_prospective_product1.setText(name);
                     showProduct.dismiss();
                 }else
@@ -966,7 +1129,7 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
                                                         final CheckBox checkbox1 = (CheckBox) v;
 
                                                         checkbox1.setChecked(true);
-
+                                                        selectedCatId += v.getId()+"#";
                                                     }
                                                 }
                                             }
@@ -1127,6 +1290,7 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
                             public void onClick(View v) {
 
                                 selChkBoxArr[v.getId()] = true;
+                                selectedCatId += v.getId()+"#";
 //                                selChkBoxMap.put(v.getId(),true);
 
                             }
@@ -1262,9 +1426,9 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
         protected void onPreExecute() {
             super.onPreExecute();
             try {
-                if (progressDialog != null && !progressDialog.isShowing()) {
+               /* if (progressDialog != null && !progressDialog.isShowing()) {
                     progressDialog.show();
-                }
+                }*/
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -1294,7 +1458,7 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
                 strFlag = "C";
             }
 
-            SoapPrimitive object = webService.SaveLead(strSourceofLead, strSubSourceofLead,"", str_fname, str_mname, str_lname, str_mob,
+            SoapPrimitive object = webService.SaveLead(strSourceofLead, strSubSourceofLead,empcode, str_fname, str_mname, str_lname, str_mob,
                     strlocation, str_city, str_pincode,"1",strStages, "", "", "", strFlag, "");
 
             return object;
@@ -1304,21 +1468,27 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
         @Override
         protected void onPostExecute(SoapPrimitive soapObject) {
             super.onPostExecute(soapObject);
+            String output = "";
             try {
-                if (progressDialog != null && progressDialog.isShowing()) {
+               /* if (progressDialog != null && progressDialog.isShowing()) {
                     progressDialog.dismiss();
-                }
-                responseId = String.valueOf(soapObject);
+                }*/
+                output = (String) soapObject.toString();
+                Log.d("Output =>",output);
+                responseId = String.valueOf(soapObject.toString());
                 if (responseId.contains("ERROR") || responseId.contains("null")) {
-                    Toast.makeText(mContext, "Please check Internet Connection", Toast.LENGTH_LONG).show();
+                    Toast.makeText(mContext, "Error in getting lead id", Toast.LENGTH_LONG).show();
                 } else {
                     displayMessage("Lead Created Successfully");
-                    updateOrInsertInDb();
+                    //       updateOrInsertInDb();
 
                 }
 
             } catch (Exception e) {
                 e.printStackTrace();
+            }finally {
+                updateOrInsertInDb();
+                new SaveCategory().execute();
             }
 
         }
@@ -1367,7 +1537,7 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
                     strMeetingStatus, strLeadStatus, strCompitator_Name, strProduct, strRemark, strTypeofSearch,
                     strDuration, strPanNo, strB_Margin, strB_aum, strB_sip, strB_number, strB_value, strB_premium, strReason,
                     strMeetingdt, strMeetingAgenda, strLead_Updatelog, strCreatedby, strCreateddt, strUpdateddt, strUpdatedby,strEmpCode,strLastMeetingDate,StrLastMeetingUpdate,
-                    strBusiness_opp};
+                    selectedCatId};
 
 
             boolean result = Narnolia.dbCon.update(DbHelper.TABLE_DIRECT_LEAD, selection, valuesArray, utils.columnNamesLead, selectionArgs);
@@ -1375,7 +1545,7 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
 
             if (result) {
 
-                displayMessage("Insert Data Succesfully");
+                displayMessage("Data Inserted Succesfully");
 
                 if (cliked){
                     AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
@@ -1524,6 +1694,156 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
 
 
     }
+    public class SaveCategory extends AsyncTask <String, Void, SoapPrimitive> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            try {
+                if (progressDialog != null && !progressDialog.isShowing()) {
+                    progressDialog.show();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        protected SoapPrimitive doInBackground(String... params) {
+            SoapPrimitive object = null;
+            SOAPWebService webService = new SOAPWebService(mContext);
+            String fromType="APP";
+            try {
+                object = webService.SaveCategory(LeadId, selectedCatId, empcode,fromType);
+
+            } catch (Exception e) {
+                // TODO Auto-generated catch block
+            }
+            return object;
+        }
+
+        @Override
+        protected void onPostExecute(SoapPrimitive soapObject) {
+            super.onPostExecute(soapObject);
+            try {
+                if (progressDialog != null && progressDialog.isShowing()) {
+                    progressDialog.dismiss();
+                }
+                responseId = String.valueOf(soapObject);
+                if (responseId.contains("ERROR") || responseId.contains("null")) {
+                    Toast.makeText(mContext, "Please check Internet Connection", Toast.LENGTH_LONG).show();
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
+    }
+    //.......................Client Details Model
+    public void getAllClientData() {
+
+        clientInfoModelList = new ArrayList<>();
+        try {
+            // WHERE clause
+            String Branch = "CH";
+
+            String where = " where Branchid = '"+Branch+"'";
+            Cursor cursor = Narnolia.dbCon.fetchFromSelect(DbHelper.TABLE_CLIENT_DETAILS, where);
+            if (cursor != null && cursor.getCount() > 0) {
+                cursor.moveToFirst();
+                do {
+                    clientDetailsModel = createClientDetailsModel(cursor);
+                    clientInfoModelList.add(clientDetailsModel);
+
+                } while (cursor.moveToNext());
+                cursor.close();
+
+            }
+            setClientDetailValue();
+//  spinner_cust_id
+            if (spinClientIDList != null && spinClientIDList.size() > 0) {
+                ArrayAdapter<String> adapter3= new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, strClientIDArray) {
+                    @Override
+                    public View getDropDownView(int position, View convertView, ViewGroup parent)
+                    {
+                        View v = null;
+                        // If this is the initial dummy entry, make it hidden
+                        if (position == 0) {
+                            TextView tv = new TextView(getContext());
+                            tv.setHeight(0);
+                            tv.setVisibility(View.GONE);
+                            v = tv;
+                        }
+                        else {
+                            // Pass convertView as null to prevent reuse of special case views
+                            v = super.getDropDownView(position, null, parent);
+                        }
+                        // Hide scroll bar because it appears sometimes unnecessarily, this does not prevent scrolling
+                        parent.setVerticalScrollBarEnabled(false);
+                        return v;
+                    }
+                };
+
+                adapter3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spinner_cust_id.setAdapter(adapter3);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+    private void populateClientData(ClientDetailsModel clientDetailsModel){
+        try {
+            if(clientDetailsModel != null){
+                fname.setText(clientDetailsModel.getClientName());
+                fname.setEnabled(false);
+                customer_id.setText(clientDetailsModel.getClientID());
+                customer_id.setEnabled(false);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public ClientDetailsModel createClientDetailsModel(Cursor cursor) {
+        clientDetailsModel = new ClientDetailsModel();
+        try {
+            clientDetailsModel.setAddress(cursor.getString(cursor.getColumnIndex("Address")));
+            clientDetailsModel.setAnnualIncome(cursor.getString(cursor.getColumnIndex("AnnualIncome")));
+            clientDetailsModel.setBirthDate(cursor.getString(cursor.getColumnIndex("BirthDate")));
+            clientDetailsModel.setBranchid(cursor.getString(cursor.getColumnIndex("Branchid")));
+            clientDetailsModel.setCity(cursor.getString(cursor.getColumnIndex("City")));
+            clientDetailsModel.setClientCat(cursor.getString(cursor.getColumnIndex("ClientCat")));
+            clientDetailsModel.setClientID(cursor.getString(cursor.getColumnIndex("ClientID")));
+            clientDetailsModel.setClientName(cursor.getString(cursor.getColumnIndex("ClientName")));
+            clientDetailsModel.setEmailAddress(cursor.getString(cursor.getColumnIndex("EmailAddress")));
+            clientDetailsModel.setMobileNumber(cursor.getString(cursor.getColumnIndex("MobileNumber")));
+            clientDetailsModel.setPanNumber(cursor.getString(cursor.getColumnIndex("PanNumber")));
+            clientDetailsModel.setPinCode(cursor.getString(cursor.getColumnIndex("PinCode")));
+            clientDetailsModel.setRMCode(cursor.getString(cursor.getColumnIndex("RMCode")));
+            clientDetailsModel.setRMName(cursor.getString(cursor.getColumnIndex("RMName")));
+            clientDetailsModel.setStateId(cursor.getString(cursor.getColumnIndex("StateId")));
+            clientDetailsModel.setTelephonenumber(cursor.getString(cursor.getColumnIndex("Telephonenumber")));
+            clientDetailsModel.setUcc(cursor.getString(cursor.getColumnIndex("Ucc")));
+            clientDetailsModel.setBankaccount(cursor.getString(cursor.getColumnIndex("bankaccount")));
+            clientDetailsModel.setBankname(cursor.getString(cursor.getColumnIndex("bankname")));
+            clientDetailsModel.setcStatus(cursor.getString(cursor.getColumnIndex("cStatus")));
+            clientDetailsModel.setDopeningDate(cursor.getString(cursor.getColumnIndex("dopeningDate")));
+            clientDetailsModel.setDpac(cursor.getString(cursor.getColumnIndex("dpac")));
+            clientDetailsModel.setDpid(cursor.getString(cursor.getColumnIndex("dpid")));
+            clientDetailsModel.setIfsc(cursor.getString(cursor.getColumnIndex("ifsc")));
+            clientDetailsModel.setMicr(cursor.getString(cursor.getColumnIndex("micr")));
+            clientDetailsModel.setResult(cursor.getString(cursor.getColumnIndex("result")));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return clientDetailsModel;
+
+    }
+
+    //................................................................
 
 
 }

@@ -206,6 +206,32 @@
                         android:textColor="@android:color/black" />
                 </LinearLayout>
 
+                <LinearLayout
+                    android:id="@+id/linear1_spin_cust_id"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="10dp"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/txt1_cust_id"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/layout_margin"
+                        android:layout_weight="1"
+                        android:text="@string/cust_id"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@android:color/black" />
+
+                    <Spinner
+                        android:id="@+id/spin2_cust_id"
+                        style="@style/spinner_style"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:drawablePadding="@dimen/view_padding" />
+                </LinearLayout>
 
 
 
@@ -435,6 +461,8 @@
                         android:maxLength="10"
                         android:padding="@dimen/view_padding"
                         android:singleLine="true"
+                        android:focusable="false"
+                        android:clickable="false"
                         android:windowSoftInputMode="stateHidden"
                         android:inputType="none"
                         android:textIsSelectable="true"
@@ -1193,10 +1221,12 @@
                         android:drawablePadding="@dimen/view_padding"
                         android:maxLength="50"
                         android:padding="@dimen/view_padding"
+                        android:focusable="false"
+                        android:clickable="false"
                         android:windowSoftInputMode="stateHidden"
                         android:inputType="none"
-                        android:singleLine="true"
                         android:textIsSelectable="true"
+                        android:singleLine="true"
                         android:textColor="@android:color/black" />
                 </LinearLayout>
 
@@ -1267,6 +1297,8 @@
                         android:drawablePadding="@dimen/view_padding"
                         android:maxLength="50"
                         android:padding="@dimen/view_padding"
+                        android:focusable="false"
+                        android:clickable="false"
                         android:windowSoftInputMode="stateHidden"
                         android:inputType="none"
                         android:textIsSelectable="true"

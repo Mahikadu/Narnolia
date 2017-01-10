@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import com.narnolia.app.dbconfig.DbHelper;
 import com.narnolia.app.libs.Utils;
+import com.narnolia.app.model.ClientDetailsModel;
 import com.narnolia.app.model.LeadInfoModel;
 import com.narnolia.app.network.SOAPWebService;
 
@@ -40,14 +41,16 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
     private Context mContext;
     private Utils utils;
     String[] strLeadArray = null;
-    private String empcode,leadid;
+    private String empcode,leadid,RMCode;
     private SharedPref sharedPref;
     private TextView admin;
     private ProgressDialog progressDialog;
     private String responseId;
 
     LeadInfoModel leadInfoModel;
+    ClientDetailsModel clientDetailsModel;
     List<LeadInfoModel> leadInfoModelList;
+    List<ClientDetailsModel>clientInfoModelList;
 
     private String strFlag,
            leadId,str_cust_id, str_fname,str_mname,str_lname,str_mobile_no,str_email,str_date_of_birth,str_address,str_flat,str_street,str_laocion,str_city,
@@ -59,6 +62,8 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
     strPanNo, strB_Margin, strB_aum, strB_sip, strB_number, strB_value, strB_premium,strEmpCode,
     strCreatedby, strCreateddt, strUpdateddt, strUpdatedby
     ,strBusiness_opp,strLastMeetingDate,strLastMeetingUpdate,str_spinner_duration;
+    private String Address,AnnualIncome,BirthDate,Branchid,City,ClientCat,ClientID,ClientName,EmailAddress,MobileNumber,PanNumber,PinCode,RMName,StateId,
+            Telephonenumber,Ucc,bankaccount,bankname,cStatus,dopeningDate,dpac,dpid,ifsc,micr,result;
 
 
     String spinMasterList[]={"--select--","Prakash","Bhavin","Chirag","Yakub"};
@@ -80,6 +85,7 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
         try {
 
             getAllLeadData();
+
             mContext = HomeActivity.this;
 
             setHeader();
@@ -748,15 +754,388 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
 
 
             finally {
-                if (progressDialog != null) {
-                        progressDialog.dismiss();
-                    }
 
+                new Get_ALL_Client().execute();
             }
         }
     }
+//.....................................get All Client..........................................
+public class Get_ALL_Client extends AsyncTask<Void, Void, SoapObject> {
+
+    @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+        try {
+            if (progressDialog != null && !progressDialog.isShowing()) {
+                progressDialog.show();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @Override
+    protected SoapObject doInBackground(Void... params) {
+
+        SoapObject object = null;
+        RMCode = "CH";
+        try {
+            SOAPWebService webService = new SOAPWebService(mContext);
+            object = webService.Get_ALL_Client(RMCode);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return object;
+    }
+
+    @Override
+    protected void onPostExecute(SoapObject soapObject) {
+        super.onPostExecute(soapObject);
+        try {
+            responseId = String.valueOf(soapObject);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        try {
+            for (int i = 0; i < soapObject.getPropertyCount(); i++){
+                SoapObject root = (SoapObject) soapObject.getProperty(i);
 
 
+                if (root.getProperty("Address") != null) {
+
+                    if (!root.getProperty("Address").toString().equalsIgnoreCase("anyType{}")) {
+                        Address = root.getProperty("Address").toString();
+
+                    } else {
+                        Address = "";
+                    }
+                } else {
+                    Address = "";
+                }
+
+                if (root.getProperty("AnnualIncome") != null) {
+
+                    if (!root.getProperty("AnnualIncome").toString().equalsIgnoreCase("anyType{}")) {
+                        AnnualIncome = root.getProperty("AnnualIncome").toString();
+
+                    } else {
+                        AnnualIncome = "";
+                    }
+                } else {
+                    AnnualIncome = "";
+                }
+                if (root.getProperty("BirthDate") != null) {
+
+                    if (!root.getProperty("BirthDate").toString().equalsIgnoreCase("anyType{}")) {
+                        BirthDate = root.getProperty("BirthDate").toString();
+
+                    } else {
+                        BirthDate = "";
+                    }
+                } else {
+                    BirthDate = "";
+                }
+
+                if (root.getProperty("Branchid") != null) {
+
+                    if (!root.getProperty("Branchid").toString().equalsIgnoreCase("anyType{}")) {
+                        Branchid = root.getProperty("Branchid").toString();
+
+                    } else {
+                        Branchid = "";
+                    }
+                } else {
+                    Branchid = "";
+                }
+
+                if (root.getProperty("City") != null) {
+
+                    if (!root.getProperty("City").toString().equalsIgnoreCase("anyType{}")) {
+                        City = root.getProperty("City").toString();
+
+                    } else {
+                        City = "";
+                    }
+                } else {
+                    City = "";
+                }
+
+                if (root.getProperty("ClientCat") != null) {
+
+                    if (!root.getProperty("ClientCat").toString().equalsIgnoreCase("anyType{}")) {
+                        ClientCat = root.getProperty("ClientCat").toString();
+
+                    } else {
+                        ClientCat = "";
+                    }
+                } else {
+                    ClientCat = "";
+                }
+
+                if (root.getProperty("ClientID") != null) {
+
+                    if (!root.getProperty("ClientID").toString().equalsIgnoreCase("anyType{}")) {
+                        ClientID = root.getProperty("ClientID").toString();
+
+                    } else {
+                        ClientID = "";
+                    }
+                } else {
+                    ClientID = "";
+                }
+
+                if (root.getProperty("ClientName") != null) {
+
+                    if (!root.getProperty("ClientName").toString().equalsIgnoreCase("anyType{}")) {
+                        ClientName = root.getProperty("ClientName").toString();
+
+                    } else {
+                        ClientName = "";
+                    }
+                } else {
+                    ClientName = "";
+                }
+
+                if (root.getProperty("EmailAddress") != null) {
+
+                    if (!root.getProperty("EmailAddress").toString().equalsIgnoreCase("anyType{}")) {
+                        EmailAddress = root.getProperty("EmailAddress").toString();
+
+                    } else {
+                        EmailAddress = "";
+                    }
+                } else {
+                    EmailAddress = "";
+                }
+
+                if (root.getProperty("MobileNumber") != null) {
+
+                    if (!root.getProperty("MobileNumber").toString().equalsIgnoreCase("anyType{}")) {
+                        MobileNumber = root.getProperty("MobileNumber").toString();
+
+                    } else {
+                        MobileNumber = "";
+                    }
+                } else {
+                    MobileNumber = "";
+                }
+
+                if (root.getProperty("PanNumber") != null) {
+
+                    if (!root.getProperty("PanNumber").toString().equalsIgnoreCase("anyType{}")) {
+                        PanNumber = root.getProperty("PanNumber").toString();
+
+                    } else {
+                        PanNumber = "";
+                    }
+                } else {
+                    PanNumber = "";
+                }
+
+                if (root.getProperty("PinCode") != null) {
+
+                    if (!root.getProperty("PinCode").toString().equalsIgnoreCase("anyType{}")) {
+                        PinCode = root.getProperty("PinCode").toString();
+
+                    } else {
+                        PinCode = "";
+                    }
+                } else {
+                    PinCode = "";
+                }
+
+                if (root.getProperty("RMCode") != null) {
+
+                    if (!root.getProperty("RMCode").toString().equalsIgnoreCase("anyType{}")) {
+                        RMCode = root.getProperty("RMCode").toString();
+
+                    } else {
+                        RMCode = "";
+                    }
+                } else {
+                    RMCode = "";
+                }
+
+                if (root.getProperty("RMName") != null) {
+
+                    if (!root.getProperty("RMName").toString().equalsIgnoreCase("anyType{}")) {
+                        RMName = root.getProperty("RMName").toString();
+
+                    } else {
+                        RMName = "";
+                    }
+                } else {
+                    RMName = "";
+                }
+
+                if (root.getProperty("StateId") != null) {
+
+                    if (!root.getProperty("StateId").toString().equalsIgnoreCase("anyType{}")) {
+                        StateId = root.getProperty("StateId").toString();
+
+                    } else {
+                        StateId = "";
+                    }
+                } else {
+                    StateId = "";
+                }
+
+                if (root.getProperty("Telephonenumber") != null) {
+
+                    if (!root.getProperty("Telephonenumber").toString().equalsIgnoreCase("anyType{}")) {
+                        Telephonenumber = root.getProperty("Telephonenumber").toString();
+
+                    } else {
+                        Telephonenumber = "";
+                    }
+                } else {
+                    Telephonenumber = "";
+                }
+
+
+
+                if (root.getProperty("Ucc") != null) {
+
+                    if (!root.getProperty("Ucc").toString().equalsIgnoreCase("anyType{}")) {
+                        Ucc = root.getProperty("Ucc").toString();
+
+                    } else {
+                        Ucc = "";
+                    }
+                } else {
+                    Ucc = "";
+                }
+
+                if (root.getProperty("bankaccount") != null) {
+
+                    if (!root.getProperty("bankaccount").toString().equalsIgnoreCase("anyType{}")) {
+                        bankaccount = root.getProperty("bankaccount").toString();
+
+                    } else {
+                        bankaccount = "";
+                    }
+                } else {
+                    bankaccount = "";
+                }
+                if (root.getProperty("bankname") != null) {
+
+                    if (!root.getProperty("bankname").toString().equalsIgnoreCase("anyType{}")) {
+                        bankname = root.getProperty("bankname").toString();
+
+                    } else {
+                        bankname = "";
+                    }
+                } else {
+                    bankname = "";
+                }
+
+                if (root.getProperty("cStatus") != null) {
+
+                    if (!root.getProperty("cStatus").toString().equalsIgnoreCase("anyType{}")) {
+                        cStatus = root.getProperty("cStatus").toString();
+
+                    } else {
+                        cStatus = "";
+                    }
+                } else {
+                    cStatus = "";
+                }
+                if (root.getProperty("dopeningDate") != null) {
+
+                    if (!root.getProperty("dopeningDate").toString().equalsIgnoreCase("anyType{}")) {
+                        dopeningDate = root.getProperty("dopeningDate").toString();
+
+                    } else {
+                        dopeningDate = "";
+                    }
+                } else {
+                    dopeningDate = "";
+                }
+                if (root.getProperty("dpac") != null) {
+
+                    if (!root.getProperty("dpac").toString().equalsIgnoreCase("anyType{}")) {
+                        dpac = root.getProperty("dpac").toString();
+
+                    } else {
+                        dpac = "";
+                    }
+                } else {
+                    dpac = "";
+                }
+                if (root.getProperty("dpid") != null) {
+
+                    if (!root.getProperty("dpid").toString().equalsIgnoreCase("anyType{}")) {
+                        dpid = root.getProperty("dpid").toString();
+
+                    } else {
+                        dpid = "";
+                    }
+                } else {
+                    dpid = "";
+                }
+                if (root.getProperty("ifsc") != null) {
+
+                    if (!root.getProperty("ifsc").toString().equalsIgnoreCase("anyType{}")) {
+                        ifsc = root.getProperty("ifsc").toString();
+
+                    } else {
+                        ifsc = "";
+                    }
+                } else {
+                    ifsc = "";
+                }
+                if (root.getProperty("micr") != null) {
+
+                    if (!root.getProperty("micr").toString().equalsIgnoreCase("anyType{}")) {
+                        micr = root.getProperty("micr").toString();
+
+                    } else {
+                        micr = "";
+                    }
+                } else {
+                    micr = "";
+                }
+                if (root.getProperty("result") != null) {
+
+                    if (!root.getProperty("result").toString().equalsIgnoreCase("anyType{}")) {
+                        result = root.getProperty("result").toString();
+
+                    } else {
+                        result = "";
+                    }
+                } else {
+                    result = "";
+                }
+
+
+               // String strLastSync = "1";
+               // String strStages = "Lead Updated";
+                String selection = mContext.getString(R.string.column_cust_id) + " = ?";
+                String[] selectionArgs = {ClientID};
+                String valuesArray[] = {Address,AnnualIncome,BirthDate,Branchid,City,ClientCat,ClientID,ClientName,
+                        EmailAddress,MobileNumber,PanNumber,PinCode,RMCode,RMName,StateId,Telephonenumber,
+                        Ucc,bankaccount,bankname,cStatus,dopeningDate,dpac,dpid,ifsc,micr,result};
+
+                boolean result = Narnolia.dbCon.update(DbHelper.TABLE_CLIENT_DETAILS, selection, valuesArray, utils.columnNamesClientDetails, selectionArgs);
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+        finally {
+            if (progressDialog != null) {
+                progressDialog.dismiss();
+            }
+
+        }
+    }
+}
+//.................................................................................................
     public void getAllLeadData() {
 
         leadInfoModelList = new ArrayList<>();
@@ -769,20 +1148,16 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
                 do {
                     leadInfoModel = createLeadInfoModel(cursor);
                     leadInfoModelList.add(leadInfoModel);
-
                 } while (cursor.moveToNext());
                 cursor.close();
-
             }else {
                 Toast.makeText(HomeActivity.this, "No data found..!",Toast.LENGTH_SHORT).show();
             }
-
+          //  getAllClientData();
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
-
     public LeadInfoModel createLeadInfoModel(Cursor cursor) {
          leadInfoModel = new LeadInfoModel();
         try {
@@ -846,5 +1221,70 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
         return leadInfoModel;
 
     }
+  /*  //.......................Client Details Model
+    public void getAllClientData() {
+
+        clientInfoModelList = new ArrayList<>();
+        try {
+            // WHERE clause
+            String where = " where ClientID = '"+ClientID+"'";
+            Cursor cursor = Narnolia.dbCon.fetchFromSelect(DbHelper.TABLE_CLIENT_DETAILS, where);
+            if (cursor != null && cursor.getCount() > 0) {
+                cursor.moveToFirst();
+                do {
+                    clientDetailsModel = createClientDetailsModel(cursor);
+                    clientInfoModelList.add(clientDetailsModel);
+
+                } while (cursor.moveToNext());
+                cursor.close();
+
+            }else {
+                Toast.makeText(HomeActivity.this, "No data found..!",Toast.LENGTH_SHORT).show();
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+    public ClientDetailsModel createClientDetailsModel(Cursor cursor) {
+        clientDetailsModel = new ClientDetailsModel();
+        try {
+            clientDetailsModel.setAddress(cursor.getString(cursor.getColumnIndex("Address")));
+            clientDetailsModel.setAnnualIncome(cursor.getString(cursor.getColumnIndex("AnnualIncome")));
+            clientDetailsModel.setBirthDate(cursor.getString(cursor.getColumnIndex("BirthDate")));
+            clientDetailsModel.setBranchid(cursor.getString(cursor.getColumnIndex("Branchid")));
+            clientDetailsModel.setCity(cursor.getString(cursor.getColumnIndex("City")));
+            clientDetailsModel.setClientCat(cursor.getString(cursor.getColumnIndex("ClientCat")));
+            clientDetailsModel.setClientID(cursor.getString(cursor.getColumnIndex("ClientID")));
+            clientDetailsModel.setClientName(cursor.getString(cursor.getColumnIndex("ClientName")));
+            clientDetailsModel.setEmailAddress(cursor.getString(cursor.getColumnIndex("EmailAddress")));
+            clientDetailsModel.setMobileNumber(cursor.getString(cursor.getColumnIndex("MobileNumber")));
+            clientDetailsModel.setPanNumber(cursor.getString(cursor.getColumnIndex("PanNumber")));
+            clientDetailsModel.setPinCode(cursor.getString(cursor.getColumnIndex("PinCode")));
+            clientDetailsModel.setRMCode(cursor.getString(cursor.getColumnIndex("RMCode")));
+            clientDetailsModel.setRMName(cursor.getString(cursor.getColumnIndex("RMName")));
+            clientDetailsModel.setStateId(cursor.getString(cursor.getColumnIndex("StateId")));
+            clientDetailsModel.setTelephonenumber(cursor.getString(cursor.getColumnIndex("Telephonenumber")));
+            clientDetailsModel.setUcc(cursor.getString(cursor.getColumnIndex("Ucc")));
+            clientDetailsModel.setBankaccount(cursor.getString(cursor.getColumnIndex("bankaccount")));
+            clientDetailsModel.setBankname(cursor.getString(cursor.getColumnIndex("bankname")));
+            clientDetailsModel.setcStatus(cursor.getString(cursor.getColumnIndex("cStatus")));
+            clientDetailsModel.setDopeningDate(cursor.getString(cursor.getColumnIndex("dopeningDate")));
+            clientDetailsModel.setDpac(cursor.getString(cursor.getColumnIndex("dpac")));
+            clientDetailsModel.setDpid(cursor.getString(cursor.getColumnIndex("dpid")));
+            clientDetailsModel.setIfsc(cursor.getString(cursor.getColumnIndex("ifsc")));
+            clientDetailsModel.setMicr(cursor.getString(cursor.getColumnIndex("micr")));
+            clientDetailsModel.setResult(cursor.getString(cursor.getColumnIndex("result")));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return clientDetailsModel;
+
+    }
+
+    //................................................................
+*/
 
 }

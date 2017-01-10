@@ -251,5 +251,35 @@
     <string name="column_cd_lead_id">lead_id</string>
     <string name="column_cd_producttype_id">producttype_id</string>
     <string name="column_cd_category_id">category_id</string>
+   <!-- get all client-->
+<string name="column_cust_id">ClientID</string>
+    <string name="Address">Address</string>
+    <string name="AnnualIncome">AnnualIncome</string>
+    <string name="BirthDate">BirthDate</string>
+    <string name="Branchid">Branchid</string>
+    <string name="City">City</string>
+    <string name="ClientCat">ClientCat</string>
+    <string name="ClientID">ClientID</string>
+    <string name="ClientName">ClientName</string>
+    <string name="EmailAddress">EmailAddress</string>
+    <string name="MobileNumber">MobileNumber</string>
+    <string name="PanNumber">PanNumber</string>
+    <string name="PinCode">PinCode</string>
+    <string name="RMCode">RMCode</string>
+    <string name="RMName">RMName</string>
+    <string name="StateId">StateId</string>
+    <string name="Telephonenumber">Telephonenumber</string>
+    <string name="Ucc">Ucc</string>
+    <string name="bankaccount">bankaccount</string>
+    <string name="bankname">bankname</string>
+    <string name="cStatus">cStatus</string>
+    <string name="dopeningDate">dopeningDate</string>
+    <string name="dpac">dpac</string>
+    <string name="dpid">dpid</string>
+    <string name="ifsc">ifsc</string>
+    <string name="micr">micr</string>
+    <string name="result">result</string>
+
+
 
 </resources>
