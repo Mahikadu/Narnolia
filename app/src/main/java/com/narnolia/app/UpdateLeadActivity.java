@@ -2839,7 +2839,7 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
                     Toast.makeText(mContext, "Please check Internet Connection", Toast.LENGTH_LONG).show();
                 } else {
                     if (strFlag=="D"){
-                    displayMessage("Close Lead Sucessfully");
+                    displayMessage("Lead Closed Sucessfully");
                 }else if (strFlag=="U") {
 
                     displayMessage("Lead Updated Successfully");
