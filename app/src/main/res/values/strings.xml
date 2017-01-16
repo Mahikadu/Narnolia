@@ -142,6 +142,7 @@
     <string name="column_masterdetails_lmd">lmd</string>
     <string name="column_masterdetails_transfer">transfer</string>
     <string name="column_masterdetails_flag">flag</string>
+<!--dashboard lead column name-->
 
     //save lead column name
     <string name="column_direct_lead_id">direct_lead_id</string>
@@ -194,6 +195,7 @@
     <string name="column_updated_dt">updated_dt</string>
     <string name="column_updated_by">updated_by</string>
     <string name="column_business_opportunity">business_opportunity</string>
+    <string name="column_customer_id_name">customer_id_name</string>
     <string name="column_m_pin_district">district</string>
     <string name="column_m_pin_pincode">pincode</string>
     <string name="select_pincode">Select Pincode</string>

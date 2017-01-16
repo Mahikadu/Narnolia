@@ -61,7 +61,7 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
     strCompitator_Name, strProduct, strRemark,str_rg_meeting_status,
     strPanNo, strB_Margin, strB_aum, strB_sip, strB_number, strB_value, strB_premium,strEmpCode,
     strCreatedby, strCreateddt, strUpdateddt, strUpdatedby
-    ,strBusiness_opp,strLastMeetingDate,strLastMeetingUpdate,str_spinner_duration;
+    ,strBusiness_opp,strLastMeetingDate,strLastMeetingUpdate,str_spinner_duration,strCustomer_id_name;
     private String Address,AnnualIncome,BirthDate,Branchid,City,ClientCat,ClientID,ClientName,EmailAddress,MobileNumber,PanNumber,PinCode,RMName,StateId,
             Telephonenumber,Ucc,bankaccount,bankname,cStatus,dopeningDate,dpac,dpid,ifsc,micr,result;
 
@@ -444,6 +444,8 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
             } catch (Exception e) {
                 e.printStackTrace();
             }
+
+
             //response :anyType{Lead=anyType{Address1=null; Address2=null; Address3=null; Age=null; BranchCode=null; Channel=null;
             //City=anyType{}; Country=null; Currency=null; DOB=null; Designation=null; Duration_date=null; Duration_date_2=null;
             // EmailId=null; FName=KHSAGFK; Flag=null; Gender=null; Id=0; Income=null; LG_DST_Code=null; LName=null; L_Country=null;
@@ -736,7 +738,7 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
                             str_rg_meeting_status, str_spinner_lead_status, strCompitator_Name, strProduct, strRemark, str_spinner_research_type,
                             str_spinner_duration, strPanNo, strB_Margin, strB_aum, strB_sip, strB_number, strB_value, strB_premium, str_reason,
                             str_next_meeting_date, str_metting_agenda, str_lead_update_log, strCreatedby, strCreateddt, strUpdateddt, strUpdatedby,strEmpCode,
-                            strLastMeetingDate,strLastMeetingUpdate,strBusiness_opp};
+                            strLastMeetingDate,strLastMeetingUpdate,strBusiness_opp,strCustomer_id_name};
 
                     boolean result = Narnolia.dbCon.update(DbHelper.TABLE_DIRECT_LEAD, selection, valuesArray, utils.columnNamesLeadUpdate, selectionArgs);
 
@@ -1214,6 +1216,7 @@ public class Get_ALL_Client extends AsyncTask<Void, Void, SoapObject> {
             leadInfoModel.setLast_meeting_date(cursor.getString(cursor.getColumnIndex("last_meeting_date")));
             leadInfoModel.setLast_meeting_update(cursor.getString(cursor.getColumnIndex("last_meeting_update")));
             leadInfoModel.setBusiness_opp(cursor.getString(cursor.getColumnIndex("business_opportunity")));
+            leadInfoModel.setCustomer_id_name(cursor.getString(cursor.getColumnIndex("customer_id_name")));
 
         } catch (Exception e) {
             e.printStackTrace();

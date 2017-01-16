@@ -88,9 +88,11 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
     String lead__Id;
     String strStages,strFlag;
     boolean cliked=false;
+    boolean uncheckall = false;
     ClientDetailsModel clientDetailsModel;
     List<ClientDetailsModel>clientInfoModelList;
     private List<String> spinClientIDList;
+    private ArrayAdapter<String> adapterClienId;
     String[] strClientIDArray;
     String sourceString,subsource,ClinetId;
     SpinnerListener spineListener;
@@ -112,6 +114,7 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
     String lead_id_info,leadId;
     Spinner spinner_lead_name, spinner_source_of_lead, spinner_sub_source, spinner_age_group,
             spinner_occupation, spinner_annual_income, spinner_other_broker,spinner_lead_status,spinner_duration,spinner_custID;
+    boolean selected=false;
     MultiSpinnerSearch spinner_research_type ;
     TextView tv_lead_name, tv_source_of_lead, tv_sub_source, tv_fname,tv_mname,tv_lname, tv_mobile_no, tv_email,
             tv_age_group, tv_date_of_birth, tv_address, tv_flat, tv_street, tv_location, tv_city, tv_pincode,
@@ -121,7 +124,7 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
     LinearLayout connect,notconnect,linear_non_salaried,linear_remark,linear_competitor,linear_research,linear_lead_details_hidden,linear_customer_id,linear_pan_no,linear_duration,linear_spin_customer_id;
     //.........Edit Text Strings
     String str_cust_id,str_fname,str_mname,str_lname,str_mobile_no,str_email,str_date_of_birth,str_address,str_flat,str_street,str_laocion,str_city,
-            str_pincode,str_next_meeting_date,str_metting_agenda,str_lead_update_log,str_reason;
+            str_pincode,str_next_meeting_date,str_metting_agenda,str_lead_update_log,str_reason,strCustomer_id_name;
     //........Spineer Strings
     String str_spinner_lead_name, str_spinner_source_of_lead, str_spinner_sub_source, str_spinner_age_group,
             str_spinner_occupation,str_spinner_annual_income, str_spinner_other_broker,str_spinner_lead_status,str_spinner_research_type = "",str_spinner_duration;
@@ -186,6 +189,7 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
 
         leadInfoModelList = new ArrayList<LeadInfoModel>();
         spinLeadNameList = new ArrayList<>();
+        spinClientIDList = new ArrayList<>();
         fetchDataOfLeadDetails();
 
         sharedPref = new SharedPref(UpdateLeadActivity.this);
@@ -462,6 +466,7 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
                             linear_lead_details_hidden.setVisibility(View.VISIBLE);
 
                             try {
+                                selected=true;
                                 populateData(leadInfoModel);
                             } catch (Exception e) {
                                 e.printStackTrace();
@@ -489,10 +494,19 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
                         if (sourceString != null) {
                             try {
                                 if (sourceString.equalsIgnoreCase("In- house Leads (Existing)")&& subsource.equals("Existing Client")){
-                                    fname.setText("");
-                                    customer_id.setText("");
+
                                     getAllClientData();//.............Client data method
+                                    // set client ID value
+                                    if (selected){
+                                    if (adapterClienId != null && !adapterClienId.isEmpty()){
+                                        if (leadInfoModel.getCustomer_id_name() != null && leadInfoModel.getCustomer_id_name().trim().length() > 0) {
+                                            int clientIdPos = adapterClienId.getPosition(leadInfoModel.getCustomer_id_name());
+                                            spinner_custID.setSelection(clientIdPos);
+                                        }
+                                    }}
+                                    linear_customer_id.setVisibility(View.GONE);
                                     linear_spin_customer_id.setVisibility(View.VISIBLE);
+
                                 }
                                 else
                                 {
@@ -500,15 +514,25 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
 
 
                                     customer_id.setEnabled(true);
-                             //       customer_id.setText("");
+                                    //       customer_id.setText("");
                                     linear_spin_customer_id.setVisibility(View.GONE);
                                 }
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
                             try {
-                                if (!sourceString.equalsIgnoreCase("In- house Leads (Existing)")&& !subsource.equals("Existing Client")){
-                                    fname.setText(leadInfoModel.getFirstname());
+                                if (sourceString != null && sourceString.length() > 0) {
+                                    if (!sourceString.equalsIgnoreCase("In- house Leads (Existing)") && !subsource.equals("Existing Client")) {
+                                        // fname.setText(leadInfoModel.getFirstname());
+                                        populateData(leadInfoModel);
+                                        fname.setEnabled(true);
+                                        mname.setEnabled(true);
+                                        lname.setEnabled(true);
+                                        editCity.setEnabled(true);
+                                        autoPincode.setEnabled(true);
+                                        mobileno.setEnabled(true);
+                                        date_of_birth.setEnabled(true);
+                                    }
                                 }
                             } catch (Exception e) {
                                 e.printStackTrace();
@@ -541,25 +565,42 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                     if ( strSubLeadArray != null && strSubLeadArray.length > 0){
-                     //   strSubSourceofLead = spinner_sub_source.getSelectedItem().toString();
+                        //   strSubSourceofLead = spinner_sub_source.getSelectedItem().toString();
                         subsource=parent.getItemAtPosition(position).toString();
                         if (subsource!=null){
                             if (subsource.equalsIgnoreCase("Existing Client")&& sourceString.equals("In- house Leads (Existing)")){
                                 fname.setText("");
                                 customer_id.setText("");
                                 getAllClientData();//.............Client data method
+                                // set client ID value
+                                if (selected){
+                                if (adapterClienId != null && !adapterClienId.isEmpty()){
+                                    if (leadInfoModel.getCustomer_id_name() != null && leadInfoModel.getCustomer_id_name().trim().length() > 0) {
+                                        int clientIdPos = adapterClienId.getPosition(leadInfoModel.getCustomer_id_name());
+                                        spinner_custID.setSelection(clientIdPos);
+                                    }
+                                }}
+                                linear_customer_id.setVisibility(View.GONE);
                                 linear_spin_customer_id.setVisibility(View.VISIBLE);
                             }
                             else
                             {   fname.setEnabled(true);
-                           //     fname.setText("");
+                                //     fname.setText("");
                                 customer_id.setEnabled(true);
-                             //   customer_id.setText("");
+                                //   customer_id.setText("");
                                 linear_spin_customer_id.setVisibility(View.GONE);
                             }
                         }
                         if (!subsource.equalsIgnoreCase("Existing Client")&& !sourceString.equals("In- house Leads (Existing)")){
-                            fname.setText(leadInfoModel.getFirstname());
+                            //fname.setText(leadInfoModel.getFirstname());
+                            populateData(leadInfoModel);
+                            fname.setEnabled(true);
+                            mname.setEnabled(true);
+                            lname.setEnabled(true);
+                            editCity.setEnabled(true);
+                            autoPincode.setEnabled(true);
+                            mobileno.setEnabled(true);
+                            date_of_birth.setEnabled(true);
                         }
 
                     }
@@ -1097,13 +1138,14 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
         final TextView textcheck = (TextView) showProduct.findViewById(R.id.textcheck);
         final TextView textuncheck = (TextView) showProduct.findViewById(R.id.textuncheck);
 
-        if (selItemsPosition != null && selItemsPosition.size() > 0){
-            for (int i = 0; i < selItemsPosition.size(); i++){
-                selChkBoxArr[Integer.parseInt(selItemsPosition.get(i))] = true;
+        if(!uncheckall) {
+            if (selItemsPosition != null && selItemsPosition.size() > 0) {
+                for (int i = 0; i < selItemsPosition.size(); i++) {
+                    selChkBoxArr[Integer.parseInt(selItemsPosition.get(i))] = true;
 //                selectedCatIdpopulate +=selItemsPosition.get(i)+"#";
+                }
             }
         }
-
         fillUI();
 
         categoryDetailsModelList = new ArrayList<>();
@@ -1148,6 +1190,8 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
                                             CheckBox checkbox1 = (CheckBox) v;
 
                                             checkbox1.setChecked(true);
+                                            selChkBoxArr[v.getId()] = true;
+                                            selectedCatId += v.getId()+"#";
 
                                         }
                                     }
@@ -1168,6 +1212,7 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
             public void onClick(View view) {
 
                 //        submit.setVisibility(View.INVISIBLE);
+                uncheckall = true;
                 icount = 0;
                 try {
 
@@ -1186,6 +1231,7 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
                                             CheckBox checkbox1 = (CheckBox) v;
 
                                             checkbox1.setChecked(false);
+                                            selChkBoxArr[v.getId()] = false;
                                         }
                                     }
                                 }
@@ -1310,6 +1356,7 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
                                                         final CheckBox checkbox1 = (CheckBox) v;
 
                                                         checkbox1.setChecked(true);
+                                                        selChkBoxArr[v.getId()] = true;
                                                         selectedCatId += v.getId()+"#";
                                                     }
                                                 }
@@ -1318,6 +1365,8 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
                                     }
                                 }
                             } else if (selCounter % 2 == 0) {//even
+
+                                uncheckall = true;
                                 TextView textview = (TextView) view;
                                 id = textview.getId();
 
@@ -1337,6 +1386,7 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
                                                         View v = subLayout.getChildAt(k);
                                                         final CheckBox checkbox1 = (CheckBox) v;
                                                         checkbox1.setChecked(false);
+                                                        selChkBoxArr[v.getId()] = false;
 
                                                     }
                                                 }
@@ -1470,8 +1520,12 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
                             @Override
                             public void onClick(View v) {
 
-                                selChkBoxArr[v.getId()] = true;
-                                selectedCatId += v.getId()+"#";
+                                if(checkbox.isChecked()) {
+                                    selChkBoxArr[v.getId()] = true;
+                                    selectedCatId += v.getId() + "#";
+                                }else{
+                                    selChkBoxArr[v.getId()] = false;
+                                }
                             }
                         });
 
@@ -1607,7 +1661,7 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
     private void  fetchDataOfLeadDetails(){
         try {
             // WHERE clause
-            String where = " where flag NOT IN('D')";
+            String where = " where flag NOT IN('D') order by lead_id DESC";
             Cursor cursor = Narnolia.dbCon.fetchFromSelect(DbHelper.TABLE_DIRECT_LEAD, where);
             if (cursor != null && cursor.getCount() > 0) {
                 cursor.moveToFirst();
@@ -1639,7 +1693,8 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
                     str_lname = leadInfoModel.getLastname();
                     lead_id_info = leadInfoModel.getLead_id();
                     fullname = str_fname + " " + str_mname + " " + str_lname + " " + "(" + lead_id_info + ")";
-                    Collections.sort(spinLeadNameList);
+                    // Collections.sort(spinLeadNameList);
+                    //  Collections.reverse(spinLeadNameList);
                     spinLeadNameList.add(fullname);
                 }
 
@@ -2306,6 +2361,7 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
                 if (leadInfoModel.getAge() != null && leadInfoModel.getAge().trim().length() > 0) {
                     spinner_age_group.setSelection(spinAgeGroupArray.indexOf(leadInfoModel.getAge()));
                 }
+
                 if (leadInfoModel.getOccupation() != null && leadInfoModel.getOccupation().trim().length() > 0) {
                     spinner_occupation.setSelection(spinOccupationList.indexOf(leadInfoModel.getOccupation()));
                 }
@@ -2354,9 +2410,9 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
                             if (selItemsPos.get(j).trim().equals(String.valueOf(i+1))){
                                 h.setSelected(true);
                                 break;
-                             }else{
+                            }else{
                                 h.setSelected(false);
-                             }
+                            }
 
                         }
                         listArray.add(h);
@@ -2448,6 +2504,7 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
             leadInfoModel.setEmpcode(cursor.getString(cursor.getColumnIndex("emp_code")));
             leadInfoModel.setLast_meeting_update(cursor.getString(cursor.getColumnIndex("last_meeting_update")));
             leadInfoModel.setBusiness_opp(cursor.getString(cursor.getColumnIndex("business_opportunity")));
+            leadInfoModel.setCustomer_id_name(cursor.getString(cursor.getColumnIndex("customer_id_name")));
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -2457,7 +2514,7 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
     }
     //.......................Client Details Model
     private void setClientDetailValue(){
-        spinClientIDList = new ArrayList<>();
+
         try {
             if (clientInfoModelList.size()>0){
                 for (int i=0;i<clientInfoModelList.size();i++){
@@ -2497,10 +2554,10 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
                 cursor.close();
 
             }
-          setClientDetailValue();
+            setClientDetailValue();
 //  spinner_cust_id
             if (spinClientIDList != null && spinClientIDList.size() > 0) {
-                ArrayAdapter<String> adapter3= new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, strClientIDArray) {
+                adapterClienId = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, strClientIDArray) {
                     @Override
                     public View getDropDownView(int position, View convertView, ViewGroup parent)
                     {
@@ -2522,9 +2579,12 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
                     }
                 };
 
-                adapter3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                spinner_custID.setAdapter(adapter3);
+                adapterClienId.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spinner_custID.setAdapter(adapterClienId);
             }
+
+
+
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -2534,10 +2594,41 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
     private void populateClientData(ClientDetailsModel clientDetailsModel){
         try {
             if(clientDetailsModel != null){
-                fname.setText(clientDetailsModel.getClientName());
-                fname.setEnabled(false);
-                customer_id.setText(clientDetailsModel.getClientID());
-                customer_id.setEnabled(false);
+                //fname.setText(clientDetailsModel.getClientName());
+                //fname.setEnabled(false);
+                // customer_id.setText(clientDetailsModel.getClientID());
+                // customer_id.setEnabled(false);
+                String first = "", middle = "", last = "";
+                String nm=clientDetailsModel.getClientName();
+                String[] name=nm.split(" ");
+                if (!name.equals(null) && name.length >= 3){
+                    first=name[0];
+                    middle=name[1];
+                    last=name[2];
+                    fname.setText(first);
+                    fname.setEnabled(false);
+                    mname.setText(middle);
+                    mname.setEnabled(false);
+                    lname.setText(last);
+                    lname.setEnabled(false);
+                }else if(!name.equals(null) && name.length >= 2){
+                    first=name[0];
+                    last=name[1];
+                    fname.setText(first);
+                    fname.setEnabled(false);
+                    mname.setText("");
+                    lname.setText(last);
+                    lname.setEnabled(false);
+                }
+                editCity.setText(clientDetailsModel.getCity());
+                editCity.setEnabled(false);
+                autoPincode.setText(clientDetailsModel.getPinCode());
+                autoPincode.setEnabled(false);
+             //   mobileno.setText(clientDetailsModel.getMobileNumber());
+               // mobileno.setEnabled(false);
+                date_of_birth.setText(clientDetailsModel.getBirthDate());
+                date_of_birth.setEnabled(false);
+
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -2746,7 +2837,7 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
                     str_rg_meeting_status, str_spinner_lead_status, strCompitator_Name, strProduct, strRemark, str_spinner_research_type,
                     str_spinner_duration, strPanNo, strB_Margin, strB_aum, strB_sip, strB_number, strB_value, strB_premium, str_reason,
                     str_next_meeting_date, str_metting_agenda, str_lead_update_log, strCreatedby, strCreateddt, strUpdateddt, strUpdatedby,strEmpCode,
-                    strLastMeetingDate,strLastMeetingUpdate,selectedCatId};
+                    strLastMeetingDate,strLastMeetingUpdate,selectedCatId,strCustomer_id_name};
 
 
             boolean result = Narnolia.dbCon.update(DbHelper.TABLE_DIRECT_LEAD, selection, valuesArray, utils.columnNamesLeadUpdate, selectionArgs);
@@ -2754,7 +2845,7 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
 
             if (result) {
                 if (strFlag=="D"){
-                  //  displayMessage("Close Lead Data inserted");
+                    //  displayMessage("Close Lead Data inserted");
                 }else if (strFlag=="U") {
 
                     displayMessage("Data Inserted Succesfully");
@@ -2839,11 +2930,11 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
                     Toast.makeText(mContext, "Please check Internet Connection", Toast.LENGTH_LONG).show();
                 } else {
                     if (strFlag=="D"){
-                    displayMessage("Lead Closed Sucessfully");
-                }else if (strFlag=="U") {
+                        displayMessage("Lead Closed Sucessfully");
+                    }else if (strFlag=="U") {
 
-                    displayMessage("Lead Updated Successfully");
-                }
+                        displayMessage("Lead Updated Successfully");
+                    }
                     updateInDb();
 
                 }
@@ -2858,6 +2949,7 @@ public class UpdateLeadActivity extends AbstractActivity  implements View.OnClic
         }
     }
 
+    //...........................
     public class SaveResearch extends AsyncTask <String, Void, SoapPrimitive> {
 
         @Override

@@ -2,11 +2,16 @@ package com.narnolia.app;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.database.Cursor;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
@@ -24,10 +29,15 @@ import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.narnolia.app.adapter.DashboardAdapter;
 import com.narnolia.app.dbconfig.DbHelper;
+import com.narnolia.app.libs.Utils;
 import com.narnolia.app.model.LeadInfoModel;
+import com.narnolia.app.network.SOAPWebService;
+
+import org.ksoap2.serialization.SoapPrimitive;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -52,21 +62,40 @@ public class DashboardActivity extends AbstractActivity {
     private SimpleDateFormat dateFormatter;
     EditText edt_next_meeting_dialog,edt_next_meeting_agenda;
     String spinLeadStatusArray[]={"Select Lead Status","Hot","Warm","Cold","Not Intersted","Wrong Contact Details","Lost","Lost to Competitor","Research Servicing","On-boarding"};
+    boolean cliked=false;
+    private String responseId;
+    public Utils utils;
+    private ProgressDialog progressDialog;
+    String strStages,strFlag;
 
+
+
+
+    //.........Edit Text Strings
+    String str_cust_id,str_fname,str_mname,str_lname,str_mobile_no,str_email,str_date_of_birth,str_address,str_flat,str_street,str_laocion,str_city,
+            str_pincode,str_next_meeting_date,str_metting_agenda,str_lead_update_log,str_reason,leadId,strCreatedfrom,strAppVersion,strAppdt,
+            strAllocated_userid,strCompitator_Name,strProduct,strRemark,strPanNo,strB_Margin,strB_aum,strB_sip, strB_number, strB_value,
+            strB_premium, strCreatedby, strCreateddt, strUpdateddt, strUpdatedby,strEmpCode,
+            strLastMeetingDate,strLastMeetingUpdate,selectedCatId,strCustomer_id_name;
+    //........Spineer Strings
+    String str_spinner_lead_name, str_spinner_source_of_lead, str_spinner_sub_source, str_spinner_age_group,
+            str_spinner_occupation,str_spinner_annual_income, str_spinner_other_broker,str_spinner_lead_status,str_spinner_research_type = "",str_spinner_duration;
+    //......Radio Group String
+    String str_rg_meeting_status;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dashboard_activity);
-
-
         mContext = DashboardActivity.this;
+        utils = new Utils(mContext);
+
         leadInfoModelList = new ArrayList<LeadInfoModel>();
         // lvLead = (ListView) findViewById(R.id.biList);
         table_layout = (TableLayout) findViewById(R.id.tableLaout_lead);
 
 
         createInitialModel();
-        fetchDataOfLeadDetails();
+//        fetchDataOfLeadDetails();
         // buildTable();
        /* dashBoardAdapter = new DashboardAdapter(mContext, leadInfoModelList);
         lvLead.setAdapter(dashBoardAdapter);*/
@@ -112,10 +141,12 @@ public class DashboardActivity extends AbstractActivity {
     }
 
     public void fetchDataOfLeadDetails() {
+        Cursor cursor = null;
         try {
+            leadInfoModelList.clear();
             // WHERE   clause
-            String where = " where flag NOT IN('D')";
-            Cursor cursor = Narnolia.dbCon.fetchFromSelect(DbHelper.TABLE_DIRECT_LEAD, where);
+            String where = " where flag NOT IN('D') order by lead_id DESC";
+            cursor = Narnolia.dbCon.fetchFromSelect(DbHelper.TABLE_DIRECT_LEAD, where);
             Log.i("TAG", "Cursor count:" + cursor.getCount());
             if (cursor != null && cursor.getCount() > 0) {
                 cursor.moveToFirst();
@@ -141,23 +172,17 @@ public class DashboardActivity extends AbstractActivity {
     protected void onResume() {
         super.onResume();
         try {
+            Log.d("Calling Fetch=>", "@ onResume");
             if (leadInfoModelList != null) {
                 if (leadInfoModelList.size() > 0) {
                     leadInfoModelList.clear();
                 }
-
-
             }
+            fetchDataOfLeadDetails();
+
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        /*createInitialModel();
-        fetchDataOfLeadDetails(leadSelect);*/
-        ;
-       /* fetchDataFromDB();
-        buildTable();
-*/
     }
 
     private void createInitialModel() {
@@ -202,13 +227,14 @@ public class DashboardActivity extends AbstractActivity {
 
     private void buildTable() {
         try {
+            table_layout.removeAllViews();
             for (int i = 0; i < leadInfoModelList.size(); i++) {
 
 
                 TableRow tr = (TableRow) getLayoutInflater().inflate(R.layout.dashboard_row_item, null);
-                if(i==0){
+                /*if(i==0){
                     tr.setVisibility(View.GONE);
-                }
+                }*/
                 TextView tvLeadId = (TextView) tr.findViewById(R.id.tvLeadId);
                 TextView tvCustName = (TextView) tr.findViewById(R.id.tvCustName);
                 TextView tvMobile = (TextView) tr.findViewById(R.id.tvMobile);
@@ -243,7 +269,13 @@ public class DashboardActivity extends AbstractActivity {
                 tvPincode.setText(leadInfoModel.getPincode());
                 tvLastMeet_date.setText(leadInfoModel.getLast_meeting_date());
                 tvLastMeet_update.setText(leadInfoModel.getLast_meeting_update());
-                tvLeadStatus.setText(leadInfoModel.getLeadstatus());
+                if (leadInfoModel.getLeadstatus().equals("Select Lead Status"))
+                {
+                    tvLeadStatus.setText("");
+                }else
+                {
+                    tvLeadStatus.setText(leadInfoModel.getLeadstatus());
+                }
 //                tvNextMeet.setText(leadInfoModel.getUpdateddt());
 //                tvCloseLead.setText(leadInfoModel.getLead_id());
 
@@ -254,11 +286,51 @@ public class DashboardActivity extends AbstractActivity {
                         final String lead__Id = leadInfoModel.getLead_id();
                         // showClose_lead_Dialog();
                         try {
-                            Intent intent = new Intent(DashboardActivity.this, UpdateLeadActivity.class);
+                            if (leadInfoModel.getLeadstatus().equals("On-boarding")) {
+                                cliked=true;
+                                leadId=lead__Id;
+                                if (cliked){
+                                    AlertDialog.Builder builder1 = new AlertDialog.Builder(mContext);
+                                    builder1.setTitle("Lead");
+                                    builder1.setMessage("Do you want Close Lead Id"+ leadId +"");
+                                    builder1.setCancelable(true);
+
+                                    builder1.setPositiveButton(
+                                            "Yes",
+                                            new DialogInterface.OnClickListener() {
+                                                public void onClick(DialogInterface dialog, int id) {
+                                                    // pushActivity(mContext, this, null, true);
+                                                    if (isConnectingToInternet()) {
+
+                                                        new UpdateLeadData().execute();
+
+                                                    } else {
+                                                        updateInDb();
+
+                                                    }
+                                                     dialog.cancel();
+                                                }
+                                            });
+                                    builder1.setNegativeButton(
+                                            "No",
+                                            new DialogInterface.OnClickListener() {
+                                                public void onClick(DialogInterface dialog, int id) {
+                                                    dialog.cancel();
+                                                }
+                                            });
+
+                                    AlertDialog alert12 = builder1.create();
+                                    alert12.show();
+
+                                }
+
+                            } else{
+                                Intent intent = new Intent(DashboardActivity.this, UpdateLeadActivity.class);
 
                             intent.putExtra("lead__Id", lead__Id);
 
                             startActivity(intent);
+                        }
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -418,5 +490,135 @@ public class DashboardActivity extends AbstractActivity {
         });
 
 
+    }
+    private void updateInDb() {
+
+        try {
+            int directLeadId;
+//            lead_id_info = "";
+            String strLastSync = "0";
+            if (cliked){
+                strStages="closer of lead";
+                strFlag="D";
+            }else {
+                strStages = "Lead Updated";
+                strFlag = "U";}
+
+            directLeadId = leadInfoModel.getDirect_lead_id();
+
+            // WHERE   clause
+            String selection = "lead_id" + " = ?";
+
+            // WHERE clause arguments
+            String[] selectionArgs = {leadId};
+
+            // for now strcurrency becomes blank as " "; please change it later
+            String valuesArray[] = { "" + directLeadId,leadId,strStages, str_spinner_source_of_lead, str_spinner_sub_source, str_cust_id, str_fname, str_mname, str_lname,
+                    str_date_of_birth, str_spinner_age_group, str_mobile_no, str_address, str_flat, str_street, str_laocion, str_city, str_pincode, str_email, str_spinner_annual_income,
+                    str_spinner_occupation, strCreatedfrom, strAppVersion, strAppdt, strFlag, strAllocated_userid, str_spinner_other_broker,
+                    str_rg_meeting_status, str_spinner_lead_status, strCompitator_Name, strProduct, strRemark, str_spinner_research_type,
+                    str_spinner_duration, strPanNo, strB_Margin, strB_aum, strB_sip, strB_number, strB_value, strB_premium, str_reason,
+                    str_next_meeting_date, str_metting_agenda, str_lead_update_log, strCreatedby, strCreateddt, strUpdateddt, strUpdatedby,strEmpCode,
+                    strLastMeetingDate,strLastMeetingUpdate,selectedCatId,strCustomer_id_name};
+
+
+            boolean result = Narnolia.dbCon.update(DbHelper.TABLE_DIRECT_LEAD, selection, valuesArray, utils.columnNamesDashboardUpdate, selectionArgs);
+
+            if (result){
+                fetchDataOfLeadDetails();
+                Toast.makeText(mContext, "Lead Closed Sucessfully", Toast.LENGTH_SHORT).show();
+                Log.d("Calling Fetch=>", "@ updateInDb");
+
+            }
+
+
+
+        } catch (
+                Exception e
+                )
+
+        {
+            e.printStackTrace();
+        }
+    }
+    public class UpdateLeadData extends AsyncTask<String, Void, SoapPrimitive> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            try {
+                if (progressDialog != null && !progressDialog.isShowing()) {
+                    progressDialog.show();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        protected SoapPrimitive doInBackground(String... params) {
+
+            PackageManager manager = mContext.getPackageManager();
+            String versionName = "";
+            try {
+                PackageInfo info = manager.getPackageInfo(mContext.getPackageName(), 0);
+                String packageName = info.packageName;
+                int versionCode = info.versionCode;
+                versionName = info.versionName;
+              /*  status = params[0];
+                stages = params[1];
+                stagesTobeSend = params[1];
+                if (isUpdate && leadInfoModel != null && LeadId.contains(String.valueOf(leadInfoModel.getDirect_lead_id()))) {
+                    stagesTobeSend = mContext.getString(R.string.text_lead_created);
+                } else {
+
+                }*/
+            } catch (Exception e) {
+                // TODO Auto-generated catch block
+            }
+            // strOccupation  = 1 and strDesignation = 1  also currency = "" these are hardcoded values we need to change when we get master data
+            SOAPWebService webService = new SOAPWebService(mContext);
+            if (cliked){
+                strStages="closer of lead";
+                strFlag="D";
+            }else {
+                strStages = "Lead Updated";
+                strFlag = "U";
+            }
+
+            SoapPrimitive object = webService.UpdateLead(leadId,str_spinner_source_of_lead, str_spinner_sub_source,str_cust_id, str_fname, str_mname, str_lname, str_mobile_no,
+                    str_email, str_spinner_age_group, str_date_of_birth,str_address,str_flat,str_street,str_laocion ,str_city,str_pincode,str_spinner_occupation,str_spinner_annual_income,str_spinner_other_broker,str_rg_meeting_status,str_spinner_lead_status,strRemark,strCompitator_Name,strProduct,
+                    str_spinner_research_type,str_spinner_duration,strPanNo,str_reason,strB_Margin,strB_aum,strB_sip,strB_number
+                    ,strB_value,strB_premium,str_next_meeting_date,str_metting_agenda,str_lead_update_log,strFlag,"","",strLastMeetingDate,strLastMeetingUpdate,"1","","","");
+
+            return object;
+
+        }
+        @Override
+        protected void onPostExecute(SoapPrimitive soapObject) {
+            super.onPostExecute(soapObject);
+            try {
+                if (progressDialog != null && progressDialog.isShowing()) {
+                    progressDialog.dismiss();
+                }
+                responseId = String.valueOf(soapObject);
+                if (responseId.contains("ERROR") || responseId.contains("null")) {
+                    Toast.makeText(mContext, "Please check Internet Connection", Toast.LENGTH_LONG).show();
+                } else {
+                    if (strFlag=="D"){
+                    //    displayMessage("Lead Closed Sucessfully");
+                    }else if (strFlag=="U") {
+
+                        displayMessage("Lead Updated Successfully");
+                    }
+                    updateInDb();
+
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
     }
 }

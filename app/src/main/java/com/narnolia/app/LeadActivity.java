@@ -88,7 +88,7 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
             strMeetingStatus, strLeadStatus, strCompitator_Name, strProduct, strRemark, strTypeofSearch,
             strDuration, strPanNo, strB_Margin, strB_aum, strB_sip, strB_number, strB_value, strB_premium, strReason,
             strMeetingdt, strMeetingAgenda, strLead_Updatelog, strCreatedby, strCreateddt, strUpdateddt, strUpdatedby,strEmpCode,strLastMeetingDate,StrLastMeetingUpdate,
-            strBusiness_opp;
+            strBusiness_opp,strCustomer_id_name;
     private ArrayAdapter<String> adapter9;
     Spinner spinner_source_of_lead, spinner_sub_source,spinner_cust_id;
     Button btn_create, btn_cancel, btn_create_close,btn1_prospective_product1;
@@ -121,6 +121,7 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
 
     private boolean flagSelected = false;
     private int selCounter = 0;
+    private int checkCounter = 0;
     public boolean[] selChkBoxArr = new boolean[50];
 
     private LinearLayout productLayout,linear_customer_id,linear_spin_customer_id;
@@ -243,15 +244,25 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
                             try {
                                 if (sourceString.equalsIgnoreCase("In- house Leads (Existing)")&& subsource.equals("Existing Client")){
                                     getAllClientData();//.............Client data method
+                                    linear_customer_id.setVisibility(View.GONE);
                                     linear_spin_customer_id.setVisibility(View.VISIBLE);
                                 }
                                 else
                                 {
                                     fname.setEnabled(true);
                                     fname.setText("");
-                                    customer_id.setEnabled(true);
-                                    customer_id.setText("");
+                                    mname.setEnabled(true);
+                                    mname.setText("");
+                                    lname.setEnabled(true);
+                                    lname.setText("");
+                                    editCity.setEnabled(true);
+                                    editCity.setText("");
+                                    autoPincode.setEnabled(true);
+                                    autoPincode.setText("");
+                                    mobileno.setEnabled(true);
+                                    mobileno.setText("");
                                     linear_spin_customer_id.setVisibility(View.GONE);
+
                                 }
                             } catch (Exception e) {
                                 e.printStackTrace();
@@ -286,13 +297,22 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
                         if (subsource!=null){
                             if (subsource.equalsIgnoreCase("Existing Client")&& sourceString.equals("In- house Leads (Existing)")){
                                 getAllClientData();//.............Client data method
+                                linear_customer_id.setVisibility(View.GONE);
                                 linear_spin_customer_id.setVisibility(View.VISIBLE);
                             }
                             else
-                            {   fname.setEnabled(true);
+                            {    fname.setEnabled(true);
                                 fname.setText("");
-                                customer_id.setEnabled(true);
-                                customer_id.setText("");
+                                mname.setEnabled(true);
+                                mname.setText("");
+                                lname.setEnabled(true);
+                                lname.setText("");
+                                editCity.setEnabled(true);
+                                editCity.setText("");
+                                autoPincode.setEnabled(true);
+                                autoPincode.setText("");
+                                mobileno.setEnabled(true);
+                                mobileno.setText("");
                                 linear_spin_customer_id.setVisibility(View.GONE);
                             }
                         }
@@ -315,6 +335,7 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
                     if (position != 0){
 
                         if ( strClientIDArray != null && strClientIDArray.length > 0){
+                            strCustomer_id_name = spinner_cust_id.getSelectedItem().toString();
                             String clientData = spinner_cust_id.getSelectedItem().toString();
                             String [] strClient = clientData.split(" ");
                             ClinetId = strClient[0];
@@ -926,6 +947,7 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
                                     CheckBox checkbox1 = (CheckBox) v;
 
                                     checkbox1.setChecked(false);
+                                    selChkBoxArr[v.getId()] = false;
                                 }
                             }
                         }
@@ -999,6 +1021,8 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
                                             CheckBox checkbox1 = (CheckBox) v;
 
                                             checkbox1.setChecked(true);
+                                            selChkBoxArr[v.getId()] = true;
+                                            selectedCatId += v.getId()+"#";
 
                                         }
                                     }
@@ -1025,6 +1049,8 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                selCounter = 0;
+                //checkCounter = 0;
                 if(icount>0)
                 {
                     String name = + icount + " is Selected";
@@ -1054,6 +1080,7 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
             categoryDetailsModelList = new ArrayList<>();
 
             subCategoryDetailsModelList = new ArrayList<>();
+//            selChkBoxArr = new boolean[22];
 
             String Product = "Product   ";
             String colName = "value,id";
@@ -1129,6 +1156,7 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
                                                         final CheckBox checkbox1 = (CheckBox) v;
 
                                                         checkbox1.setChecked(true);
+                                                        selChkBoxArr[v.getId()] = true;
                                                         selectedCatId += v.getId()+"#";
                                                     }
                                                 }
@@ -1156,6 +1184,7 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
                                                         View v = subLayout.getChildAt(k);
                                                         final CheckBox checkbox1 = (CheckBox) v;
                                                         checkbox1.setChecked(false);
+                                                        selChkBoxArr[v.getId()] = false;
 
                                                     }
                                                 }
@@ -1167,26 +1196,7 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
 
 
                             Log.e("Selected id =>", "" + id);
-                            //                          Toast.makeText(mContext, "Selected Text is:" + textview.getText().toString(), Toast.LENGTH_SHORT).show();
 
-                                    /*if (prodInfoLayout.getChildCount() > 0) {
-
-                                        for (int j = 2; j < prodInfoLayout.getChildCount(); j++) {
-                                            LinearLayout catLayout = (LinearLayout) prodInfoLayout.getChildAt(j);
-                                            if (catLayout.getChildCount() > 0) {
-                                                for (int k = 0; k < catLayout.getChildCount(); k++) {
-                                                    View v = catLayout.getChildAt(k);
-
-                                                    CheckBox checkbox1 = (CheckBox) v;
-                                                    if (checkbox1.isChecked()) {
-
-                                                        String selChkBoxValue = checkbox1.getText().toString();
-                                                        Toast.makeText(mContext, "Selected chkbox value is:" + selChkBoxValue, Toast.LENGTH_SHORT).show();
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }*/
 
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -1194,6 +1204,8 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
 
                     }
                 });
+
+
                 producttxt.setTextSize(20);
                 producttxt.setGravity(Gravity.CENTER_HORIZONTAL);
                 LinearLayout.LayoutParams merchantnameTextView_LayoutParams = new LinearLayout.LayoutParams(
@@ -1288,10 +1300,22 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
                         checkbox.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
+                            /*    checkCounter++;
+                             if (checkCounter==1){
+                                 selChkBoxArr[v.getId()] = false;
+                            }else if (checkCounter % 2 ==1) {//odd
+                                 selChkBoxArr[v.getId()] = false;
+                                }else if(checkCounter % 2 == 0) {//even*/
 
-                                selChkBoxArr[v.getId()] = true;
-                                selectedCatId += v.getId()+"#";
-//                                selChkBoxMap.put(v.getId(),true);
+                                //  selChkBoxMap.put(v.getId(),true);
+
+                                if(checkbox.isChecked()) {
+                                    selChkBoxArr[v.getId()] = true;
+                                    selectedCatId += v.getId() + "#";
+                                }else{
+                                    selChkBoxArr[v.getId()] = false;
+                                }
+
 
                             }
                         });
@@ -1300,6 +1324,7 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
 
                         if (selChkBoxArr[checkbox.getId()]){
                             checkbox.setChecked(true);
+                            selectedCatId += checkbox.getId()+"#";
                         }
 
                         final LinearLayout.LayoutParams childParam2 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -1408,6 +1433,8 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
 //                                        Toast.makeText(mContext, "Selected chkbox value is:" + selChkBoxValue, Toast.LENGTH_SHORT).show();
 
                                     }
+
+
                                 }
                             }
                         }
@@ -1537,7 +1564,7 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
                     strMeetingStatus, strLeadStatus, strCompitator_Name, strProduct, strRemark, strTypeofSearch,
                     strDuration, strPanNo, strB_Margin, strB_aum, strB_sip, strB_number, strB_value, strB_premium, strReason,
                     strMeetingdt, strMeetingAgenda, strLead_Updatelog, strCreatedby, strCreateddt, strUpdateddt, strUpdatedby,strEmpCode,strLastMeetingDate,StrLastMeetingUpdate,
-                    selectedCatId};
+                    selectedCatId,strCustomer_id_name};
 
 
             boolean result = Narnolia.dbCon.update(DbHelper.TABLE_DIRECT_LEAD, selection, valuesArray, utils.columnNamesLead, selectionArgs);
@@ -1640,7 +1667,7 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
             spinner_source_of_lead.setSelection(0);
             spinner_sub_source.setSelection(0);
             resetProduct();
-            btn1_prospective_product1.setText("@string/prospectiveproduct1");
+            btn1_prospective_product1.setText(getResources().getText(R.string.prospectiveproduct1));
 
         }catch (Exception e){
             e.printStackTrace();
@@ -1799,8 +1826,39 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
             if(clientDetailsModel != null){
                 fname.setText(clientDetailsModel.getClientName());
                 fname.setEnabled(false);
-                customer_id.setText(clientDetailsModel.getClientID());
-                customer_id.setEnabled(false);
+             //   customer_id.setText(clientDetailsModel.getClientID());
+              //  customer_id.setEnabled(false);
+                String first = "", middle = "", last = "";
+                String nm=clientDetailsModel.getClientName();
+                String[] name=nm.split(" ");
+                if (!name.equals(null) && name.length >= 3){
+                    first=name[0];
+                    middle=name[1];
+                    last=name[2];
+                    fname.setText(first);
+                    fname.setEnabled(false);
+                    mname.setText(middle);
+                    mname.setEnabled(false);
+                    lname.setText(last);
+                    lname.setEnabled(false);
+                }else if(!name.equals(null) && name.length >= 2){
+                    first=name[0];
+                    last=name[1];
+                    fname.setText(first);
+                    fname.setEnabled(false);
+                    mname.setText("");
+                    lname.setText(last);
+                    lname.setEnabled(false);
+                }
+                editCity.setText(clientDetailsModel.getCity());
+                editCity.setEnabled(false);
+                autoPincode.setText(clientDetailsModel.getPinCode());
+                autoPincode.setEnabled(false);
+             //   mobileno.setText(clientDetailsModel.getMobileNumber());
+             //   mobileno.setEnabled(false);
+
+
+
             }
         } catch (Exception e) {
             e.printStackTrace();
