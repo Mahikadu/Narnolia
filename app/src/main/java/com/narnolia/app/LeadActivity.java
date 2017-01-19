@@ -72,6 +72,8 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
     private AutoCompleteTextView editCity, autoPincode;
     private Map<String, List<String>> spinPincodeArray;
     String selectedCatId = "";
+    private List<String> selCatId;
+    boolean uncheckall = false;
     String sourceString,subsource;
     String ClinetId;
     private List<String> spinCityArray;
@@ -91,14 +93,14 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
             strBusiness_opp,strCustomer_id_name;
     private ArrayAdapter<String> adapter9;
     Spinner spinner_source_of_lead, spinner_sub_source,spinner_cust_id;
-    Button btn_create, btn_cancel, btn_create_close,btn1_prospective_product1;
+    Button btn_create, btn_cancel, btn_create_close,btn1_opportunity_pitched2;
     private List<String> spinSourceLeadList;
     private List<String> spinSubSourceLeadList;
     //private List<String> spinProductList;
     private List<ProductDetailsModel> spinProductList;
     private List<CategoryDetailsModel> categoryDetailsModelList;
     private List<SubCategoryDetailsModel> subCategoryDetailsModelList;
-
+    private List<String> selItemsPosition;
     String[] strLeadArray = null;
     String[] strSubLeadArray = null;
     String[] strProductArray = null;
@@ -152,6 +154,8 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
 
         spinPincodeArray = new HashMap<>();
         spinCityArray = new ArrayList<>();
+        selItemsPosition = new ArrayList<>();
+        selCatId = new ArrayList<>();
 
         initView();
 
@@ -269,7 +273,7 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
                             }
                             if (sourceString.equalsIgnoreCase("Client Reference")) {
                                 linear_customer_id.setVisibility(View.VISIBLE);
-                            }else if (sourceString.equalsIgnoreCase("In- house Leads (Existing)"))
+                            }else if (sourceString.equalsIgnoreCase("In- house Leads (Existing)")&&!subsource.equals("Existing Client"))
                             {
                                 linear_customer_id.setVisibility(View.VISIBLE);
 
@@ -293,7 +297,7 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                     if (strSubLeadArray != null && strSubLeadArray.length > 0) {
                         strSubSourceofLead = spinner_sub_source.getSelectedItem().toString();
-                         subsource=parent.getItemAtPosition(position).toString();
+                        subsource=parent.getItemAtPosition(position).toString();
                         if (subsource!=null){
                             if (subsource.equalsIgnoreCase("Existing Client")&& sourceString.equals("In- house Leads (Existing)")){
                                 getAllClientData();//.............Client data method
@@ -363,7 +367,7 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
 
 
                             try {
-                                      populateClientData(clientDetailsModel);
+                                populateClientData(clientDetailsModel);
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
@@ -569,9 +573,9 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
             btn_cancel = (Button) findViewById(R.id.btn1_cancel_lead);
             btn_create_close = (Button) findViewById(R.id.btn1_create_close_lead);
 
-            btn1_prospective_product1 = (Button) findViewById(R.id.btn1_prospective_product1);
+            btn1_opportunity_pitched2 = (Button) findViewById(R.id.btn1_prospective_product1);
 
-            btn1_prospective_product1.setOnClickListener(new View.OnClickListener() {
+            btn1_opportunity_pitched2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
@@ -597,7 +601,8 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
             btn_cancel.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    resetFields();
+                    btn1_opportunity_pitched2.setText("Opportunity Pitched");
+                    uncheck();
                 }
             });
             btn_create_close.setOnClickListener(new View.OnClickListener() {
@@ -757,7 +762,7 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
                     String custid=clientDetailsModel.getClientID();
                     String custname=clientDetailsModel.getClientName();
                     String cust_id_name=custid+" "+custname +" ";
-                     Collections.sort(spinClientIDList);
+                    Collections.sort(spinClientIDList);
                     spinClientIDList.add(cust_id_name);
                 }
                 strClientIDArray=new String[spinClientIDList.size()+1];
@@ -958,7 +963,7 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
             e.printStackTrace();
         }
     }
-
+    //.....................................................product data......................
     private void showProductDialog() {
 
         // spinSourceLeadList = new ArrayList<>();
@@ -976,6 +981,33 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
 
         final TextView textcheck = (TextView) showProduct.findViewById(R.id.textcheck);
         final TextView textuncheck = (TextView) showProduct.findViewById(R.id.textuncheck);
+        selChkBoxArr = new boolean[50];
+//        if(!uncheckall) {
+        // from DB
+        if (selItemsPosition != null && selItemsPosition.size() > 0) {
+            for (int i = 0; i < selItemsPosition.size(); i++) {
+                selChkBoxArr[Integer.parseInt(selItemsPosition.get(i))] = true;
+            }
+            selItemsPosition.clear();
+        }else {
+            // from Local variable
+            if (selectedCatId != null && selectedCatId.length() > 0) {
+                if (selectedCatId.contains("#")) {
+                    selCatId = Arrays.asList(selectedCatId.split("#"));
+
+                } else {
+                    selCatId.add(selectedCatId);
+                }
+                for (int j = 0; j < selCatId.size(); j++) {
+                    selChkBoxArr[Integer.parseInt(selCatId.get(j))] = true;
+                }
+                Log.e("selChkBoxArr value =>",selectedCatId.toString());
+            }
+//        }else{
+//            }
+
+
+        }
 
         fillUI();
 
@@ -1003,7 +1035,9 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
 
                 //    submit.setVisibility(View.VISIBLE);
                 icount = 0;
-
+                selectedCatId = "";
+                selItemsPosition.clear();
+                selectedCatId = "";
                 try {
 
                     if (productLayout.getChildCount() > 0) {
@@ -1021,8 +1055,6 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
                                             CheckBox checkbox1 = (CheckBox) v;
 
                                             checkbox1.setChecked(true);
-                                            selChkBoxArr[v.getId()] = true;
-                                            selectedCatId += v.getId()+"#";
 
                                         }
                                     }
@@ -1041,35 +1073,98 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
         textuncheck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                resetProduct();
-
+                uncheck();
             }
         });
 
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                selCounter = 0;
-                //checkCounter = 0;
-                if(icount>0)
-                {
-                    String name = + icount + " is Selected";
 
-                    selectedCatId = selectedCatId.length() > 0 ? selectedCatId.substring(0,selectedCatId.length() - 1) : "";
-
-                    btn1_prospective_product1.setText(name);
-                    showProduct.dismiss();
-                }else
-                {
-                    btn1_prospective_product1.setText("Prospective Products");
-                    showProduct.dismiss();
-                }
-
+                submitClick();
             }
         });
 
     }
+    private void submitClick(){
+        selectedCatId = "";
+        icount = 0;
+        if (productLayout.getChildCount() > 0) {
+            for (int i = 0; i < productLayout.getChildCount(); i++) {
+                LinearLayout prodInfoLayout = (LinearLayout) productLayout.getChildAt(i);
+                if (prodInfoLayout.getChildCount() > 0) {
+                    for (int j = 2; j < prodInfoLayout.getChildCount(); j++) {
+                        LinearLayout catLayout = (LinearLayout) prodInfoLayout.getChildAt(j);
+                        if (catLayout.getChildCount() > 0) {
+                            for (int k = 0; k < catLayout.getChildCount(); k++) {
+                                View v = catLayout.getChildAt(k);
 
+                                CheckBox checkbox1 = (CheckBox) v;
+
+                                if (checkbox1.isChecked()) {
+
+                                    int selChkBoxId = checkbox1.getId();
+                                    selectedCatId += selChkBoxId+"#";
+                                    icount += 1;
+
+
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        selectedCatId = selectedCatId.length() > 0 ? selectedCatId.substring(0,selectedCatId.length() - 1) : "";
+        Log.e("Selected Cate Cont = > ",""+icount);
+        Log.e("Selected Cate Ids = > ","" +selectedCatId);
+
+        if (icount > 0){
+            String countStr = + icount + " is Selected";
+            btn1_opportunity_pitched2.setText(countStr);
+            showProduct.dismiss();
+        }else{
+
+            btn1_opportunity_pitched2.setText("Opportunity Pitched");
+            showProduct.dismiss();
+        }
+    }
+    private void uncheck(){
+        //        submit.setVisibility(View.INVISIBLE);
+        uncheckall = true;
+        icount = 0;
+        selItemsPosition.clear();
+        selectedCatId = "";
+        try {
+
+            if (productLayout.getChildCount() > 0) {
+                for (int i = 0; i < productLayout.getChildCount(); i++) {
+
+                    LinearLayout prodInfoLayout = (LinearLayout) productLayout.getChildAt(i);
+
+                    if (prodInfoLayout.getChildCount() > 0) {
+                        for (int j = 2; j < prodInfoLayout.getChildCount(); j++) {
+                            LinearLayout catLayout = (LinearLayout) prodInfoLayout.getChildAt(j);
+                            if (catLayout.getChildCount() > 0) {
+                                for (int k = 0; k < catLayout.getChildCount(); k++) {
+                                    View v = catLayout.getChildAt(k);
+
+                                    CheckBox checkbox1 = (CheckBox) v;
+
+                                    checkbox1.setChecked(false);
+//                                            selChkBoxArr[v.getId()] = false;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     void fillUI() {
         try {
 
@@ -1080,7 +1175,6 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
             categoryDetailsModelList = new ArrayList<>();
 
             subCategoryDetailsModelList = new ArrayList<>();
-//            selChkBoxArr = new boolean[22];
 
             String Product = "Product   ";
             String colName = "value,id";
@@ -1101,7 +1195,6 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
                     productId = cursor3.getString(cursor3.getColumnIndex("id"));
                     productDetailsModel.setProdName(productName);
                     productDetailsModel.setProdId(productId);
-                    //spinProductList.add(productDetailsModel);
                     spinProductList.add(productDetailsModel);
                 } while (cursor3.moveToNext());
 
@@ -1127,8 +1220,6 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
                 producttxt.setTypeface(null, Typeface.BOLD);
                 producttxt.setText(productName);
                 producttxt.setId(count);
-//                producttxt.setOnClickListener(this);
-
                 producttxt.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -1157,7 +1248,6 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
 
                                                         checkbox1.setChecked(true);
                                                         selChkBoxArr[v.getId()] = true;
-                                                        selectedCatId += v.getId()+"#";
                                                     }
                                                 }
                                             }
@@ -1165,6 +1255,8 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
                                     }
                                 }
                             } else if (selCounter % 2 == 0) {//even
+
+                                uncheckall = true;
                                 TextView textview = (TextView) view;
                                 id = textview.getId();
 
@@ -1195,17 +1287,12 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
                             }
 
 
-                            Log.e("Selected id =>", "" + id);
-
-
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
 
                     }
                 });
-
-
                 producttxt.setTextSize(20);
                 producttxt.setGravity(Gravity.CENTER_HORIZONTAL);
                 LinearLayout.LayoutParams merchantnameTextView_LayoutParams = new LinearLayout.LayoutParams(
@@ -1243,8 +1330,7 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
                             category = cursor.getString(cursor.getColumnIndex("Category"));
                             categoryDetailsModel.setCategory(category);
                             categoryDetailsModelList.add(categoryDetailsModel);
-//                          spinProductList.add(productvalue);
-                            // cursor=null;
+
                         } while (cursor.moveToNext());
                     }
                     cursor.close();
@@ -1300,23 +1386,6 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
                         checkbox.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                            /*    checkCounter++;
-                             if (checkCounter==1){
-                                 selChkBoxArr[v.getId()] = false;
-                            }else if (checkCounter % 2 ==1) {//odd
-                                 selChkBoxArr[v.getId()] = false;
-                                }else if(checkCounter % 2 == 0) {//even*/
-
-                                //  selChkBoxMap.put(v.getId(),true);
-
-                                if(checkbox.isChecked()) {
-                                    selChkBoxArr[v.getId()] = true;
-                                    selectedCatId += v.getId() + "#";
-                                }else{
-                                    selChkBoxArr[v.getId()] = false;
-                                }
-
-
                             }
                         });
 
@@ -1324,7 +1393,8 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
 
                         if (selChkBoxArr[checkbox.getId()]){
                             checkbox.setChecked(true);
-                            selectedCatId += checkbox.getId()+"#";
+                        }else {
+                            checkbox.setChecked(false);
                         }
 
                         final LinearLayout.LayoutParams childParam2 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -1343,12 +1413,24 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
                 }
                 productLayout.addView(productInfoLinearLayout);
             }
+
         } catch (Exception e) {
             // TODO: handle exception
             e.printStackTrace();
         }
     }
 
+
+    @Override
+    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+
+        try {
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+//........................................................................................................
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -1394,57 +1476,7 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
     }
 
 
-    @Override
-    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-        countCheck(b);
-        try {
 
-            if (productLayout.getChildCount() > 0) {
-                for (int i = 0; i < productLayout.getChildCount(); i++) {
-
-                    LinearLayout prodInfoLayout = (LinearLayout) productLayout.getChildAt(i);
-
-                    if (prodInfoLayout.getChildCount() > 0) {
-
-                        // producttxt.setOnClickListener(this);
-
-                        for (int j = 2; j < prodInfoLayout.getChildCount(); j++) {
-                            LinearLayout catLayout = (LinearLayout) prodInfoLayout.getChildAt(j);
-                            if (catLayout.getChildCount() > 0) {
-                                for (int k = 0; k < catLayout.getChildCount(); k++) {
-                                    View v = catLayout.getChildAt(k);
-
-                                    CheckBox checkbox1 = (CheckBox) v;
-
-                                    if (checkbox1.isChecked()) {
-
-                                        if(str_CheckedItems == null)
-                                        {
-                                            str_CheckedItems = compoundButton.getText().toString();
-                                            //      Toast.makeText(mContext, "Selected chkbox :" + str_CheckedItems, Toast.LENGTH_SHORT).show();
-                                        }
-                                        else
-                                        {
-                                            str_CheckedItems = str_CheckedItems+","+ compoundButton.getText().toString();
-                                            //         Toast.makeText(mContext, "Selected chkbox :" + str_CheckedItems, Toast.LENGTH_SHORT).show();
-                                        }
-
-                                        String selChkBoxValue = checkbox1.getText().toString();
-//                                        Toast.makeText(mContext, "Selected chkbox value is:" + selChkBoxValue, Toast.LENGTH_SHORT).show();
-
-                                    }
-
-
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
 
     public class InsertLeadData extends AsyncTask<String, Void, SoapPrimitive> {
@@ -1655,25 +1687,7 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
             e.printStackTrace();
         }
     }
-    private void resetFields(){
-        try{
-            fname.setText("");
-            mname.setText("");
-            lname.setText("");
-            mobileno.setText("");
-            location.setText("");
-            editCity.setText("");
-            autoPincode.setText("");
-            spinner_source_of_lead.setSelection(0);
-            spinner_sub_source.setSelection(0);
-            resetProduct();
-            btn1_prospective_product1.setText(getResources().getText(R.string.prospectiveproduct1));
 
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-
-    }
     public class LoadCityData extends AsyncTask<Void, Void, Void> {
 
 
@@ -1826,8 +1840,8 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
             if(clientDetailsModel != null){
                 fname.setText(clientDetailsModel.getClientName());
                 fname.setEnabled(false);
-             //   customer_id.setText(clientDetailsModel.getClientID());
-              //  customer_id.setEnabled(false);
+                //   customer_id.setText(clientDetailsModel.getClientID());
+                //  customer_id.setEnabled(false);
                 String first = "", middle = "", last = "";
                 String nm=clientDetailsModel.getClientName();
                 String[] name=nm.split(" ");
@@ -1854,8 +1868,8 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
                 editCity.setEnabled(false);
                 autoPincode.setText(clientDetailsModel.getPinCode());
                 autoPincode.setEnabled(false);
-             //   mobileno.setText(clientDetailsModel.getMobileNumber());
-             //   mobileno.setEnabled(false);
+                //   mobileno.setText(clientDetailsModel.getMobileNumber());
+                //   mobileno.setEnabled(false);
 
 
 

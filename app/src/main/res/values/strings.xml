@@ -84,6 +84,7 @@
     <string name="opportunity">Opportunity Pitched</string>
     <string name="business">Business Opportunity</string>
     <string name="reqmob">please enter 10 digit mobile no</string>
+    <string name="pan">Please Enter Pan Card No</string>
     <string name="name">Please enter valid name</string>
     <string name="reqcity">City is Required</string>
     <string name="reqpincode">Pincode is Required</string>

@@ -603,7 +603,7 @@ public class DashboardActivity extends AbstractActivity {
                 }
                 responseId = String.valueOf(soapObject);
                 if (responseId.contains("ERROR") || responseId.contains("null")) {
-                    Toast.makeText(mContext, "Please check Internet Connection", Toast.LENGTH_LONG).show();
+               //     Toast.makeText(mContext, "Please check Internet Connection", Toast.LENGTH_LONG).show();
                 } else {
                     if (strFlag=="D"){
                     //    displayMessage("Lead Closed Sucessfully");
