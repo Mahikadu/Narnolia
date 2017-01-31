@@ -57,8 +57,10 @@ import com.narnolia.app.multispinner.MultiSpinnerSearch;
 import com.narnolia.app.multispinner.SpinnerListener;
 import com.narnolia.app.network.SOAPWebService;
 
+import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapPrimitive;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -109,7 +111,7 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
             strCompitator_Name, strProduct, strRemark,
             strPanNo, strB_Margin, strB_aum, strB_sip, strB_number, strB_value, strB_premium,strEmpCode,
             strCreatedby, strCreateddt, strUpdateddt, strUpdatedby
-            ,strBusiness_opp,strLastMeetingDate,strLastMeetingUpdate;
+            ,strBusiness_opp,strLastMeetingDate,strLastMeetingUpdate,str_duration_date;
     //.......................................................................
     EditText customer_id,fname,mname,lname, mobileno, email, date_of_birth, address, flat, street, location,next_metting_date, metting_agenda, lead_update_log,reason,
             margin,aum,sip,number,value,premium,remark,compitator,product,last_meeting_dt,last_meeting_update,pan_no,duration;
@@ -127,7 +129,7 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
     LinearLayout connect,notconnect,linear_non_salaried,linear_remark,linear_competitor,linear_research,linear_lead_details_hidden,linear_customer_id,linear_pan_no,linear_duration,linear_spin_customer_id;
     //.........Edit Text Strings
     String str_cust_id,str_fname,str_mname,str_lname,str_mobile_no,str_email,str_date_of_birth,str_address,str_flat,str_street,str_laocion,str_city,
-            str_pincode,str_next_meeting_date,str_metting_agenda,str_lead_update_log,str_reason,strCustomer_id_name;
+            str_pincode,str_next_meeting_date,str_metting_agenda,str_lead_update_log,str_reason,strCustomer_id_name,strLeadUpdateLog;
     //........Spineer Strings
     String str_spinner_lead_name, str_spinner_source_of_lead, str_spinner_sub_source, str_spinner_age_group,
             str_spinner_occupation,str_spinner_annual_income, str_spinner_other_broker,str_spinner_lead_status,str_spinner_research_type = "",str_spinner_duration;
@@ -324,25 +326,15 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
 
                 @Override
                 public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//                    char ch1[] = {' '};
-//                    char ch2 = '\t';
-                   /* if (Character.isSpace('\n') || Character.isSpace('\t')||Character.isSpace(' ')){
-                        pan_no.setError("Whit space is not allowed..!");
-                        pan_no.requestFocus();
-                        return;
-                    }*/
+//
                     pan_no.setFilters(new InputFilter[]{new InputFilter.LengthFilter(10)});
                     if (charSequence.length()==0&& charSequence.length()<=4 ||charSequence.length()==4){
                         pan_no.setInputType(InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS);
                         pan_no.setFilters( new InputFilter[] {
                                 new InputFilter.AllCaps()});
-
                     }
                     if (charSequence.length()==5&& charSequence.length()<=8||charSequence.length()==8){
                         pan_no.setInputType(InputType.TYPE_CLASS_NUMBER);
-                      //  pan_no.setFilters(new InputFilter[]new InputFilter().);
-
-
                     }
                     if (charSequence.length()==9){
                         pan_no.setInputType(InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS);
@@ -353,38 +345,11 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
                     if (charSequence.length()==0){
                         pan_no.setError(null);
                     }
-                   /*else if (charSequence.length() != 10) {
-//                        pan_no.setError("Please Enter correct Pan No");
-                    }else if (charSequence.length()==10){
-                        pan_no.setError(null);
-                    }*/
-
                 }
-
                 @Override
                 public void afterTextChanged(Editable editable) {
                     try {
                         View focusView = null;
-                        /*if ((editable.length() == 10)||(editable.length()==11)) {
-0
-                            Pattern pattern = Pattern.compile("[A-Z]{5}[0-9]{4}[A-Z]{1}");
-                            Matcher matcher = pattern.matcher(editable);
-                            if (matcher.matches()) {
-                                pan_no.setError(null);
-                            } else {
-                                int pos = pan_no.length();
-                                if (pos == 0) {
-                                    pan_no.setError(null);
-                                } else {
-                                 //   pan_no.setError("PAN is not matching");
-                                }
-                            }
-                        } else {
-                            if (pan_no.length() == 0) {
-                                pan_no.setError(null);
-                            }
-                        }*/
-
                         if (editable.toString().length() > 0 && editable.toString().trim().length() <= 11 ){
                             if (pan_no.getText().toString().contains(" ")) {
                                 pan_no.setError("White space is not allowed..!");
@@ -395,7 +360,6 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
                                 pan_no.setError(null);
                             }
                         }
-
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -484,35 +448,8 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
                             String [] strLead = leadData.split("\\(");
                             leadId = strLead[1].substring(0,strLead[1].length()-1);
 
-                            try {
-                                // WHERE clause
-                                String where = " where lead_id = '"+leadId+"'";
-                                Cursor cursor = Narnolia.dbCon.fetchFromSelect(DbHelper.TABLE_DIRECT_LEAD,where);
-                                if (cursor != null && cursor.getCount() > 0) {
-                                    cursor.moveToFirst();
-                                    do {
-                                        leadInfoModel = createLeadInfoModel(cursor);
-//                                        leadInfoModelList.add(leadInfoModel);
+                            new FillDetails().execute();
 
-                                    } while (cursor.moveToNext());
-                                    cursor.close();
-
-                                }else {
-                                    Toast.makeText(mContext, "No data found..!",Toast.LENGTH_SHORT).show();
-                                }
-
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-
-                            linear_lead_details_hidden.setVisibility(View.VISIBLE);
-
-                            try {
-                                selected=true;
-                                populateData(leadInfoModel);
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
                         }
                     }
 
@@ -533,19 +470,19 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
 
                         sourceString = parent.getItemAtPosition(position).toString();
 
-                        if (sourceString != null) {
+                        if (sourceString != null && sourceString.length() > 0 &&subsource!=null&& subsource.length() > 0) {
                             try {
                                 if (sourceString.equalsIgnoreCase("In- house Leads (Existing)")&& subsource.equals("Existing Client")){
 
                                     getAllClientData();//.............Client data method
                                     // set client ID value
                                     if (selected){
-                                    if (adapterClienId != null && !adapterClienId.isEmpty()){
-                                        if (leadInfoModel.getCustomer_id_name() != null && leadInfoModel.getCustomer_id_name().trim().length() > 0) {
-                                            int clientIdPos = adapterClienId.getPosition(leadInfoModel.getCustomer_id_name());
-                                            spinner_custID.setSelection(clientIdPos);
-                                        }
-                                    }}
+                                        if (adapterClienId != null && !adapterClienId.isEmpty()){
+                                            if (leadInfoModel.getCustomer_id_name() != null && leadInfoModel.getCustomer_id_name().trim().length() > 0) {
+                                                int clientIdPos = adapterClienId.getPosition(leadInfoModel.getCustomer_id_name());
+                                                spinner_custID.setSelection(clientIdPos);
+                                            }
+                                        }}
                                     linear_customer_id.setVisibility(View.GONE);
                                     linear_spin_customer_id.setVisibility(View.VISIBLE);
 
@@ -563,10 +500,10 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
                                 e.printStackTrace();
                             }
                             try {
-                                if (sourceString != null && sourceString.length() > 0) {
+                                if (sourceString != null && sourceString.length() > 0&&subsource!=null&&subsource.length()>0) {
                                     if (!sourceString.equalsIgnoreCase("In- house Leads (Existing)") && !subsource.equals("Existing Client")) {
                                         // fname.setText(leadInfoModel.getFirstname());
-                                        populateData(leadInfoModel);
+                                        //populateData(leadInfoModel);
                                         fname.setEnabled(true);
                                         mname.setEnabled(true);
                                         lname.setEnabled(true);
@@ -620,12 +557,12 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
                                 getAllClientData();//.............Client data method
                                 // set client ID value
                                 if (selected){
-                                if (adapterClienId != null && !adapterClienId.isEmpty()){
-                                    if (leadInfoModel.getCustomer_id_name() != null && leadInfoModel.getCustomer_id_name().trim().length() > 0) {
-                                        int clientIdPos = adapterClienId.getPosition(leadInfoModel.getCustomer_id_name());
-                                        spinner_custID.setSelection(clientIdPos);
-                                    }
-                                }}
+                                    if (adapterClienId != null && !adapterClienId.isEmpty()){
+                                        if (leadInfoModel.getCustomer_id_name() != null && leadInfoModel.getCustomer_id_name().trim().length() > 0) {
+                                            int clientIdPos = adapterClienId.getPosition(leadInfoModel.getCustomer_id_name());
+                                            spinner_custID.setSelection(clientIdPos);
+                                        }
+                                    }}
                                 linear_customer_id.setVisibility(View.GONE);
                                 linear_spin_customer_id.setVisibility(View.VISIBLE);
                             }
@@ -639,7 +576,7 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
                         }
                         if (!subsource.equalsIgnoreCase("Existing Client")&& !sourceString.equals("In- house Leads (Existing)")){
                             //fname.setText(leadInfoModel.getFirstname());
-                            populateData(leadInfoModel);
+                            // populateData(leadInfoModel);
                             fname.setEnabled(true);
                             mname.setEnabled(true);
                             lname.setEnabled(true);
@@ -769,6 +706,7 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
                             linear_duration.setVisibility(View.VISIBLE);
                             duration.setText(""+curDate);
                         }else if (leadString3.equalsIgnoreCase("Others")) {
+                            linear_duration.setVisibility(View.VISIBLE);
                             duration.setText("");
                         }
 
@@ -1165,7 +1103,7 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
                 + cal.get(Calendar.YEAR);
 
     }
-//.....................................................product data......................
+    //.....................................................product data......................
     private void showProductDialog() {
 
         // spinSourceLeadList = new ArrayList<>();
@@ -1186,25 +1124,25 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
         selChkBoxArr = new boolean[50];
 //        if(!uncheckall) {
         // from DB
-            if (selItemsPosition != null && selItemsPosition.size() > 0) {
-                for (int i = 0; i < selItemsPosition.size(); i++) {
-                    selChkBoxArr[Integer.parseInt(selItemsPosition.get(i))] = true;
-                 }
-                selItemsPosition.clear();
-            }else {
-                // from Local variable
-                if (selectedCatId != null && selectedCatId.length() > 0) {
-                    if (selectedCatId.contains("#")) {
-                        selCatId = Arrays.asList(selectedCatId.split("#"));
+        if (selItemsPosition != null && selItemsPosition.size() > 0) {
+            for (int i = 0; i < selItemsPosition.size(); i++) {
+                selChkBoxArr[Integer.parseInt(selItemsPosition.get(i))] = true;
+            }
+            selItemsPosition.clear();
+        }else {
+            // from Local variable
+            if (selectedCatId != null && selectedCatId.length() > 0) {
+                if (selectedCatId.contains("#")) {
+                    selCatId = Arrays.asList(selectedCatId.split("#"));
 
-                    } else {
-                        selCatId.add(selectedCatId);
-                    }
-                    for (int j = 0; j < selCatId.size(); j++) {
-                        selChkBoxArr[Integer.parseInt(selCatId.get(j))] = true;
-                    }
-                    Log.e("selChkBoxArr value =>",selectedCatId.toString());
+                } else {
+                    selCatId.add(selectedCatId);
                 }
+                for (int j = 0; j < selCatId.size(); j++) {
+                    selChkBoxArr[Integer.parseInt(selCatId.get(j))] = true;
+                }
+                Log.e("selChkBoxArr value =>",selectedCatId.toString());
+            }
 //        }else{
 //            }
 
@@ -1317,35 +1255,35 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
             public void onClick(View view) {
                 selectedCatId = "";
                 icount = 0;
-                    if (productLayout.getChildCount() > 0) {
-                        for (int i = 0; i < productLayout.getChildCount(); i++) {
-                            LinearLayout prodInfoLayout = (LinearLayout) productLayout.getChildAt(i);
-                            if (prodInfoLayout.getChildCount() > 0) {
-                                for (int j = 2; j < prodInfoLayout.getChildCount(); j++) {
-                                    LinearLayout catLayout = (LinearLayout) prodInfoLayout.getChildAt(j);
-                                    if (catLayout.getChildCount() > 0) {
-                                        for (int k = 0; k < catLayout.getChildCount(); k++) {
-                                            View v = catLayout.getChildAt(k);
+                if (productLayout.getChildCount() > 0) {
+                    for (int i = 0; i < productLayout.getChildCount(); i++) {
+                        LinearLayout prodInfoLayout = (LinearLayout) productLayout.getChildAt(i);
+                        if (prodInfoLayout.getChildCount() > 0) {
+                            for (int j = 2; j < prodInfoLayout.getChildCount(); j++) {
+                                LinearLayout catLayout = (LinearLayout) prodInfoLayout.getChildAt(j);
+                                if (catLayout.getChildCount() > 0) {
+                                    for (int k = 0; k < catLayout.getChildCount(); k++) {
+                                        View v = catLayout.getChildAt(k);
 
-                                            CheckBox checkbox1 = (CheckBox) v;
+                                        CheckBox checkbox1 = (CheckBox) v;
 
-                                            if (checkbox1.isChecked()) {
+                                        if (checkbox1.isChecked()) {
 
-                                                int selChkBoxId = checkbox1.getId();
-                                                selectedCatId += selChkBoxId+"#";
-                                                icount += 1;
+                                            int selChkBoxId = checkbox1.getId();
+                                            selectedCatId += selChkBoxId+"#";
+                                            icount += 1;
 
 
-                                            }
                                         }
                                     }
                                 }
                             }
                         }
                     }
-                    selectedCatId = selectedCatId.length() > 0 ? selectedCatId.substring(0,selectedCatId.length() - 1) : "";
-                    Log.e("Selected Cate Cont = > ",""+icount);
-                    Log.e("Selected Cate Ids = > ","" +selectedCatId);
+                }
+                selectedCatId = selectedCatId.length() > 0 ? selectedCatId.substring(0,selectedCatId.length() - 1) : "";
+                Log.e("Selected Cate Cont = > ",""+icount);
+                Log.e("Selected Cate Ids = > ","" +selectedCatId);
 
                 if (icount > 0){
                     String countStr = + icount + " is Selected";
@@ -1823,6 +1761,10 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
             str_next_meeting_date=next_metting_date.getText().toString().trim();
             str_metting_agenda=metting_agenda.getText().toString().trim();
             str_lead_update_log=lead_update_log.getText().toString().trim();
+           /* String[] parts=str_lead_update_log.split("\n");
+            String text1=parts[0];
+            String text2=parts[1];
+             strLeadUpdateLog=text1+text2;*/
             //.......spinner text get Text
             str_spinner_lead_name=spinner_lead_name.getSelectedItem().toString();
             str_spinner_sub_source=spinner_sub_source.getSelectedItem().toString();
@@ -1848,6 +1790,7 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
             strLastMeetingDate=last_meeting_dt.getText().toString().trim();
             strLastMeetingUpdate=last_meeting_update.getText().toString().trim();
             strPanNo=pan_no.getText().toString().trim();
+            str_duration_date=duration.getText().toString().trim();
 
 
 
@@ -2368,6 +2311,7 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
                 last_meeting_dt.setText(leadInfoModel.getLast_meeting_date());
                 last_meeting_update.setText(leadInfoModel.getLast_meeting_update());
                 pan_no.setText(leadInfoModel.getPanno());
+                duration.setText(leadInfoModel.getDuration_date());
 
                 if (leadInfoModel.getSource_of_lead() != null && leadInfoModel.getSource_of_lead().trim().length() > 0) {
                     spinner_source_of_lead.setSelection(spinSourceLeadList.indexOf(leadInfoModel.getSource_of_lead()) + 1);
@@ -2526,6 +2470,8 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
             leadInfoModel.setLast_meeting_update(cursor.getString(cursor.getColumnIndex("last_meeting_update")));
             leadInfoModel.setBusiness_opp(cursor.getString(cursor.getColumnIndex("business_opportunity")));
             leadInfoModel.setCustomer_id_name(cursor.getString(cursor.getColumnIndex("customer_id_name")));
+            leadInfoModel.setDuration_date(cursor.getString(cursor.getColumnIndex("duration_date")));
+
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -2645,10 +2591,10 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
                 editCity.setEnabled(false);
                 autoPincode.setText(clientDetailsModel.getPinCode());
                 autoPincode.setEnabled(false);
-             //   mobileno.setText(clientDetailsModel.getMobileNumber());
-               // mobileno.setEnabled(false);
-                date_of_birth.setText(clientDetailsModel.getBirthDate());
-                date_of_birth.setEnabled(false);
+                //   mobileno.setText(clientDetailsModel.getMobileNumber());
+                // mobileno.setEnabled(false);
+                //  date_of_birth.setText(clientDetailsModel.getBirthDate());
+                // date_of_birth.setEnabled(false);
 
             }
         } catch (Exception e) {
@@ -2883,6 +2829,593 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
             e.printStackTrace();
         }
     }
+
+    public class FillDetails extends AsyncTask<Void, Void, SoapObject> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            try {
+                if (progressDialog != null && !progressDialog.isShowing()) {
+                    progressDialog.show();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
+
+        @Override
+        protected SoapObject doInBackground(Void... params) {
+
+            SoapObject object = null;
+            try {
+                SOAPWebService webService = new SOAPWebService(mContext);
+                object = webService.FillDetail(leadId);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return object;
+        }
+
+        @Override
+        protected void onPostExecute(SoapObject soapObject) {
+            super.onPostExecute(soapObject);
+            try {
+                responseId = String.valueOf(soapObject);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            try {
+                for (int i = 0; i < soapObject.getPropertyCount(); i++){
+                    SoapObject root = (SoapObject) soapObject.getProperty(i);
+
+
+                    if (root.getProperty("Adress") != null) {
+
+                        if (!root.getProperty("Adress").toString().equalsIgnoreCase("anyType{}")) {
+                            str_address = root.getProperty("Adress").toString();
+
+                        } else {
+                            str_address = "";
+                        }
+                    } else {
+                        str_address = "";
+                    }
+
+                    if (root.getProperty("Duration_date") != null) {
+
+                        if (!root.getProperty("Duration_date").toString().equalsIgnoreCase("anyType{}")) {
+                            str_duration_date = root.getProperty("Duration_date").toString();
+
+                        } else {
+                            str_duration_date = "";
+                        }
+                    } else {
+                        str_duration_date = "";
+                    }
+                    if (root.getProperty("Flag") != null) {
+
+                        if (!root.getProperty("Flag").toString().equalsIgnoreCase("anyType{}")) {
+                            strFlag = root.getProperty("Flag").toString();
+
+                        } else {
+                            strFlag = "";
+                        }
+                    } else {
+                        strFlag = "";
+                    }
+                    if (root.getProperty("Flat_vilage") != null) {
+
+                        if (!root.getProperty("Flat_vilage").toString().equalsIgnoreCase("anyType{}")) {
+                            str_flat = root.getProperty("Flat_vilage").toString();
+
+                        } else {
+                            str_flat = "";
+                        }
+                    } else {
+                        str_flat = "";
+                    }
+                    if (root.getProperty("Remarks") != null) {
+
+                        if (!root.getProperty("Remarks").toString().equalsIgnoreCase("anyType{}")) {
+                            strRemark = root.getProperty("Remarks").toString();
+
+                        } else {
+                            strRemark = "";
+                        }
+                    } else {
+                        strRemark = "";
+                    }
+                    if (root.getProperty("age") != null) {
+
+                        if (!root.getProperty("age").toString().equalsIgnoreCase("anyType{}")) {
+                            str_spinner_age_group = root.getProperty("age").toString();
+
+                        } else {
+                            str_spinner_age_group = "";
+                        }
+                    } else {
+                        str_spinner_age_group = "";
+                    }
+                    if (root.getProperty("annual_income") != null) {
+
+                        if (!root.getProperty("annual_income").toString().equalsIgnoreCase("anyType{}")) {
+                            str_spinner_annual_income = root.getProperty("annual_income").toString();
+
+                        } else {
+                            str_spinner_annual_income = "";
+                        }
+                    } else {
+                        str_spinner_annual_income = "";
+                    }
+                    if (root.getProperty("b_aum") != null) {
+
+                        if (!root.getProperty("b_aum").toString().equalsIgnoreCase("anyType{}")) {
+                            strB_aum = root.getProperty("b_aum").toString();
+
+                        } else {
+                            strB_aum = "";
+                        }
+                    } else {
+                        strB_aum = "";
+                    }
+                    if (root.getProperty("b_margin") != null) {
+
+                        if (!root.getProperty("b_margin").toString().equalsIgnoreCase("anyType{}")) {
+                            strB_Margin = root.getProperty("b_margin").toString();
+
+                        } else {
+                            strB_Margin = "";
+                        }
+                    } else {
+                        strB_Margin = "";
+                    }
+                    if (root.getProperty("b_number") != null) {
+
+                        if (!root.getProperty("b_number").toString().equalsIgnoreCase("anyType{}")) {
+                            strB_number = root.getProperty("b_number").toString();
+
+                        } else {
+                            strB_number = "";
+                        }
+                    } else {
+                        strB_number = "";
+                    }
+                    if (root.getProperty("b_premium") != null) {
+
+                        if (!root.getProperty("b_premium").toString().equalsIgnoreCase("anyType{}")) {
+                            strB_premium = root.getProperty("b_premium").toString();
+
+                        } else {
+                            strB_premium = "";
+                        }
+                    } else {
+                        strB_premium = "";
+                    }
+                    if (root.getProperty("b_sip") != null) {
+
+                        if (!root.getProperty("b_sip").toString().equalsIgnoreCase("anyType{}")) {
+                            strB_sip = root.getProperty("b_sip").toString();
+
+                        } else {
+                            strB_sip = "";
+                        }
+                    } else {
+                        strB_sip = "";
+                    }
+                    if (root.getProperty("b_value") != null) {
+
+                        if (!root.getProperty("b_value").toString().equalsIgnoreCase("anyType{}")) {
+                            strB_value = root.getProperty("b_value").toString();
+
+                        } else {
+                            strB_value = "";
+                        }
+                    } else {
+                        strB_value = "";
+                    }
+                    if (root.getProperty("business_opportunity") != null) {
+
+                        if (!root.getProperty("business_opportunity").toString().equalsIgnoreCase("anyType{}")) {
+                            strBusiness_opp = root.getProperty("business_opportunity").toString();
+
+                        } else {
+                            strBusiness_opp = "";
+                        }
+                    } else {
+                        strBusiness_opp = "";
+                    }
+                    if (root.getProperty("city") != null) {
+
+                        if (!root.getProperty("city").toString().equalsIgnoreCase("anyType{}")) {
+                            str_city = root.getProperty("city").toString();
+
+                        } else {
+                            str_city = "";
+                        }
+                    } else {
+                        str_city = "";
+                    }
+                    if (root.getProperty("competitor_name") != null) {
+
+                        if (!root.getProperty("competitor_name").toString().equalsIgnoreCase("anyType{}")) {
+                            strCompitator_Name = root.getProperty("competitor_name").toString();
+
+                        } else {
+                            strCompitator_Name = "";
+                        }
+                    } else {
+                        strCompitator_Name = "";
+                    }
+                    if (root.getProperty("customer_id") != null) {
+
+                        if (!root.getProperty("customer_id").toString().equalsIgnoreCase("anyType{}")) {
+                            str_cust_id = root.getProperty("customer_id").toString();
+
+                        } else {
+                            str_cust_id = "";
+                        }
+                    } else {
+                        str_cust_id = "";
+                    }
+                    if (root.getProperty("dob") != null) {
+
+                        if (!root.getProperty("dob").toString().equalsIgnoreCase("anyType{}")) {
+                            String Dob = root.getProperty("dob").toString();
+                            DateFormat inputDF = new SimpleDateFormat("MM/dd/yyyy");
+                            DateFormat outputDF = new SimpleDateFormat("MM/dd/yyyy");
+                            Date date = inputDF.parse(Dob);
+                            str_date_of_birth = outputDF.format(date);
+                        } else {
+                            str_date_of_birth = "";
+                        }
+                    } else {
+                        str_date_of_birth = "";
+                    }
+                    if (root.getProperty("duration") != null) {
+
+                        if (!root.getProperty("duration").toString().equalsIgnoreCase("anyType{}")) {
+                            str_spinner_duration = root.getProperty("duration").toString();
+
+                        } else {
+                            str_spinner_duration = "";
+                        }
+                    } else {
+                        str_spinner_duration = "";
+                    }
+                    if (root.getProperty("email_id") != null) {
+
+                        if (!root.getProperty("email_id").toString().equalsIgnoreCase("anyType{}")) {
+                            str_email = root.getProperty("email_id").toString();
+
+                        } else {
+                            str_email = "";
+                        }
+                    } else {
+                        str_email = "";
+                    }
+                    if (root.getProperty("fname") != null) {
+
+                        if (!root.getProperty("fname").toString().equalsIgnoreCase("anyType{}")) {
+                            str_fname = root.getProperty("fname").toString();
+
+                        } else {
+                            str_fname = "";
+                        }
+                    } else {
+                        str_fname = "";
+                    }
+                    if (root.getProperty("last_meeting_date") != null) {
+
+                        if (!root.getProperty("last_meeting_date").toString().equalsIgnoreCase("anyType{}")) {
+                            strLastMeetingDate = root.getProperty("last_meeting_date").toString();
+
+                        } else {
+                            strLastMeetingDate = "";
+                        }
+                    } else {
+                        strLastMeetingDate = "";
+                    }
+                    if (root.getProperty("last_meeting_update") != null) {
+
+                        if (!root.getProperty("last_meeting_update").toString().equalsIgnoreCase("anyType{}")) {
+                            strLastMeetingUpdate = root.getProperty("last_meeting_update").toString();
+
+                        } else {
+                            strLastMeetingUpdate = "";
+                        }
+                    } else {
+                        strLastMeetingUpdate = "";
+                    }
+                    if (root.getProperty("lead_id") != null) {
+
+                        if (!root.getProperty("lead_id").toString().equalsIgnoreCase("anyType{}")) {
+                            leadId = root.getProperty("lead_id").toString();
+
+                        } else {
+                            leadId = "";
+                        }
+                    } else {
+                        leadId = "";
+                    }
+                    if (root.getProperty("lead_status") != null) {
+
+                        if (!root.getProperty("lead_status").toString().equalsIgnoreCase("anyType{}")) {
+                            str_spinner_lead_status = root.getProperty("lead_status").toString();
+
+                        } else {
+                            str_spinner_lead_status = "";
+                        }
+                    } else {
+                        str_spinner_lead_status = "";
+                    }
+                    if (root.getProperty("lead_update_log") != null) {
+
+                        if (!root.getProperty("lead_update_log").toString().equalsIgnoreCase("anyType{}")) {
+                            str_lead_update_log = root.getProperty("lead_update_log").toString();
+
+                        } else {
+                            str_lead_update_log = "";
+                        }
+                    } else {
+                        str_lead_update_log = "";
+                    }
+                    if (root.getProperty("lname") != null) {
+
+                        if (!root.getProperty("lname").toString().equalsIgnoreCase("anyType{}")) {
+                            str_lname = root.getProperty("lname").toString();
+
+                        } else {
+                            str_lname = "";
+                        }
+                    } else {
+                        str_lname = "";
+                    }
+                    if (root.getProperty("location") != null) {
+
+                        if (!root.getProperty("location").toString().equalsIgnoreCase("anyType{}")) {
+                            str_laocion = root.getProperty("location").toString();
+
+                        } else {
+                            str_laocion = "";
+                        }
+                    } else {
+                        str_laocion = "";
+                    }
+                    if (root.getProperty("meeting_agenda") != null) {
+
+                        if (!root.getProperty("meeting_agenda").toString().equalsIgnoreCase("anyType{}")) {
+                            str_metting_agenda = root.getProperty("meeting_agenda").toString();
+
+                        } else {
+                            str_metting_agenda = "";
+                        }
+                    } else {
+                        str_metting_agenda = "";
+                    }
+                    if (root.getProperty("meeting_status") != null) {
+
+                        if (!root.getProperty("meeting_status").toString().equalsIgnoreCase("anyType{}")) {
+                            str_rg_meeting_status = root.getProperty("meeting_status").toString();
+
+                        } else {
+                            str_rg_meeting_status = "";
+                        }
+                    } else {
+                        str_rg_meeting_status = "";
+                    }
+                    if (root.getProperty("mname") != null) {
+
+                        if (!root.getProperty("mname").toString().equalsIgnoreCase("anyType{}")) {
+                            str_mname = root.getProperty("mname").toString();
+
+                        } else {
+                            str_mname = "";
+                        }
+                    } else {
+                        str_mname = "";
+                    }
+                    if (root.getProperty("mobile_no") != null) {
+
+                        if (!root.getProperty("mobile_no").toString().equalsIgnoreCase("anyType{}")) {
+                            str_mobile_no = root.getProperty("mobile_no").toString();
+
+                        } else {
+                            str_mobile_no = "";
+                        }
+                    } else {
+                        str_mobile_no = "";
+                    }
+                    if (root.getProperty("next_meeting_date") != null) {
+
+                        if (!root.getProperty("next_meeting_date").toString().equalsIgnoreCase("anyType{}")) {
+                            str_next_meeting_date = root.getProperty("next_meeting_date").toString();
+
+                        } else {
+                            str_next_meeting_date = "";
+                        }
+                    } else {
+                        str_next_meeting_date = "";
+                    }
+                    if (root.getProperty("occupation") != null) {
+
+                        if (!root.getProperty("occupation").toString().equalsIgnoreCase("anyType{}")) {
+                            str_spinner_occupation = root.getProperty("occupation").toString();
+
+                        } else {
+                            str_spinner_occupation = "";
+                        }
+                    } else {
+                        str_spinner_occupation = "";
+                    }
+                    if (root.getProperty("other_broker_dealt_with") != null) {
+
+                        if (!root.getProperty("other_broker_dealt_with").toString().equalsIgnoreCase("anyType{}")) {
+                            str_spinner_other_broker = root.getProperty("other_broker_dealt_with").toString();
+
+                        } else {
+                            str_spinner_other_broker = "";
+                        }
+                    } else {
+                        str_spinner_other_broker = "";
+                    }
+                    if (root.getProperty("pan_no") != null) {
+
+                        if (!root.getProperty("pan_no").toString().equalsIgnoreCase("anyType{}")) {
+                            strPanNo = root.getProperty("pan_no").toString();
+
+                        } else {
+                            strPanNo = "";
+                        }
+                    } else {
+                        strPanNo = "";
+                    }
+                    if (root.getProperty("pincode") != null) {
+
+                        if (!root.getProperty("pincode").toString().equalsIgnoreCase("anyType{}")) {
+                            str_pincode = root.getProperty("pincode").toString();
+
+                        } else {
+                            str_pincode = "";
+                        }
+                    } else {
+                        str_pincode = "";
+                    }
+                    if (root.getProperty("product") != null) {
+
+                        if (!root.getProperty("product").toString().equalsIgnoreCase("anyType{}")) {
+                            strProduct = root.getProperty("product").toString();
+
+                        } else {
+                            strProduct = "";
+                        }
+                    } else {
+                        strProduct = "";
+                    }
+                    if (root.getProperty("reason") != null) {
+
+                        if (!root.getProperty("reason").toString().equalsIgnoreCase("anyType{}")) {
+                            str_reason = root.getProperty("reason").toString();
+
+                        } else {
+                            str_reason = "";
+                        }
+                    } else {
+                        str_reason = "";
+                    }
+                    if (root.getProperty("remark") != null) {
+
+                        if (!root.getProperty("remark").toString().equalsIgnoreCase("anyType{}")) {
+                            strRemark = root.getProperty("remark").toString();
+
+                        } else {
+                            strRemark = "";
+                        }
+                    } else {
+                        strRemark = "";
+                    }
+                    if (root.getProperty("source_of_lead") != null) {
+
+                        if (!root.getProperty("source_of_lead").toString().equalsIgnoreCase("anyType{}")) {
+                            str_spinner_source_of_lead = root.getProperty("source_of_lead").toString();
+
+                        } else {
+                            str_spinner_source_of_lead = "";
+                        }
+                    } else {
+                        str_spinner_source_of_lead = "";
+                    }
+                    if (root.getProperty("street") != null) {
+
+                        if (!root.getProperty("street").toString().equalsIgnoreCase("anyType{}")) {
+                            str_street = root.getProperty("street").toString();
+
+                        } else {
+                            str_street = "";
+                        }
+                    } else {
+                        str_street = "";
+                    }
+                    if (root.getProperty("sub_source") != null) {
+
+                        if (!root.getProperty("sub_source").toString().equalsIgnoreCase("anyType{}")) {
+                            str_spinner_sub_source = root.getProperty("sub_source").toString();
+
+                        } else {
+                            str_spinner_sub_source = "";
+                        }
+                    } else {
+                        str_spinner_sub_source = "";
+                    }
+                    if (root.getProperty("typeofsearch") != null) {
+
+                        if (!root.getProperty("typeofsearch").toString().equalsIgnoreCase("anyType{}")) {
+                            str_spinner_research_type = root.getProperty("typeofsearch").toString();
+
+                        } else {
+                            str_spinner_research_type = "";
+                        }
+                    } else {
+                        str_spinner_research_type = "";
+                    }
+
+
+                    String strLastSync = "1";
+                    String strStages = "Lead Updated";
+                    String selection = mContext.getString(R.string.column_lead_id) + " = ?";
+                    String[] selectionArgs = {leadId};
+                    String valuesArray[] = { "" + "",leadId,strStages, str_spinner_source_of_lead, str_spinner_sub_source, str_cust_id, str_fname, str_mname, str_lname,
+                            str_date_of_birth, str_spinner_age_group, str_mobile_no, str_address, str_flat, str_street, str_laocion, str_city, str_pincode, str_email, str_spinner_annual_income,
+                            str_spinner_occupation, strCreatedfrom, strAppVersion, strAppdt, strFlag, strAllocated_userid, str_spinner_other_broker,
+                            str_rg_meeting_status, str_spinner_lead_status, strCompitator_Name, strProduct, strRemark, str_spinner_research_type,
+                            str_spinner_duration, strPanNo, strB_Margin, strB_aum, strB_sip, strB_number, strB_value, strB_premium, str_reason,
+                            str_next_meeting_date, str_metting_agenda, str_lead_update_log, strCreatedby, strCreateddt, strUpdateddt, strUpdatedby,strEmpCode,
+                            strLastMeetingDate,strLastMeetingUpdate,strBusiness_opp,strCustomer_id_name,str_duration_date};
+
+                    boolean result = Narnolia.dbCon.update(DbHelper.TABLE_DIRECT_LEAD, selection, valuesArray, utils.columnNamesLeadUpdate, selectionArgs);
+                    if (result){
+
+                        try {
+                            // WHERE clause
+                            String where = " where lead_id = '"+leadId+"'";
+                            Cursor cursor = Narnolia.dbCon.fetchFromSelect(DbHelper.TABLE_DIRECT_LEAD,where);
+                            if (cursor != null && cursor.getCount() > 0) {
+                                cursor.moveToFirst();
+                                do {
+                                    leadInfoModel = createLeadInfoModel(cursor);
+//                                        leadInfoModelList.add(leadInfoModel);
+
+                                } while (cursor.moveToNext());
+                                cursor.close();
+
+                            }else {
+                                Toast.makeText(mContext, "No data found..!",Toast.LENGTH_SHORT).show();
+                            }
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+                        linear_lead_details_hidden.setVisibility(View.VISIBLE);
+
+                        try {
+                            selected=true;
+                            populateData(leadInfoModel);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
+    }
+
     //............................................................................................
     public class UpdateLeadData extends AsyncTask<String, Void, SoapPrimitive> {
 
@@ -2928,11 +3461,13 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
                 strStages = "Lead Updated";
                 strFlag = "U";
             }
+            strAllocated_userid="APP";
+
 
             SoapPrimitive object = webService.UpdateLead(leadId,str_spinner_source_of_lead, str_spinner_sub_source,str_cust_id, str_fname, str_mname, str_lname, str_mobile_no,
                     str_email, str_spinner_age_group, str_date_of_birth,str_address,str_flat,str_street,str_laocion ,str_city,str_pincode,str_spinner_occupation,str_spinner_annual_income,str_spinner_other_broker,str_rg_meeting_status,str_spinner_lead_status,strRemark,strCompitator_Name,strProduct,
                     str_spinner_research_type,str_spinner_duration,strPanNo,str_reason,strB_Margin,strB_aum,strB_sip,strB_number
-                    ,strB_value,strB_premium,str_next_meeting_date,str_metting_agenda,str_lead_update_log,strFlag,"",empcode,strLastMeetingDate,strLastMeetingUpdate,"1","","","");
+                    ,strB_value,strB_premium,str_next_meeting_date,str_metting_agenda,str_lead_update_log,strFlag,"",empcode,strLastMeetingDate,strLastMeetingUpdate,"1",empcode,"","");
 
             return object;
 

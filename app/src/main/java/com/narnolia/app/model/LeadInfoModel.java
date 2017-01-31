@@ -63,6 +63,7 @@ public class LeadInfoModel implements Serializable{
     String last_meeting_update;
     String business_opp;
     String customer_id_name;
+    String duration_date;
 
 
     public String getStages() {
@@ -497,7 +498,13 @@ public class LeadInfoModel implements Serializable{
     public void setCustomer_id_name(String customer_id_name) {
         this.customer_id_name = customer_id_name;
     }
+    public String getDuration_date() {
+        return duration_date;
+    }
 
+    public void setDuration_date(String duration_date) {
+        this.duration_date = duration_date;
+    }
 
 
 

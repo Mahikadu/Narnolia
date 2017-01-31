@@ -90,7 +90,7 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
             strMeetingStatus, strLeadStatus, strCompitator_Name, strProduct, strRemark, strTypeofSearch,
             strDuration, strPanNo, strB_Margin, strB_aum, strB_sip, strB_number, strB_value, strB_premium, strReason,
             strMeetingdt, strMeetingAgenda, strLead_Updatelog, strCreatedby, strCreateddt, strUpdateddt, strUpdatedby,strEmpCode,strLastMeetingDate,StrLastMeetingUpdate,
-            strBusiness_opp,strCustomer_id_name;
+            strBusiness_opp,strCustomer_id_name,str_duration;
     private ArrayAdapter<String> adapter9;
     Spinner spinner_source_of_lead, spinner_sub_source,spinner_cust_id;
     Button btn_create, btn_cancel, btn_create_close,btn1_opportunity_pitched2;
@@ -143,7 +143,6 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
     private GoogleApiClient client;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -244,7 +243,7 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
 //                        fetchDistrCodeBranchName(strServiceBranchCode);
 
                         sourceString = parent.getItemAtPosition(position).toString();
-                        if (sourceString != null) {
+                        if (sourceString != null && sourceString.length() > 0 &&subsource!=null) {
                             try {
                                 if (sourceString.equalsIgnoreCase("In- house Leads (Existing)")&& subsource.equals("Existing Client")){
                                     getAllClientData();//.............Client data method
@@ -298,7 +297,7 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
                     if (strSubLeadArray != null && strSubLeadArray.length > 0) {
                         strSubSourceofLead = spinner_sub_source.getSelectedItem().toString();
                         subsource=parent.getItemAtPosition(position).toString();
-                        if (subsource!=null){
+                        if (subsource!=null && subsource.length() > 0&&sourceString!=null&&sourceString.length()>0){
                             if (subsource.equalsIgnoreCase("Existing Client")&& sourceString.equals("In- house Leads (Existing)")){
                                 getAllClientData();//.............Client data method
                                 linear_customer_id.setVisibility(View.GONE);
@@ -1453,7 +1452,7 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client.connect();
+//        client.connect();
         AppIndex.AppIndexApi.start(client, getIndexApiAction());
     }
 
@@ -1464,7 +1463,7 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         AppIndex.AppIndexApi.end(client, getIndexApiAction());
-        client.disconnect();
+//        client.disconnect();
     }
 
     private int countCheck(boolean isChecked) {
@@ -1516,9 +1515,11 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
                 strStages = "Lead Created";
                 strFlag = "C";
             }
+            strCreatedfrom="APP";
+            strAllocated_userid="App";
 
             SoapPrimitive object = webService.SaveLead(strSourceofLead, strSubSourceofLead,empcode, str_fname, str_mname, str_lname, str_mob,
-                    strlocation, str_city, str_pincode,"1",strStages, "", "", "", strFlag, "");
+                    strlocation, str_city, str_pincode,"1",strStages, "", "",strCreatedfrom, strFlag, empcode);
 
             return object;
 
@@ -1596,7 +1597,7 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
                     strMeetingStatus, strLeadStatus, strCompitator_Name, strProduct, strRemark, strTypeofSearch,
                     strDuration, strPanNo, strB_Margin, strB_aum, strB_sip, strB_number, strB_value, strB_premium, strReason,
                     strMeetingdt, strMeetingAgenda, strLead_Updatelog, strCreatedby, strCreateddt, strUpdateddt, strUpdatedby,strEmpCode,strLastMeetingDate,StrLastMeetingUpdate,
-                    selectedCatId,strCustomer_id_name};
+                    selectedCatId,strCustomer_id_name,str_duration};
 
 
             boolean result = Narnolia.dbCon.update(DbHelper.TABLE_DIRECT_LEAD, selection, valuesArray, utils.columnNamesLead, selectionArgs);

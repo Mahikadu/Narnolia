@@ -89,10 +89,9 @@ public class DashboardActivity extends AbstractActivity {
         mContext = DashboardActivity.this;
         utils = new Utils(mContext);
 
-        leadInfoModelList = new ArrayList<LeadInfoModel>();
+        leadInfoModelList = new ArrayList<>();
         // lvLead = (ListView) findViewById(R.id.biList);
         table_layout = (TableLayout) findViewById(R.id.tableLaout_lead);
-
 
         createInitialModel();
 //        fetchDataOfLeadDetails();
@@ -141,12 +140,16 @@ public class DashboardActivity extends AbstractActivity {
     }
 
     public void fetchDataOfLeadDetails() {
-        Cursor cursor = null;
+//        Cursor cursor = null;
         try {
+            /*if (cliked){
+                leadInfoModelList.clear();
+             }*/
             leadInfoModelList.clear();
-            // WHERE   clause
-            String where = " where flag NOT IN('D') order by lead_id DESC";
-            cursor = Narnolia.dbCon.fetchFromSelect(DbHelper.TABLE_DIRECT_LEAD, where);
+              // WHERE   clause
+            String where = " where flag <> 'D' order by lead_id DESC";
+//            String where = " where flag NOT IN('D')";
+            Cursor cursor = Narnolia.dbCon.fetchFromSelect(DbHelper.TABLE_DIRECT_LEAD, where);
             Log.i("TAG", "Cursor count:" + cursor.getCount());
             if (cursor != null && cursor.getCount() > 0) {
                 cursor.moveToFirst();
@@ -178,6 +181,7 @@ public class DashboardActivity extends AbstractActivity {
                     leadInfoModelList.clear();
                 }
             }
+
             fetchDataOfLeadDetails();
 
         } catch (Exception e) {
@@ -186,9 +190,9 @@ public class DashboardActivity extends AbstractActivity {
     }
 
     private void createInitialModel() {
-        LeadInfoModel leadInfoModel = null;
+        leadInfoModel = new LeadInfoModel();
         try {
-            leadInfoModel = new LeadInfoModel();
+
             leadInfoModel.setLead_id("Lead ID");
             leadInfoModel.setFirstname("Name");
             leadInfoModel.setMobile_no("Mobile Number");
@@ -269,13 +273,18 @@ public class DashboardActivity extends AbstractActivity {
                 tvPincode.setText(leadInfoModel.getPincode());
                 tvLastMeet_date.setText(leadInfoModel.getLast_meeting_date());
                 tvLastMeet_update.setText(leadInfoModel.getLast_meeting_update());
-                if (leadInfoModel.getLeadstatus().equals("Select Lead Status"))
-                {
+                if (leadInfoModel.getLeadstatus() != null && leadInfoModel.getLeadstatus().length() > 0){
+                    if (leadInfoModel.getLeadstatus().equals("Select Lead Status"))
+                    {
+                        tvLeadStatus.setText("");
+                    }else
+                    {
+                        tvLeadStatus.setText(leadInfoModel.getLeadstatus());
+                    }
+                }else {
                     tvLeadStatus.setText("");
-                }else
-                {
-                    tvLeadStatus.setText(leadInfoModel.getLeadstatus());
                 }
+
 //                tvNextMeet.setText(leadInfoModel.getUpdateddt());
 //                tvCloseLead.setText(leadInfoModel.getLead_id());
 
@@ -519,7 +528,7 @@ public class DashboardActivity extends AbstractActivity {
                     str_rg_meeting_status, str_spinner_lead_status, strCompitator_Name, strProduct, strRemark, str_spinner_research_type,
                     str_spinner_duration, strPanNo, strB_Margin, strB_aum, strB_sip, strB_number, strB_value, strB_premium, str_reason,
                     str_next_meeting_date, str_metting_agenda, str_lead_update_log, strCreatedby, strCreateddt, strUpdateddt, strUpdatedby,strEmpCode,
-                    strLastMeetingDate,strLastMeetingUpdate,selectedCatId,strCustomer_id_name};
+                    strLastMeetingDate,strLastMeetingUpdate,selectedCatId,strCustomer_id_name,""};
 
 
             boolean result = Narnolia.dbCon.update(DbHelper.TABLE_DIRECT_LEAD, selection, valuesArray, utils.columnNamesDashboardUpdate, selectionArgs);

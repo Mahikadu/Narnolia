@@ -301,6 +301,42 @@ public class SOAPWebService {
         }
 
     }
+
+    public SoapObject FillDetail(String lead_id) {
+        SoapObject result6 = null;
+
+        try {
+//
+            SoapObject request = new SoapObject(NAMESPACE,
+                    "filldetails");// soap object
+
+            request.addProperty("lead_id", lead_id);
+
+            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
+                    SoapEnvelope.VER11);// soap envelop with version
+            envelope.setOutputSoapObject(request); // set request object
+            envelope.dotNet = true;
+
+            HttpTransportSE androidHttpTransport = new HttpTransportSE(Utils.URL);// http
+            // transport
+            // call
+            androidHttpTransport.call(SOAP_ACTION + "filldetails",
+                    envelope);
+            Log.i("TAG", "envelope" + envelope);
+
+            // response soap object
+            result6 = (SoapObject) envelope.getResponse();
+            Log.i("TAG", "response :" + result6);
+
+            return result6;
+        } catch (Exception e) {
+
+            e.printStackTrace();
+
+            return null;
+        }
+
+    }
     //................get All Client.........
     public SoapObject Get_ALL_Client(String RMCode) {
         SoapObject result5 = null;

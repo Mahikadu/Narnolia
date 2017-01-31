@@ -496,7 +496,7 @@
                         android:drawablePadding="@dimen/view_padding"
                         android:hint="@string/hintaddress"
                         android:inputType="text"
-                        android:maxLength="100"
+                        android:maxLength="50"
                         android:padding="@dimen/view_padding"
                         android:singleLine="true"
                         android:textColor="@android:color/black" />

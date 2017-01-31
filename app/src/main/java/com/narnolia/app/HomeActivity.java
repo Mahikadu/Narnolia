@@ -738,7 +738,7 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
                             str_rg_meeting_status, str_spinner_lead_status, strCompitator_Name, strProduct, strRemark, str_spinner_research_type,
                             str_spinner_duration, strPanNo, strB_Margin, strB_aum, strB_sip, strB_number, strB_value, strB_premium, str_reason,
                             str_next_meeting_date, str_metting_agenda, str_lead_update_log, strCreatedby, strCreateddt, strUpdateddt, strUpdatedby,strEmpCode,
-                            strLastMeetingDate,strLastMeetingUpdate,strBusiness_opp,strCustomer_id_name};
+                            strLastMeetingDate,strLastMeetingUpdate,strBusiness_opp,strCustomer_id_name,""};
 
                     boolean result = Narnolia.dbCon.update(DbHelper.TABLE_DIRECT_LEAD, selection, valuesArray, utils.columnNamesLeadUpdate, selectionArgs);
 

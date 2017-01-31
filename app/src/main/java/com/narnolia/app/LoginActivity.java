@@ -38,7 +38,7 @@ public class LoginActivity extends AbstractActivity {
 
 
     EditText username, password;
-    TextView t_username,t_password;
+    TextView t_username,t_password,forget_password;
     Button Login;
     private String strPass, strUser;
 
@@ -66,6 +66,7 @@ public class LoginActivity extends AbstractActivity {
             //..........text view validations.
             t_username=(TextView)findViewById(R.id.t_username);
             t_password=(TextView)findViewById(R.id.t_password);
+            forget_password=(TextView)findViewById(R.id.forget_password);
             //.........Text watcher for hiding tex views......
             username.addTextChangedListener(new TextWatcher() {
                 @Override
@@ -140,6 +141,15 @@ public class LoginActivity extends AbstractActivity {
                         }
                     } else {
                         displayMessage(getString(R.string.warning_internet));
+                    }
+                }
+            });
+            forget_password.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (TextUtils.isEmpty(strUser)) {
+                        //   displayMessage("Enter UserName");
+                        t_username.setVisibility(View.VISIBLE);
                     }
                 }
             });

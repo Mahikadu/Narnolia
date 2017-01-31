@@ -197,6 +197,7 @@
     <string name="column_updated_by">updated_by</string>
     <string name="column_business_opportunity">business_opportunity</string>
     <string name="column_customer_id_name">customer_id_name</string>
+    <string name="column_duration_date">duration_date</string>
     <string name="column_m_pin_district">district</string>
     <string name="column_m_pin_pincode">pincode</string>
     <string name="select_pincode">Select Pincode</string>
