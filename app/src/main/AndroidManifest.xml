@@ -10,6 +10,8 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.WRITE_CONTACTS" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
 
     <application
         android:allowBackup="true"
@@ -29,6 +31,7 @@
         <activity
             android:name=".SplashActivity"
             android:screenOrientation="portrait">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -43,6 +46,8 @@
         <activity
             android:name=".LoginActivity"
             android:screenOrientation="portrait" />
+        <activity android:name=".MyCalendarActivity"
+            android:screenOrientation="portrait"/>
 
         <activity android:name=".DashboardActivity"
             android:screenOrientation="landscape" />

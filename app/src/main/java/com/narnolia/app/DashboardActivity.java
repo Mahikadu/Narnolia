@@ -147,8 +147,8 @@ public class DashboardActivity extends AbstractActivity {
              }*/
             leadInfoModelList.clear();
               // WHERE   clause
-            String where = " where flag <> 'D' order by lead_id DESC";
-//            String where = " where flag NOT IN('D')";
+           String where = " where flag <> 'D' order by lead_id DESC";
+          //  String where = " where flag NOT IN('D')";
             Cursor cursor = Narnolia.dbCon.fetchFromSelect(DbHelper.TABLE_DIRECT_LEAD, where);
             Log.i("TAG", "Cursor count:" + cursor.getCount());
             if (cursor != null && cursor.getCount() > 0) {
@@ -415,6 +415,7 @@ public class DashboardActivity extends AbstractActivity {
                         focusView = edt_next_meeting_agenda;
                         focusView.requestFocus();
                         return;
+
                     }
 
                     editor.putString("lead__Id", lead__Id);

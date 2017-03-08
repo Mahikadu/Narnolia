@@ -450,6 +450,8 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
 
                             new FillDetails().execute();
 
+                          //  new SaveCategory().execute();
+
                         }
                     }
 
@@ -948,6 +950,8 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
             bt_update_lead.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                     validateDetails();
                 }
             });
@@ -1063,6 +1067,7 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
                         str_rg_meeting_status = rb.getText().toString();
                         int index = group.indexOfChild(radiobutton);
                         if (index == 0) {
+                            new GetCategoryTypeData().execute();
                             connect.setVisibility(View.VISIBLE);
                             notconnect.setVisibility(View.GONE);
 
@@ -1717,7 +1722,7 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
         if (name == null) {
             return false;
         } else {
-            if (name.length() < 3 ) {
+            if (name.length() < 1 ) {
                 return false;
             } else {
                 return true;
@@ -2385,7 +2390,8 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
 
 
                 }
-                String businessOpp = leadInfoModel.getBusiness_opp();
+
+                /*String businessOpp = leadInfoModel.getBusiness_opp();
                 if (leadInfoModel.getBusiness_opp() != null && leadInfoModel.getBusiness_opp().length() > 0) {
                     selItemsPosition.clear();
                     if (businessOpp.contains("#")) {
@@ -2404,7 +2410,7 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
 
                     Log.e("selectedItem Ids ","from DB => " +selItemsPosition.toString());
 
-                }
+                }*/
 
             }
         }catch (Exception e){
@@ -2702,6 +2708,11 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
             SOAPWebService webService = new SOAPWebService(mContext);
             String fromType="APP";
             try {
+            if (strStages.equalsIgnoreCase("Lead Updated")){
+//                object = webService.SaveCategory(leadId, selectedCatId, empcode,fromType);
+            }else{
+                selectedCatId="D";
+            }
                 object = webService.SaveCategory(leadId, selectedCatId, empcode,fromType);
 
             } catch (Exception e) {
@@ -2801,7 +2812,7 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
             String valuesArray[] = { "" + directLeadId,leadId,strStages, str_spinner_source_of_lead, str_spinner_sub_source, str_cust_id, str_fname, str_mname, str_lname,
                     str_date_of_birth, str_spinner_age_group, str_mobile_no, str_address, str_flat, str_street, str_laocion, str_city, str_pincode, str_email, str_spinner_annual_income,
                     str_spinner_occupation, strCreatedfrom, strAppVersion, strAppdt, strFlag, strAllocated_userid, str_spinner_other_broker,
-                    str_rg_meeting_status, str_spinner_lead_status, strCompitator_Name, strProduct, strRemark, str_spinner_research_type,
+                    str_rg_meeting_status, str_spinner_lead_status, strCompitator_Name, selectedCatId, strRemark, str_spinner_research_type,
                     str_spinner_duration, strPanNo, strB_Margin, strB_aum, strB_sip, strB_number, strB_value, strB_premium, str_reason,
                     str_next_meeting_date, str_metting_agenda, str_lead_update_log, strCreatedby, strCreateddt, strUpdateddt, strUpdatedby,strEmpCode,
                     strLastMeetingDate,strLastMeetingUpdate,selectedCatId,strCustomer_id_name};
@@ -2888,8 +2899,11 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
                     if (root.getProperty("Duration_date") != null) {
 
                         if (!root.getProperty("Duration_date").toString().equalsIgnoreCase("anyType{}")) {
-                            str_duration_date = root.getProperty("Duration_date").toString();
-
+                            String duration = root.getProperty("Duration_date").toString();
+                            DateFormat inputDF = new SimpleDateFormat("MM/dd/yyyy");
+                            DateFormat outputDF = new SimpleDateFormat("MM/dd/yyyy");
+                            Date date = inputDF.parse(duration);
+                            str_duration_date = outputDF.format(date);
                         } else {
                             str_duration_date = "";
                         }
@@ -3111,7 +3125,11 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
                     if (root.getProperty("last_meeting_date") != null) {
 
                         if (!root.getProperty("last_meeting_date").toString().equalsIgnoreCase("anyType{}")) {
-                            strLastMeetingDate = root.getProperty("last_meeting_date").toString();
+                            String lastmeeting = root.getProperty("last_meeting_date").toString();
+                            DateFormat inputDF = new SimpleDateFormat("MM/dd/yyyy");
+                            DateFormat outputDF = new SimpleDateFormat("MM/dd/yyyy");
+                            Date date = inputDF.parse(lastmeeting);
+                            strLastMeetingDate = outputDF.format(date);
 
                         } else {
                             strLastMeetingDate = "";
@@ -3232,7 +3250,11 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
                     if (root.getProperty("next_meeting_date") != null) {
 
                         if (!root.getProperty("next_meeting_date").toString().equalsIgnoreCase("anyType{}")) {
-                            str_next_meeting_date = root.getProperty("next_meeting_date").toString();
+                            String next_meeting = root.getProperty("next_meeting_date").toString();
+                            DateFormat inputDF = new SimpleDateFormat("MM/dd/yyyy");
+                            DateFormat outputDF = new SimpleDateFormat("MM/dd/yyyy");
+                            Date date = inputDF.parse(next_meeting);
+                            str_next_meeting_date = outputDF.format(date);
 
                         } else {
                             str_next_meeting_date = "";
@@ -3363,6 +3385,15 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
                     }
 
 
+
+                    if (cliked){
+                        strStages="closer of lead";
+                        strFlag="D";
+                    }else {
+                        strStages = "Lead Updated";
+                        strFlag = "U";
+                    }
+
                     String strLastSync = "1";
                     String strStages = "Lead Updated";
                     String selection = mContext.getString(R.string.column_lead_id) + " = ?";
@@ -3380,7 +3411,7 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
 
                         try {
                             // WHERE clause
-                            String where = " where lead_id = '"+leadId+"'";
+                            String where = " where lead_id = '"+leadId+"' and flag NOT IN('D')";
                             Cursor cursor = Narnolia.dbCon.fetchFromSelect(DbHelper.TABLE_DIRECT_LEAD,where);
                             if (cursor != null && cursor.getCount() > 0) {
                                 cursor.moveToFirst();
@@ -3409,6 +3440,81 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
                         }
                     }
                 }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
+    }
+
+
+
+    public class GetCategoryTypeData extends AsyncTask<Void, Void, SoapObject> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            try {
+                if (progressDialog != null && !progressDialog.isShowing()) {
+                    progressDialog.show();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
+
+        @Override
+        protected SoapObject doInBackground(Void... params) {
+
+            SoapObject object = null;
+            try {
+                SOAPWebService webService = new SOAPWebService(mContext);
+                object = webService.GetcategoryType_data(leadId);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return object;
+        }
+
+        @Override
+        protected void onPostExecute(SoapObject soapObject) {
+            super.onPostExecute(soapObject);
+            try {
+                responseId = String.valueOf(soapObject);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            try {
+                String strCategoryId = "";
+                selItemsPosition.clear();
+                for (int i = 0; i < soapObject.getPropertyCount(); i++) {
+                    SoapObject root = (SoapObject) soapObject.getProperty(i);
+
+                    if (root.getProperty("category_id") != null) {
+                        if (!root.getProperty("category_id").toString().equalsIgnoreCase("anyType{}")) {
+//                            strCategoryId += root.getProperty("category_id").toString() + "#";
+                            if (Integer.parseInt(root.getProperty("category_id").toString()) == 0){
+                                selItemsPosition.clear();
+                            }else{
+                                strCategoryId = root.getProperty("category_id").toString();
+                                selItemsPosition.add(strCategoryId);
+                            }
+
+
+                        } else {
+                            strCategoryId = "";
+                        }
+                    } else {
+                        strCategoryId = "";
+                    }
+                }
+
+                String name = + selItemsPosition.size() + " is Selected";
+                btn1_opportunity_pitched2.setText(name);
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -3465,7 +3571,7 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
 
 
             SoapPrimitive object = webService.UpdateLead(leadId,str_spinner_source_of_lead, str_spinner_sub_source,str_cust_id, str_fname, str_mname, str_lname, str_mobile_no,
-                    str_email, str_spinner_age_group, str_date_of_birth,str_address,str_flat,str_street,str_laocion ,str_city,str_pincode,str_spinner_occupation,str_spinner_annual_income,str_spinner_other_broker,str_rg_meeting_status,str_spinner_lead_status,strRemark,strCompitator_Name,strProduct,
+                    str_email, str_spinner_age_group, str_date_of_birth,str_address,str_flat,str_street,str_laocion ,str_city,str_pincode,str_spinner_occupation,str_spinner_annual_income,str_spinner_other_broker,str_rg_meeting_status,str_spinner_lead_status,strRemark,strCompitator_Name,selectedCatId,
                     str_spinner_research_type,str_spinner_duration,strPanNo,str_reason,strB_Margin,strB_aum,strB_sip,strB_number
                     ,strB_value,strB_premium,str_next_meeting_date,str_metting_agenda,str_lead_update_log,strFlag,"",empcode,strLastMeetingDate,strLastMeetingUpdate,"1",empcode,"","");
 
@@ -3502,6 +3608,7 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
 
         }
     }
+
 
     //...........................
     public class SaveResearch extends AsyncTask <String, Void, SoapPrimitive> {

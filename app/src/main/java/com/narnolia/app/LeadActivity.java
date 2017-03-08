@@ -790,7 +790,7 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
         if (name == null) {
             return false;
         } else {
-            if (name.length() < 3 ) {
+            if (name.length() < 1 ) {
                 return false;
             } else {
                 return true;

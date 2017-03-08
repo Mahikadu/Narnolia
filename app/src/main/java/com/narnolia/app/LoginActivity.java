@@ -1,12 +1,22 @@
 package com.narnolia.app;
 
+import android.Manifest;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.support.v4.app.ActivityCompat;
+import android.test.mock.MockPackageManager;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -15,12 +25,19 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.narnolia.app.dbconfig.DbHelper;
 import com.narnolia.app.libs.Utils;
+import com.narnolia.app.network.GPSTracker;
 import com.narnolia.app.network.LoginWebService;
 
 import org.ksoap2.serialization.SoapObject;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by Admin on 24-10-2016.
@@ -33,23 +50,53 @@ public class LoginActivity extends AbstractActivity {
     private ProgressDialog progressDialog;
     private SharedPref sharedPref;
     private String responseId;
-    public String email, loginId, mobile, result, status, userId;
+    public String email, loginId, mobile, result, status, userId, strAttendance;
     private String mId, mType, mValue;
+    String versionName = "";
 
 
     EditText username, password;
-    TextView t_username,t_password,forget_password;
+    TextView t_username, t_password, forget_password;
     Button Login;
     private String strPass, strUser;
+
+
+    private static final int REQUEST_CODE_PERMISSION = 2;
+    String mPermission = Manifest.permission.ACCESS_FINE_LOCATION;
+    GPSTracker gps;
+    String lat,lang;
+    PackageManager manager;
+    String currentDate = "";
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_acitivity);
+        try {
+            if (ActivityCompat.checkSelfPermission(this, mPermission)
+                    != MockPackageManager.PERMISSION_GRANTED) {
+
+                ActivityCompat.requestPermissions(this, new String[]{mPermission},
+                        REQUEST_CODE_PERMISSION);
+
+            }
+
+            Calendar c = Calendar.getInstance();
+            // SimpleDateFormat df = new SimpleDateFormat("yyyy-dd-MM HH:mm:ss");
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-dd-MM");
+            currentDate = df.format(c.getTime());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
 
         initView();
+
     }
+
+
 
     private void initView() {
         try {
@@ -59,6 +106,15 @@ public class LoginActivity extends AbstractActivity {
             sharedPref = new SharedPref(mContext);
             utils = new Utils(mContext);
             getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
+            manager = mContext.getPackageManager();
+            PackageInfo info = manager.getPackageInfo(getPackageName(), 0);
+            String packageName = info.packageName;
+            int versionCode = info.versionCode;
+            versionName = info.versionName;
+
+
+
 
             username = (EditText) findViewById(R.id.etUserName);
             password = (EditText) findViewById(R.id.etPassword);
@@ -122,6 +178,7 @@ public class LoginActivity extends AbstractActivity {
                             t_username.setVisibility(View.VISIBLE);
                             t_password.setVisibility(View.VISIBLE);
                         }
+
                         if (TextUtils.isEmpty(strUser)) {
                             //   displayMessage("Enter UserName");
                             t_username.setVisibility(View.VISIBLE);
@@ -130,10 +187,27 @@ public class LoginActivity extends AbstractActivity {
                             t_password.setVisibility(View.VISIBLE);
                         } else {
                             if (isConnectingToInternet()) {
-                                new UserLogin().execute();
-                            } else if ((sharedPref != null && sharedPref.checkForLoginData(mContext, strUser))) {
+                                gps = new GPSTracker(mContext);
+                                if(gps.canGetLocation()){
+
+                                    double latitude = gps.getLatitude();
+                                    lat=Double.toString(latitude);
+                                    double longitude = gps.getLongitude();
+                                    lang=Double.toString(longitude);
+                                    new UserLogin().execute();
+                                    // \n is for new line
+                                   /* Toast.makeText(getApplicationContext(), "Your Location is - \nLat: "
+                                            + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();*/
+                                }else{
+                                    // can't get location
+                                    // GPS or Network is not enabled
+                                    // Ask user to enable GPS/network in settings
+                                    gps.showSettingsAlert();
+                                }
+
+                            } /*else if ((sharedPref != null && sharedPref.checkForLoginData(mContext, strUser))) {
                                 pushActivity(LoginActivity.this, HomeActivity.class, null, true);
-                            } else if (checkForLoginData(mContext, strUser, strPass)) {
+                            } */else if (checkForLoginData(mContext, strUser, strPass)) {
                                 pushActivity(LoginActivity.this, HomeActivity.class, null, true);
                             } else {
                                 displayMessage(getString(R.string.warning_internet));
@@ -174,11 +248,17 @@ public class LoginActivity extends AbstractActivity {
                 mobile = cursor.getString(cursor.getColumnIndex(mContext.getString(R.string.column_mobile)));
                 status = cursor.getString(cursor.getColumnIndex(mContext.getString(R.string.column_status)));
                 userId = cursor.getString(cursor.getColumnIndex(mContext.getString(R.string.column_userId)));
+                strAttendance = cursor.getString(cursor.getColumnIndex(mContext.getString(R.string.column_attendance)));
 
                 String resultData = cursor.getString(cursor.getColumnIndex(mContext.getString(R.string.column_result)));
                 sharedPref.clearPref();
                 sharedPref.setSharedPrefLogin(email, loginId, mobile, resultData, status, userId);
-                result = true;
+                if (strAttendance.equals("P")){
+                    result = true;
+                }else{
+                    result = false;
+                }
+
             }
 
         } catch (Exception e) {
@@ -227,19 +307,11 @@ public class LoginActivity extends AbstractActivity {
 
         @Override
         protected SoapObject doInBackground(Void... params) {
-            PackageManager manager = getPackageManager();
-            String versionName = "";
-            try {
-                PackageInfo info = manager.getPackageInfo(getPackageName(), 0);
-                String packageName = info.packageName;
-                int versionCode = info.versionCode;
-                versionName = info.versionName;
-
-            } catch (Exception e) {
-                // TODO Auto-generated catch block
-            }
             LoginWebService webService = new LoginWebService(mContext);
-            SoapObject object1 = webService.LoginLead(strUser, strPass, "APP", versionName);
+            String attendance="";
+         /*   String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());*/
+
+            SoapObject object1 = webService.LoginLead(strUser, strPass, "APP", versionName,lat,lang,attendance,currentDate);
 
             return object1;
         }
@@ -274,7 +346,10 @@ public class LoginActivity extends AbstractActivity {
 
                     insertDataInDb();
 
-                    pushActivity(LoginActivity.this, HomeActivity.class, null, true);
+                   /* pushActivity(LoginActivity.this, HomeActivity.class, null, true);*/
+                    pushActivity(LoginActivity.this,MyCalendarActivity.class,null,true);
+                    sharedPref.setSharedPrefLoginWithPass(strUser, strPass, status, "App", versionName, lat, lang,"",currentDate);
+
                 }
 
 

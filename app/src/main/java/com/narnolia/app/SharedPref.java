@@ -19,11 +19,16 @@ public class SharedPref {
     private static final String KEY_Designation = "key_designation";
     private static final String KEY_DusraEmail = "key_dusraemail";
     private static final String KEY_DusraMobile = "key_dusramobile";
+    private static final String KEY_UserPass = "key_pass";
     private static final String KEY_Email = "key_email";
-    private static final String KEY_FirstName = "key_firstname";
-    private static final String KEY_LastName = "key_lastname";
+
+    private static final String KEY_versionName = "key_versionName";
+    private static final String KEY_UserFrom = "key_userfrom";
+    private static final String KEY_lat = "key_lat";
+    private static final String KEY_lang = "key_lang";
+    private static final String KEY_attendence = "key_attendence";
+    private static final String KEY_fromDate = "key_fromDate";
     private static final String KEY_LoginId = "key_loginid";
-    private static final String KEY_MiddleName = "key_middlename";
     private static final String KEY_Mobile = "key_mobile";
     private static final String KEY_Result = "key_result";
     private static final String KEY_Status = "key_status";
@@ -48,6 +53,7 @@ public class SharedPref {
         editor.putString(KEY_Result, Result);
         editor.putString(KEY_Status, Status);
         editor.putString(KEY_UserId, UserId);
+
         editor.commit();
     }
 
@@ -133,6 +139,51 @@ public class SharedPref {
         return userId;
     }
 
+    public String getEmail() {
+        String email = sharedPref.getString(KEY_Email, "");
+        return email;
+    }
+    public String getMobile() {
+        String mobile = sharedPref.getString(KEY_Mobile, "");
+        return mobile;
+    }
+
+
+    public String getUserPass() {
+        String pass = sharedPref.getString(KEY_UserPass, "");
+        return pass;
+    }
+
+    public String getStatus() {
+        String status = sharedPref.getString(KEY_Status, "");
+        return status;
+    }
+
+    public String getApp() {
+        String from = sharedPref.getString(KEY_UserFrom, "");
+        return from;
+    }
+    public String getVersion_name() {
+        String version = sharedPref.getString(KEY_versionName, "");
+        return version;
+    }
+    public String getLat() {
+        String lat = sharedPref.getString(KEY_lat, "");
+        return lat;
+    }
+    public String getLang() {
+        String lang = sharedPref.getString(KEY_lang, "");
+        return lang;
+    }
+    public String getAttendence() {
+        String attend = sharedPref.getString(KEY_attendence, "");
+        return attend;
+    }
+    public String getCurrentDate() {
+        String currDate = sharedPref.getString(KEY_fromDate, "");
+        return currDate;
+    }
+
     public void setKeyNodata(boolean isData) {
         editor.putBoolean(KEY_NODATA, isData);
         editor.commit();
@@ -177,5 +228,18 @@ public class SharedPref {
 
     public boolean isSDCardPermission() {
         return sharedPref.getBoolean(IS_SD_CARD_PERMISSION, false);
+    }
+
+    public void setSharedPrefLoginWithPass(String loginId,String pass, String status, String userFrom, String versionName, String lat, String lang, String attendence, String fromDate) {
+        editor.putString(KEY_LoginId, loginId);
+        editor.putString(KEY_UserPass, pass);
+        editor.putString(KEY_Status, status);
+        editor.putString(KEY_UserFrom, userFrom);
+        editor.putString(KEY_versionName, versionName);
+        editor.putString(KEY_lat, lat);
+        editor.putString(KEY_lang, lang);
+        editor.putString(KEY_attendence, attendence);
+        editor.putString(KEY_fromDate, fromDate);
+        editor.commit();
     }
 }

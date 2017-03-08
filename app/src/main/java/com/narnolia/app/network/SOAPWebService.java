@@ -371,5 +371,79 @@ public class SOAPWebService {
         }
 
     }
+    //...............GetcategoryType_data...........
+    public SoapObject GetcategoryType_data(String lead_id) {
+        SoapObject result7 = null;
+
+        try {
+//
+            SoapObject request = new SoapObject(NAMESPACE,
+                    "GetcategoryType_data");// soap object
+
+            request.addProperty("lead_id", lead_id);
+
+            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
+                    SoapEnvelope.VER11);// soap envelop with version
+            envelope.setOutputSoapObject(request); // set request object
+            envelope.dotNet = true;
+
+            HttpTransportSE androidHttpTransport = new HttpTransportSE(Utils.URL);// http
+            // transport
+            // call
+            androidHttpTransport.call(SOAP_ACTION + "GetcategoryType_data",
+                    envelope);
+            Log.i("TAG", "envelope" + envelope);
+
+            // response soap object
+            result7 = (SoapObject) envelope.getResponse();
+            Log.i("TAG", "response :" + result7);
+
+            return result7;
+        } catch (Exception e) {
+
+            e.printStackTrace();
+
+            return null;
+        }
+
+    }
+    //..................Get Message ........
+    public SoapObject GetMessages(String emp,String roleid,String dates) {
+        SoapObject result8 = null;
+
+        try {
+//
+            SoapObject request = new SoapObject(NAMESPACE,
+                    "filldetails");// soap object
+
+            request.addProperty("emp", emp);
+            request.addProperty("roleid",roleid);
+            request.addProperty("dates",dates);
+
+            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
+                    SoapEnvelope.VER11);// soap envelop with version
+            envelope.setOutputSoapObject(request); // set request object
+            envelope.dotNet = true;
+
+            HttpTransportSE androidHttpTransport = new HttpTransportSE(Utils.URL);// http
+            // transport
+            // call
+            androidHttpTransport.call(SOAP_ACTION + "filldetails",
+                    envelope);
+            Log.i("TAG", "envelope" + envelope);
+
+            // response soap object
+            result8 = (SoapObject) envelope.getResponse();
+            Log.i("TAG", "response :" + result8);
+
+            return result8;
+        } catch (Exception e) {
+
+            e.printStackTrace();
+
+            return null;
+        }
+
+    }
 //.........................
 }

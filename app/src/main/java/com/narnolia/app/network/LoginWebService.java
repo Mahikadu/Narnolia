@@ -27,7 +27,7 @@ public class LoginWebService {
         context = con;
     }
 
-    public SoapObject LoginLead(String username, String password, String loginfrom, String version) {
+    public SoapObject LoginLead(String username, String password, String loginfrom, String version, String latitude, String longitude,String attendance,String date) {
         SoapObject result1 = null;
         try {
             SoapObject request1 = new SoapObject("http://tempuri.org/",
@@ -37,6 +37,10 @@ public class LoginWebService {
             request1.addProperty("password", password);
             request1.addProperty("loginfrom", loginfrom);
             request1.addProperty("version", version);
+            request1.addProperty("latitude",latitude);
+            request1.addProperty("longitude",longitude);
+            request1.addProperty("attendance",attendance);
+            request1.addProperty("date",date);
             SoapSerializationEnvelope envelope1 = new SoapSerializationEnvelope(
                     SoapEnvelope.VER11);// soap envelop with version
             envelope1.setOutputSoapObject(request1); // set request object
