@@ -414,10 +414,10 @@ public class SOAPWebService {
         try {
 //
             SoapObject request = new SoapObject(NAMESPACE,
-                    "filldetails");// soap object
+                    "GetMessages");// soap object
 
             request.addProperty("emp", emp);
-            request.addProperty("roleid",roleid);
+            request.addProperty("roleid","2");//roleid
             request.addProperty("dates",dates);
 
             SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
@@ -428,7 +428,7 @@ public class SOAPWebService {
             HttpTransportSE androidHttpTransport = new HttpTransportSE(Utils.URL);// http
             // transport
             // call
-            androidHttpTransport.call(SOAP_ACTION + "filldetails",
+            androidHttpTransport.call(SOAP_ACTION + "GetMessages",
                     envelope);
             Log.i("TAG", "envelope" + envelope);
 

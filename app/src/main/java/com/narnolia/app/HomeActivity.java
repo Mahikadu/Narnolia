@@ -192,7 +192,7 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
 
             break;
             case R.id.linear_notification:
-
+                pushActivity(mContext, NotificationActivity.class, null, true);
                 break;
         }
 
