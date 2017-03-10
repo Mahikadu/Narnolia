@@ -65,7 +65,7 @@ public class NotificationActivity extends AbstractActivity{
             ImageView ivHome = (ImageView) findViewById(R.id.iv_home);
             ImageView ivLogout = (ImageView) findViewById(R.id.iv_logout);
             lvNotification = (ListView) findViewById(R.id.listNotification);
-            tvHeader.setText(mContext.getResources().getString(R.string.header_text_dashboard));
+            tvHeader.setText(mContext.getResources().getString(R.string.Header_text_Notification));
 
             ivHome.setOnClickListener(new View.OnClickListener() {
                 @Override

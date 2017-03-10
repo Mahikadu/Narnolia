@@ -1,10 +1,15 @@
 package com.narnolia.app.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.BaseAdapter;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.narnolia.app.R;
@@ -22,6 +27,7 @@ public class NotificationAdapter extends BaseAdapter {
     private static LayoutInflater inflater = null;
     private GetMessagesModel getMessagesModel;
     private List<GetMessagesModel> getMessagesModels;
+    Animation animation = null;
     public NotificationAdapter(Context mContext,List<GetMessagesModel> getMessagesModels) {
         this.context = mContext;
         this.getMessagesModels = getMessagesModels;
@@ -52,7 +58,7 @@ public class NotificationAdapter extends BaseAdapter {
         if (convertView == null) {
 
             convertView = inflater.inflate(R.layout.message_item_list_notify, null);
-
+            animation = AnimationUtils.loadAnimation(context, R.anim.hyperspace_in);
             viewHolder = new NotificationAdapter.ViewHolder();
 
             viewHolder.message = (TextView) convertView.findViewById(R.id.message);
@@ -63,10 +69,34 @@ public class NotificationAdapter extends BaseAdapter {
         } else {
             viewHolder = (NotificationAdapter.ViewHolder) convertView.getTag();
         }
+        animation = AnimationUtils.loadAnimation(context, R.anim.slide_down);
         getMessagesModel = getMessagesModels.get(position);
         viewHolder.message.setText(getMessagesModel.getMessage());
         viewHolder.btnReceiver.setText(getMessagesModel.getReceiver());
         viewHolder.date.setText(getMessagesModel.getDate());
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+                70, 70);
+        params.setMargins(5,15,0, 0);
+
+
+
+        Log.v("",""+(position % 2 == 0));
+
+        if(position % 2 == 0){
+
+            convertView.setBackgroundColor(Color.parseColor("#696969"));
+
+        }else{
+
+            convertView.setBackgroundColor(Color.parseColor("#808080"));
+        }
+
+
+        animation.setDuration(500);
+
+        convertView.startAnimation(animation);
+
+        animation = null;
 
         return convertView;
     }

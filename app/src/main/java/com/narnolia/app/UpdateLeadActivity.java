@@ -1067,7 +1067,7 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
                         str_rg_meeting_status = rb.getText().toString();
                         int index = group.indexOfChild(radiobutton);
                         if (index == 0) {
-                            new GetCategoryTypeData().execute();
+                          //  new GetCategoryTypeData().execute();
                             connect.setVisibility(View.VISIBLE);
                             notconnect.setVisibility(View.GONE);
 

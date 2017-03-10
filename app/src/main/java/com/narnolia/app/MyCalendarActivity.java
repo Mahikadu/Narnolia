@@ -500,6 +500,7 @@ public class MyCalendarActivity extends AbstractActivity implements OnClickListe
 
 					if(isConnectingToInternet())
 					{
+						gridcell.setBackgroundColor(getResources().getColor(R.color.border_color));
 						/*Intent intent = new Intent(MyCalendarActivity.this, HomeActivity.class);
 						startActivity(intent);*/
 						strAttendance = "P";
