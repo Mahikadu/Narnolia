@@ -84,7 +84,7 @@ public class LoginActivity extends AbstractActivity {
 
             Calendar c = Calendar.getInstance();
             // SimpleDateFormat df = new SimpleDateFormat("yyyy-dd-MM HH:mm:ss");
-            SimpleDateFormat df = new SimpleDateFormat("yyyy-dd-MM");
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
             currentDate = df.format(c.getTime());
 
         } catch (Exception e) {
