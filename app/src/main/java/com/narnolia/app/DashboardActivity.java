@@ -295,45 +295,54 @@ public class DashboardActivity extends AbstractActivity {
                         final String lead__Id = leadInfoModel.getLead_id();
                         // showClose_lead_Dialog();
                         try {
-                            if (leadInfoModel.getLeadstatus().equals("On-boarding")) {
-                                cliked=true;
-                                leadId=lead__Id;
-                                if (cliked){
-                                    AlertDialog.Builder builder1 = new AlertDialog.Builder(mContext);
-                                    builder1.setTitle("Lead");
-                                    builder1.setMessage("Do you want Close Lead Id"+ leadId +"");
-                                    builder1.setCancelable(true);
+                            if (leadInfoModel.getLeadstatus() != null && !leadInfoModel.getLeadstatus().isEmpty()){
+                                if (leadInfoModel.getLeadstatus().equals("On-boarding")) {
+                                    cliked=true;
+                                    leadId=lead__Id;
+                                    if (cliked){
+                                        AlertDialog.Builder builder1 = new AlertDialog.Builder(mContext);
+                                        builder1.setTitle("Lead");
+                                        builder1.setMessage("Do you want Close Lead Id"+ leadId +"");
+                                        builder1.setCancelable(true);
 
-                                    builder1.setPositiveButton(
-                                            "Yes",
-                                            new DialogInterface.OnClickListener() {
-                                                public void onClick(DialogInterface dialog, int id) {
-                                                    // pushActivity(mContext, this, null, true);
-                                                    if (isConnectingToInternet()) {
+                                        builder1.setPositiveButton(
+                                                "Yes",
+                                                new DialogInterface.OnClickListener() {
+                                                    public void onClick(DialogInterface dialog, int id) {
+                                                        // pushActivity(mContext, this, null, true);
+                                                        if (isConnectingToInternet()) {
 
-                                                        new UpdateLeadData().execute();
+                                                            new UpdateLeadData().execute();
 
-                                                    } else {
-                                                        updateInDb();
+                                                        } else {
+                                                            updateInDb();
 
+                                                        }
+                                                        dialog.cancel();
                                                     }
-                                                     dialog.cancel();
-                                                }
-                                            });
-                                    builder1.setNegativeButton(
-                                            "No",
-                                            new DialogInterface.OnClickListener() {
-                                                public void onClick(DialogInterface dialog, int id) {
-                                                    dialog.cancel();
-                                                }
-                                            });
+                                                });
+                                        builder1.setNegativeButton(
+                                                "No",
+                                                new DialogInterface.OnClickListener() {
+                                                    public void onClick(DialogInterface dialog, int id) {
+                                                        dialog.cancel();
+                                                    }
+                                                });
 
-                                    AlertDialog alert12 = builder1.create();
-                                    alert12.show();
+                                        AlertDialog alert12 = builder1.create();
+                                        alert12.show();
 
+                                    }
+
+                                } else{
+                                    Intent intent = new Intent(DashboardActivity.this, UpdateLeadActivity.class);
+
+                                    intent.putExtra("lead__Id", lead__Id);
+
+                                    startActivity(intent);
                                 }
-
-                            } else{
+                            }
+                            else{
                                 Intent intent = new Intent(DashboardActivity.this, UpdateLeadActivity.class);
 
                             intent.putExtra("lead__Id", lead__Id);
@@ -363,6 +372,8 @@ public class DashboardActivity extends AbstractActivity {
         final View dialogViewMaster = li.inflate(R.layout.custom_next_meeting_dialog, null);
         DialogMaster.setView(dialogViewMaster);
         final AlertDialog showMaster = DialogMaster.show();
+        showMaster.setCancelable(false);
+
         try {
             edt_next_meeting_dialog=(EditText)showMaster.findViewById(R.id.edt_next_meeting_dialog);
             edt_next_meeting_agenda=(EditText)showMaster.findViewById(R.id.edt_meeting_agenda_dialog);

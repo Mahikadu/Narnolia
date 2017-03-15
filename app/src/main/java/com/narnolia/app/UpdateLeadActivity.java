@@ -989,22 +989,17 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
                 @Override
                 public void onClick(View view) {
                     cliked=true;
-
-                    if (isConnectingToInternet()) {
-
-                        new UpdateLeadData().execute();
-
-                    } else {
-                        updateInDb();
-                    }
-                    pushActivity(mContext, HomeActivity.class, null, true);
+                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                    validateDetails();
+                   /* pushActivity(mContext, HomeActivity.class, null, true);*/
                 }
             });
             try {
                 //.............date of birth date picker
 
                 final Calendar newCalendar = Calendar.getInstance();
-                dateFormatter = new SimpleDateFormat("MM-dd-yyyy");
+                dateFormatter = new SimpleDateFormat("M-dd-yyyy");
                 datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
 
                     public void onDateSet(DatePicker view, int monthOfYear, int dayOfMonth, int year) {
@@ -1156,7 +1151,7 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
 
         fillUI();
 
-        categoryDetailsModelList = new ArrayList<>();
+       // categoryDetailsModelList = new ArrayList<>();
 
         Cursor cursor = null;
         cursor = Narnolia.dbCon.fetchAlldata(DbHelper.TABLE_M_CATEGORY);
@@ -2369,7 +2364,7 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
 
                     final List<KeyPairBoolData> listArray = new ArrayList<>();
 
-                    for (int i = 0; i < categoryDetailsModelList.size(); i++) {
+                    for (int i = 0; i < selItemsPos.size(); i++) {
                         KeyPairBoolData h = new KeyPairBoolData();
                         h.setId(i + 1);
                         h.setName(spinResearchTypeList.get(i));
@@ -2963,8 +2958,8 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
 
                         if (!root.getProperty("Duration_date").toString().equalsIgnoreCase("anyType{}")) {
                             String duration = root.getProperty("Duration_date").toString();
-                            DateFormat inputDF = new SimpleDateFormat("MM/dd/yyyy");
-                            DateFormat outputDF = new SimpleDateFormat("MM/dd/yyyy");
+                            DateFormat inputDF = new SimpleDateFormat("M/dd/yyyy");
+                            DateFormat outputDF = new SimpleDateFormat("M/dd/yyyy");
                             Date date = inputDF.parse(duration);
                             str_duration_date = outputDF.format(date);
                         } else {
@@ -3149,8 +3144,8 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
 
                         if (!root.getProperty("dob").toString().equalsIgnoreCase("anyType{}")) {
                             String Dob = root.getProperty("dob").toString();
-                            DateFormat inputDF = new SimpleDateFormat("MM/dd/yyyy");
-                            DateFormat outputDF = new SimpleDateFormat("MM/dd/yyyy");
+                            DateFormat inputDF = new SimpleDateFormat("M/dd/yyyy");
+                            DateFormat outputDF = new SimpleDateFormat("M/dd/yyyy");
                             Date date = inputDF.parse(Dob);
                             str_date_of_birth = outputDF.format(date);
                         } else {
@@ -3196,8 +3191,8 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
 
                         if (!root.getProperty("last_meeting_date").toString().equalsIgnoreCase("anyType{}")) {
                             String lastmeeting = root.getProperty("last_meeting_date").toString();
-                            DateFormat inputDF = new SimpleDateFormat("MM/dd/yyyy");
-                            DateFormat outputDF = new SimpleDateFormat("MM/dd/yyyy");
+                            DateFormat inputDF = new SimpleDateFormat("M/dd/yyyy");
+                            DateFormat outputDF = new SimpleDateFormat("M/dd/yyyy");
                             Date date = inputDF.parse(lastmeeting);
                             strLastMeetingDate = outputDF.format(date);
 
@@ -3321,8 +3316,8 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
 
                         if (!root.getProperty("next_meeting_date").toString().equalsIgnoreCase("anyType{}")) {
                             String next_meeting = root.getProperty("next_meeting_date").toString();
-                            DateFormat inputDF = new SimpleDateFormat("MM/dd/yyyy");
-                            DateFormat outputDF = new SimpleDateFormat("MM/dd/yyyy");
+                            DateFormat inputDF = new SimpleDateFormat("M/dd/yyyy");
+                            DateFormat outputDF = new SimpleDateFormat("M/dd/yyyy");
                             Date date = inputDF.parse(next_meeting);
                             str_next_meeting_date = outputDF.format(date);
 
