@@ -600,7 +600,7 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
             btn_cancel.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    btn1_opportunity_pitched2.setText("Opportunity Pitched");
+                    btn1_opportunity_pitched2.setText(getString(R.string.prospectiveproduct1));
                     uncheck();
                 }
             });
@@ -1124,7 +1124,7 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
             showProduct.dismiss();
         }else{
 
-            btn1_opportunity_pitched2.setText("Opportunity Pitched");
+            btn1_opportunity_pitched2.setText(getString(R.string.prospectiveproduct1));
             showProduct.dismiss();
         }
     }

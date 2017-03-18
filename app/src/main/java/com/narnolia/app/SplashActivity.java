@@ -47,7 +47,7 @@ public class SplashActivity extends AbstractActivity implements Runnable {
 
     private void initView() {
         try {
-            mContext = this;
+            mContext = SplashActivity.this;
 
 
             progressDialog = new ProgressDialog(mContext);

@@ -130,7 +130,7 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
             ivHome.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    finish();
+//                    finish();
                 }
             });
 
@@ -595,7 +595,7 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
                     if (root.getProperty("Last_meeting_date") != null) {
 
                         if (!root.getProperty("Last_meeting_date").toString().equalsIgnoreCase("anyType{}")) {
-                            String lastmeeting = root.getProperty("last_meeting_date").toString();
+                            String lastmeeting = root.getProperty("Last_meeting_date").toString();
                             DateFormat inputDF = new SimpleDateFormat("M/dd/yyyy");
                             DateFormat outputDF = new SimpleDateFormat("M/dd/yyyy");
                             Date date = inputDF.parse(lastmeeting);
