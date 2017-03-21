@@ -18,8 +18,10 @@ import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.test.mock.MockPackageManager;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -142,6 +144,14 @@ public class LoginActivity extends AbstractActivity {
                     }
                 }
             });
+
+            username.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View view, MotionEvent motionEvent) {
+                    username.setFocusableInTouchMode(true);
+                    return false;
+                }
+            });
             password.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -158,11 +168,50 @@ public class LoginActivity extends AbstractActivity {
                     if (password.length()>0){
                         t_password.setVisibility(View.GONE);
                     }
+                    if (editable.length()>0){
+                        password.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_visibility_24dp, 0);
+                    }
+                    if (editable.length()==0){
+                        password.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+                    }
+                    password.setOnTouchListener(new View.OnTouchListener() {
+                        @Override
+                        public boolean onTouch(View v, MotionEvent event) {
+                            password.setFocusableInTouchMode(true);
+
+                            final int DRAWABLE_LEFT = 0;
+                            final int DRAWABLE_TOP = 1;
+                            final int DRAWABLE_RIGHT = 2;
+                            final int DRAWABLE_BOTTOM = 3;
+                            if (password.getText().toString().length() > 0 && !TextUtils.isEmpty(password.getText().toString().trim())) {
+                                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                                    if (event.getRawX() >= (password.getRight() - password.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
+                                        password.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                                        password.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_visibility_off_24dp, 0);
+                                    }
+                                } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                                    if (event.getRawX() >= (password.getRight() - password.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
+                                        password.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                                        password.setSelection(password.length());
+                                    }
+                                }
+                            }
+
+                            return false;
+                        }
+
+
+                    });
                 }
             });
 
-
-
+            password.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View view, MotionEvent motionEvent) {
+                    password.setFocusableInTouchMode(true);
+                    return false;
+                }
+            });
 
             Login = (Button) findViewById(R.id.buttonLogin);
             Login.setOnClickListener(new View.OnClickListener() {

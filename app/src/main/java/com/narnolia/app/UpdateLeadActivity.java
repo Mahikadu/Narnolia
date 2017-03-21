@@ -77,11 +77,11 @@ import java.util.regex.Pattern;
  * Created by USER on 10/24/2016.
  */
 
-public class UpdateLeadActivity extends AbstractActivity  implements CompoundButton.OnCheckedChangeListener{
+public class UpdateLeadActivity extends AbstractActivity implements CompoundButton.OnCheckedChangeListener {
 
     private Context mContext;
     private LeadInfoModel leadInfoModel;
-    private List<LeadInfoModel>leadInfoModelList;
+    private List<LeadInfoModel> leadInfoModelList;
     private Map<String, List<String>> spinPincodeArray;
     private List<String> spinCityArray;
     private List<String> selItemsPosition;
@@ -91,15 +91,15 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
     private String responseId;
     public Utils utils;
     String lead__Id;
-    String strStages,strFlag;
-    boolean cliked=false;
+    String strStages, strFlag;
+    boolean cliked = false;
     boolean uncheckall = false;
     ClientDetailsModel clientDetailsModel;
-    List<ClientDetailsModel>clientInfoModelList;
+    List<ClientDetailsModel> clientInfoModelList;
     private List<String> spinClientIDList;
     private ArrayAdapter<String> adapterClienId;
     String[] strClientIDArray;
-    String sourceString,subsource,ClinetId;
+    String sourceString, subsource, ClinetId;
     SpinnerListener spineListener;
 
     boolean flag = false;
@@ -109,67 +109,68 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
     //..................................................................
     private String strCreatedfrom, strAppVersion, strAppdt, strAllocated_userid,
             strCompitator_Name, strProduct, strRemark,
-            strPanNo, strB_Margin, strB_aum, strB_sip, strB_number, strB_value, strB_premium,strEmpCode,
-            strCreatedby, strCreateddt, strUpdateddt, strUpdatedby
-            ,strBusiness_opp,strLastMeetingDate,strLastMeetingUpdate,str_duration_date;
+            strPanNo, strB_Margin, strB_aum, strB_sip, strB_number, strB_value, strB_premium, strEmpCode,
+            strCreatedby, strCreateddt, strUpdateddt, strUpdatedby, strBusiness_opp, strLastMeetingDate, strLastMeetingUpdate, str_duration_date;
     //.......................................................................
-    EditText customer_id,fname,mname,lname, mobileno, email, date_of_birth, address, flat, street, location,next_metting_date, metting_agenda, lead_update_log,reason,
-            margin,aum,sip,number,value,premium,remark,compitator,product,last_meeting_dt,last_meeting_update,pan_no,duration;
-    AutoCompleteTextView editCity,autoPincode;
-    String lead_id_info,leadId,leadString3;
+    EditText customer_id, fname, mname, lname, mobileno, email, date_of_birth, address, flat, street, location, next_metting_date, metting_agenda, lead_update_log, reason,
+            margin, aum, sip, number, value, premium, remark, compitator, product, last_meeting_dt, last_meeting_update, pan_no, duration;
+    AutoCompleteTextView editCity, autoPincode;
+    String lead_id_info, leadId, leadString3;
     Spinner spinner_lead_name, spinner_source_of_lead, spinner_sub_source, spinner_age_group,
-            spinner_occupation, spinner_annual_income, spinner_other_broker,spinner_lead_status,spinner_duration,spinner_custID;
-    boolean selected=false;
-    MultiSpinnerSearch spinner_research_type ;
-    TextView tv_lead_name, tv_source_of_lead, tv_sub_source, tv_fname,tv_mname,tv_lname, tv_mobile_no, tv_email,
+            spinner_occupation, spinner_annual_income, spinner_other_broker, spinner_lead_status, spinner_duration, spinner_custID;
+    boolean selected = false;
+    MultiSpinnerSearch spinner_research_type;
+    TextView tv_lead_name, tv_source_of_lead, tv_sub_source, tv_fname, tv_mname, tv_lname, tv_mobile_no, tv_email,
             tv_age_group, tv_date_of_birth, tv_address, tv_flat, tv_street, tv_location, tv_city, tv_pincode,
-            tv_occupation, tv_annual_income, tv_other_broker, tv_meeting_status, tv_meeting_agenda, tv_lead_update_log,tv_lead_status,tv_pan_no;
+            tv_occupation, tv_annual_income, tv_other_broker, tv_meeting_status, tv_meeting_agenda, tv_lead_update_log, tv_lead_status, tv_pan_no;
     RadioGroup rg_meeting_status;
     RadioButton rb_contact, rb_not_contact;
-    LinearLayout connect,notconnect,linear_non_salaried,linear_remark,linear_competitor,linear_research,linear_lead_details_hidden,linear_customer_id,linear_pan_no,linear_duration,linear_spin_customer_id;
+    LinearLayout connect, notconnect, linear_non_salaried, linear_remark, linear_competitor, linear_research, linear_lead_details_hidden, linear_customer_id, linear_pan_no, linear_duration, linear_spin_customer_id;
     //.........Edit Text Strings
-    String str_cust_id,str_fname,str_mname,str_lname,str_mobile_no,str_email,str_date_of_birth,str_address,str_flat,str_street,str_laocion,str_city,
-            str_pincode,str_next_meeting_date,str_metting_agenda,str_lead_update_log,str_reason,strCustomer_id_name,strLeadUpdateLog;
+    String str_cust_id, str_fname, str_mname, str_lname, str_mobile_no, str_email, str_date_of_birth, str_address, str_flat, str_street, str_laocion, str_city,
+            str_pincode, str_next_meeting_date, str_metting_agenda, str_lead_update_log, str_reason, strCustomer_id_name, strLeadUpdateLog;
     //........Spineer Strings
-    String str_spinner_lead_name, str_spinner_source_of_lead, str_spinner_sub_source, str_spinner_age_group,
-            str_spinner_occupation,str_spinner_annual_income, str_spinner_other_broker,str_spinner_lead_status,str_spinner_research_type = "",str_spinner_duration;
+    String str_spinner_lead_name, str_spinner_source_of_lead, str_spinner_sub_source, str_spinner_age_group, str_spinner_research_type,
+            str_spinner_occupation, str_spinner_annual_income, str_spinner_other_broker, str_spinner_lead_status, str_spinner_duration;
+
     //......Radio Group String
     String str_rg_meeting_status;
-    Button bt_update_lead, bt_close_lead,btn1_opportunity_pitched2;
-    private DatePickerDialog datePickerDialog,datePickerDialog1,datePickerDialog2;   //date picker declare
+    Button bt_update_lead, bt_close_lead, btn1_opportunity_pitched2;
+    private DatePickerDialog datePickerDialog, datePickerDialog1, datePickerDialog2;   //date picker declare
     private SimpleDateFormat dateFormatter;      //date format declare
     private List<String> spinAgeGroupArray = new ArrayList<String>(); //age group array
-    String spinOccupationArray[] = {"Select Occupation","Salaried", "Non-Salaried"};//Occupation array
-    String spinAnnualInacomeArray[]={"Select Annual Income","0-5,00,000", "5,00,000-10,00,000","10,00,000-25,00,00","25,00,000 and above"};
-    String spinOtherBrokersArray[]={"Select Other Brokers Dealt with","TOP 20","Others","None"};//Other Brokers array
-    String spinDurationArray[]={"Select Duration","1 month","3 month","6 month","Others"}; //duration Array
-    String spinLeadStatusArray[]={"Select Lead Status","Hot","Warm","Cold","Not Intersted","Wrong Contact Details","Lost","Lost to Competitor","Research Servicing","On-boarding"};
+    String spinOccupationArray[] = {"Select Occupation", "Salaried", "Non-Salaried"};//Occupation array
+    String spinAnnualInacomeArray[] = {"Select Annual Income", "0-5,00,000", "5,00,000-10,00,000", "10,00,000-25,00,00", "25,00,000 and above"};
+    String spinOtherBrokersArray[] = {"Select Other Brokers Dealt with", "TOP 20", "Others", "None"};//Other Brokers array
+    String spinDurationArray[] = {"Select Duration", "1 month", "3 month", "6 month", "Others"}; //duration Array
+    String spinLeadStatusArray[] = {"Select Lead Status", "Hot", "Warm", "Cold", "Not Intersted", "Wrong Contact Details", "Lost", "Lost to Competitor", "Research Servicing", "On-boarding"};
     private List<String> spinSourceLeadList;
     private List<String> spinSubSourceLeadList;
     private List<String> spinLeadNameList;
     private List<String> spinResearchTypeList;
-    String [] strResearchArray=null;
-    private List<String> spinOccupationList=new ArrayList<String>(Arrays.asList(spinOccupationArray));
-    private List<String>spinAnnualIncomeList=new ArrayList<String>(Arrays.asList(spinAnnualInacomeArray));
-    private List<String>spinOtherBrokerList=new ArrayList<String>(Arrays.asList(spinOtherBrokersArray));
-    private List<String>spinDurationList=new ArrayList<String>(Arrays.asList(spinDurationArray));
-    private List<String>spinLeadStatusList=new ArrayList<String>(Arrays.asList(spinLeadStatusArray));
+    private List<KeyPairBoolData> researchListArray;
+    String[] strResearchArray = null;
+    private List<String> spinOccupationList = new ArrayList<String>(Arrays.asList(spinOccupationArray));
+    private List<String> spinAnnualIncomeList = new ArrayList<String>(Arrays.asList(spinAnnualInacomeArray));
+    private List<String> spinOtherBrokerList = new ArrayList<String>(Arrays.asList(spinOtherBrokersArray));
+    private List<String> spinDurationList = new ArrayList<String>(Arrays.asList(spinDurationArray));
+    private List<String> spinLeadStatusList = new ArrayList<String>(Arrays.asList(spinLeadStatusArray));
     String[] strLeadArray = null;
     String[] strSubLeadArray = null;
-    String[] strAgeArray=null;
+    String[] strAgeArray = null;
     String[] strLeadNameArray;
-    private String empcode,fullname;
+    private String empcode, fullname;
     private SharedPref sharedPref;
     private TextView admin;
     private ArrayAdapter<String> adapter8 = null;
 
     AlertDialog.Builder DialogProduct;
     AlertDialog showProduct;
-    int icount =0;
+    int icount = 0;
     int id;
 
     private LinearLayout productLayout;
-    private  CheckBox checkbox;
+    private CheckBox checkbox;
     String selectedCatId = "";
     String selectedCatIdpopulate = "";
     String str_CheckedItems;
@@ -195,6 +196,7 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
         leadInfoModelList = new ArrayList<LeadInfoModel>();
         spinLeadNameList = new ArrayList<>();
         spinClientIDList = new ArrayList<>();
+        spinResearchTypeList = new ArrayList<>();
         fetchDataOfLeadDetails();
 
         sharedPref = new SharedPref(UpdateLeadActivity.this);
@@ -208,11 +210,13 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
         initView();
 
     }
+
     private void hide_keyboard(Context context, View view) {
         InputMethodManager inputManager = (InputMethodManager)
                 context.getSystemService(Context.INPUT_METHOD_SERVICE);
         inputManager.toggleSoftInput(0, 0);
     }
+
     private void initView() {
 
         try {
@@ -229,10 +233,10 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
             autoPincode = (AutoCompleteTextView) findViewById(R.id.edt_pincode);
 
             //............Edit Text Ref
-            customer_id=(EditText)findViewById(R.id.edt_cust_id);
+            customer_id = (EditText) findViewById(R.id.edt_cust_id);
             fname = (EditText) findViewById(R.id.edt_fname);
-            mname=(EditText)findViewById(R.id.edt_mname);
-            lname=(EditText)findViewById(R.id.edt_lname);
+            mname = (EditText) findViewById(R.id.edt_mname);
+            lname = (EditText) findViewById(R.id.edt_lname);
             mobileno = (EditText) findViewById(R.id.edt_mob_no);
             email = (EditText) findViewById(R.id.edt_email);
             date_of_birth = (EditText) findViewById(R.id.edt_date_of_birth);
@@ -243,22 +247,22 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
             next_metting_date = (EditText) findViewById(R.id.edt_next_meeting);
             metting_agenda = (EditText) findViewById(R.id.edt_meeting_agenda);
             lead_update_log = (EditText) findViewById(R.id.edt_lead_update_log);
-            reason=(EditText)findViewById(R.id.edt_reason);  //........when radio button is not connected
+            reason = (EditText) findViewById(R.id.edt_reason);  //........when radio button is not connected
             //.....inside table edit text
-            margin=(EditText)findViewById(R.id.edt_margin);
-            aum=(EditText)findViewById(R.id.edt_aum);
-            sip=(EditText)findViewById(R.id.edt_sip);
-            number=(EditText)findViewById(R.id.edt_number);
-            value=(EditText)findViewById(R.id.edt_value);
-            premium=(EditText)findViewById(R.id.edt_premium);
+            margin = (EditText) findViewById(R.id.edt_margin);
+            aum = (EditText) findViewById(R.id.edt_aum);
+            sip = (EditText) findViewById(R.id.edt_sip);
+            number = (EditText) findViewById(R.id.edt_number);
+            value = (EditText) findViewById(R.id.edt_value);
+            premium = (EditText) findViewById(R.id.edt_premium);
             //......spinner slection not intersted
-            remark=(EditText)findViewById(R.id.edt_remark);
-            compitator=(EditText)findViewById(R.id.edt_competitor);
-            product=(EditText)findViewById(R.id.edt_product);
-            last_meeting_dt=(EditText)findViewById(R.id.edt_last_meeting);
-            last_meeting_update=(EditText)findViewById(R.id.edt_meeting_update);
-            pan_no=(EditText)findViewById(R.id.edt_pan_no);
-            duration=(EditText)findViewById(R.id.edt_duration);
+            remark = (EditText) findViewById(R.id.edt_remark);
+            compitator = (EditText) findViewById(R.id.edt_competitor);
+            product = (EditText) findViewById(R.id.edt_product);
+            last_meeting_dt = (EditText) findViewById(R.id.edt_last_meeting);
+            last_meeting_update = (EditText) findViewById(R.id.edt_meeting_update);
+            pan_no = (EditText) findViewById(R.id.edt_pan_no);
+            duration = (EditText) findViewById(R.id.edt_duration);
             /*tv_prospective_products2 = (TextView) findViewById(R.id.txt1_prospective_product2);
             tv_prospective_products2.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -282,7 +286,9 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
 
                 @Override
                 public void afterTextChanged(Editable editable) {
-                    if (fname.length()>0){fname.setError(null);}
+                    if (fname.length() > 0) {
+                        fname.setError(null);
+                    }
                 }
             });
 
@@ -298,7 +304,9 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
 
                 @Override
                 public void afterTextChanged(Editable editable) {
-                    if (lname.length()>0){lname.setError(null);}
+                    if (lname.length() > 0) {
+                        lname.setError(null);
+                    }
                 }
             });
             editCity.addTextChangedListener(new TextWatcher() {
@@ -313,8 +321,10 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
 
                 @Override
                 public void afterTextChanged(Editable editable) {
-                    if (editCity.length()>0){editCity
-                            .setError(null);}
+                    if (editCity.length() > 0) {
+                        editCity
+                                .setError(null);
+                    }
                 }
             });
             //.........................pan no validation......
@@ -328,35 +338,36 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
                 public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 //
                     pan_no.setFilters(new InputFilter[]{new InputFilter.LengthFilter(10)});
-                    if (charSequence.length()==0&& charSequence.length()<=4 ||charSequence.length()==4){
+                    if (charSequence.length() == 0 && charSequence.length() <= 4 || charSequence.length() == 4) {
                         pan_no.setInputType(InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS);
-                        pan_no.setFilters( new InputFilter[] {
+                        pan_no.setFilters(new InputFilter[]{
                                 new InputFilter.AllCaps()});
                     }
-                    if (charSequence.length()==5&& charSequence.length()<=8||charSequence.length()==8){
+                    if (charSequence.length() == 5 && charSequence.length() <= 8 || charSequence.length() == 8) {
                         pan_no.setInputType(InputType.TYPE_CLASS_NUMBER);
                     }
-                    if (charSequence.length()==9){
+                    if (charSequence.length() == 9) {
                         pan_no.setInputType(InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS);
-                        pan_no.setFilters( new InputFilter[] {
+                        pan_no.setFilters(new InputFilter[]{
                                 new InputFilter.AllCaps()});
 
                     }
-                    if (charSequence.length()==0){
+                    if (charSequence.length() == 0) {
                         pan_no.setError(null);
                     }
                 }
+
                 @Override
                 public void afterTextChanged(Editable editable) {
                     try {
                         View focusView = null;
-                        if (editable.toString().length() > 0 && editable.toString().trim().length() <= 11 ){
+                        if (editable.toString().length() > 0 && editable.toString().trim().length() <= 11) {
                             if (pan_no.getText().toString().contains(" ")) {
                                 pan_no.setError("White space is not allowed..!");
                                 focusView = pan_no;
                                 focusView.requestFocus();
                                 return;
-                            }else {
+                            } else {
                                 pan_no.setError(null);
                             }
                         }
@@ -369,16 +380,16 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
             //.............TextView Ref
             tv_lead_name = (TextView) findViewById(R.id.txt_lead_name);
             tv_source_of_lead = (TextView) findViewById(R.id.txt_source_of_lead);
-            tv_source_of_lead.setText(Html.fromHtml("<font color=\"red\">*</font>"+"<font color=\"black\">Source of Lead</font>\n"));
+            tv_source_of_lead.setText(Html.fromHtml("<font color=\"red\">*</font>" + "<font color=\"black\">Source of Lead</font>\n"));
             tv_sub_source = (TextView) findViewById(R.id.txt_sub_source);
-            tv_sub_source.setText(Html.fromHtml("<font color=\"red\">*</font>"+"<font color=\"black\">Sub Source</font>\n"));
+            tv_sub_source.setText(Html.fromHtml("<font color=\"red\">*</font>" + "<font color=\"black\">Sub Source</font>\n"));
             tv_fname = (TextView) findViewById(R.id.txt_fname);
-            tv_fname.setText(Html.fromHtml("<font color=\"red\">*</font>"+"<font color=\"black\">First Name</font>\n"));
+            tv_fname.setText(Html.fromHtml("<font color=\"red\">*</font>" + "<font color=\"black\">First Name</font>\n"));
             tv_mname = (TextView) findViewById(R.id.txt_mname);
             tv_lname = (TextView) findViewById(R.id.txt_lname);
-            tv_lname.setText(Html.fromHtml("<font color=\"red\">*</font>"+"<font color=\"black\">Last Name</font>\n"));
+            tv_lname.setText(Html.fromHtml("<font color=\"red\">*</font>" + "<font color=\"black\">Last Name</font>\n"));
             tv_mobile_no = (TextView) findViewById(R.id.txt_mob_no);
-            tv_mobile_no.setText(Html.fromHtml("<font color=\"red\">*</font>"+"<font color=\"black\">Mobile Number</font>\n"));
+            tv_mobile_no.setText(Html.fromHtml("<font color=\"red\">*</font>" + "<font color=\"black\">Mobile Number</font>\n"));
             tv_email = (TextView) findViewById(R.id.txt_email);
             tv_age_group = (TextView) findViewById(R.id.txt_age_group);
             tv_date_of_birth = (TextView) findViewById(R.id.txt_date_of_birth);
@@ -387,70 +398,86 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
             tv_street = (TextView) findViewById(R.id.txt_street);
             tv_location = (TextView) findViewById(R.id.txt_location);
             tv_city = (TextView) findViewById(R.id.txt_city);
-            tv_city.setText(Html.fromHtml("<font color=\"red\">*</font>"+"<font color=\"black\">City</font>\n"));
+            tv_city.setText(Html.fromHtml("<font color=\"red\">*</font>" + "<font color=\"black\">City</font>\n"));
             tv_pincode = (TextView) findViewById(R.id.txt_pincode);
-            tv_pincode.setText(Html.fromHtml("<font color=\"red\">*</font>"+"<font color=\"black\">Pincode</font>\n"));
+            tv_pincode.setText(Html.fromHtml("<font color=\"red\">*</font>" + "<font color=\"black\">Pincode</font>\n"));
             tv_occupation = (TextView) findViewById(R.id.txt_occupation);
             tv_annual_income = (TextView) findViewById(R.id.txt_annual_income);
             tv_other_broker = (TextView) findViewById(R.id.txt_other_broker);
             tv_meeting_status = (TextView) findViewById(R.id.txt_meeting_status);
-            tv_meeting_status.setText(Html.fromHtml("<font color=\"red\">*</font>"+"<font color=\"black\">Metting Status</font>\n"));
+            tv_meeting_status.setText(Html.fromHtml("<font color=\"red\">*</font>" + "<font color=\"black\">Metting Status</font>\n"));
             tv_meeting_agenda = (TextView) findViewById(R.id.txt_meeting_agenda);
             tv_lead_update_log = (TextView) findViewById(R.id.txt_lead_update_log);
-            tv_lead_status=(TextView)findViewById(R.id.tvLeadStatus_connected);
-            tv_lead_status.setText(Html.fromHtml("<font color=\"red\">*</font>"+"<font color=\"black\">Lead Status</font>\n"));
-            tv_pan_no=(TextView)findViewById(R.id.txt_pan_no);
-            tv_pan_no.setText(Html.fromHtml("<font color=\"red\">*</font>"+"<font color=\"black\">Pan No</font>\n"));
+            tv_lead_status = (TextView) findViewById(R.id.tvLeadStatus_connected);
+            tv_lead_status.setText(Html.fromHtml("<font color=\"red\">*</font>" + "<font color=\"black\">Lead Status</font>\n"));
+            tv_pan_no = (TextView) findViewById(R.id.txt_pan_no);
+            tv_pan_no.setText(Html.fromHtml("<font color=\"red\">*</font>" + "<font color=\"black\">Pan No</font>\n"));
 
             //....................spinner Ref........
             spinner_lead_name = (Spinner) findViewById(R.id.spin_lead_name);
             spinner_source_of_lead = (Spinner) findViewById(R.id.spin_source_of_lead);
             spinner_sub_source = (Spinner) findViewById(R.id.spin_sub_source);
-            spinner_custID=(Spinner)findViewById(R.id.spin2_cust_id);
+            spinner_custID = (Spinner) findViewById(R.id.spin2_cust_id);
             spinner_age_group = (Spinner) findViewById(R.id.spin_age_group);
             spinner_occupation = (Spinner) findViewById(R.id.spin_occupation);
             spinner_annual_income = (Spinner) findViewById(R.id.spin_annual_income);
             spinner_other_broker = (Spinner) findViewById(R.id.spin_other_broker);
-            spinner_lead_status=(Spinner)findViewById(R.id.spin_lead_status);
-            spinner_duration=(Spinner)findViewById(R.id.spin_duration);
-            spinner_research_type=(MultiSpinnerSearch) findViewById(R.id.spin_research_type);
-
-
+            spinner_lead_status = (Spinner) findViewById(R.id.spin_lead_status);
+            spinner_duration = (Spinner) findViewById(R.id.spin_duration);
+            spinner_research_type = (MultiSpinnerSearch) findViewById(R.id.spin_research_type);
 
 
             //.................radio group layout......
-            connect=(LinearLayout)findViewById(R.id.linear_meeting_status_connected);
-            notconnect=(LinearLayout)findViewById(R.id.linear_meeting_status_not_connected);
-            linear_lead_details_hidden=(LinearLayout)findViewById(R.id.linear_lead_details_hidden);
+            connect = (LinearLayout) findViewById(R.id.linear_meeting_status_connected);
+            notconnect = (LinearLayout) findViewById(R.id.linear_meeting_status_not_connected);
+            linear_lead_details_hidden = (LinearLayout) findViewById(R.id.linear_lead_details_hidden);
             //...............intenal linear layouts
-            linear_non_salaried=(LinearLayout)findViewById(R.id.linear_non_salaried);
-            linear_remark=(LinearLayout)findViewById(R.id.linear_remark);
-            linear_competitor=(LinearLayout)findViewById(R.id.linear_competitor);
-            linear_research=(LinearLayout)findViewById(R.id.linear_research);
-            linear_customer_id=(LinearLayout)findViewById(R.id.linear_cust_id);
-            linear_pan_no=(LinearLayout)findViewById(R.id.linear_pan_no);
-            linear_duration=(LinearLayout)findViewById(R.id.linear_duration);
-            linear_spin_customer_id=(LinearLayout)findViewById(R.id.linear1_spin_cust_id);
+            linear_non_salaried = (LinearLayout) findViewById(R.id.linear_non_salaried);
+            linear_remark = (LinearLayout) findViewById(R.id.linear_remark);
+            linear_competitor = (LinearLayout) findViewById(R.id.linear_competitor);
+            linear_research = (LinearLayout) findViewById(R.id.linear_research);
+            linear_customer_id = (LinearLayout) findViewById(R.id.linear_cust_id);
+            linear_pan_no = (LinearLayout) findViewById(R.id.linear_pan_no);
+            linear_duration = (LinearLayout) findViewById(R.id.linear_duration);
+            linear_spin_customer_id = (LinearLayout) findViewById(R.id.linear1_spin_cust_id);
+
+
+            spineListener = new SpinnerListener() {
+                @Override
+                public void onItemsSelected(List<KeyPairBoolData> items) {
+                    str_spinner_research_type = "";
+                    for (int i = 0; i < items.size(); i++) {
+                        if (items.get(i).isSelected()) {
+                            Log.i("TAG item", i + " : " + items.get(i).getName() + " : " + items.get(i).isSelected());
+                            str_spinner_research_type += items.get(i).getId() + "#";
+//                            str_spinner_research_type=i+items.get(i).getName()+items.get(i).isSelected();
+                        }
+                    }
+                    str_spinner_research_type = str_spinner_research_type.length() > 0 ? str_spinner_research_type.substring(0, str_spinner_research_type.length() - 1) : "";
+
+                }
+            };
+
 
             //spinner OnItemSelectedListener
             spinner_lead_name.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-                    if(position==0){
+                    if (position == 0) {
                         linear_lead_details_hidden.setVisibility(View.GONE);
 
                     }
-                    if (position != 0){
+                    if (position != 0) {
 
-                        if ( strLeadNameArray != null && strLeadNameArray.length > 0){
+                        if (strLeadNameArray != null && strLeadNameArray.length > 0) {
                             String leadData = spinner_lead_name.getSelectedItem().toString();
-                            String [] strLead = leadData.split("\\(");
-                            leadId = strLead[1].substring(0,strLead[1].length()-1);
+                            String[] strLead = leadData.split("\\(");
+                            leadId = strLead[1].substring(0, strLead[1].length() - 1);
 
                             new FillDetails().execute();
 
-                          //  new SaveCategory().execute();
+                            //  new SaveCategory().execute();
 
                         }
                     }
@@ -467,30 +494,29 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
             spinner_source_of_lead.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    if ( strLeadArray != null && strLeadArray.length > 0){
+                    if (strLeadArray != null && strLeadArray.length > 0) {
                         str_spinner_source_of_lead = spinner_source_of_lead.getSelectedItem().toString();
 
                         sourceString = parent.getItemAtPosition(position).toString();
 
-                        if (sourceString != null && sourceString.length() > 0 &&subsource!=null&& subsource.length() > 0) {
+                        if (sourceString != null && sourceString.length() > 0 && subsource != null && subsource.length() > 0) {
                             try {
-                                if (sourceString.equalsIgnoreCase("In- house Leads (Existing)")&& subsource.equals("Existing Client")){
+                                if (sourceString.equalsIgnoreCase("In- house Leads (Existing)") && subsource.equals("Existing Client")) {
 
                                     getAllClientData();//.............Client data method
                                     // set client ID value
-                                    if (selected){
-                                        if (adapterClienId != null && !adapterClienId.isEmpty()){
+                                    if (selected) {
+                                        if (adapterClienId != null && !adapterClienId.isEmpty()) {
                                             if (leadInfoModel.getCustomer_id_name() != null && leadInfoModel.getCustomer_id_name().trim().length() > 0) {
                                                 int clientIdPos = adapterClienId.getPosition(leadInfoModel.getCustomer_id_name());
                                                 spinner_custID.setSelection(clientIdPos);
                                             }
-                                        }}
+                                        }
+                                    }
                                     linear_customer_id.setVisibility(View.GONE);
                                     linear_spin_customer_id.setVisibility(View.VISIBLE);
 
-                                }
-                                else
-                                {
+                                } else {
                                     fname.setEnabled(true);
 
 
@@ -502,7 +528,7 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
                                 e.printStackTrace();
                             }
                             try {
-                                if (sourceString != null && sourceString.length() > 0&&subsource!=null&&subsource.length()>0) {
+                                if (sourceString != null && sourceString.length() > 0 && subsource != null && subsource.length() > 0) {
                                     if (!sourceString.equalsIgnoreCase("In- house Leads (Existing)") && !subsource.equals("Existing Client")) {
                                         // fname.setText(leadInfoModel.getFirstname());
                                         //populateData(leadInfoModel);
@@ -521,14 +547,12 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
                             try {
                                 if (sourceString.equalsIgnoreCase("Client Reference")) {
                                     linear_customer_id.setVisibility(View.VISIBLE);
-                                }else if (sourceString.equalsIgnoreCase("In- house Leads (Existing)")&&!subsource.equals("Existing Client"))
-                                {
+                                } else if (sourceString.equalsIgnoreCase("In- house Leads (Existing)") && !subsource.equals("Existing Client")) {
                                     linear_customer_id.setVisibility(View.VISIBLE);
 
-                                }else if (sourceString.equalsIgnoreCase("In- house Leads (New)"))
-                                {
+                                } else if (sourceString.equalsIgnoreCase("In- house Leads (New)")) {
                                     linear_customer_id.setVisibility(View.VISIBLE);
-                                }else {
+                                } else {
                                     linear_customer_id.setVisibility(View.GONE);
                                 }
                             } catch (Exception e) {
@@ -549,36 +573,50 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
             spinner_sub_source.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    if ( strSubLeadArray != null && strSubLeadArray.length > 0){
+                    if (strSubLeadArray != null && strSubLeadArray.length > 0) {
                         //   strSubSourceofLead = spinner_sub_source.getSelectedItem().toString();
-                        subsource=parent.getItemAtPosition(position).toString();
-                        if (subsource!=null){
-                            if (subsource.equalsIgnoreCase("Existing Client")&& sourceString.equals("In- house Leads (Existing)")){
+                        subsource = parent.getItemAtPosition(position).toString();
+                        if (subsource != null) {
+                            if (subsource.equalsIgnoreCase("Existing Client") && sourceString.equals("In- house Leads (Existing)")) {
                                 fname.setText("");
                                 customer_id.setText("");
                                 getAllClientData();//.............Client data method
                                 // set client ID value
-                                if (selected){
-                                    if (adapterClienId != null && !adapterClienId.isEmpty()){
+                                if (selected) {
+                                    if (adapterClienId != null && !adapterClienId.isEmpty()) {
                                         if (leadInfoModel.getCustomer_id_name() != null && leadInfoModel.getCustomer_id_name().trim().length() > 0) {
                                             int clientIdPos = adapterClienId.getPosition(leadInfoModel.getCustomer_id_name());
                                             spinner_custID.setSelection(clientIdPos);
                                         }
-                                    }}
+                                    }
+                                }
                                 linear_customer_id.setVisibility(View.GONE);
                                 linear_spin_customer_id.setVisibility(View.VISIBLE);
-                            }
-                            else
-                            {   fname.setEnabled(true);
+                            } else {
+                                fname.setEnabled(true);
                                 //     fname.setText("");
                                 customer_id.setEnabled(true);
                                 //   customer_id.setText("");
                                 linear_spin_customer_id.setVisibility(View.GONE);
                             }
                         }
-                        if (!subsource.equalsIgnoreCase("Existing Client")&& !sourceString.equals("In- house Leads (Existing)")){
+
+                        if (sourceString.equalsIgnoreCase("Client Reference")) {
+                            linear_customer_id.setVisibility(View.VISIBLE);
+                        } else if (sourceString.equalsIgnoreCase("In- house Leads (Existing)") && !subsource.equals("Existing Client")) {
+                            linear_customer_id.setVisibility(View.VISIBLE);
+
+                        } else if (sourceString.equalsIgnoreCase("In- house Leads (New)")) {
+                            linear_customer_id.setVisibility(View.VISIBLE);
+                        } else {
+                            linear_customer_id.setVisibility(View.GONE);
+                        }
+
+
+                        if (!subsource.equalsIgnoreCase("Existing Client") && !sourceString.equals("In- house Leads (Existing)")) {
                             //fname.setText(leadInfoModel.getFirstname());
                             // populateData(leadInfoModel);
+
                             fname.setEnabled(true);
                             mname.setEnabled(true);
                             lname.setEnabled(true);
@@ -590,6 +628,7 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
 
                     }
                 }
+
                 @Override
                 public void onNothingSelected(AdapterView<?> parent) {
 
@@ -625,11 +664,11 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
                 @Override
                 public void onItemSelected(AdapterView<?> parent,
                                            View view, int pos, long id) {
-                    String leadString,leadString1,leadString2;
+                    String leadString, leadString1, leadString2;
                     leadString = parent.getItemAtPosition(pos).toString();
-                    leadString1=parent.getItemAtPosition(pos).toString();
-                    leadString2=parent.getItemAtPosition(pos).toString();
-                    leadString3=parent.getItemAtPosition(pos).toString();
+                    leadString1 = parent.getItemAtPosition(pos).toString();
+                    leadString2 = parent.getItemAtPosition(pos).toString();
+                    leadString3 = parent.getItemAtPosition(pos).toString();
                     if (leadString != null) {
                         if (leadString.equalsIgnoreCase("Not Intersted")) {
 
@@ -679,13 +718,13 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
                 @Override
                 public void onItemSelected(AdapterView<?> parent,
                                            View view, int pos1, long id) {
-                    String leadString,leadString1,leadString2,leadString3;
+                    String leadString, leadString1, leadString2, leadString3;
                     leadString = parent.getItemAtPosition(pos1).toString();
-                    leadString1=parent.getItemAtPosition(pos1).toString();
-                    leadString2=parent.getItemAtPosition(pos1).toString();
-                    leadString3=parent.getItemAtPosition(pos1).toString();
+                    leadString1 = parent.getItemAtPosition(pos1).toString();
+                    leadString2 = parent.getItemAtPosition(pos1).toString();
+                    leadString3 = parent.getItemAtPosition(pos1).toString();
                     if (leadString != null) {
-                        int selMonth=0;
+                        int selMonth = 0;
                         Calendar cal = Calendar.getInstance();
                         Date current = cal.getTime();
                         cal.setTime(current);
@@ -694,20 +733,20 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
                             cal.add(Calendar.MONTH, selMonth);
                             String curDate = getDate(cal);
                             linear_duration.setVisibility(View.VISIBLE);
-                            duration.setText(""+curDate);
-                        }else if (leadString1.equalsIgnoreCase("3 month")) {
+                            duration.setText("" + curDate);
+                        } else if (leadString1.equalsIgnoreCase("3 month")) {
                             selMonth = 3;
                             cal.add(Calendar.MONTH, selMonth);
                             String curDate = getDate(cal);
                             linear_duration.setVisibility(View.VISIBLE);
-                            duration.setText(""+curDate);
-                        }else if (leadString2.equalsIgnoreCase("6 month")) {
+                            duration.setText("" + curDate);
+                        } else if (leadString2.equalsIgnoreCase("6 month")) {
                             selMonth = 6;
                             cal.add(Calendar.MONTH, selMonth);
                             String curDate = getDate(cal);
                             linear_duration.setVisibility(View.VISIBLE);
-                            duration.setText(""+curDate);
-                        }else if (leadString3.equalsIgnoreCase("Others")) {
+                            duration.setText("" + curDate);
+                        } else if (leadString3.equalsIgnoreCase("Others")) {
                             linear_duration.setVisibility(View.VISIBLE);
                             duration.setText("");
                         }
@@ -730,17 +769,17 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
 
-                    if (position != 0){
+                    if (position != 0) {
 
-                        if ( strClientIDArray != null && strClientIDArray.length > 0){
+                        if (strClientIDArray != null && strClientIDArray.length > 0) {
                             String clientData = spinner_custID.getSelectedItem().toString();
-                            String [] strClient = clientData.split(" ");
+                            String[] strClient = clientData.split(" ");
                             ClinetId = strClient[0];
 
                             try {
                                 // WHERE clause
-                                String where = " where ClientID = '"+ClinetId+"'";
-                                Cursor cursor = Narnolia.dbCon.fetchFromSelect(DbHelper.TABLE_CLIENT_DETAILS,where);
+                                String where = " where ClientID = '" + ClinetId + "'";
+                                Cursor cursor = Narnolia.dbCon.fetchFromSelect(DbHelper.TABLE_CLIENT_DETAILS, where);
                                 if (cursor != null && cursor.getCount() > 0) {
                                     cursor.moveToFirst();
                                     do {
@@ -750,8 +789,8 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
                                     } while (cursor.moveToNext());
                                     cursor.close();
 
-                                }else {
-                                    Toast.makeText(mContext, "No data found..!",Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText(mContext, "No data found..!", Toast.LENGTH_SHORT).show();
                                 }
 
                             } catch (Exception e) {
@@ -904,10 +943,10 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
             }
             // Set Lead to the Lead Spinner
             try {
-                if (lead__Id != null && lead__Id.length() > 0){
-                    if (adapter8 != null){
-                        for (int i = 0;i<strLeadNameArray.length;i++){
-                            if (strLeadNameArray[i].contains(lead__Id)){
+                if (lead__Id != null && lead__Id.length() > 0) {
+                    if (adapter8 != null) {
+                        for (int i = 0; i < strLeadNameArray.length; i++) {
+                            if (strLeadNameArray[i].contains(lead__Id)) {
                                 int selLeadPos = adapter8.getPosition(strLeadNameArray[i]);
                                 spinner_lead_name.setSelection(selLeadPos);
                             }
@@ -950,7 +989,7 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
             bt_update_lead.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                     validateDetails();
                 }
@@ -959,20 +998,23 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
                 @Override
                 public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 }
+
                 @Override
                 public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 }
+
                 @Override
                 public void afterTextChanged(Editable editable) {
-                    String text=last_meeting_dt.getText().toString().trim();
-                    String text1=last_meeting_update.getText().toString().trim();
-                    lead_update_log.setText(text+"\n"+text1);
+                    String text = last_meeting_dt.getText().toString().trim();
+                    String text1 = last_meeting_update.getText().toString().trim();
+                    lead_update_log.setText(text + "\n" + text1);
                 }
             });
             last_meeting_dt.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 }
+
                 @Override
                 public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -980,16 +1022,16 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
 
                 @Override
                 public void afterTextChanged(Editable editable) {
-                    String text=last_meeting_dt.getText().toString().trim();
-                    String text1=last_meeting_update.getText().toString().trim();
-                    lead_update_log.setText(text+"\n"+text1);
+                    String text = last_meeting_dt.getText().toString().trim();
+                    String text1 = last_meeting_update.getText().toString().trim();
+                    lead_update_log.setText(text + "\n" + text1);
                 }
             });
             bt_close_lead.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    cliked=true;
-                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    cliked = true;
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                     validateDetails();
                    /* pushActivity(mContext, HomeActivity.class, null, true);*/
@@ -1014,7 +1056,7 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
                 date_of_birth.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        hide_keyboard(mContext,v);
+                        hide_keyboard(mContext, v);
                         datePickerDialog.show();
                     }
                 });
@@ -1062,7 +1104,7 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
                         str_rg_meeting_status = rb.getText().toString();
                         int index = group.indexOfChild(radiobutton);
                         if (index == 0) {
-                          //  new GetCategoryTypeData().execute();
+                            //  new GetCategoryTypeData().execute();
                             connect.setVisibility(View.VISIBLE);
                             notconnect.setVisibility(View.GONE);
 
@@ -1073,24 +1115,9 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
                         }
                     }
                 });
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
-
-            spineListener = new SpinnerListener() {
-                @Override
-                public void onItemsSelected(List<KeyPairBoolData> items) {
-                    for (int i = 0; i < items.size(); i++) {
-                        if (items.get(i).isSelected()) {
-                            Log.i("TAG item", i + " : " + items.get(i).getName() + " : " + items.get(i).isSelected());
-                            str_spinner_research_type += items.get(i).getId()+"#";
-//                            str_spinner_research_type=i+items.get(i).getName()+items.get(i).isSelected();
-                        }
-                    }
-                    str_spinner_research_type = str_spinner_research_type.length() > 0 ? str_spinner_research_type.substring(0, str_spinner_research_type.length() - 1) : "";
-
-                }
-            };
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -1098,11 +1125,12 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
     }
 
     private static String getDate(Calendar cal) {
-        return "" + (cal.get(Calendar.MONTH)+1) + "/"
-                + cal.get(Calendar.DATE) +"/"
+        return "" + (cal.get(Calendar.MONTH) + 1) + "/"
+                + cal.get(Calendar.DATE) + "/"
                 + cal.get(Calendar.YEAR);
 
     }
+
     //.....................................................product data......................
     private void showProductDialog() {
 
@@ -1129,7 +1157,7 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
                 selChkBoxArr[Integer.parseInt(selItemsPosition.get(i))] = true;
             }
             selItemsPosition.clear();
-        }else {
+        } else {
             // from Local variable
             if (selectedCatId != null && selectedCatId.length() > 0) {
                 if (selectedCatId.contains("#")) {
@@ -1141,7 +1169,7 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
                 for (int j = 0; j < selCatId.size(); j++) {
                     selChkBoxArr[Integer.parseInt(selCatId.get(j))] = true;
                 }
-                Log.e("selChkBoxArr value =>",selectedCatId.toString());
+                Log.e("selChkBoxArr value =>", selectedCatId.toString());
             }
 //        }else{
 //            }
@@ -1151,7 +1179,7 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
 
         fillUI();
 
-       // categoryDetailsModelList = new ArrayList<>();
+        // categoryDetailsModelList = new ArrayList<>();
 
         Cursor cursor = null;
         cursor = Narnolia.dbCon.fetchAlldata(DbHelper.TABLE_M_CATEGORY);
@@ -1202,8 +1230,7 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
                             }
                         }
                     }
-                }
-                catch (Exception e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
 
@@ -1270,7 +1297,7 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
                                         if (checkbox1.isChecked()) {
 
                                             int selChkBoxId = checkbox1.getId();
-                                            selectedCatId += selChkBoxId+"#";
+                                            selectedCatId += selChkBoxId + "#";
                                             icount += 1;
 
 
@@ -1281,15 +1308,15 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
                         }
                     }
                 }
-                selectedCatId = selectedCatId.length() > 0 ? selectedCatId.substring(0,selectedCatId.length() - 1) : "";
-                Log.e("Selected Cate Cont = > ",""+icount);
-                Log.e("Selected Cate Ids = > ","" +selectedCatId);
+                selectedCatId = selectedCatId.length() > 0 ? selectedCatId.substring(0, selectedCatId.length() - 1) : "";
+                Log.e("Selected Cate Cont = > ", "" + icount);
+                Log.e("Selected Cate Ids = > ", "" + selectedCatId);
 
-                if (icount > 0){
-                    String countStr = + icount + " is Selected";
+                if (icount > 0) {
+                    String countStr = +icount + " is Selected";
                     btn1_opportunity_pitched2.setText(countStr);
                     showProduct.dismiss();
-                }else{
+                } else {
 
                     btn1_opportunity_pitched2.setText("Opportunity Pitched");
                     showProduct.dismiss();
@@ -1317,8 +1344,8 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
 
             String where = " where type like " + "'" + Product + "'";
 
-            Cursor cursor3=null;
-            cursor3 = Narnolia.dbCon.fetchDistictFromSelect(colName,DbHelper.TABLE_M_PARAMETER, where);
+            Cursor cursor3 = null;
+            cursor3 = Narnolia.dbCon.fetchDistictFromSelect(colName, DbHelper.TABLE_M_PARAMETER, where);
 
 
             if (cursor3 != null && cursor3.getCount() > 0) {
@@ -1450,13 +1477,13 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
                 productInfoLinearLayout.addView(lineviewlayout);
 
                 String prodId = spinProductList.get(count).getProdId();
-                try{
-                    Cursor cursor=null;
+                try {
+                    Cursor cursor = null;
 
                     categoryDetailsModelList.clear();
                     where = " where Produt_type_id like " + "'" + prodId + "'";
                     String product_type_id = "Category";
-                    cursor = Narnolia.dbCon.fetchDistictFromSelect(product_type_id,DbHelper.TABLE_M_CATEGORY, where);
+                    cursor = Narnolia.dbCon.fetchDistictFromSelect(product_type_id, DbHelper.TABLE_M_CATEGORY, where);
 
                     if (cursor != null && cursor.getCount() > 0) {
                         cursor.moveToFirst();
@@ -1470,8 +1497,7 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
                         } while (cursor.moveToNext());
                     }
                     cursor.close();
-                }
-                catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
 
@@ -1483,8 +1509,8 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
                         Cursor cursor2 = null;
 
                         subCategoryDetailsModelList.clear();
-                        String where1 = " where trim(Category) = '"+category + "'";
-                        cursor2 = Narnolia.dbCon.fetchAll2(category,DbHelper.TABLE_M_CATEGORY, where1);
+                        String where1 = " where trim(Category) = '" + category + "'";
+                        cursor2 = Narnolia.dbCon.fetchAll2(category, DbHelper.TABLE_M_CATEGORY, where1);
                         if (cursor2 != null && cursor2.getCount() > 0) {
                             cursor2.moveToFirst();
                             do {
@@ -1501,7 +1527,7 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
                         }
                         cursor2.close();
 
-                    }catch (Exception e){
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
 
@@ -1527,9 +1553,9 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
 
                         checkbox.setOnCheckedChangeListener(this);
 
-                        if (selChkBoxArr[checkbox.getId()]){
+                        if (selChkBoxArr[checkbox.getId()]) {
                             checkbox.setChecked(true);
-                        }else {
+                        } else {
                             checkbox.setChecked(false);
                         }
 
@@ -1538,7 +1564,7 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
                         checkbox.setLayoutParams(childParam2);
 
                         checkbox.setTypeface(null, Typeface.BOLD);
-                        checkbox.setText(category +"-"+ subcategory);
+                        checkbox.setText(category + "-" + subcategory);
                         LinearLayout.LayoutParams childParam1 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                         childParam1.weight = 0.1f;
 
@@ -1568,7 +1594,7 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
     }
 //........................................................................................................
 
-    private void  fetchDataOfLeadDetails(){
+    private void fetchDataOfLeadDetails() {
         try {
             // WHERE clause
             String where = " where flag NOT IN('D') order by lead_id DESC";
@@ -1582,8 +1608,8 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
                 } while (cursor.moveToNext());
                 cursor.close();
 
-            }else {
-                Toast.makeText(mContext, "No data found..!",Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(mContext, "No data found..!", Toast.LENGTH_SHORT).show();
             }
             setLeadDetailValue();
 
@@ -1592,11 +1618,11 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
         }
     }
 
-    private void setLeadDetailValue(){
-        try{
-            if(leadInfoModelList.size()>0) {
+    private void setLeadDetailValue() {
+        try {
+            if (leadInfoModelList.size() > 0) {
 
-                for(int i = 0; i<leadInfoModelList.size(); i++) {
+                for (int i = 0; i < leadInfoModelList.size(); i++) {
                     final LeadInfoModel leadInfoModel = leadInfoModelList.get(i);
                     str_fname = leadInfoModel.getFirstname();
                     str_mname = leadInfoModel.getMiddlename();
@@ -1614,7 +1640,7 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
                     strLeadNameArray[i + 1] = spinLeadNameList.get(i);
                 }
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -1682,8 +1708,7 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
             if (spinSourceLeadList != null && spinSourceLeadList.size() > 0) {
                 ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, strLeadArray) {
                     @Override
-                    public View getDropDownView(int position, View convertView, ViewGroup parent)
-                    {
+                    public View getDropDownView(int position, View convertView, ViewGroup parent) {
                         View v = null;
                         // If this is the initial dummy entry, make it hidden
                         if (position == 0) {
@@ -1691,8 +1716,7 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
                             tv.setHeight(0);
                             tv.setVisibility(View.GONE);
                             v = tv;
-                        }
-                        else {
+                        } else {
                             // Pass convertView as null to prevent reuse of special case views
                             v = super.getDropDownView(position, null, parent);
                         }
@@ -1710,20 +1734,23 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
             e.printStackTrace();
         }
     }
+
     public boolean isEmailValid(CharSequence email) {
         return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
+
     public boolean isName(String name) {
         if (name == null) {
             return false;
         } else {
-            if (name.length() < 1 ) {
+            if (name.length() < 1) {
                 return false;
             } else {
                 return true;
             }
         }
     }
+
     public boolean isPhoneValid(String phoneNumber) {
         if (phoneNumber == null) {
             return false;
@@ -1735,8 +1762,9 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
             }
         }
     }
+
     //...............validatations.....
-    private void validateDetails(){
+    private void validateDetails() {
         try {
 
             mobileno.setError(null);
@@ -1745,135 +1773,119 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
             fname.setError(null);
             lname.setError(null);
             pan_no.setError(null);
-            str_fname=fname.getText().toString().trim();
-            str_lname=lname.getText().toString().trim();
-            str_city=editCity.getText().toString().trim();
-            str_pincode=autoPincode.getText().toString().trim();
+            str_fname = fname.getText().toString().trim();
+            str_lname = lname.getText().toString().trim();
+            str_city = editCity.getText().toString().trim();
+            str_pincode = autoPincode.getText().toString().trim();
             //...............on button click refrences........
-            str_cust_id=customer_id.getText().toString().trim();
-            str_mname=mname.getText().toString().trim();
-            str_mobile_no=mobileno.getText().toString().trim();
-            str_email=email.getText().toString().trim();
-            str_date_of_birth=date_of_birth.getText().toString().trim();
-            str_address=address.getText().toString().trim();
-            str_flat=flat.getText().toString().trim();
-            str_laocion=location.getText().toString().trim();
-            str_next_meeting_date=next_metting_date.getText().toString().trim();
-            str_metting_agenda=metting_agenda.getText().toString().trim();
-            str_lead_update_log=lead_update_log.getText().toString().trim();
+            str_cust_id = customer_id.getText().toString().trim();
+            str_mname = mname.getText().toString().trim();
+            str_mobile_no = mobileno.getText().toString().trim();
+            str_email = email.getText().toString().trim();
+            str_date_of_birth = date_of_birth.getText().toString().trim();
+            str_address = address.getText().toString().trim();
+            str_flat = flat.getText().toString().trim();
+            str_laocion = location.getText().toString().trim();
+            str_next_meeting_date = next_metting_date.getText().toString().trim();
+            str_metting_agenda = metting_agenda.getText().toString().trim();
+            str_lead_update_log = lead_update_log.getText().toString().trim();
            /* String[] parts=str_lead_update_log.split("\n");
             String text1=parts[0];
             String text2=parts[1];
              strLeadUpdateLog=text1+text2;*/
             //.......spinner text get Text
-            str_spinner_lead_name=spinner_lead_name.getSelectedItem().toString();
-            str_spinner_sub_source=spinner_sub_source.getSelectedItem().toString();
-            str_spinner_age_group=spinner_age_group.getSelectedItem().toString();
-            str_spinner_occupation=spinner_occupation.getSelectedItem().toString();
-            str_spinner_annual_income=spinner_annual_income.getSelectedItem().toString();
-            str_spinner_other_broker=spinner_other_broker.getSelectedItem().toString();
-            str_spinner_lead_status=spinner_lead_status.getSelectedItem().toString();
+            str_spinner_lead_name = spinner_lead_name.getSelectedItem().toString();
+            str_spinner_sub_source = spinner_sub_source.getSelectedItem().toString();
+            str_spinner_age_group = spinner_age_group.getSelectedItem().toString();
+            str_spinner_occupation = spinner_occupation.getSelectedItem().toString();
+            str_spinner_annual_income = spinner_annual_income.getSelectedItem().toString();
+            str_spinner_other_broker = spinner_other_broker.getSelectedItem().toString();
+            str_spinner_lead_status = spinner_lead_status.getSelectedItem().toString();
             //str_spinner_research_type=spinner_research_type.getSelectedItem().toString();
-            str_spinner_duration=spinner_duration.getSelectedItem().toString();
+            str_spinner_duration = spinner_duration.getSelectedItem().toString();
 
-            str_street=street.getText().toString().trim();
-            str_reason=reason.getText().toString().trim();
-            strB_Margin=margin.getText().toString().trim();
-            strB_aum=aum.getText().toString().trim();
-            strB_sip=sip.getText().toString().trim();
-            strB_number=number.getText().toString().trim();
-            strB_value=value.getText().toString().trim();
-            strB_premium=premium.getText().toString().trim();
-            strRemark=remark.getText().toString().trim();
-            strCompitator_Name=compitator.getText().toString().trim();
-            strProduct=product.getText().toString().trim();
-            strLastMeetingDate=last_meeting_dt.getText().toString().trim();
-            strLastMeetingUpdate=last_meeting_update.getText().toString().trim();
-            strPanNo=pan_no.getText().toString().trim();
-            str_duration_date=duration.getText().toString().trim();
-
-
+            str_street = street.getText().toString().trim();
+            str_reason = reason.getText().toString().trim();
+            strB_Margin = margin.getText().toString().trim();
+            strB_aum = aum.getText().toString().trim();
+            strB_sip = sip.getText().toString().trim();
+            strB_number = number.getText().toString().trim();
+            strB_value = value.getText().toString().trim();
+            strB_premium = premium.getText().toString().trim();
+            strRemark = remark.getText().toString().trim();
+            strCompitator_Name = compitator.getText().toString().trim();
+            strProduct = product.getText().toString().trim();
+            strLastMeetingDate = last_meeting_dt.getText().toString().trim();
+            strLastMeetingUpdate = last_meeting_update.getText().toString().trim();
+            strPanNo = pan_no.getText().toString().trim();
+            str_duration_date = duration.getText().toString().trim();
 
 
             View focusView = null;
-            if (spinner_source_of_lead.getSelectedItemPosition()==0){
+            if (spinner_source_of_lead.getSelectedItemPosition() == 0) {
                 Toast.makeText(mContext, "Please select Source of Lead", Toast.LENGTH_SHORT).show();
-                focusView=spinner_source_of_lead;
+                focusView = spinner_source_of_lead;
                 focusView.requestFocus();
                 spinner_source_of_lead.setFocusable(true);
                 spinner_source_of_lead.requestFocusFromTouch();
                 return;
-            }
-            else if (spinner_sub_source.getSelectedItemPosition()==0){
+            } else if (spinner_sub_source.getSelectedItemPosition() == 0) {
                 Toast.makeText(mContext, "Please select Sub Source of Lead", Toast.LENGTH_SHORT).show();
-                focusView=spinner_sub_source;
+                focusView = spinner_sub_source;
                 focusView.requestFocus();
                 spinner_sub_source.setFocusable(true);
                 spinner_sub_source.requestFocusFromTouch();
                 return;
-            }
-
-            else if (!isName(str_fname))
-            {
+            } else if (!isName(str_fname)) {
                 fname.setError(getString(R.string.name));
                 focusView = fname;
                 focusView.requestFocus();
                 return;
-            }
-            else if (!isName(str_lname))
-            {
+            } else if (!isName(str_lname)) {
                 lname.setError(getString(R.string.name));
                 focusView = lname;
                 focusView.requestFocus();
                 return;
-            }
-            else if (!isPhoneValid(str_mobile_no)) {
+            } else if (!isPhoneValid(str_mobile_no)) {
                 mobileno.setError(getString(R.string.reqmob));
                 focusView = mobileno;
                 focusView.requestFocus();
                 return;
-            }
-            else if (TextUtils.isEmpty(str_city)){
+            } else if (TextUtils.isEmpty(str_city)) {
                 editCity.setError(getString(R.string.reqcity));
-                focusView=editCity;
+                focusView = editCity;
                 focusView.requestFocus();
                 return;
-            }
-            else if (TextUtils.isEmpty(str_pincode)) {
+            } else if (TextUtils.isEmpty(str_pincode)) {
                 autoPincode.setError(getString(R.string.reqpincode));
                 focusView = autoPincode;
                 focusView.requestFocus();
                 return;
-            }
-
-
-            else if (!TextUtils.isEmpty(str_email)) {
+            } else if (!TextUtils.isEmpty(str_email)) {
                 if (!isEmailValid(str_email)) {
                     email.setError("Invalid email Id");
                     focusView = email;
                     focusView.requestFocus();
                     return;
                 }
-            }
-            else if (rg_meeting_status.getCheckedRadioButtonId() == -1){
+            } else if (rg_meeting_status.getCheckedRadioButtonId() == -1) {
                 Toast.makeText(mContext, "Please select Meeting Status Contacted / Not Contacted", Toast.LENGTH_SHORT).show();
-                focusView=rg_meeting_status;
+                focusView = rg_meeting_status;
                 focusView.requestFocus();
                 return;
             }
-            if (rb_contact.isChecked()){
-                if (spinner_lead_status.getSelectedItemPosition()==0){
+            if (rb_contact.isChecked()) {
+                if (spinner_lead_status.getSelectedItemPosition() == 0) {
                     Toast.makeText(mContext, "Please select Lead Status", Toast.LENGTH_SHORT).show();
-                    focusView=spinner_lead_status;
+                    focusView = spinner_lead_status;
                     focusView.requestFocus();
                     spinner_lead_status.setFocusable(true);
                     spinner_lead_status.requestFocusFromTouch();
                     return;
                 }
             }
-            if (spinner_lead_status.getSelectedItem().equals("On-boarding"))
-            {
-                if (strPanNo.isEmpty()||strPanNo.length()!=10) {
+            if (spinner_lead_status.getSelectedItem().equals("On-boarding")) {
+                if (strPanNo.isEmpty() || strPanNo.length() != 10) {
                     pan_no.setError(getString(R.string.pan));
                     focusView = pan_no;
                     focusView.requestFocus();
@@ -1881,22 +1893,21 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
                 }
             }
 
-            if (pan_no.getText().length() > 0 ){
+            if (pan_no.getText().length() > 0) {
                 if (pan_no.getText().toString().contains(" ")) {
                     pan_no.setError("White space is not allowed..!");
                     focusView = pan_no;
                     focusView.requestFocus();
                     return;
-                }else if (pan_no.getText().length()>0){
+                } else if (pan_no.getText().length() > 0) {
                     Pattern pattern1 = Pattern.compile("[A-Z]{5}[0-9]{4}[A-Z]{1}");
-                    Matcher matcher = pattern1 .matcher(strPanNo);
-                    if (!matcher .matches()) {
+                    Matcher matcher = pattern1.matcher(strPanNo);
+                    if (!matcher.matches()) {
                         pan_no.setError("PAN is not matching");
                         focusView = pan_no;
                         focusView.requestFocus();
                         return;
-                    }
-                    else {
+                    } else {
                         pan_no.setError(null);
                     }
                 }
@@ -1914,10 +1925,11 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
             e.printStackTrace();
         }
     }
+
     private void fetchResearchTypedata() {
         try {
 
-            spinResearchTypeList = new ArrayList<>();
+            spinResearchTypeList.clear();
             //  final List<KeyPairBoolData> spinResearchTypeList = new ArrayList<>();
           /*  String SubSourceLead = "SubSource ";
 
@@ -1946,17 +1958,17 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
             }*/
 
 
-            final List<KeyPairBoolData> listArray = new ArrayList<>();
+            researchListArray = new ArrayList<>();
 
             for (int i = 0; i < spinResearchTypeList.size(); i++) {
                 KeyPairBoolData h = new KeyPairBoolData();
                 h.setId(i + 1);
                 h.setName(spinResearchTypeList.get(i));
                 h.setSelected(false);
-                listArray.add(h);
+                researchListArray.add(h);
             }
 
-            spinner_research_type.setItems(listArray, -1, new SpinnerListener() {
+            spinner_research_type.setItems(researchListArray, -1, spineListener); /*{
 
                 @Override
                 public void onItemsSelected(List<KeyPairBoolData> items) {
@@ -1971,8 +1983,8 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
                     str_spinner_research_type = str_spinner_research_type.length() > 0 ? str_spinner_research_type.substring(0, str_spinner_research_type.length() - 1) : "";
                 }
             });
-
-            spinner_research_type.setLimit(listArray.size(), new MultiSpinnerSearch.LimitExceedListener() {
+*/
+            spinner_research_type.setLimit(researchListArray.size(), new MultiSpinnerSearch.LimitExceedListener() {
                 @Override
                 public void onLimitListener(KeyPairBoolData data) {
                     Toast.makeText(getApplicationContext(),
@@ -2042,8 +2054,7 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
             if (spinSubSourceLeadList != null && spinSubSourceLeadList.size() > 0) {
                 ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, strSubLeadArray) {
                     @Override
-                    public View getDropDownView(int position, View convertView, ViewGroup parent)
-                    {
+                    public View getDropDownView(int position, View convertView, ViewGroup parent) {
                         View v = null;
                         // If this is the initial dummy entry, make it hidden
                         if (position == 0) {
@@ -2051,8 +2062,7 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
                             tv.setHeight(0);
                             tv.setVisibility(View.GONE);
                             v = tv;
-                        }
-                        else {
+                        } else {
                             // Pass convertView as null to prevent reuse of special case views
                             v = super.getDropDownView(position, null, parent);
                         }
@@ -2068,11 +2078,10 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
 
             //........................Age Group spinner
             spinAgeGroupArray.addAll(Arrays.asList(getResources().getStringArray(R.array.age_group)));
-            if (spinAgeGroupArray!=null&&spinAgeGroupArray.size()>0) {
+            if (spinAgeGroupArray != null && spinAgeGroupArray.size() > 0) {
                 ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, spinAgeGroupArray) {
                     @Override
-                    public View getDropDownView(int position, View convertView, ViewGroup parent)
-                    {
+                    public View getDropDownView(int position, View convertView, ViewGroup parent) {
                         View v = null;
                         // If this is the initial dummy entry, make it hidden
                         if (position == 0) {
@@ -2080,8 +2089,7 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
                             tv.setHeight(0);
                             tv.setVisibility(View.GONE);
                             v = tv;
-                        }
-                        else {
+                        } else {
                             // Pass convertView as null to prevent reuse of special case views
                             v = super.getDropDownView(position, null, parent);
                         }
@@ -2098,8 +2106,7 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
 
             ArrayAdapter<String> adapter3 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, spinOccupationList) {
                 @Override
-                public View getDropDownView(int position, View convertView, ViewGroup parent)
-                {
+                public View getDropDownView(int position, View convertView, ViewGroup parent) {
                     View v = null;
                     // If this is the initial dummy entry, make it hidden
                     if (position == 0) {
@@ -2107,8 +2114,7 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
                         tv.setHeight(0);
                         tv.setVisibility(View.GONE);
                         v = tv;
-                    }
-                    else {
+                    } else {
                         // Pass convertView as null to prevent reuse of special case views
                         v = super.getDropDownView(position, null, parent);
                     }
@@ -2123,8 +2129,7 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
             //............................Annual Income Spinner
             ArrayAdapter<String> adapter4 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, spinAnnualIncomeList) {
                 @Override
-                public View getDropDownView(int position, View convertView, ViewGroup parent)
-                {
+                public View getDropDownView(int position, View convertView, ViewGroup parent) {
                     View v = null;
                     // If this is the initial dummy entry, make it hidden
                     if (position == 0) {
@@ -2132,8 +2137,7 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
                         tv.setHeight(0);
                         tv.setVisibility(View.GONE);
                         v = tv;
-                    }
-                    else {
+                    } else {
                         // Pass convertView as null to prevent reuse of special case views
                         v = super.getDropDownView(position, null, parent);
                     }
@@ -2148,8 +2152,7 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
             //............................Other Brokers Spinner
             ArrayAdapter<String> adapter5 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, spinOtherBrokerList) {
                 @Override
-                public View getDropDownView(int position, View convertView, ViewGroup parent)
-                {
+                public View getDropDownView(int position, View convertView, ViewGroup parent) {
                     View v = null;
                     // If this is the initial dummy entry, make it hidden
                     if (position == 0) {
@@ -2157,8 +2160,7 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
                         tv.setHeight(0);
                         tv.setVisibility(View.GONE);
                         v = tv;
-                    }
-                    else {
+                    } else {
                         // Pass convertView as null to prevent reuse of special case views
                         v = super.getDropDownView(position, null, parent);
                     }
@@ -2173,8 +2175,7 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
             //.............................Lead Staus Array
             ArrayAdapter<String> adapter6 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, spinLeadStatusList) {
                 @Override
-                public View getDropDownView(int position, View convertView, ViewGroup parent)
-                {
+                public View getDropDownView(int position, View convertView, ViewGroup parent) {
                     View v = null;
                     // If this is the initial dummy entry, make it hidden
                     if (position == 0) {
@@ -2182,8 +2183,7 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
                         tv.setHeight(0);
                         tv.setVisibility(View.GONE);
                         v = tv;
-                    }
-                    else {
+                    } else {
                         // Pass convertView as null to prevent reuse of special case views
                         v = super.getDropDownView(position, null, parent);
                     }
@@ -2198,8 +2198,7 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
             //.........................Duration Array
             ArrayAdapter<String> adapter7 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, spinDurationList) {
                 @Override
-                public View getDropDownView(int position, View convertView, ViewGroup parent)
-                {
+                public View getDropDownView(int position, View convertView, ViewGroup parent) {
                     View v = null;
                     // If this is the initial dummy entry, make it hidden
                     if (position == 0) {
@@ -2207,8 +2206,7 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
                         tv.setHeight(0);
                         tv.setVisibility(View.GONE);
                         v = tv;
-                    }
-                    else {
+                    } else {
                         // Pass convertView as null to prevent reuse of special case views
                         v = super.getDropDownView(position, null, parent);
                     }
@@ -2224,8 +2222,7 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
             if (spinLeadNameList != null && spinLeadNameList.size() > 0) {
                 adapter8 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, strLeadNameArray) {
                     @Override
-                    public View getDropDownView(int position, View convertView, ViewGroup parent)
-                    {
+                    public View getDropDownView(int position, View convertView, ViewGroup parent) {
                         View v = null;
                         // If this is the initial dummy entry, make it hidden
                         if (position == 0) {
@@ -2233,8 +2230,7 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
                             tv.setHeight(0);
                             tv.setVisibility(View.GONE);
                             v = tv;
-                        }
-                        else {
+                        } else {
                             // Pass convertView as null to prevent reuse of special case views
                             v = super.getDropDownView(position, null, parent);
                         }
@@ -2255,7 +2251,6 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
     }
 
 
-
     @Override
     public void onBackPressed() {
         //super.onBackPressed();
@@ -2267,10 +2262,10 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
         finish();
     }
 
-    private void populateData(LeadInfoModel leadInfoModel){
-        try{
+    private void populateData(LeadInfoModel leadInfoModel) {
+        try {
 
-            if(leadInfoModel != null){
+            if (leadInfoModel != null) {
                 customer_id.setText(leadInfoModel.getCustomerID());
                 fname.setText(leadInfoModel.getFirstname());
                 mname.setText(leadInfoModel.getMiddlename());
@@ -2292,13 +2287,13 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
                 premium.setText(leadInfoModel.getB_value());
 
                 SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-                String lead__id1 = sharedPref.getString("lead__Id","");
-                String meeting_date=sharedPref.getString("meeting_date","");
-                String meeting_agenda=sharedPref.getString("meeting_agenda", "");
-                if(leadId.equals(lead__id1)){
+                String lead__id1 = sharedPref.getString("lead__Id", "");
+                String meeting_date = sharedPref.getString("meeting_date", "");
+                String meeting_agenda = sharedPref.getString("meeting_agenda", "");
+                if (leadId.equals(lead__id1)) {
                     next_metting_date.setText(meeting_date);
                     metting_agenda.setText(meeting_agenda);
-                }else {
+                } else {
                     next_metting_date.setText(leadInfoModel.getMeetingdt());
                     metting_agenda.setText(leadInfoModel.getMeetingagenda());
                 }
@@ -2348,40 +2343,41 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
                 }
                 String typeofsearch = leadInfoModel.getTypeofsearch();
                 List<String> selItemsPos = new ArrayList<>();
-                if (leadInfoModel.getTypeofsearch() != null && leadInfoModel.getTypeofsearch().length() > 0){
-                    if (typeofsearch.contains("#")){
+                if (leadInfoModel.getTypeofsearch() != null && leadInfoModel.getTypeofsearch().length() > 0) {
+                    if (typeofsearch.contains("#")) {
                         String selectedItem[] = typeofsearch.split("#");
-                        if (selectedItem != null && selectedItem.length > 0){
-                            for (int j = 0; j<selectedItem.length;j++){
+                        if (selectedItem != null && selectedItem.length > 0) {
+                            for (int j = 0; j < selectedItem.length; j++) {
                                 selItemsPos.add(selectedItem[j]);
                             }
                         }
 
-                    }else{
+                    } else {
                         selItemsPos.add(typeofsearch);
                     }
 
+                    if (selItemsPos != null && selItemsPos.size() > 0) {
+                        researchListArray.clear();
+                        for (int i = 0; i < spinResearchTypeList.size(); i++) {
+                            KeyPairBoolData h = new KeyPairBoolData();
+                            h.setId(i + 1);
+                            h.setName(spinResearchTypeList.get(i));
+                            h.setSelected(false);
+                            for (int j = 0; j < selItemsPos.size(); j++) {
+                                if (selItemsPos.get(j).trim().equals(String.valueOf(i + 1))) {
+                                    h.setSelected(true);
+                                    break;
+                                } else {
+                                    h.setSelected(false);
+                                }
 
-                    final List<KeyPairBoolData> listArray = new ArrayList<>();
-
-                    for (int i = 0; i < selItemsPos.size(); i++) {
-                        KeyPairBoolData h = new KeyPairBoolData();
-                        h.setId(i + 1);
-                        h.setName(spinResearchTypeList.get(i));
-                        for (int j = 0 ; j < selItemsPos.size(); j++){
-                            if (selItemsPos.get(j).trim().equals(String.valueOf(i+1))){
-                                h.setSelected(true);
-                                break;
-                            }else{
-                                h.setSelected(false);
                             }
+                            researchListArray.add(h);
 
                         }
-                        listArray.add(h);
 
+                        spinner_research_type.setItems(researchListArray, -1, spineListener);
                     }
-
-                    spinner_research_type.setItems(listArray, -1, spineListener);
 
 
                 }
@@ -2395,7 +2391,7 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
                             for (int j = 0; j < selectedItem.length; j++) {
                                 selItemsPosition.add(selectedItem[j]);
                             }
-                            String name = + selItemsPosition.size() + " is Selected";
+                            String name = +selItemsPosition.size() + " is Selected";
                             btn1_opportunity_pitched2.setText(name);
                         }
 
@@ -2403,12 +2399,12 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
                         selItemsPosition.add(businessOpp);
                     }
 
-                    Log.e("selectedItem Ids ","from DB => " +selItemsPosition.toString());
+                    Log.e("selectedItem Ids ", "from DB => " + selItemsPosition.toString());
 
                 }
 
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -2480,29 +2476,31 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
         return leadInfoModel;
 
     }
+
     //.......................Client Details Model
-    private void setClientDetailValue(){
+    private void setClientDetailValue() {
 
         try {
-            if (clientInfoModelList.size()>0){
-                for (int i=0;i<clientInfoModelList.size();i++){
-                    final ClientDetailsModel clientDetailsModel=clientInfoModelList.get(i);
-                    String custid=clientDetailsModel.getClientID();
-                    String custname=clientDetailsModel.getClientName();
-                    String cust_id_name=custid+" "+custname +" ";
+            if (clientInfoModelList.size() > 0) {
+                for (int i = 0; i < clientInfoModelList.size(); i++) {
+                    final ClientDetailsModel clientDetailsModel = clientInfoModelList.get(i);
+                    String custid = clientDetailsModel.getClientID();
+                    String custname = clientDetailsModel.getClientName();
+                    String cust_id_name = custid + " " + custname + " ";
                     Collections.sort(spinClientIDList);
                     spinClientIDList.add(cust_id_name);
                 }
-                strClientIDArray=new String[spinClientIDList.size()+1];
-                strClientIDArray[0]="Select Client ID";
-                for (int i=0;i<spinClientIDList.size();i++){
-                    strClientIDArray[i+1]=spinClientIDList.get(i);
+                strClientIDArray = new String[spinClientIDList.size() + 1];
+                strClientIDArray[0] = "Select Client ID";
+                for (int i = 0; i < spinClientIDList.size(); i++) {
+                    strClientIDArray[i + 1] = spinClientIDList.get(i);
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
     public void getAllClientData() {
 
         clientInfoModelList = new ArrayList<>();
@@ -2510,7 +2508,7 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
             // WHERE clause
             String Branch = "CH";
 
-            String where = " where Branchid = '"+Branch+"'";
+            String where = " where Branchid = '" + Branch + "'";
             Cursor cursor = Narnolia.dbCon.fetchFromSelect(DbHelper.TABLE_CLIENT_DETAILS, where);
             if (cursor != null && cursor.getCount() > 0) {
                 cursor.moveToFirst();
@@ -2527,8 +2525,7 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
             if (spinClientIDList != null && spinClientIDList.size() > 0) {
                 adapterClienId = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, strClientIDArray) {
                     @Override
-                    public View getDropDownView(int position, View convertView, ViewGroup parent)
-                    {
+                    public View getDropDownView(int position, View convertView, ViewGroup parent) {
                         View v = null;
                         // If this is the initial dummy entry, make it hidden
                         if (position == 0) {
@@ -2536,8 +2533,7 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
                             tv.setHeight(0);
                             tv.setVisibility(View.GONE);
                             v = tv;
-                        }
-                        else {
+                        } else {
                             // Pass convertView as null to prevent reuse of special case views
                             v = super.getDropDownView(position, null, parent);
                         }
@@ -2552,36 +2548,35 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
             }
 
 
-
-
         } catch (Exception e) {
             e.printStackTrace();
         }
 
     }
-    private void populateClientData(ClientDetailsModel clientDetailsModel){
+
+    private void populateClientData(ClientDetailsModel clientDetailsModel) {
         try {
-            if(clientDetailsModel != null){
+            if (clientDetailsModel != null) {
                 //fname.setText(clientDetailsModel.getClientName());
                 //fname.setEnabled(false);
                 // customer_id.setText(clientDetailsModel.getClientID());
                 // customer_id.setEnabled(false);
                 String first = "", middle = "", last = "";
-                String nm=clientDetailsModel.getClientName();
-                String[] name=nm.split(" ");
-                if (!name.equals(null) && name.length >= 3){
-                    first=name[0];
-                    middle=name[1];
-                    last=name[2];
+                String nm = clientDetailsModel.getClientName();
+                String[] name = nm.split(" ");
+                if (!name.equals(null) && name.length >= 3) {
+                    first = name[0];
+                    middle = name[1];
+                    last = name[2];
                     fname.setText(first);
                     fname.setEnabled(false);
                     mname.setText(middle);
                     mname.setEnabled(false);
                     lname.setText(last);
                     lname.setEnabled(false);
-                }else if(!name.equals(null) && name.length >= 2){
-                    first=name[0];
-                    last=name[1];
+                } else if (!name.equals(null) && name.length >= 2) {
+                    first = name[0];
+                    last = name[1];
                     fname.setText(first);
                     fname.setEnabled(false);
                     mname.setText("");
@@ -2602,6 +2597,7 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
             e.printStackTrace();
         }
     }
+
     public ClientDetailsModel createClientDetailsModel(Cursor cursor) {
         clientDetailsModel = new ClientDetailsModel();
         try {
@@ -2682,8 +2678,9 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
             e.printStackTrace();
         }
     }
+
     //..........................product data....................
-    public class SaveCategory1 extends AsyncTask <String, Void, SoapPrimitive> {
+    public class SaveCategory1 extends AsyncTask<String, Void, SoapPrimitive> {
 
         @Override
         protected void onPreExecute() {
@@ -2701,14 +2698,14 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
         protected SoapPrimitive doInBackground(String... params) {
             SoapPrimitive object = null;
             SOAPWebService webService = new SOAPWebService(mContext);
-            String fromType="APP";
+            String fromType = "APP";
             try {
            /* if (strStages.equalsIgnoreCase("Lead Updated")){
 //                object = webService.SaveCategory(leadId, selectedCatId, empcode,fromType);
             }else{
 //                selectedCatId="D";
             }*/
-             object = webService.SaveCategory(leadId, "D", empcode,fromType);
+                object = webService.SaveCategory(leadId, "D", empcode, fromType);
 
             } catch (Exception e) {
                 // TODO Auto-generated catch block
@@ -2730,14 +2727,14 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
 
             } catch (Exception e) {
                 e.printStackTrace();
-            }finally {
+            } finally {
                 new SaveCategory2().execute();
             }
 
         }
     }
 
-    public class SaveCategory2 extends AsyncTask <String, Void, SoapPrimitive> {
+    public class SaveCategory2 extends AsyncTask<String, Void, SoapPrimitive> {
 
         @Override
         protected void onPreExecute() {
@@ -2755,9 +2752,9 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
         protected SoapPrimitive doInBackground(String... params) {
             SoapPrimitive object = null;
             SOAPWebService webService = new SOAPWebService(mContext);
-            String fromType="APP";
+            String fromType = "APP";
             try {
-                object = webService.SaveCategory(leadId, selectedCatId, empcode,fromType);
+                object = webService.SaveCategory(leadId, selectedCatId, empcode, fromType);
 
             } catch (Exception e) {
                 // TODO Auto-generated catch block
@@ -2828,23 +2825,24 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
             }
 
 
-
         }
 
 
     }
+
     private void updateInDb() {
 
         try {
             int directLeadId;
 //            lead_id_info = "";
             String strLastSync = "0";
-            if (cliked){
-                strStages="closer of lead";
-                strFlag="D";
-            }else {
+            if (cliked) {
+                strStages = "closer of lead";
+                strFlag = "D";
+            } else {
                 strStages = "Lead Updated";
-                strFlag = "U";}
+                strFlag = "U";
+            }
 
             directLeadId = leadInfoModel.getDirect_lead_id();
 
@@ -2855,22 +2853,22 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
             String[] selectionArgs = {leadId};
 
             // for now strcurrency becomes blank as " "; please change it later
-            String valuesArray[] = { "" + directLeadId,leadId,strStages, str_spinner_source_of_lead, str_spinner_sub_source, str_cust_id, str_fname, str_mname, str_lname,
+            String valuesArray[] = {"" + directLeadId, leadId, strStages, str_spinner_source_of_lead, str_spinner_sub_source, str_cust_id, str_fname, str_mname, str_lname,
                     str_date_of_birth, str_spinner_age_group, str_mobile_no, str_address, str_flat, str_street, str_laocion, str_city, str_pincode, str_email, str_spinner_annual_income,
                     str_spinner_occupation, strCreatedfrom, strAppVersion, strAppdt, strFlag, strAllocated_userid, str_spinner_other_broker,
                     str_rg_meeting_status, str_spinner_lead_status, strCompitator_Name, strProduct, strRemark, str_spinner_research_type,
                     str_spinner_duration, strPanNo, strB_Margin, strB_aum, strB_sip, strB_number, strB_value, strB_premium, str_reason,
-                    str_next_meeting_date, str_metting_agenda, str_lead_update_log, strCreatedby, strCreateddt, strUpdateddt, strUpdatedby,strEmpCode,
-                    strLastMeetingDate,strLastMeetingUpdate,selectedCatId,strCustomer_id_name};
+                    str_next_meeting_date, str_metting_agenda, str_lead_update_log, strCreatedby, strCreateddt, strUpdateddt, strUpdatedby, strEmpCode,
+                    strLastMeetingDate, strLastMeetingUpdate, selectedCatId, strCustomer_id_name};
 
 
             boolean result = Narnolia.dbCon.update(DbHelper.TABLE_DIRECT_LEAD, selection, valuesArray, utils.columnNamesLeadUpdate, selectionArgs);
 
 
             if (result) {
-                if (strFlag=="D"){
+                if (strFlag == "D") {
                     //  displayMessage("Close Lead Data inserted");
-                }else if (strFlag=="U") {
+                } else if (strFlag == "U") {
 
                     displayMessage("Data Inserted Succesfully");
                 }
@@ -2926,7 +2924,7 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
             }
 
             try {
-                for (int i = 0; i < soapObject.getPropertyCount(); i++){
+                for (int i = 0; i < soapObject.getPropertyCount(); i++) {
                     SoapObject root = (SoapObject) soapObject.getProperty(i);
 
 
@@ -3001,11 +2999,6 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
                     } else {
                         strRemark = "";
                     }
-
-
-
-
-
 
 
                     if (root.getProperty("age") != null) {
@@ -3450,11 +3443,10 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
                     }
 
 
-
-                    if (cliked){
-                        strStages="closer of lead";
-                        strFlag="D";
-                    }else {
+                    if (cliked) {
+                        strStages = "closer of lead";
+                        strFlag = "D";
+                    } else {
                         strStages = "Lead Updated";
                         strFlag = "U";
                     }
@@ -3463,21 +3455,21 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
                     String strStages = "Lead Updated";
                     String selection = mContext.getString(R.string.column_lead_id) + " = ?";
                     String[] selectionArgs = {leadId};
-                    String valuesArray[] = { "" + "",leadId,strStages, str_spinner_source_of_lead, str_spinner_sub_source, str_cust_id, str_fname, str_mname, str_lname,
+                    String valuesArray[] = {"" + "", leadId, strStages, str_spinner_source_of_lead, str_spinner_sub_source, str_cust_id, str_fname, str_mname, str_lname,
                             str_date_of_birth, str_spinner_age_group, str_mobile_no, str_address, str_flat, str_street, str_laocion, str_city, str_pincode, str_email, str_spinner_annual_income,
                             str_spinner_occupation, strCreatedfrom, strAppVersion, strAppdt, strFlag, strAllocated_userid, str_spinner_other_broker,
                             str_rg_meeting_status, str_spinner_lead_status, strCompitator_Name, strProduct, strRemark, str_spinner_research_type,
                             str_spinner_duration, strPanNo, strB_Margin, strB_aum, strB_sip, strB_number, strB_value, strB_premium, str_reason,
-                            str_next_meeting_date, str_metting_agenda, str_lead_update_log, strCreatedby, strCreateddt, strUpdateddt, strUpdatedby,strEmpCode,
-                            strLastMeetingDate,strLastMeetingUpdate,selectedCatId,strCustomer_id_name,str_duration_date};
+                            str_next_meeting_date, str_metting_agenda, str_lead_update_log, strCreatedby, strCreateddt, strUpdateddt, strUpdatedby, strEmpCode,
+                            strLastMeetingDate, strLastMeetingUpdate, selectedCatId, strCustomer_id_name, str_duration_date};
 
                     boolean result = Narnolia.dbCon.update(DbHelper.TABLE_DIRECT_LEAD, selection, valuesArray, utils.columnNamesLeadUpdate, selectionArgs);
-                    if (result){
+                    if (result) {
 
                         try {
                             // WHERE clause
-                            String where = " where lead_id = '"+leadId+"' and flag NOT IN('D')";
-                            Cursor cursor = Narnolia.dbCon.fetchFromSelect(DbHelper.TABLE_DIRECT_LEAD,where);
+                            String where = " where lead_id = '" + leadId + "' and flag NOT IN('D')";
+                            Cursor cursor = Narnolia.dbCon.fetchFromSelect(DbHelper.TABLE_DIRECT_LEAD, where);
                             if (cursor != null && cursor.getCount() > 0) {
                                 cursor.moveToFirst();
                                 do {
@@ -3487,8 +3479,8 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
                                 } while (cursor.moveToNext());
                                 cursor.close();
 
-                            }else {
-                                Toast.makeText(mContext, "No data found..!",Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(mContext, "No data found..!", Toast.LENGTH_SHORT).show();
                             }
 
                         } catch (Exception e) {
@@ -3498,7 +3490,7 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
                         linear_lead_details_hidden.setVisibility(View.VISIBLE);
 
                         try {
-                            selected=true;
+                            selected = true;
                             populateData(leadInfoModel);
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -3511,7 +3503,6 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
 
         }
     }
-
 
 
     public class GetCategoryTypeData extends AsyncTask<Void, Void, SoapObject> {
@@ -3561,9 +3552,9 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
                     if (root.getProperty("category_id") != null) {
                         if (!root.getProperty("category_id").toString().equalsIgnoreCase("anyType{}")) {
 //                            strCategoryId += root.getProperty("category_id").toString() + "#";
-                            if (Integer.parseInt(root.getProperty("category_id").toString()) == 0){
+                            if (Integer.parseInt(root.getProperty("category_id").toString()) == 0) {
                                 selItemsPosition.clear();
-                            }else{
+                            } else {
                                 strCategoryId = root.getProperty("category_id").toString();
                                 selItemsPosition.add(strCategoryId);
                             }
@@ -3577,7 +3568,7 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
                     }
                 }
 
-                String name = + selItemsPosition.size() + " is Selected";
+                String name = +selItemsPosition.size() + " is Selected";
                 btn1_opportunity_pitched2.setText(name);
 
             } catch (Exception e) {
@@ -3625,24 +3616,25 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
             }
             // strOccupation  = 1 and strDesignation = 1  also currency = "" these are hardcoded values we need to change when we get master data
             SOAPWebService webService = new SOAPWebService(mContext);
-            if (cliked){
-                strStages="closer of lead";
-                strFlag="D";
-            }else {
+            if (cliked) {
+                strStages = "closer of lead";
+                strFlag = "D";
+            } else {
                 strStages = "Lead Updated";
                 strFlag = "U";
             }
-            strAllocated_userid="APP";
+            strAllocated_userid = "APP";
 
 
-            SoapPrimitive object = webService.UpdateLead(leadId,str_spinner_source_of_lead, str_spinner_sub_source,str_cust_id, str_fname, str_mname, str_lname, str_mobile_no,
-                    str_email, str_spinner_age_group, str_date_of_birth,str_address,str_flat,str_street,str_laocion ,str_city,str_pincode,str_spinner_occupation,str_spinner_annual_income,str_spinner_other_broker,str_rg_meeting_status,str_spinner_lead_status,strRemark,strCompitator_Name,selectedCatId,
-                    str_spinner_research_type,str_spinner_duration,strPanNo,str_reason,strB_Margin,strB_aum,strB_sip,strB_number
-                    ,strB_value,strB_premium,str_next_meeting_date,str_metting_agenda,str_lead_update_log,strFlag,"",empcode,strLastMeetingDate,strLastMeetingUpdate,"1",empcode,"","");
+            SoapPrimitive object = webService.UpdateLead(leadId, str_spinner_source_of_lead, str_spinner_sub_source, str_cust_id, str_fname, str_mname, str_lname, str_mobile_no,
+                    str_email, str_spinner_age_group, str_date_of_birth, str_address, str_flat, str_street, str_laocion, str_city, str_pincode, str_spinner_occupation, str_spinner_annual_income, str_spinner_other_broker, str_rg_meeting_status, str_spinner_lead_status, strRemark, strCompitator_Name, selectedCatId,
+                    str_spinner_research_type, str_spinner_duration, strPanNo, str_reason, strB_Margin, strB_aum, strB_sip, strB_number
+                    , strB_value, strB_premium, str_next_meeting_date, str_metting_agenda, str_lead_update_log, strFlag, "", empcode, strLastMeetingDate, strLastMeetingUpdate, "1", empcode, "", "");
 
             return object;
 
         }
+
         @Override
         protected void onPostExecute(SoapPrimitive soapObject) {
             super.onPostExecute(soapObject);
@@ -3654,9 +3646,9 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
                 if (responseId.contains("ERROR") || responseId.contains("null")) {
                     Toast.makeText(mContext, "Please check Internet Connection", Toast.LENGTH_LONG).show();
                 } else {
-                    if (strFlag=="D"){
+                    if (strFlag == "D") {
                         displayMessage("Lead Closed Sucessfully");
-                    }else if (strFlag=="U") {
+                    } else if (strFlag == "U") {
 
                         displayMessage("Lead Updated Successfully");
                     }
@@ -3666,8 +3658,8 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
 
             } catch (Exception e) {
                 e.printStackTrace();
-            }finally {
-                new SaveResearch().execute();
+            } finally {
+                new SaveResearch1().execute();
                 new SaveCategory1().execute();
             }
 
@@ -3676,7 +3668,7 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
 
 
     //...........................
-    public class SaveResearch extends AsyncTask <String, Void, SoapPrimitive> {
+    public class SaveResearch1 extends AsyncTask<String, Void, SoapPrimitive> {
 
         @Override
         protected void onPreExecute() {
@@ -3694,9 +3686,61 @@ public class UpdateLeadActivity extends AbstractActivity  implements CompoundBut
         protected SoapPrimitive doInBackground(String... params) {
             SoapPrimitive object = null;
             SOAPWebService webService = new SOAPWebService(mContext);
-            String fromType="APP";
+            String fromType = "APP";
             try {
-                object = webService.SaveResearch(leadId,str_spinner_research_type, empcode,fromType);
+                object = webService.SaveResearch(leadId, "D", empcode, fromType);
+
+            } catch (Exception e) {
+                // TODO Auto-generated catch block
+            }
+            return object;
+        }
+
+        @Override
+        protected void onPostExecute(SoapPrimitive soapObject) {
+            super.onPostExecute(soapObject);
+            try {
+                if (progressDialog != null && progressDialog.isShowing()) {
+                    progressDialog.dismiss();
+                }
+                responseId = String.valueOf(soapObject);
+                if (responseId.contains("ERROR") || responseId.contains("null")) {
+                    Toast.makeText(mContext, "Please check Internet Connection", Toast.LENGTH_LONG).show();
+
+
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                new SaveResearch2().execute();
+            }
+
+        }
+    }
+
+    //...........................
+    public class SaveResearch2 extends AsyncTask<String, Void, SoapPrimitive> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            try {
+                if (progressDialog != null && !progressDialog.isShowing()) {
+                    progressDialog.show();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        protected SoapPrimitive doInBackground(String... params) {
+            SoapPrimitive object = null;
+            SOAPWebService webService = new SOAPWebService(mContext);
+            String fromType = "APP";
+            try {
+                object = webService.SaveResearch(leadId, str_spinner_research_type, empcode, fromType);
 
             } catch (Exception e) {
                 // TODO Auto-generated catch block

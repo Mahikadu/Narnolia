@@ -36,7 +36,9 @@
             android:layout_marginTop="10dp"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="@color/coloryellow" />
-
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
         <EditText
             android:id="@+id/etUserName"
             android:layout_width="match_parent"
@@ -48,9 +50,13 @@
             android:drawablePadding="5dp"
             android:ems="10"
             android:hint="@string/username"
+            android:focusableInTouchMode="false"
+            android:cursorVisible="false"
+            android:longClickable="false"
             android:maxLines="1"
             android:inputType="text"
             />
+        </android.support.design.widget.TextInputLayout>
         <TextView
             android:id="@+id/t_username"
             android:layout_width="wrap_content"
@@ -60,20 +66,29 @@
             android:layout_gravity="center"
             android:visibility="gone"/>
 
-        <EditText
-            android:id="@+id/etPassword"
+        <android.support.design.widget.TextInputLayout
+
             android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:layout_centerHorizontal="true"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="15dp"
-            android:drawablePadding="10dp"
-            android:ems="10"
-            android:hint="@string/password"
-            android:inputType="textPassword"
-            android:maxLines="1"
-            />
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/etPassword"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="15dp"
+                android:drawablePadding="10dp"
+                android:ems="10"
+                android:focusableInTouchMode="false"
+                android:longClickable="false"
+                android:cursorVisible="false"
+                android:hint="@string/password"
+                android:inputType="textPassword"
+                android:maxLines="1"/>
+        </android.support.design.widget.TextInputLayout>
+
         <TextView
             android:id="@+id/t_password"
             android:layout_width="wrap_content"

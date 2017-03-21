@@ -117,7 +117,7 @@ public class MultiSpinnerSearch extends Spinner implements OnCancelListener {
 
         if (adapter != null)
             adapter.notifyDataSetChanged();
-
+//        str_spinner_research_type = "";
         listener.onItemsSelected(items);
     }
 
