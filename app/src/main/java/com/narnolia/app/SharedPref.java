@@ -28,11 +28,13 @@ public class SharedPref {
     private static final String KEY_lang = "key_lang";
     private static final String KEY_attendence = "key_attendence";
     private static final String KEY_fromDate = "key_fromDate";
+    private static final String Key_Location="key_location";
     private static final String KEY_LoginId = "key_loginid";
     private static final String KEY_Mobile = "key_mobile";
     private static final String KEY_Result = "key_result";
     private static final String KEY_Status = "key_status";
     private static final String KEY_UserId = "key_userid";
+    private static final String KEY_RM_ID= "key_rm_id";
     private static final String KEY_NODATA = "key_nodata";
     private static final String KEY_ProsalRefId="key_proposalrefid";
     private static final String  KEY_PersonId="key_personId";
@@ -45,7 +47,7 @@ public class SharedPref {
     }
 
     public void setSharedPrefLogin(String Email,String LoginId, String Mobile, String Result, String Status,
-                                   String UserId) {
+                                   String UserId,String rm_id) {
 
         editor.putString(KEY_Email, Email);
         editor.putString(KEY_LoginId, LoginId);
@@ -53,7 +55,7 @@ public class SharedPref {
         editor.putString(KEY_Result, Result);
         editor.putString(KEY_Status, Status);
         editor.putString(KEY_UserId, UserId);
-
+        editor.putString(KEY_RM_ID,rm_id);
         editor.commit();
     }
 
@@ -183,6 +185,10 @@ public class SharedPref {
         String currDate = sharedPref.getString(KEY_fromDate, "");
         return currDate;
     }
+    public String getKey_Location(){
+        String loc=sharedPref.getString(Key_Location,"");
+        return loc;
+    }
 
     public void setKeyNodata(boolean isData) {
         editor.putBoolean(KEY_NODATA, isData);
@@ -230,7 +236,7 @@ public class SharedPref {
         return sharedPref.getBoolean(IS_SD_CARD_PERMISSION, false);
     }
 
-    public void setSharedPrefLoginWithPass(String loginId,String pass, String status, String userFrom, String versionName, String lat, String lang, String attendence, String fromDate) {
+    public void setSharedPrefLoginWithPass(String loginId,String pass, String status, String userFrom, String versionName, String lat, String lang, String attendence, String fromDate,String loc) {
         editor.putString(KEY_LoginId, loginId);
         editor.putString(KEY_UserPass, pass);
         editor.putString(KEY_Status, status);
@@ -240,6 +246,7 @@ public class SharedPref {
         editor.putString(KEY_lang, lang);
         editor.putString(KEY_attendence, attendence);
         editor.putString(KEY_fromDate, fromDate);
+        editor.putString(Key_Location,loc);
         editor.commit();
     }
 }

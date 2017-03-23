@@ -70,6 +70,7 @@ public class MyCalendarActivity extends AbstractActivity implements OnClickListe
 	public SharedPref pref;
 	private Context mContext;
 	private String strAttendance = "";
+	String LoginCheck;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -106,6 +107,7 @@ public class MyCalendarActivity extends AbstractActivity implements OnClickListe
 				R.id.calendar_day_gridcell, month, year);
 		adapter.notifyDataSetChanged();
 		calendarView.setAdapter(adapter);
+		LoginCheck=getIntent().getStringExtra("from_Login");
 	}
 
 	/**
@@ -503,7 +505,7 @@ public class MyCalendarActivity extends AbstractActivity implements OnClickListe
 						gridcell.setBackgroundColor(getResources().getColor(R.color.border_color));
 						/*Intent intent = new Intent(MyCalendarActivity.this, HomeActivity.class);
 						startActivity(intent);*/
-						strAttendance = "P";
+						strAttendance = "Present";
 						new UserLogin().execute();
 
 					/*	db.close();
@@ -547,7 +549,7 @@ public class MyCalendarActivity extends AbstractActivity implements OnClickListe
 				@Override
 				public void onClick(View v) {
 
-					strAttendance = "A";
+					strAttendance = "Absent";
 					if(isConnectingToInternet())
 					{
  						// TODO Auto-generated method stub
@@ -755,7 +757,7 @@ public class MyCalendarActivity extends AbstractActivity implements OnClickListe
 			}
 			LoginWebService webService = new LoginWebService(MyCalendarActivity.this);
 
-			SoapObject object1 = webService.LoginLead(pref.getLoginId(), pref.getUserPass(),pref.getApp(), pref.getVersion_name(),pref.getLat(),pref.getLang(),"P",pref.getCurrentDate());
+			SoapObject object1 = webService.LoginLead(pref.getLoginId(), pref.getUserPass(),pref.getApp(), pref.getVersion_name(),pref.getLat(),pref.getLang(),strAttendance,pref.getCurrentDate(),pref.getKey_Location(),"");
 
 			return object1;
 		}
@@ -790,7 +792,7 @@ public class MyCalendarActivity extends AbstractActivity implements OnClickListe
 
                    /* pushActivity(LoginActivity.this, HomeActivity.class, null, true);*/
 					pushActivity(MyCalendarActivity.this,HomeActivity.class,null,true);
-					pref.setSharedPrefLoginWithPass(pref.getLoginId(), pref.getUserPass(),pref.getStatus(), "App", pref.getVersion_name(), pref.getLat(), pref.getLang(),strAttendance,pref.getCurrentDate());
+					pref.setSharedPrefLoginWithPass(pref.getLoginId(), pref.getUserPass(),pref.getStatus(), "App", pref.getVersion_name(), pref.getLat(), pref.getLang(),strAttendance,pref.getCurrentDate(),pref.getKey_Location());
 
 				}
 

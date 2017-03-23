@@ -136,6 +136,8 @@
     <string name="column_username">username</string>
     <string name="column_password">password</string>
     <string name="column_attendance">Attendance</string>
+    <string name="column_role_id">is_rm</string>
+
 
     //master details column
 

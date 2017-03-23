@@ -9,6 +9,8 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -40,6 +42,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by Admin on 24-10-2016.
@@ -52,7 +56,7 @@ public class LoginActivity extends AbstractActivity {
     private ProgressDialog progressDialog;
     private SharedPref sharedPref;
     private String responseId;
-    public String email, loginId, mobile, result, status, userId, strAttendance;
+    public String email, loginId, mobile, result, status, userId, strAttendance,is_rm;
     private String mId, mType, mValue;
     String versionName = "";
 
@@ -66,7 +70,7 @@ public class LoginActivity extends AbstractActivity {
     private static final int REQUEST_CODE_PERMISSION = 2;
     String mPermission = Manifest.permission.ACCESS_FINE_LOCATION;
     GPSTracker gps;
-    String lat,lang;
+    String lat,lang,location;
     PackageManager manager;
     String currentDate = "";
 
@@ -243,10 +247,27 @@ public class LoginActivity extends AbstractActivity {
                                     lat=Double.toString(latitude);
                                     double longitude = gps.getLongitude();
                                     lang=Double.toString(longitude);
+                                    try {
+
+                                        Geocoder geo = new Geocoder(mContext, Locale.getDefault());
+                                        List<Address> addresses = geo.getFromLocation(latitude, longitude, 1);
+                                        if (addresses.isEmpty()) {
+                                            Toast.makeText(mContext, "Please Waiting for location", Toast.LENGTH_SHORT).show();
+                                        }
+                                        else {
+                                            if (addresses.size() > 0) {
+                                                //  Toast.makeText(mContext, "your location is"+addresses.get(0), Toast.LENGTH_SHORT).show();
+                                                //addres.setText(addresses.get(0).getFeatureName() + ", " + addresses.get(0).getLocality() +", " + addresses.get(0).getAdminArea() + ", " + addresses.get(0).getCountryName());
+                                              location=addresses.get(0).getLocality();
+                                               // Toast.makeText(getApplicationContext(), "Address:- " + addresses.get(0).getLocality(), Toast.LENGTH_LONG).show();
+                                            }
+                                        }
+                                    }
+                                    catch (Exception e) {
+                                        e.printStackTrace(); // getFromLocation() may sometimes fail
+                                    }
                                     new UserLogin().execute();
-                                    // \n is for new line
-                                   /* Toast.makeText(getApplicationContext(), "Your Location is - \nLat: "
-                                            + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();*/
+
                                 }else{
                                     // can't get location
                                     // GPS or Network is not enabled
@@ -301,7 +322,7 @@ public class LoginActivity extends AbstractActivity {
 
                 String resultData = cursor.getString(cursor.getColumnIndex(mContext.getString(R.string.column_result)));
                 sharedPref.clearPref();
-                sharedPref.setSharedPrefLogin(email, loginId, mobile, resultData, status, userId);
+                sharedPref.setSharedPrefLogin(email, loginId, mobile, resultData, status, userId,is_rm);
                 if (strAttendance.equals("P")){
                     result = true;
                 }else{
@@ -324,8 +345,10 @@ public class LoginActivity extends AbstractActivity {
                     mContext.getString(R.string.column_loginId), mContext.getString(R.string.column_mobile),
                     mContext.getString(R.string.column_result), mContext.getString(R.string.column_status),
                     mContext.getString(R.string.column_userId), mContext.getString(R.string.column_username),
-                    mContext.getString(R.string.column_password)};
-            String valuesArray[] = {email, loginId, mobile, result, status, userId, strUser, strPass};
+                    mContext.getString(R.string.column_password),
+            mContext.getString(R.string.column_attendance),
+            mContext.getString(R.string.column_role_id)};
+            String valuesArray[] = {email, loginId, mobile, result, status, userId, strUser, strPass,is_rm};
             // WHERE   clause
             String selection = mContext.getString(R.string.column_userId) + " = ?";
 
@@ -360,7 +383,7 @@ public class LoginActivity extends AbstractActivity {
             String attendance="";
          /*   String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());*/
 
-            SoapObject object1 = webService.LoginLead(strUser, strPass, "APP", versionName,lat,lang,attendance,currentDate);
+            SoapObject object1 = webService.LoginLead(strUser, strPass, "APP", versionName,lat,lang,attendance,currentDate,location,"");
 
             return object1;
         }
@@ -389,15 +412,20 @@ public class LoginActivity extends AbstractActivity {
                     mobile = res.getPropertyAsString("Mobile");
                     status = res.getPropertyAsString("Status");
                     userId = res.getPropertyAsString("UserId");
+                    is_rm=res.getPropertyAsString("is_rm");
 
                     sharedPref.clearPref();
-                    sharedPref.setSharedPrefLogin(email, loginId, mobile, result, status, userId);
+                    sharedPref.setSharedPrefLogin(email, loginId, mobile, result, status, userId,is_rm);
 
                     insertDataInDb();
 
                    /* pushActivity(LoginActivity.this, HomeActivity.class, null, true);*/
-                    pushActivity(LoginActivity.this,MyCalendarActivity.class,null,true);
-                    sharedPref.setSharedPrefLoginWithPass(strUser, strPass, status, "App", versionName, lat, lang,"",currentDate);
+
+                   Intent intent=new Intent(LoginActivity.this,MyCalendarActivity.class);
+                    intent.putExtra("from_Login","login");
+                    startActivity(intent);
+                  /*  pushActivity(LoginActivity.this,MyCalendarActivity.class,null,true);*/
+                    sharedPref.setSharedPrefLoginWithPass(strUser, strPass, status, "App", versionName, lat, lang,"",currentDate,location);
 
                 }
 
