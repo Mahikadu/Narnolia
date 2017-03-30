@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/size_90"
+        android:background="@color/white">
+
+        <TextView
+            android:id="@+id/sub_lead_id"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="10"
+            android:background="@drawable/table_row_item"
+            android:gravity="center"
+            android:padding="@dimen/view_padding"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/colorRed"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/sub_name"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="10"
+            android:background="@drawable/table_row_item"
+            android:gravity="center"
+            android:padding="@dimen/view_padding"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/colorRed"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/sub_mobile_no"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="10"
+            android:background="@drawable/table_row_item"
+            android:gravity="center"
+            android:padding="@dimen/view_padding"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/colorRed"
+            android:textStyle="bold" />
+
+
+        <TextView
+            android:id="@+id/sub_city"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="10"
+            android:background="@drawable/table_row_item"
+            android:gravity="center"
+            android:padding="@dimen/view_padding"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/colorRed"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/sub_pincode"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="10"
+            android:background="@drawable/table_row_item"
+            android:gravity="center"
+            android:padding="@dimen/view_padding"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/colorRed"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/sub_last_meeting_date"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="20"
+            android:background="@drawable/table_row_item"
+            android:gravity="center"
+            android:padding="@dimen/view_padding"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/colorRed"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/sub_last_meeting_update"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="20"
+            android:background="@drawable/table_row_item"
+            android:gravity="center"
+            android:padding="@dimen/view_padding"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/colorRed"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/sub_lead_status"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="10"
+            android:background="@drawable/table_row_item"
+            android:gravity="center"
+            android:padding="@dimen/view_padding"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/colorRed"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+</LinearLayout>

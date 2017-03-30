@@ -17,7 +17,7 @@
     <LinearLayout
         android:id="@+id/login_layout"
         android:layout_width="match_parent"
-        android:layout_height="340dp"
+        android:layout_height="360dp"
         android:orientation="vertical"
         android:background="@color/colorWhite"
         android:layout_marginLeft="30dp"
@@ -42,7 +42,7 @@
         <EditText
             android:id="@+id/etUserName"
             android:layout_width="match_parent"
-            android:layout_height="35dp"
+            android:layout_height="42dp"
             android:layout_centerHorizontal="true"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
@@ -50,6 +50,7 @@
             android:drawablePadding="5dp"
             android:ems="10"
             android:hint="@string/username"
+            android:maxLength="50"
             android:focusableInTouchMode="false"
             android:cursorVisible="false"
             android:longClickable="false"
@@ -74,13 +75,14 @@
             <EditText
                 android:id="@+id/etPassword"
                 android:layout_width="match_parent"
-                android:layout_height="35dp"
+                android:layout_height="42dp"
                 android:layout_centerHorizontal="true"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginTop="15dp"
                 android:drawablePadding="10dp"
                 android:ems="10"
+                android:maxLength="50"
                 android:focusableInTouchMode="false"
                 android:longClickable="false"
                 android:cursorVisible="false"
@@ -122,6 +124,16 @@
             android:text="@string/forgetPassword"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="@color/colorBlue"
+            android:textSize="18sp" />
+        <TextView
+            android:id="@+id/forgot_pass_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:padding="@dimen/layout_padding"
+            android:text="@string/forgot_message"
+            android:visibility="gone"
+            android:textAppearance="?android:attr/textAppearanceLarge"
             android:textSize="18sp" />
 
     </LinearLayout>

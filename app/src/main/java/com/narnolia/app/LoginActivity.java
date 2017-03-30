@@ -31,10 +31,15 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.narnolia.app.adapter.NotificationAdapter;
 import com.narnolia.app.dbconfig.DbHelper;
 import com.narnolia.app.libs.Utils;
+import com.narnolia.app.model.GetMessagesModel;
+import com.narnolia.app.model.LeadInfoModel;
+import com.narnolia.app.model.LoginDetailsModel;
 import com.narnolia.app.network.GPSTracker;
 import com.narnolia.app.network.LoginWebService;
+import com.narnolia.app.network.SOAPWebService;
 
 import org.ksoap2.serialization.SoapObject;
 
@@ -58,11 +63,12 @@ public class LoginActivity extends AbstractActivity {
     private String responseId;
     public String email, loginId, mobile, result, status, userId, strAttendance,is_rm;
     private String mId, mType, mValue;
+    private String f_Mailid,forgot_flag;
     String versionName = "";
-
+    private LoginDetailsModel loginDetailsModel;
 
     EditText username, password;
-    TextView t_username, t_password, forget_password;
+    TextView t_username, t_password, forget_password,forgot_pass_message;
     Button Login;
     private String strPass, strUser;
 
@@ -129,6 +135,7 @@ public class LoginActivity extends AbstractActivity {
             t_username=(TextView)findViewById(R.id.t_username);
             t_password=(TextView)findViewById(R.id.t_password);
             forget_password=(TextView)findViewById(R.id.forget_password);
+            forgot_pass_message=(TextView)findViewById(R.id.forgot_pass_message);
             //.........Text watcher for hiding tex views......
             username.addTextChangedListener(new TextWatcher() {
                 @Override
@@ -143,9 +150,12 @@ public class LoginActivity extends AbstractActivity {
 
                 @Override
                 public void afterTextChanged(Editable editable) {
-                    if (username.length()>0){
+                  /*  if (TextUtils.isEmpty(username.getText().toString())){
                         t_username.setVisibility(View.GONE);
-                    }
+                    }*/
+                  if (!TextUtils.isEmpty(username.getText().toString())){
+                      t_username.setVisibility(View.GONE);
+                  }
                 }
             });
 
@@ -227,7 +237,7 @@ public class LoginActivity extends AbstractActivity {
                         View focusView = null;
                         strUser = username.getText().toString().trim();
                         strPass = password.getText().toString().trim();
-                        if (TextUtils.isEmpty(strUser)&&TextUtils.isEmpty(strPass)){
+                        if (TextUtils.isEmpty(username.getText().toString())&&TextUtils.isEmpty(strPass)){
                             t_username.setVisibility(View.VISIBLE);
                             t_password.setVisibility(View.VISIBLE);
                         }
@@ -258,8 +268,8 @@ public class LoginActivity extends AbstractActivity {
                                             if (addresses.size() > 0) {
                                                 //  Toast.makeText(mContext, "your location is"+addresses.get(0), Toast.LENGTH_SHORT).show();
                                                 //addres.setText(addresses.get(0).getFeatureName() + ", " + addresses.get(0).getLocality() +", " + addresses.get(0).getAdminArea() + ", " + addresses.get(0).getCountryName());
-                                              location=addresses.get(0).getLocality();
-                                               // Toast.makeText(getApplicationContext(), "Address:- " + addresses.get(0).getLocality(), Toast.LENGTH_LONG).show();
+                                                location=addresses.get(0).getLocality();
+                                                // Toast.makeText(getApplicationContext(), "Address:- " + addresses.get(0).getLocality(), Toast.LENGTH_LONG).show();
                                             }
                                         }
                                     }
@@ -291,9 +301,13 @@ public class LoginActivity extends AbstractActivity {
             forget_password.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (TextUtils.isEmpty(strUser)) {
+                    if (TextUtils.isEmpty(username.getText().toString())) {
                         //   displayMessage("Enter UserName");
                         t_username.setVisibility(View.VISIBLE);
+                    }else{
+                        t_username.setVisibility(View.GONE);
+                        strUser = username.getText().toString().trim();
+                        new FrogotPassword().execute();
                     }
                 }
             });
@@ -336,28 +350,70 @@ public class LoginActivity extends AbstractActivity {
         }
         return result;
     }
+    public LoginDetailsModel loginDetails(Cursor cursor) {
+        loginDetailsModel = new LoginDetailsModel();
+        try {
+            loginDetailsModel.setLogin_LoginID(cursor.getString(cursor.getColumnIndex("loginId")));
+            loginDetailsModel.setLogin_UserID(cursor.getString(cursor.getColumnIndex("userId")));
+            loginDetailsModel.setLogin_Email(cursor.getString(cursor.getColumnIndex("email")));
+            loginDetailsModel.setLogin_Mobile_no(cursor.getString(cursor.getColumnIndex("mobile")));
+            loginDetailsModel.setLogin_Result(cursor.getString(cursor.getColumnIndex("result")));
+            loginDetailsModel.setLogin_Status(cursor.getString(cursor.getColumnIndex("status")));
+            loginDetailsModel.setLogin_Username(cursor.getString(cursor.getColumnIndex("username")));
+            loginDetailsModel.setLogin_IsRM(cursor.getString(cursor.getColumnIndex("is_rm")));
+            loginDetailsModel.setLogin_Attendence(cursor.getString(cursor.getColumnIndex("Attendance")));
 
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return loginDetailsModel;
+
+    }
     private void insertDataInDb() {
         try {
 
 
-            String columnNames[] = {mContext.getString(R.string.column_mobile), mContext.getString(R.string.column_email),
-                    mContext.getString(R.string.column_loginId), mContext.getString(R.string.column_mobile),
-                    mContext.getString(R.string.column_result), mContext.getString(R.string.column_status),
-                    mContext.getString(R.string.column_userId), mContext.getString(R.string.column_username),
+            String columnNames[] = { mContext.getString(R.string.column_userId), mContext.getString(R.string.column_loginId), mContext.getString(R.string.column_email),mContext.getString(R.string.column_mobile),
+                    mContext.getString(R.string.column_result), mContext.getString(R.string.column_status)
+                   , mContext.getString(R.string.column_username),
                     mContext.getString(R.string.column_password),
-            mContext.getString(R.string.column_attendance),
-            mContext.getString(R.string.column_role_id)};
-            String valuesArray[] = {email, loginId, mobile, result, status, userId, strUser, strPass,is_rm};
+                    mContext.getString(R.string.column_attendance),
+                    mContext.getString(R.string.column_role_id)};
+            String valuesArray[] = {userId,loginId,email,  mobile, result, status, strUser, strPass,strAttendance,is_rm};
             // WHERE   clause
-            String selection = mContext.getString(R.string.column_userId) + " = ?";
+            String selection = mContext.getString(R.string.column_loginId) + " = ?";
 
             // WHERE clause arguments
-            String[] selectionArgs = {userId};
+            String[] selectionArgs = {loginId};
 
             boolean result = Narnolia.dbCon.update(DbHelper.TABLE_USER_DETAIL, selection, valuesArray, columnNames, selectionArgs);
 
+            if (result) {
 
+                try {
+                    String where = " where loginId = '" + loginId + "'";
+
+                    Cursor cursor = Narnolia.dbCon.fetchFromSelect(DbHelper.TABLE_USER_DETAIL,where);
+                    if (cursor != null && cursor.getCount() > 0) {
+                        cursor.moveToFirst();
+                        do {
+                            loginDetailsModel = loginDetails(cursor);
+//                                        leadInfoModelList.add(leadInfoModel);
+
+                        } while (cursor.moveToNext());
+                        cursor.close();
+
+                    } else {
+                        Toast.makeText(mContext, "No data found..!", Toast.LENGTH_SHORT).show();
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -421,7 +477,7 @@ public class LoginActivity extends AbstractActivity {
 
                    /* pushActivity(LoginActivity.this, HomeActivity.class, null, true);*/
 
-                   Intent intent=new Intent(LoginActivity.this,MyCalendarActivity.class);
+                    Intent intent=new Intent(LoginActivity.this,MyCalendarActivity.class);
                     intent.putExtra("from_Login","login");
                     startActivity(intent);
                   /*  pushActivity(LoginActivity.this,MyCalendarActivity.class,null,true);*/
@@ -436,6 +492,95 @@ public class LoginActivity extends AbstractActivity {
             }
         }
     }
+    public class FrogotPassword extends AsyncTask<Void, Void, SoapObject> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            try {
+                if (progressDialog != null && !progressDialog.isShowing()) {
+                    progressDialog.show();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
+
+        @Override
+        protected SoapObject doInBackground(Void... params) {
+
+            SoapObject object = null;
+            try {
+                SOAPWebService webService = new SOAPWebService(mContext);
+                object = webService.ForgotPassword(strUser);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return object;
+        }
+
+        @Override
+        protected void onPostExecute(SoapObject soapObject) {
+            super.onPostExecute(soapObject);
+            try {
+                if (progressDialog != null && progressDialog.isShowing()) {
+                    progressDialog.dismiss();
+                }
+
+                responseId = String.valueOf(soapObject);
+                if (responseId.equals("anyType{}")){
+                    Toast.makeText(mContext, "Sorry you Enterd Wrong Username", Toast.LENGTH_SHORT).show();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            try {
+                for (int i = 0; i < soapObject.getPropertyCount(); i++){
+                    SoapObject root = (SoapObject) soapObject.getProperty(i);
+
+
+                    if (root.getProperty("email_id") != null) {
+
+                        if (!root.getProperty("email_id").toString().equalsIgnoreCase("anyType{}")) {
+                            f_Mailid = root.getProperty("email_id").toString();
+
+
+                        } else {
+                            f_Mailid = "";
+                        }
+                    } else {
+                        f_Mailid = "";
+                    }
+                    if (root.getProperty("lead_status") != null) {
+
+                        if (!root.getProperty("lead_status").toString().equalsIgnoreCase("anyType{}")) {
+                            forgot_flag = root.getProperty("lead_status").toString();
+
+                        } else {
+                            forgot_flag = "";
+                        }
+                    } else {
+                        forgot_flag= "";
+                    }
+
+                    if (forgot_flag.equals("True")){
+                        forgot_pass_message.setVisibility(View.VISIBLE);
+                    }
+                    else {
+                        forgot_pass_message.setVisibility(View.GONE);
+                    }
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
+    }
+
 
 
 }

@@ -7,6 +7,7 @@
     <string name="username">Username</string>
     <string name="text_footer">Powered By smartforce CRM</string>
     <string name="forgetPassword"><u>Forgot Password?  </u></string>
+    <string name="forgot_message">Reset Link has been sent to your respected Email ID.</string>
 <string name="check_yes">Yes</string>
     <string name="check_no">No</string>
 
@@ -25,6 +26,7 @@
     <string name="header_text_create_lead">Create Lead</string>
     <string name="header_text_update_lead">Update Lead</string>
     <string name="Header_text_Notification">Notification</string>
+    <string name="status_report">Status Report</string>
 
     <!--//lead details-->
     <string name="Sourceoflead">Source of Lead</string>
@@ -293,5 +295,27 @@
     <string name="confirm_pass">Confirm Password</string>
     <string name="change_pass">Change Password</string>
 
-
+   <!-- Status Report-->
+    <string name="status">Status</string>
+    <string name="Todayreport">Today Report</string>
+    <string name="t1">T-1</string>
+    <string name="t2">T-2</string>
+    <string name="t3">T-3</string>
+    <string name="t4">T-4</string>
+    <string name="t5">T-5</string>
+    <string name="t6">T-6</string>
+    <string name="t7">T-7</string>
+   <string name="t_month">T-Month</string>
+    <string name="t_quarter">T-Quarter</string>
+    <string name="lead_created">Lead Created</string>
+    <string name="closer_lead">Closer Of Lead</string>
+    <!--sub Status Report-->
+    <string name="lead_id">Lead Id</string>
+<string name="name1">Name</string>
+    <string name="mobile_no1">Mobile No</string>
+    <string name="city_name">City</string>
+    <string name="Pincode_city">Pincode</string>
+    <string name="last_meeting_date">Last Meeting Date</string>
+    <string name="last_meeting_update">Last Meeting Update</string>
+    <string name="lead_status1">Lead Status</string>
 </resources>

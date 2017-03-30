@@ -187,8 +187,7 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
 
                 break;*/
             case R.id.linear_mis_reports:
-
-              //  showReportDialog();
+                pushActivity(mContext, StatusReportActivity.class, null, true);
 
             break;
             case R.id.linear_notification:

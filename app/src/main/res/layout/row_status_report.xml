@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/size_90"
+        android:background="@color/white">
+
+        <TextView
+            android:id="@+id/report_status"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="13.33"
+            android:background="@drawable/table_row_item"
+            android:gravity="center"
+            android:padding="@dimen/view_padding"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/colorRed"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/report_today"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="13.32"
+            android:background="@drawable/table_row_item"
+            android:gravity="center"
+            android:padding="@dimen/view_padding"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/colorRed"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/report_t1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="6.66"
+            android:background="@drawable/table_row_item"
+            android:gravity="center"
+            android:padding="@dimen/view_padding"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/colorRed"
+            android:textStyle="bold" />
+
+
+        <TextView
+            android:id="@+id/report_t2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="6.66"
+            android:background="@drawable/table_row_item"
+            android:gravity="center"
+            android:padding="@dimen/view_padding"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/colorRed"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/report_t3"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="6.66"
+            android:background="@drawable/table_row_item"
+            android:gravity="center"
+            android:padding="@dimen/view_padding"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/colorRed"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/report_t4"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="6.66"
+            android:background="@drawable/table_row_item"
+            android:gravity="center"
+            android:padding="@dimen/view_padding"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/colorRed"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/report_t5"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="6.66"
+            android:background="@drawable/table_row_item"
+            android:gravity="center"
+            android:padding="@dimen/view_padding"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/colorRed"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/report_t6"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="6.66"
+            android:background="@drawable/table_row_item"
+            android:gravity="center"
+            android:padding="@dimen/view_padding"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/colorRed"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/report_t7"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="6.66"
+            android:background="@drawable/table_row_item"
+            android:gravity="center"
+            android:padding="@dimen/view_padding"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/colorRed"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/report_t_month"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="13.32"
+            android:background="@drawable/table_row_item"
+            android:gravity="center"
+            android:padding="@dimen/view_padding"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/colorRed"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/report_t_quarter"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="13.32"
+            android:background="@drawable/table_row_item"
+            android:gravity="center"
+            android:padding="@dimen/view_padding"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/colorRed"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+</LinearLayout>

@@ -5,7 +5,10 @@ import android.content.Context;
 import com.narnolia.app.R;
 import com.narnolia.app.SharedPref;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by Admin on 25-10-2016.
@@ -158,5 +161,21 @@ public class Utils {
     public void logout(Context mContext) {
         SharedPref sharedPref = new SharedPref(mContext);
         sharedPref.clearResult();
+    }
+
+    public static String getSelectedDate(int noOfDays){
+        String selDate = "";
+        try {
+            Calendar now = Calendar.getInstance();
+            // SimpleDateFormat df = new SimpleDateFormat("yyyy-dd-MM HH:mm:ss");
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+            now.setTime(new Date());
+            now.add(Calendar.DAY_OF_YEAR, noOfDays);
+            Date prevDate = now.getTime();
+            selDate = df.format(prevDate);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return selDate;
     }
 }

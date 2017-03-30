@@ -236,6 +236,13 @@ public class SharedPref {
         return sharedPref.getBoolean(IS_SD_CARD_PERMISSION, false);
     }
 
+    public String getIsRM() {
+        String isRM = sharedPref.getString(KEY_RM_ID, "");
+        return isRM;
+    }
+
+
+
     public void setSharedPrefLoginWithPass(String loginId,String pass, String status, String userFrom, String versionName, String lat, String lang, String attendence, String fromDate,String loc) {
         editor.putString(KEY_LoginId, loginId);
         editor.putString(KEY_UserPass, pass);

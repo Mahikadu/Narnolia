@@ -958,6 +958,21 @@ public class UpdateLeadActivity extends AbstractActivity implements CompoundButt
             } catch (Exception e) {
                 e.printStackTrace();
             }
+            Bundle extras = getIntent().getExtras();
+            if(extras != null){
+                String sub_lead_id= extras.getString("sub_lead_Id");
+                if (sub_lead_id!=null&& !sub_lead_id.equals("")) {
+                    for (int i = 0; i < strLeadNameArray.length; i++) {
+                        if (strLeadNameArray[i].contains(sub_lead_id)) {
+                            int selLeadPos = adapter8.getPosition(strLeadNameArray[i]);
+                            spinner_lead_name.setSelection(selLeadPos);
+                        }
+
+                    }
+
+                }
+            }
+
 
 
             // ...............Radio Group.....
@@ -1041,7 +1056,7 @@ public class UpdateLeadActivity extends AbstractActivity implements CompoundButt
                 //.............date of birth date picker
 
                 final Calendar newCalendar = Calendar.getInstance();
-                dateFormatter = new SimpleDateFormat("M-dd-yyyy");
+                dateFormatter = new SimpleDateFormat("MM-dd-yyyy");
                 datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
 
                     public void onDateSet(DatePicker view, int monthOfYear, int dayOfMonth, int year) {
@@ -2956,7 +2971,7 @@ public class UpdateLeadActivity extends AbstractActivity implements CompoundButt
 
                         if (!root.getProperty("Duration_date").toString().equalsIgnoreCase("anyType{}")) {
                             String duration = root.getProperty("Duration_date").toString();
-                            DateFormat inputDF = new SimpleDateFormat("M/dd/yyyy");
+                            DateFormat inputDF = new SimpleDateFormat("dd/MM/yyyy");
                             DateFormat outputDF = new SimpleDateFormat("M/dd/yyyy");
                             Date date = inputDF.parse(duration);
                             str_duration_date = outputDF.format(date);
@@ -3137,8 +3152,8 @@ public class UpdateLeadActivity extends AbstractActivity implements CompoundButt
 
                         if (!root.getProperty("dob").toString().equalsIgnoreCase("anyType{}")) {
                             String Dob = root.getProperty("dob").toString();
-                            DateFormat inputDF = new SimpleDateFormat("M/dd/yyyy");
-                            DateFormat outputDF = new SimpleDateFormat("M/dd/yyyy");
+                            DateFormat inputDF = new SimpleDateFormat("dd/MM/yyyy");
+                            DateFormat outputDF = new SimpleDateFormat("MM/dd/yyyy");
                             Date date = inputDF.parse(Dob);
                             str_date_of_birth = outputDF.format(date);
                         } else {
@@ -3184,8 +3199,8 @@ public class UpdateLeadActivity extends AbstractActivity implements CompoundButt
 
                         if (!root.getProperty("last_meeting_date").toString().equalsIgnoreCase("anyType{}")) {
                             String lastmeeting = root.getProperty("last_meeting_date").toString();
-                            DateFormat inputDF = new SimpleDateFormat("M/dd/yyyy");
-                            DateFormat outputDF = new SimpleDateFormat("M/dd/yyyy");
+                            DateFormat inputDF = new SimpleDateFormat("dd/MM/yyyy");
+                            DateFormat outputDF = new SimpleDateFormat("MM/dd/yyyy");
                             Date date = inputDF.parse(lastmeeting);
                             strLastMeetingDate = outputDF.format(date);
 
@@ -3309,8 +3324,8 @@ public class UpdateLeadActivity extends AbstractActivity implements CompoundButt
 
                         if (!root.getProperty("next_meeting_date").toString().equalsIgnoreCase("anyType{}")) {
                             String next_meeting = root.getProperty("next_meeting_date").toString();
-                            DateFormat inputDF = new SimpleDateFormat("M/dd/yyyy");
-                            DateFormat outputDF = new SimpleDateFormat("M/dd/yyyy");
+                            DateFormat inputDF = new SimpleDateFormat("dd/MM/yyyy");
+                            DateFormat outputDF = new SimpleDateFormat("MM/dd/yyyy");
                             Date date = inputDF.parse(next_meeting);
                             str_next_meeting_date = outputDF.format(date);
 
@@ -3646,9 +3661,9 @@ public class UpdateLeadActivity extends AbstractActivity implements CompoundButt
                 if (responseId.contains("ERROR") || responseId.contains("null")) {
                     Toast.makeText(mContext, "Please check Internet Connection", Toast.LENGTH_LONG).show();
                 } else {
-                    if (strFlag == "D") {
+                    if (strFlag.equals("D") ) {
                         displayMessage("Lead Closed Sucessfully");
-                    } else if (strFlag == "U") {
+                    } else if (strFlag.equals("U") ) {
 
                         displayMessage("Lead Updated Successfully");
                     }
@@ -3659,8 +3674,11 @@ public class UpdateLeadActivity extends AbstractActivity implements CompoundButt
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
-                new SaveResearch1().execute();
-                new SaveCategory1().execute();
+                if (str_spinner_research_type!=null && !str_spinner_research_type.equals("")){
+                    new SaveResearch1().execute();
+                }
+                if (selectedCatId!=null&& !selectedCatId.equals(""))
+                    new SaveCategory1().execute();
             }
 
         }

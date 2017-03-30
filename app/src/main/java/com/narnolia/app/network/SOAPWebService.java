@@ -202,30 +202,7 @@ public class SOAPWebService {
     }
 
     //.............................................................
-    //.................Save Reserach type......
-    public SoapPrimitive SaveResearch(String lead_id,String research_id, String empCode,String fromtype){
-        SoapPrimitive result4 = null;
-        try{
-            SoapObject request = new SoapObject(NAMESPACE,"saveresearch");
-            request.addProperty("lead_id",lead_id);
-            request.addProperty("research_id",research_id);
-            request.addProperty("empcode",empCode);
-            request.addProperty("fromtype",fromtype);
-            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
-                    SoapEnvelope.VER11);
-            envelope.setOutputSoapObject(request);
-            envelope.dotNet = true;
-            HttpTransportSE androidHttpTransport = new HttpTransportSE(Utils.URL);
-            androidHttpTransport.call(SOAP_ACTION + "saveresearch", envelope);
-            Log.i("TAG", "envelope" + envelope);
-            result4 = (SoapPrimitive) envelope.getResponse();
-                                                                                                                                                                                                                                Log.i("TAG", "response :" + result4);
-            return result4;
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        return null;
-    }
+
 //...............................................
 
     public SoapObject GetMasterDetails() {
@@ -301,78 +278,32 @@ public class SOAPWebService {
         }
 
     }
-
-    public SoapObject FillDetail(String lead_id) {
-        SoapObject result6 = null;
-
-        try {
-//
-            SoapObject request = new SoapObject(NAMESPACE,
-                    "filldetails");// soap object
-
-            request.addProperty("lead_id", lead_id);
-
+    //.................Save Reserach type......
+    public SoapPrimitive SaveResearch(String lead_id,String research_id, String empCode,String fromtype){
+        SoapPrimitive result4 = null;
+        try{
+            SoapObject request = new SoapObject(NAMESPACE,"saveresearch");
+            request.addProperty("lead_id",lead_id);
+            request.addProperty("research_id",research_id);
+            request.addProperty("empcode",empCode);
+            request.addProperty("fromtype",fromtype);
             SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
-                    SoapEnvelope.VER11);// soap envelop with version
-            envelope.setOutputSoapObject(request); // set request object
+                    SoapEnvelope.VER11);
+            envelope.setOutputSoapObject(request);
             envelope.dotNet = true;
-
-            HttpTransportSE androidHttpTransport = new HttpTransportSE(Utils.URL);// http
-            // transport
-            // call
-            androidHttpTransport.call(SOAP_ACTION + "filldetails",
-                    envelope);
+            HttpTransportSE androidHttpTransport = new HttpTransportSE(Utils.URL);
+            androidHttpTransport.call(SOAP_ACTION + "saveresearch", envelope);
             Log.i("TAG", "envelope" + envelope);
-
-            // response soap object
-            result6 = (SoapObject) envelope.getResponse();
-            Log.i("TAG", "response :" + result6);
-
-            return result6;
-        } catch (Exception e) {
-
+            result4 = (SoapPrimitive) envelope.getResponse();
+            Log.i("TAG", "response :" + result4);
+            return result4;
+        }catch (Exception e){
             e.printStackTrace();
-
-            return null;
         }
-
+        return null;
     }
-    //....................fill Details app...............
-    public SoapObject Filldetailsforapp(String lead_id) {
-        SoapObject result9 = null;
 
-        try {
-//
-            SoapObject request = new SoapObject(NAMESPACE,
-                    "filldetailsforapp");// soap object
 
-            request.addProperty("lead_id", lead_id);
-
-            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
-                    SoapEnvelope.VER11);// soap envelop with version
-            envelope.setOutputSoapObject(request); // set request object
-            envelope.dotNet = true;
-
-            HttpTransportSE androidHttpTransport = new HttpTransportSE(Utils.URL);// http
-            // transport
-            // call
-            androidHttpTransport.call(SOAP_ACTION + "filldetailsforapp",
-                    envelope);
-            Log.i("TAG", "envelope" + envelope);
-
-            // response soap object
-            result9 = (SoapObject) envelope.getResponse();
-            Log.i("TAG", "response :" + result9);
-
-            return result9;
-        } catch (Exception e) {
-
-            e.printStackTrace();
-
-            return null;
-        }
-
-    }
 
     //................get All Client.........
     public SoapObject Get_ALL_Client(String RMCode) {
@@ -404,6 +335,41 @@ public class SOAPWebService {
             return result5;
         } catch (Exception e) {
             e.printStackTrace();
+            return null;
+        }
+
+    }
+    public SoapObject FillDetail(String lead_id) {
+        SoapObject result6 = null;
+
+        try {
+//
+            SoapObject request = new SoapObject(NAMESPACE,
+                    "filldetails");// soap object
+
+            request.addProperty("lead_id", lead_id);
+
+            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
+                    SoapEnvelope.VER11);// soap envelop with version
+            envelope.setOutputSoapObject(request); // set request object
+            envelope.dotNet = true;
+
+            HttpTransportSE androidHttpTransport = new HttpTransportSE(Utils.URL);// http
+            // transport
+            // call
+            androidHttpTransport.call(SOAP_ACTION + "filldetails",
+                    envelope);
+            Log.i("TAG", "envelope" + envelope);
+
+            // response soap object
+            result6 = (SoapObject) envelope.getResponse();
+            Log.i("TAG", "response :" + result6);
+
+            return result6;
+        } catch (Exception e) {
+
+            e.printStackTrace();
+
             return null;
         }
 
@@ -483,4 +449,155 @@ public class SOAPWebService {
 
     }
 //.........................
+//....................fill Details app...............
+public SoapObject Filldetailsforapp(String lead_id) {
+    SoapObject result9 = null;
+
+    try {
+//
+        SoapObject request = new SoapObject(NAMESPACE,
+                "filldetailsforapp");// soap object
+
+        request.addProperty("lead_id", lead_id);
+
+        SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
+                SoapEnvelope.VER11);// soap envelop with version
+        envelope.setOutputSoapObject(request); // set request object
+        envelope.dotNet = true;
+
+        HttpTransportSE androidHttpTransport = new HttpTransportSE(Utils.URL);// http
+        // transport
+        // call
+        androidHttpTransport.call(SOAP_ACTION + "filldetailsforapp",
+                envelope);
+        Log.i("TAG", "envelope" + envelope);
+
+        // response soap object
+        result9 = (SoapObject) envelope.getResponse();
+        Log.i("TAG", "response :" + result9);
+
+        return result9;
+    } catch (Exception e) {
+
+        e.printStackTrace();
+
+        return null;
+    }
+
+}
+    //..................Get Status Report ........
+    public SoapObject StatusReport(String empcode,String roleid) {
+        SoapObject result10 = null;
+
+        try {
+//
+            SoapObject request = new SoapObject(NAMESPACE,
+                    "statusreport");// soap object
+
+            request.addProperty("empcode", empcode);
+            request.addProperty("role_id",roleid);//roleid
+
+
+            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
+                    SoapEnvelope.VER11);// soap envelop with version
+            envelope.setOutputSoapObject(request); // set request object
+            envelope.dotNet = true;
+
+            HttpTransportSE androidHttpTransport = new HttpTransportSE(Utils.URL);// http
+            // transport
+            // call
+            androidHttpTransport.call(SOAP_ACTION + "statusreport",
+                    envelope);
+            Log.i("TAG", "envelope" + envelope);
+
+            // response soap object
+            result10 = (SoapObject) envelope.getResponse();
+            Log.i("TAG", "response :" + result10);
+
+            return result10;
+        } catch (Exception e) {
+
+            e.printStackTrace();
+
+            return null;
+        }
+
+    }
+
+    //..................Get Status Report ........
+    public SoapObject SubStatusReport(String empcode,String lead_status,String CreatedDate,String role_id) {
+        SoapObject result11 = null;
+
+        try {
+//
+            SoapObject request = new SoapObject(NAMESPACE,
+                    "sub_status_report");// soap object
+
+            request.addProperty("empcode", empcode);
+            request.addProperty("lead_status", "Lead Created");//"Lead Created"
+            request.addProperty("created_date", CreatedDate);
+            request.addProperty("role_id",role_id);
+
+            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
+                    SoapEnvelope.VER11);// soap envelop with version
+            envelope.setOutputSoapObject(request); // set request object
+            envelope.dotNet = true;
+
+            HttpTransportSE androidHttpTransport = new HttpTransportSE(Utils.URL);// http
+            // transport
+            // call
+            androidHttpTransport.call(SOAP_ACTION + "sub_status_report",
+                    envelope);
+            Log.i("TAG", "envelope" + envelope);
+
+            // response soap object
+            result11 = (SoapObject) envelope.getResponse();
+            Log.i("TAG", "response :" + result11);
+
+            return result11;
+        } catch (Exception e) {
+
+            e.printStackTrace();
+
+            return null;
+        }
+
+    }
+    //..................frogot Password ........
+    public SoapObject ForgotPassword(String user_id) {
+        SoapObject result12 = null;
+
+        try {
+//
+            SoapObject request = new SoapObject(NAMESPACE,
+                    "get_Useremailid");// soap object
+
+            request.addProperty("userid", user_id);
+
+
+            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
+                    SoapEnvelope.VER11);// soap envelop with version
+            envelope.setOutputSoapObject(request); // set request object
+            envelope.dotNet = true;
+
+            HttpTransportSE androidHttpTransport = new HttpTransportSE(Utils.URL);// http
+            // transport
+            // call
+            androidHttpTransport.call(SOAP_ACTION + "get_Useremailid",
+                    envelope);
+            Log.i("TAG", "envelope" + envelope);
+
+            // response soap object
+            result12 = (SoapObject) envelope.getResponse();
+            Log.i("TAG", "response :" + result12);
+
+            return result12;
+        } catch (Exception e) {
+
+            e.printStackTrace();
+
+            return null;
+        }
+
+    }
 }
