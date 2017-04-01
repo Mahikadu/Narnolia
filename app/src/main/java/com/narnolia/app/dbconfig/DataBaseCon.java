@@ -134,6 +134,13 @@ public class DataBaseCon {
         }
         return dbHelper.rawQuery(query);
     }
+    public Cursor fetchallSpecify(String tbl, String names[], String fName,
+                                  String fValue, String order) {
+        return dbHelper.fetchallSpecify(tbl, names, fName,fValue, order);
+
+    }
+
+
     public int getCountOfRows(String tbl) {
         int count = 0;
         try {

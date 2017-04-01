@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.os.AsyncTask;
@@ -36,7 +37,7 @@ import java.util.List;
 
 public class HomeActivity extends AbstractActivity implements View.OnClickListener {
 
-    LinearLayout linear_dashboard, linear_create_lead, linear_update_lead, linear_master,
+    LinearLayout linear_dashboard, linear_create_lead, linear_update_lead, linear_attendence,
             linear_setting, linear_mis_reports, linear_notification;
     private Context mContext;
     private Utils utils;
@@ -103,10 +104,12 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
 //            linear_setting = (LinearLayout) findViewById(R.id.linear_setting);
             linear_mis_reports = (LinearLayout) findViewById(R.id.linear_mis_reports);
             linear_notification = (LinearLayout) findViewById(R.id.linear_notification);
+            linear_attendence=(LinearLayout)findViewById(R.id.linear_attendence);
 
             linear_dashboard.setOnClickListener(this);
             linear_create_lead.setOnClickListener(this);
             linear_update_lead.setOnClickListener(this);
+            linear_attendence.setOnClickListener(this);
 //            linear_master.setOnClickListener(this);
 //            linear_setting.setOnClickListener(this);
             linear_mis_reports.setOnClickListener(this);
@@ -189,10 +192,16 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
             case R.id.linear_mis_reports:
                 pushActivity(mContext, StatusReportActivity.class, null, true);
 
+
             break;
             case R.id.linear_notification:
                 pushActivity(mContext, NotificationActivity.class, null, true);
                 break;
+            case R.id.linear_attendence:
+                Bundle bundle = new Bundle();
+                bundle.putString("from_home","FromHome");
+                pushActivity(mContext, MyCalendarActivity.class, bundle, true);
+
         }
 
     }

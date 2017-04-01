@@ -419,7 +419,24 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
                 }
             });
             //................mobile no validation........
+            mobileno.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+                if (mobileno.getText().toString().length()>0){
+                  mobileno.setError(null);
+                  }
+                }
+            });
             editCity.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -860,7 +877,14 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
                 focusView.requestFocus();
                 return;
             }
-//            }
+
+            String text0 =String.valueOf(mobileno.getText().toString().charAt(0));
+            if (text0.equals("0")){
+                mobileno.setError("Please enter correct mobile no");
+                focusView=mobileno;
+                focusView.requestFocus();
+                return;
+            }
             if (TextUtils.isEmpty(str_city)) {
                 editCity.setError(getString(R.string.reqcity));
                 focusView = editCity;

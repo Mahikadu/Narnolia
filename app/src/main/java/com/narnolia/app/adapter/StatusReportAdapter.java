@@ -151,42 +151,42 @@ public class StatusReportAdapter extends BaseAdapter implements View.OnClickList
 
             case report_today:
                 createdDate = Utils.getSelectedDate(0);
-              //  Toast.makeText(context, "createdDate is :" + createdDate, Toast.LENGTH_SHORT).show();
+                //  Toast.makeText(context, "createdDate is :" + createdDate, Toast.LENGTH_SHORT).show();
                 new SubStatusReport().execute();
                 break;
             case report_t1:
                 createdDate = Utils.getSelectedDate(-1);
-             //   Toast.makeText(context, "createdDate is :" + createdDate, Toast.LENGTH_SHORT).show();
+                //   Toast.makeText(context, "createdDate is :" + createdDate, Toast.LENGTH_SHORT).show();
                 new SubStatusReport().execute();
                 break;
             case report_t2:
                 createdDate = Utils.getSelectedDate(-2);
-              //  Toast.makeText(context, "createdDate is :" + createdDate, Toast.LENGTH_SHORT).show();
+                //  Toast.makeText(context, "createdDate is :" + createdDate, Toast.LENGTH_SHORT).show();
                 new SubStatusReport().execute();
                 break;
             case report_t3:
                 createdDate = Utils.getSelectedDate(-3);
-               // Toast.makeText(context, "createdDate is :" + createdDate, Toast.LENGTH_SHORT).show();
+                // Toast.makeText(context, "createdDate is :" + createdDate, Toast.LENGTH_SHORT).show();
                 new SubStatusReport().execute();
                 break;
             case report_t4:
                 createdDate = Utils.getSelectedDate(-4);
-              //  Toast.makeText(context, "createdDate is :" + createdDate, Toast.LENGTH_SHORT).show();
+                //  Toast.makeText(context, "createdDate is :" + createdDate, Toast.LENGTH_SHORT).show();
                 new SubStatusReport().execute();
                 break;
             case report_t5:
                 createdDate = Utils.getSelectedDate(-5);
-               // Toast.makeText(context, "createdDate is :" + createdDate, Toast.LENGTH_SHORT).show();
+                // Toast.makeText(context, "createdDate is :" + createdDate, Toast.LENGTH_SHORT).show();
                 new SubStatusReport().execute();
                 break;
             case report_t6:
                 createdDate = Utils.getSelectedDate(-6);
-              //  Toast.makeText(context, "createdDate is :" + createdDate, Toast.LENGTH_SHORT).show();
+                //  Toast.makeText(context, "createdDate is :" + createdDate, Toast.LENGTH_SHORT).show();
                 new SubStatusReport().execute();
                 break;
             case report_t7:
                 createdDate = Utils.getSelectedDate(-7);
-               // Toast.makeText(context, "createdDate is :" + createdDate, Toast.LENGTH_SHORT).show();
+                // Toast.makeText(context, "createdDate is :" + createdDate, Toast.LENGTH_SHORT).show();
                 new SubStatusReport().execute();
                 break;
         }

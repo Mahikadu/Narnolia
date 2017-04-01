@@ -34,6 +34,7 @@ import android.widget.Toast;
 import com.narnolia.app.adapter.NotificationAdapter;
 import com.narnolia.app.dbconfig.DbHelper;
 import com.narnolia.app.libs.Utils;
+import com.narnolia.app.model.AttendenceReportModel;
 import com.narnolia.app.model.GetMessagesModel;
 import com.narnolia.app.model.LeadInfoModel;
 import com.narnolia.app.model.LoginDetailsModel;
@@ -44,7 +45,9 @@ import com.narnolia.app.network.SOAPWebService;
 import org.ksoap2.serialization.SoapObject;
 
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -61,14 +64,15 @@ public class LoginActivity extends AbstractActivity {
     private ProgressDialog progressDialog;
     private SharedPref sharedPref;
     private String responseId;
-    public String email, loginId, mobile, result, status, userId, strAttendance,is_rm;
+    public String email, loginId, mobile, result, status, userId, strAttendance, is_rm;
     private String mId, mType, mValue;
-    private String f_Mailid,forgot_flag;
+    private String f_Mailid, forgot_flag;
     String versionName = "";
     private LoginDetailsModel loginDetailsModel;
+    String user_check, attendance_check;
 
     EditText username, password;
-    TextView t_username, t_password, forget_password,forgot_pass_message;
+    TextView t_username, t_password, forget_password, forgot_pass_message;
     Button Login;
     private String strPass, strUser;
 
@@ -76,7 +80,7 @@ public class LoginActivity extends AbstractActivity {
     private static final int REQUEST_CODE_PERMISSION = 2;
     String mPermission = Manifest.permission.ACCESS_FINE_LOCATION;
     GPSTracker gps;
-    String lat,lang,location;
+    String lat, lang, location;
     PackageManager manager;
     String currentDate = "";
 
@@ -106,8 +110,8 @@ public class LoginActivity extends AbstractActivity {
 
         initView();
 
-    }
 
+    }
 
 
     private void initView() {
@@ -126,16 +130,14 @@ public class LoginActivity extends AbstractActivity {
             versionName = info.versionName;
 
 
-
-
             username = (EditText) findViewById(R.id.etUserName);
             password = (EditText) findViewById(R.id.etPassword);
 
             //..........text view validations.
-            t_username=(TextView)findViewById(R.id.t_username);
-            t_password=(TextView)findViewById(R.id.t_password);
-            forget_password=(TextView)findViewById(R.id.forget_password);
-            forgot_pass_message=(TextView)findViewById(R.id.forgot_pass_message);
+            t_username = (TextView) findViewById(R.id.t_username);
+            t_password = (TextView) findViewById(R.id.t_password);
+            forget_password = (TextView) findViewById(R.id.forget_password);
+            forgot_pass_message = (TextView) findViewById(R.id.forgot_pass_message);
             //.........Text watcher for hiding tex views......
             username.addTextChangedListener(new TextWatcher() {
                 @Override
@@ -153,9 +155,9 @@ public class LoginActivity extends AbstractActivity {
                   /*  if (TextUtils.isEmpty(username.getText().toString())){
                         t_username.setVisibility(View.GONE);
                     }*/
-                  if (!TextUtils.isEmpty(username.getText().toString())){
-                      t_username.setVisibility(View.GONE);
-                  }
+                    if (!TextUtils.isEmpty(username.getText().toString())) {
+                        t_username.setVisibility(View.GONE);
+                    }
                 }
             });
 
@@ -179,13 +181,13 @@ public class LoginActivity extends AbstractActivity {
 
                 @Override
                 public void afterTextChanged(Editable editable) {
-                    if (password.length()>0){
+                    if (password.length() > 0) {
                         t_password.setVisibility(View.GONE);
                     }
-                    if (editable.length()>0){
+                    if (editable.length() > 0) {
                         password.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_visibility_24dp, 0);
                     }
-                    if (editable.length()==0){
+                    if (editable.length() == 0) {
                         password.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
                     }
                     password.setOnTouchListener(new View.OnTouchListener() {
@@ -237,7 +239,7 @@ public class LoginActivity extends AbstractActivity {
                         View focusView = null;
                         strUser = username.getText().toString().trim();
                         strPass = password.getText().toString().trim();
-                        if (TextUtils.isEmpty(username.getText().toString())&&TextUtils.isEmpty(strPass)){
+                        if (TextUtils.isEmpty(username.getText().toString()) && TextUtils.isEmpty(strPass)) {
                             t_username.setVisibility(View.VISIBLE);
                             t_password.setVisibility(View.VISIBLE);
                         }
@@ -251,34 +253,33 @@ public class LoginActivity extends AbstractActivity {
                         } else {
                             if (isConnectingToInternet()) {
                                 gps = new GPSTracker(mContext);
-                                if(gps.canGetLocation()){
+                                if (gps.canGetLocation()) {
 
                                     double latitude = gps.getLatitude();
-                                    lat=Double.toString(latitude);
+                                    lat = Double.toString(latitude);
                                     double longitude = gps.getLongitude();
-                                    lang=Double.toString(longitude);
+                                    lang = Double.toString(longitude);
                                     try {
 
                                         Geocoder geo = new Geocoder(mContext, Locale.getDefault());
                                         List<Address> addresses = geo.getFromLocation(latitude, longitude, 1);
                                         if (addresses.isEmpty()) {
                                             Toast.makeText(mContext, "Please Waiting for location", Toast.LENGTH_SHORT).show();
-                                        }
-                                        else {
+                                        } else {
                                             if (addresses.size() > 0) {
                                                 //  Toast.makeText(mContext, "your location is"+addresses.get(0), Toast.LENGTH_SHORT).show();
                                                 //addres.setText(addresses.get(0).getFeatureName() + ", " + addresses.get(0).getLocality() +", " + addresses.get(0).getAdminArea() + ", " + addresses.get(0).getCountryName());
-                                                location=addresses.get(0).getLocality();
+                                                location = addresses.get(0).getLocality();
                                                 // Toast.makeText(getApplicationContext(), "Address:- " + addresses.get(0).getLocality(), Toast.LENGTH_LONG).show();
                                             }
                                         }
-                                    }
-                                    catch (Exception e) {
+                                    } catch (Exception e) {
                                         e.printStackTrace(); // getFromLocation() may sometimes fail
                                     }
-                                    new UserLogin().execute();
+                                    new AttendenceReportDateWise().execute();
 
-                                }else{
+
+                                } else {
                                     // can't get location
                                     // GPS or Network is not enabled
                                     // Ask user to enable GPS/network in settings
@@ -287,8 +288,8 @@ public class LoginActivity extends AbstractActivity {
 
                             } /*else if ((sharedPref != null && sharedPref.checkForLoginData(mContext, strUser))) {
                                 pushActivity(LoginActivity.this, HomeActivity.class, null, true);
-                            } */else if (checkForLoginData(mContext, strUser, strPass)) {
-                                pushActivity(LoginActivity.this, HomeActivity.class, null, true);
+                            } */ else if (checkForLoginData(mContext, strUser, strPass)) {
+
                             } else {
                                 displayMessage(getString(R.string.warning_internet));
                             }
@@ -304,7 +305,7 @@ public class LoginActivity extends AbstractActivity {
                     if (TextUtils.isEmpty(username.getText().toString())) {
                         //   displayMessage("Enter UserName");
                         t_username.setVisibility(View.VISIBLE);
-                    }else{
+                    } else {
                         t_username.setVisibility(View.GONE);
                         strUser = username.getText().toString().trim();
                         new FrogotPassword().execute();
@@ -336,10 +337,10 @@ public class LoginActivity extends AbstractActivity {
 
                 String resultData = cursor.getString(cursor.getColumnIndex(mContext.getString(R.string.column_result)));
                 sharedPref.clearPref();
-                sharedPref.setSharedPrefLogin(email, loginId, mobile, resultData, status, userId,is_rm);
-                if (strAttendance.equals("P")){
+                sharedPref.setSharedPrefLogin(email, loginId, mobile, resultData, status, userId, is_rm);
+                if (strAttendance.equals("Present")) {
                     result = true;
-                }else{
+                } else {
                     result = false;
                 }
 
@@ -350,6 +351,7 @@ public class LoginActivity extends AbstractActivity {
         }
         return result;
     }
+
     public LoginDetailsModel loginDetails(Cursor cursor) {
         loginDetailsModel = new LoginDetailsModel();
         try {
@@ -370,17 +372,18 @@ public class LoginActivity extends AbstractActivity {
         return loginDetailsModel;
 
     }
+
     private void insertDataInDb() {
         try {
 
 
-            String columnNames[] = { mContext.getString(R.string.column_userId), mContext.getString(R.string.column_loginId), mContext.getString(R.string.column_email),mContext.getString(R.string.column_mobile),
+            String columnNames[] = {mContext.getString(R.string.column_userId), mContext.getString(R.string.column_loginId), mContext.getString(R.string.column_email), mContext.getString(R.string.column_mobile),
                     mContext.getString(R.string.column_result), mContext.getString(R.string.column_status)
-                   , mContext.getString(R.string.column_username),
+                    , mContext.getString(R.string.column_username),
                     mContext.getString(R.string.column_password),
                     mContext.getString(R.string.column_attendance),
                     mContext.getString(R.string.column_role_id)};
-            String valuesArray[] = {userId,loginId,email,  mobile, result, status, strUser, strPass,strAttendance,is_rm};
+            String valuesArray[] = {userId, loginId, email, mobile, result, status, strUser, strPass, strAttendance, is_rm};
             // WHERE   clause
             String selection = mContext.getString(R.string.column_loginId) + " = ?";
 
@@ -394,7 +397,7 @@ public class LoginActivity extends AbstractActivity {
                 try {
                     String where = " where loginId = '" + loginId + "'";
 
-                    Cursor cursor = Narnolia.dbCon.fetchFromSelect(DbHelper.TABLE_USER_DETAIL,where);
+                    Cursor cursor = Narnolia.dbCon.fetchFromSelect(DbHelper.TABLE_USER_DETAIL, where);
                     if (cursor != null && cursor.getCount() > 0) {
                         cursor.moveToFirst();
                         do {
@@ -436,10 +439,10 @@ public class LoginActivity extends AbstractActivity {
         @Override
         protected SoapObject doInBackground(Void... params) {
             LoginWebService webService = new LoginWebService(mContext);
-            String attendance="";
+            String attendance = "";
          /*   String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());*/
 
-            SoapObject object1 = webService.LoginLead(strUser, strPass, "APP", versionName,lat,lang,attendance,currentDate,location,"");
+            SoapObject object1 = webService.LoginLead(strUser, strPass, "APP", versionName, lat, lang, attendance, currentDate, location, "");
 
             return object1;
         }
@@ -468,20 +471,19 @@ public class LoginActivity extends AbstractActivity {
                     mobile = res.getPropertyAsString("Mobile");
                     status = res.getPropertyAsString("Status");
                     userId = res.getPropertyAsString("UserId");
-                    is_rm=res.getPropertyAsString("is_rm");
+                    is_rm = res.getPropertyAsString("is_rm");
 
                     sharedPref.clearPref();
-                    sharedPref.setSharedPrefLogin(email, loginId, mobile, result, status, userId,is_rm);
+                    sharedPref.setSharedPrefLogin(email, loginId, mobile, result, status, userId, is_rm);
 
                     insertDataInDb();
 
                    /* pushActivity(LoginActivity.this, HomeActivity.class, null, true);*/
 
-                    Intent intent=new Intent(LoginActivity.this,MyCalendarActivity.class);
-                    intent.putExtra("from_Login","login");
-                    startActivity(intent);
-                  /*  pushActivity(LoginActivity.this,MyCalendarActivity.class,null,true);*/
-                    sharedPref.setSharedPrefLoginWithPass(strUser, strPass, status, "App", versionName, lat, lang,"",currentDate,location);
+                    Bundle bundle1 = new Bundle();
+                    bundle1.putString("from_login", "FromLogin");
+                    pushActivity(LoginActivity.this, MyCalendarActivity.class, bundle1, true);
+                    sharedPref.setSharedPrefLoginWithPass(strUser, strPass, status, "App", versionName, lat, lang, "", currentDate, location);
 
                 }
 
@@ -492,6 +494,7 @@ public class LoginActivity extends AbstractActivity {
             }
         }
     }
+
     public class FrogotPassword extends AsyncTask<Void, Void, SoapObject> {
 
         @Override
@@ -530,7 +533,7 @@ public class LoginActivity extends AbstractActivity {
                 }
 
                 responseId = String.valueOf(soapObject);
-                if (responseId.equals("anyType{}")){
+                if (responseId.equals("anyType{}")) {
                     Toast.makeText(mContext, "Sorry you Enterd Wrong Username", Toast.LENGTH_SHORT).show();
                 }
             } catch (Exception e) {
@@ -538,16 +541,12 @@ public class LoginActivity extends AbstractActivity {
             }
 
             try {
-                for (int i = 0; i < soapObject.getPropertyCount(); i++){
+                for (int i = 0; i < soapObject.getPropertyCount(); i++) {
                     SoapObject root = (SoapObject) soapObject.getProperty(i);
-
-
                     if (root.getProperty("email_id") != null) {
 
                         if (!root.getProperty("email_id").toString().equalsIgnoreCase("anyType{}")) {
                             f_Mailid = root.getProperty("email_id").toString();
-
-
                         } else {
                             f_Mailid = "";
                         }
@@ -558,22 +557,18 @@ public class LoginActivity extends AbstractActivity {
 
                         if (!root.getProperty("lead_status").toString().equalsIgnoreCase("anyType{}")) {
                             forgot_flag = root.getProperty("lead_status").toString();
-
                         } else {
                             forgot_flag = "";
                         }
                     } else {
-                        forgot_flag= "";
+                        forgot_flag = "";
                     }
-
-                    if (forgot_flag.equals("True")){
+                    if (forgot_flag.equals("True")) {
                         forgot_pass_message.setVisibility(View.VISIBLE);
-                    }
-                    else {
+                    } else {
                         forgot_pass_message.setVisibility(View.GONE);
                     }
                 }
-
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -581,6 +576,97 @@ public class LoginActivity extends AbstractActivity {
         }
     }
 
+    public class AttendenceReportDateWise extends AsyncTask<Void, Void, SoapObject> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            try {
+                if (progressDialog != null && !progressDialog.isShowing()) {
+                    progressDialog.show();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
+
+        @Override
+        protected SoapObject doInBackground(Void... params) {
+
+            SoapObject object = null;
+            try {
+                SOAPWebService webService = new SOAPWebService(mContext);
+
+
+                object = webService.Attendence_Report_Datewise(strUser, currentDate);
+              /*  statusReportModel.getStatus_1()*/
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return object;
+        }
+
+        @Override
+        protected void onPostExecute(SoapObject soapObject) {
+            super.onPostExecute(soapObject);
+            try {
+                if (progressDialog != null && progressDialog.isShowing()) {
+                    progressDialog.dismiss();
+                }
+
+                responseId = String.valueOf(soapObject);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            try {
+                for (int i = 0; i < soapObject.getPropertyCount(); i++) {
+                    SoapObject root = (SoapObject) soapObject.getProperty(i);
+
+
+                    if (root.getProperty("emp_code") != null && !root.getProperty("emp_code").toString().equalsIgnoreCase("?")) {
+
+                        if (!root.getProperty("emp_code").toString().equalsIgnoreCase("anyType{}")) {
+                            user_check = root.getProperty("emp_code").toString();
+                        } else {
+                            user_check = "";
+                        }
+                    } else {
+                        user_check = "";
+                    }
+
+                    if (root.getProperty("attendance1") != null && !root.getProperty("attendance1").toString().equalsIgnoreCase("?")) {
+
+                        if (!root.getProperty("attendance1").toString().equalsIgnoreCase("anyType{}")) {
+                            attendance_check = root.getProperty("attendance1").toString();
+
+
+                        } else {
+                            attendance_check = "";
+                        }
+                    } else {
+                        attendance_check = "";
+                    }
+
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                if (strUser.equals(user_check) && attendance_check.equals("Present")) {
+                    pushActivity(LoginActivity.this, HomeActivity.class, null, true);
+                }
+                if (strUser.equals(user_check) && attendance_check.equals("Absent")) {
+                    Toast.makeText(mContext, "This user is Absent today", Toast.LENGTH_SHORT).show();
+                } else {
+                    new UserLogin().execute();
+                }
+            }
+
+
+        }
+    }
 
 
 }

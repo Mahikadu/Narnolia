@@ -600,4 +600,81 @@ public SoapObject Filldetailsforapp(String lead_id) {
         }
 
     }
+    //..................Get Attendence Report ........
+    public SoapObject Attendence_Report_Monthwise(String role_id1,String emp_code1,String Month,String year,String attendance) {
+        SoapObject result13 = null;
+
+        try {
+//
+            SoapObject request = new SoapObject(NAMESPACE,
+                    "attendance_report_monthwise");// soap object
+
+            request.addProperty("role_id", role_id1);
+            request.addProperty("emp_code",emp_code1);
+            request.addProperty("Month", Month);
+            request.addProperty("year",year);
+            request.addProperty("attendance",attendance);
+
+            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
+                    SoapEnvelope.VER11);// soap envelop with version
+            envelope.setOutputSoapObject(request); // set request object
+            envelope.dotNet = true;
+
+            HttpTransportSE androidHttpTransport = new HttpTransportSE(Utils.URL);// http
+            // transport
+            // call
+            androidHttpTransport.call(SOAP_ACTION + "attendance_report_monthwise",
+                    envelope);
+            Log.i("TAG", "envelope" + envelope);
+
+            // response soap object
+            result13 = (SoapObject) envelope.getResponse();
+            Log.i("TAG", "response :" + result13);
+
+            return result13;
+        } catch (Exception e) {
+
+            e.printStackTrace();
+
+            return null;
+        }
+
+    }
+
+    public SoapObject Attendence_Report_Datewise(String emp_code11,String current_date) {
+        SoapObject result14 = null;
+
+        try {
+//
+            SoapObject request = new SoapObject(NAMESPACE,
+                    "attendance_report_datewise");// soap object
+            request.addProperty("emp_code",emp_code11);
+            request.addProperty("date", current_date);
+
+
+            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
+                    SoapEnvelope.VER11);// soap envelop with version
+            envelope.setOutputSoapObject(request); // set request object
+            envelope.dotNet = true;
+
+            HttpTransportSE androidHttpTransport = new HttpTransportSE(Utils.URL);// http
+            // transport
+            // call
+            androidHttpTransport.call(SOAP_ACTION + "attendance_report_datewise",
+                    envelope);
+            Log.i("TAG", "envelope" + envelope);
+
+            // response soap object
+            result14 = (SoapObject) envelope.getResponse();
+            Log.i("TAG", "response :" + result14);
+
+            return result14;
+        } catch (Exception e) {
+
+            e.printStackTrace();
+
+            return null;
+        }
+
+    }
 }

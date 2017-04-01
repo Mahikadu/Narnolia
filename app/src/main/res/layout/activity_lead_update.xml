@@ -364,8 +364,9 @@
                         android:background="@drawable/edit_background"
                         android:drawablePadding="@dimen/view_padding"
                         android:hint="@string/hintmobileno"
-                        android:inputType="phone"
+                        android:inputType="number"
                         android:maxLength="10"
+                        android:digits="1234567890"
                         android:padding="@dimen/view_padding"
                         android:singleLine="true"
                         android:textColor="@android:color/black" />

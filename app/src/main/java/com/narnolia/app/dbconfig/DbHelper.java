@@ -256,6 +256,20 @@ public class DbHelper extends SQLiteOpenHelper {
         }*/
     }
 
+    public Cursor fetchallSpecify(String tbl, String names[], String fName,
+                                  String fValue, String order) {
+        if (db != null && !db.isOpen())
+            open();
+        Cursor mCursor = db.query(true, tbl, names, fName + "= '"
+                + fValue + "'", null, null, null, order, null);
+
+        if (mCursor != null) {
+            mCursor.moveToFirst();
+        }
+        return mCursor;
+
+    }
+
     Cursor rawQuery(String query) {
 
         if (db != null && !db.isOpen())

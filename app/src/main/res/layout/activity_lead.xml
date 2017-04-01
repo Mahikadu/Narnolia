@@ -329,6 +329,7 @@
                     android:focusableInTouchMode="true"
                     android:hint="@string/hintmobileno"
                     android:inputType="number"
+                    android:digits="1234567890"
                     android:maxLength="10"
                     android:padding="@dimen/view_padding"
                     android:singleLine="true"

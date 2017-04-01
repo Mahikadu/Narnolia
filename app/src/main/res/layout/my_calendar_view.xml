@@ -13,6 +13,17 @@
         android:layout_marginTop="20dp"
         android:background="@android:color/transparent"
         android:src="@mipmap/nsl_logo" />
+    <LinearLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <include
+        android:id="@+id/layout_header"
+        layout="@layout/header_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </include>
+    </LinearLayout>
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
