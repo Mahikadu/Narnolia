@@ -319,4 +319,12 @@
     <string name="last_meeting_date">Last Meeting Date</string>
     <string name="last_meeting_update">Last Meeting Update</string>
     <string name="lead_status1">Lead Status</string>
+   <!-- calender view names-->
+    <string name="sun">Sun</string>
+    <string name="mon">Mon</string>
+    <string name="tue">Tue</string>
+    <string name="wed">Wed</string>
+    <string name="thu">Thu</string>
+    <string name="fri">Fri</string>
+    <string name="sat">Sat</string>
 </resources>

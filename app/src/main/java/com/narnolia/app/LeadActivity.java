@@ -15,6 +15,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.Html;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -23,6 +24,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -71,6 +73,7 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
     EditText fname, mname, lname, mobileno, location,customer_id;
     private AutoCompleteTextView editCity, autoPincode;
     private Map<String, List<String>> spinPincodeArray;
+    private List<String> pincodeList;
     String selectedCatId = "";
     private List<String> selCatId;
     boolean uncheckall = false;
@@ -155,6 +158,7 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
         spinCityArray = new ArrayList<>();
         selItemsPosition = new ArrayList<>();
         selCatId = new ArrayList<>();
+        pincodeList = new ArrayList<>();
 
         initView();
 
@@ -390,7 +394,8 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
 
                 @Override
                 public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+                    if (charSequence.length()==0){
+                    }
                 }
 
                 @Override
@@ -432,9 +437,9 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
 
                 @Override
                 public void afterTextChanged(Editable editable) {
-                if (mobileno.getText().toString().length()>0){
-                  mobileno.setError(null);
-                  }
+                    if (mobileno.getText().toString().length()>0){
+                        mobileno.setError(null);
+                    }
                 }
             });
             editCity.addTextChangedListener(new TextWatcher() {
@@ -608,6 +613,10 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
                 @Override
                 public void onClick(View view) {
                     create=true;
+                    if (view != null) {
+                        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                    }
                     validateDetails();
 
                     // pushActivity(mContext, HomeActivity.class, null, true);
@@ -617,6 +626,21 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
             btn_cancel.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    fname.setText("");
+                    mname.setText("");
+                    lname.setText("");
+                    mobileno.setText("");
+                    location.setText("");
+                    editCity.setText("");
+                    autoPincode.setText("");
+                    spinner_source_of_lead.setSelection(0);
+                    spinner_sub_source.setSelection(0);
+                    spinner_cust_id.setSelection(0);
+                    customer_id.setText("");
+                    if (v != null) {
+                        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                    }
                     btn1_opportunity_pitched2.setText(getString(R.string.prospectiveproduct1));
                     uncheck();
                 }
@@ -625,6 +649,10 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
                 @Override
                 public void onClick(View view) {
                     cliked=true;
+                    if (view != null) {
+                        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                    }
                     validateDetails();
                 }
             });
@@ -891,6 +919,7 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
                 focusView.requestFocus();
                 return;
             }
+
             if (TextUtils.isEmpty(str_pincode)) {
                 autoPincode.setError(getString(R.string.reqpincode));
                 focusView = autoPincode;
@@ -903,7 +932,20 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
                 focusView.requestFocus();
                 return;
             }
+           /* String val = autoPincode.getText() + "";
 
+            if (!Arrays.asList(pincodeList).contains(val)) {
+                    autoPincode.setError("Invalid Pincode");
+                    focusView = autoPincode;
+                    focusView.requestFocus();
+                    return;
+                }*/
+            if(!pincodeList.contains(autoPincode.getText().toString().trim())){
+                autoPincode.setError("Invalid Pincode");
+                focusView = autoPincode;
+                focusView.requestFocus();
+                return;
+            }
             if (isConnectingToInternet()) {
 
                 new InsertLeadData().execute();
@@ -1684,7 +1726,6 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
                     do {
                         pincode = cursor.getString(cursor.getColumnIndex(getString(R.string.column_m_pin_pincode)));
                         city = cursor.getString(cursor.getColumnIndex(getString(R.string.column_m_pin_district)));
-                        List<String> pincodeList = new ArrayList<>();
                         if (spinPincodeArray.containsKey(city)) {
 
 

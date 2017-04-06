@@ -71,6 +71,7 @@ public class MyCalendarActivity extends AbstractActivity implements OnClickListe
     private ProgressDialog progressDialog;
     private String result = "";
     private SharedPref sharedPref;
+    String fromLoginKey;
     AttendenceReportModel attendenceReportModel;
     String responseId = "";
     private List<AttendenceReportModel> attendenceReportModelList;
@@ -125,28 +126,28 @@ public class MyCalendarActivity extends AbstractActivity implements OnClickListe
 
         nextMonth = (ImageView) this.findViewById(R.id.nextMonth);
         nextMonth.setOnClickListener(this);
-      setHeader();
+        setHeader();
         calendarView = (GridView) this.findViewById(R.id.calendar);
-        header_Layout=(LinearLayout)findViewById(R.id.header);
+        header_Layout = (LinearLayout) findViewById(R.id.header);
 
 
         try {
             if (getIntent() != null) {
-                 fromHomeKey = getIntent().getStringExtra("from_home");
+                fromHomeKey = getIntent().getStringExtra("from_home");
                 if (fromHomeKey != null) {
                     if (fromHomeKey.equals("FromHome")) {
                         String mnt = String.valueOf(month);
                         String yrs = String.valueOf(year);
-                        new AttendenceReport().execute(mnt,yrs);
+                        new AttendenceReport().execute(mnt, yrs);
                     }
                 }
-                String fromLoginKey = getIntent().getStringExtra("from_login");
+                fromLoginKey = getIntent().getStringExtra("from_login");
                 if (fromLoginKey != null) {
                     if (fromLoginKey.equals("FromLogin")) {
                         header_Layout.setVisibility(View.GONE);
                         String mnt = String.valueOf(month);
                         String yrs = String.valueOf(year);
-                        new AttendenceReport().execute(mnt,yrs);
+                        new AttendenceReport().execute(mnt, yrs);
                     }
                 }
 
@@ -156,7 +157,7 @@ public class MyCalendarActivity extends AbstractActivity implements OnClickListe
         }
 
         //LoginCheck=getIntent().getStringExtra("from_Login");
-		/*// Initialised
+        /*// Initialised
 		adapter = new GridCellAdapter(getApplicationContext(),
 				R.id.calendar_day_gridcell, month, year);
 		adapter.notifyDataSetChanged();
@@ -215,7 +216,7 @@ public class MyCalendarActivity extends AbstractActivity implements OnClickListe
                         d[0] = "0" + d[0];
                     if (d[1].length() == 1)
                         d[1] = "0" + d[1];
-                     String date = getmonthNo1(d[0]) + "-" + d[1] + "-"
+                    String date = getmonthNo1(d[0]) + "-" + d[1] + "-"
                             + d[2];
 
                     Log.e("date", date);
@@ -755,12 +756,27 @@ public class MyCalendarActivity extends AbstractActivity implements OnClickListe
                 String currDate = dateFormatter.format(Calendar.getInstance().getTime());
 
                 if (!currDate.equalsIgnoreCase(selDate)) {
-                    Toast.makeText(_context, "PLease, select current date only..!", Toast.LENGTH_SHORT).show();
+                    if (getIntent() != null) {
+                        fromHomeKey = getIntent().getStringExtra("from_home");
+                        if (fromHomeKey != null) {
+                            if (!fromHomeKey.equals("FromHome")) {
+                                Toast.makeText(_context, "PLease, select current date only..!", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }
+
                 } else {
                     //Toast.makeText(_context, "current date ..!", Toast.LENGTH_SHORT).show();
-                    if (!fromHomeKey.equals("FromHome")){
-                        show_attendence();
-                }
+                    if (getIntent() != null) {
+                        fromLoginKey = getIntent().getStringExtra("from_login");
+                        if (fromLoginKey != null) {
+                            if (fromLoginKey.equals("FromLogin")) {
+                                show_attendence();
+                            }
+                        }
+                    }
+
+
                     //					open();
                 }
 
@@ -1113,11 +1129,11 @@ public class MyCalendarActivity extends AbstractActivity implements OnClickListe
 
 
                    /* pushActivity(LoginActivity.this, HomeActivity.class, null, true);*/
-                   if (strAttendance.equals("Present")) {
-                       insertDataInDb(strAttendance);
-                       pushActivity(MyCalendarActivity.this, HomeActivity.class, null, true);
-                       pref.setSharedPrefLoginWithPass(pref.getLoginId(), pref.getUserPass(), pref.getStatus(), "App", pref.getVersion_name(), pref.getLat(), pref.getLang(), strAttendance, pref.getCurrentDate(), pref.getKey_Location());
-                   }
+                    if (strAttendance.equals("Present")) {
+                        insertDataInDb(strAttendance);
+                        pushActivity(MyCalendarActivity.this, HomeActivity.class, null, true);
+                        pref.setSharedPrefLoginWithPass(pref.getLoginId(), pref.getUserPass(), pref.getStatus(), "App", pref.getVersion_name(), pref.getLat(), pref.getLang(), strAttendance, pref.getCurrentDate(), pref.getKey_Location());
+                    }
                 }
 
 
@@ -1178,7 +1194,7 @@ public class MyCalendarActivity extends AbstractActivity implements OnClickListe
                 String Month = params[0].toString(); //String.valueOf(mFormat.format(Double.valueOf(month)));
                 String Year = params[1].toString();//String.valueOf(year);
                 if (Month.length() == 1)
-                    Month = "0"+Month;
+                    Month = "0" + Month;
                 object = webService.Attendence_Report_Monthwise(sharedPref.getIsRM(), sharedPref.getLoginId(), Month, Year, attendance);//Month
               /*  statusReportModel.getStatus_1()*/
             } catch (Exception e) {

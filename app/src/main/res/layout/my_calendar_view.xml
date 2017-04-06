@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorback">
+
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="wrap_content"
@@ -13,33 +14,36 @@
         android:layout_marginTop="20dp"
         android:background="@android:color/transparent"
         android:src="@mipmap/nsl_logo" />
+
     <LinearLayout
         android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-    <include
-        android:id="@+id/layout_header"
-        layout="@layout/header_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    </include>
+
+        <include
+            android:id="@+id/layout_header"
+            layout="@layout/header_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"></include>
     </LinearLayout>
+
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_marginTop="80dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
+        android:layout_marginTop="80dp"
         android:background="@color/lightgray"
-        android:orientation="vertical" >
+        android:orientation="vertical">
+
         <LinearLayout
             android:id="@+id/buttonlayout"
             android:layout_width="fill_parent"
             android:layout_height="60sp"
+            android:height="60sp"
             android:background="@drawable/topbar"
             android:gravity="left|top"
-            android:height="60sp"
-            android:orientation="horizontal" >
+            android:orientation="horizontal">
 
             <!-- <Button
                  android:id="@+id/settings"
@@ -53,8 +57,7 @@
                 android:layout_height="fill_parent"
                 android:layout_gravity="center"
                 android:layout_marginLeft="10sp"
-                android:src="@drawable/calendar_left_arrow_selector" >
-            </ImageView>
+                android:src="@drawable/calendar_left_arrow_selector"></ImageView>
 
             <TextView
                 android:id="@+id/currentMonth"
@@ -63,8 +66,7 @@
                 android:layout_weight="0.6"
                 android:gravity="center"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="#FFFFFF" >
-            </TextView>
+                android:textColor="#FFFFFF"></TextView>
 
             <ImageView
                 android:id="@+id/nextMonth"
@@ -72,8 +74,7 @@
                 android:layout_height="fill_parent"
                 android:layout_gravity="center"
                 android:layout_marginRight="10sp"
-                android:src="@drawable/calendar_right_arrow_selector" >
-            </ImageView>
+                android:src="@drawable/calendar_right_arrow_selector"></ImageView>
 
             <!--  <Button
                   android:id="@+id/addEvent"
@@ -94,24 +95,84 @@
 
         <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center" >
+            android:layout_height="60sp"
+            android:height="60sp"
+            android:gravity="left|top"
+            android:orientation="horizontal"
+            android:background="@color/colorGray"
 
-            <ImageView
+           >
+
+          <!--  <ImageView
                 android:id="@+id/calendarheader"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:src="@drawable/calendar_days" >
-            </ImageView>
+                android:layout_height="60sp"
+
+                android:src="@drawable/calendar_days"></ImageView>-->
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.15"
+                android:gravity="center"
+                android:text="@string/sun"
+                android:textColor="@color/coloryellow"
+                android:background="@color/colorGray"
+                />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.14"
+                android:gravity="center"
+                android:text="@string/mon"
+                android:textColor="@color/coloryellow"
+                android:background="@color/colorGray"/>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.14"
+                android:gravity="center"
+                android:text="@string/tue"
+                android:textColor="@color/coloryellow"
+                android:background="@color/colorGray"/>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.14"
+                android:gravity="center"
+                android:text="@string/wed"
+                android:textColor="@color/coloryellow"
+                android:background="@color/colorGray"/>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.14"
+                android:gravity="center"
+                android:text="@string/thu"
+                android:textColor="@color/coloryellow"
+                android:background="@color/colorGray"/>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.14"
+                android:gravity="center"
+                android:text="@string/fri"
+                android:textColor="@color/coloryellow"
+                android:background="@color/colorGray"/>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.15"
+                android:gravity="center"
+                android:text="@string/sat"
+                android:textColor="@color/coloryellow"
+                android:background="@color/colorGray"/>
         </LinearLayout>
 
         <GridView
             android:id="@+id/calendar"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:numColumns="7" >
-        </GridView>
+            android:numColumns="7"></GridView>
 
     </LinearLayout>
 </RelativeLayout>

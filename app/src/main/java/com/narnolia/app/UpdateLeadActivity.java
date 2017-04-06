@@ -67,6 +67,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -93,14 +94,20 @@ public class UpdateLeadActivity extends AbstractActivity implements CompoundButt
     String lead__Id;
     String strStages, strFlag;
     boolean cliked = false;
+    String[] strPinArr;
+    List<String> pincodeList;
     boolean uncheckall = false;
     ClientDetailsModel clientDetailsModel;
     List<ClientDetailsModel> clientInfoModelList;
     private List<String> spinClientIDList;
     private ArrayAdapter<String> adapterClienId;
     String[] strClientIDArray;
+    Calendar cal, cal1;
+    Date daysBeforeDate, daysAfterDate1;
     String sourceString, subsource, ClinetId;
+    int strMin, strMax;
     SpinnerListener spineListener;
+    Calendar newCalendar;
 
     boolean flag = false;
 
@@ -203,6 +210,7 @@ public class UpdateLeadActivity extends AbstractActivity implements CompoundButt
         empcode = sharedPref.getLoginId();
         spinPincodeArray = new HashMap<>();
         spinCityArray = new ArrayList<>();
+        pincodeList = new ArrayList<>();
         selItemsPosition = new ArrayList<>();
         selCatId = new ArrayList<>();
         lead__Id = getIntent().getStringExtra("lead__Id");
@@ -824,7 +832,8 @@ public class UpdateLeadActivity extends AbstractActivity implements CompoundButt
 
                             autoPincode.setText("");
                             String city1 = (String) parent.getItemAtPosition(position);
-
+                            pincodeList.clear();
+                            fetchDataFromDB();
                             editCity.setError(null);
 
 
@@ -835,19 +844,22 @@ public class UpdateLeadActivity extends AbstractActivity implements CompoundButt
                             String pincodeColNames[] = {getString(R.string.column_m_pin_pincode)};
                             Cursor cursor = Narnolia.dbCon.fetch(DbHelper.TABLE_M_PINCODE_TABLE, pincodeColNames, selection, selectionArgs, getString(R.string.column_m_pin_pincode), null, true, null, null);
                             String pincode, city;
-                            List<String> pincodeList;
+
                             if (cursor != null && cursor.getCount() > 0) {
                                 cursor.moveToFirst();
                                 do {
                                     pincode = cursor.getString(cursor.getColumnIndex(getString(R.string.column_m_pin_pincode)));
                                     //
-                                    pincodeList = new ArrayList<>();
-                                    if (spinPincodeArray.containsKey(city1)) {
-                                        pincodeList.addAll(spinPincodeArray.get(city1));
+
+                                    if (city1 != null && !TextUtils.isEmpty(city1)) {
+                                        /*if (spinPincodeArray.containsKey(city1)) {
+//                                            pincodeList.addAll(spinPincodeArray.get(city1));
+                                            pincodeList.add(pincode);
+                                        } else {
+                                            pincodeList.add(pincode);
+                                            //
+                                        }*/
                                         pincodeList.add(pincode);
-                                    } else {
-                                        pincodeList.add(pincode);
-                                        //
                                     }
                                     if (pincodeList.size() > 0) {
                                         spinPincodeArray.put(city1, pincodeList);
@@ -856,7 +868,7 @@ public class UpdateLeadActivity extends AbstractActivity implements CompoundButt
                                 } while (cursor.moveToNext());
                                 cursor.close();
                                 if (pincodeList.size() > 0) {
-                                    final String[] strPinArr = new String[pincodeList.size()];
+                                    strPinArr = new String[pincodeList.size()];
                                     strPinArr[0] = getString(R.string.select_pincode);
                                     pincodeList.remove(0);
 
@@ -879,6 +891,7 @@ public class UpdateLeadActivity extends AbstractActivity implements CompoundButt
                                                     System.out.println("CITY CITY CITY");
                                                 } else {
                                                     autoPincode.setError("Invalid Pincode");
+
                                                 }
                                             }
                                         }
@@ -959,9 +972,9 @@ public class UpdateLeadActivity extends AbstractActivity implements CompoundButt
                 e.printStackTrace();
             }
             Bundle extras = getIntent().getExtras();
-            if(extras != null){
-                String sub_lead_id= extras.getString("sub_lead_Id");
-                if (sub_lead_id!=null&& !sub_lead_id.equals("")) {
+            if (extras != null) {
+                String sub_lead_id = extras.getString("sub_lead_Id");
+                if (sub_lead_id != null && !sub_lead_id.equals("")) {
                     for (int i = 0; i < strLeadNameArray.length; i++) {
                         if (strLeadNameArray[i].contains(sub_lead_id)) {
                             int selLeadPos = adapter8.getPosition(strLeadNameArray[i]);
@@ -972,7 +985,6 @@ public class UpdateLeadActivity extends AbstractActivity implements CompoundButt
 
                 }
             }
-
 
 
             // ...............Radio Group.....
@@ -1054,27 +1066,91 @@ public class UpdateLeadActivity extends AbstractActivity implements CompoundButt
             });
             try {
                 //.............date of birth date picker
+               /*  cal = GregorianCalendar.getInstance();
+                cal1 = GregorianCalendar.getInstance();
+                cal.setTime(new Date());*/
+            /*    cal.add(Calendar.YEAR, -18);
+                daysBeforeDate = cal.getTime();
+                cal1.setTime(new Date());
+                cal1.add(Calendar.YEAR, -35);
+                daysAfterDate1 = cal1.getTime();*/
+            /*  if (spinner_age_group.getSelectedItem().toString().equals("18-35yrs")) {
+                  cal.add(Calendar.YEAR, -18);
+                  daysBeforeDate = cal.getTime();
+                  cal1.setTime(new Date());
+                  cal1.add(Calendar.YEAR, -35);
+                  daysAfterDate1 = cal1.getTime();
+              }*/
+                date_of_birth.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        hide_keyboard(mContext, v);
+                        String selStr = spinner_age_group.getSelectedItem().toString().trim();
+                        if(!TextUtils.isEmpty(selStr)){
+                            if (selStr.equals("Select Age Group")){
+                                Toast.makeText(mContext, "Please, Select age group first..!", Toast.LENGTH_SHORT).show();
+                                hide_keyboard(mContext, v);
+                                return;
+                            }else if (selStr.equals("60 yrs and above")){
+                                strMin = 60;
+                                strMax = 150;
+                            }else {
 
-                final Calendar newCalendar = Calendar.getInstance();
+                                String arrSel[] = selStr.split("-");
+                                strMin = Integer.parseInt(arrSel[0]);
+                                String strMaxYrs = arrSel[1];
+                                String arrSel2[] = strMaxYrs.split(" ");
+                                strMax = Integer.parseInt(arrSel2[0]);
+                            }
+
+                        }
+
+                        createSelectedDatePicker(strMin,strMax);
+//                        datePickerDialog.show();
+
+
+                       /* if (spinner_age_group.getSelectedItem().toString().equals("36-45 yrs")){
+                            cal.setTime(new Date());
+                            cal.add(Calendar.YEAR, -36);
+                            daysBeforeDate = cal.getTime();
+                            cal1.setTime(new Date());
+                            cal1.add(Calendar.YEAR, -45);
+                            daysAfterDate1 = cal1.getTime();
+                            datePickerDialog.show();
+                        }*/
+
+                    }
+                });
+
+                newCalendar = Calendar.getInstance();
                 dateFormatter = new SimpleDateFormat("MM-dd-yyyy");
+               /* cal = GregorianCalendar.getInstance();
+                cal1 = GregorianCalendar.getInstance();
+                cal.setTime(new Date());
+                cal.add(Calendar.YEAR, strMin);//-18
+                daysBeforeDate = cal.getTime();
+                cal1.setTime(new Date());
+                cal1.add(Calendar.YEAR, strMax);//-35
+                daysAfterDate1 = cal1.getTime();
+
                 datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
 
+
                     public void onDateSet(DatePicker view, int monthOfYear, int dayOfMonth, int year) {
+
+
                         Calendar newDate = Calendar.getInstance();
                         newDate.set(monthOfYear, dayOfMonth, year);
                         date_of_birth.setText(dateFormatter.format(newDate.getTime()));
 
                     }
-                }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+                }, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH));
                 datePickerDialog.getDatePicker().setCalendarViewShown(false);
-                datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
-                date_of_birth.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        hide_keyboard(mContext, v);
-                        datePickerDialog.show();
-                    }
-                });
+
+                datePickerDialog.getDatePicker().setMinDate(daysAfterDate1.getTime());
+                datePickerDialog.getDatePicker().setMaxDate(daysBeforeDate.getTime());*/
+
+
                 //.......Next Date metting.........
                 datePickerDialog1 = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
 
@@ -1139,6 +1215,52 @@ public class UpdateLeadActivity extends AbstractActivity implements CompoundButt
         }
     }
 
+    private void createSelectedDatePicker(int minVal, int maxVal) {
+        cal = GregorianCalendar.getInstance();
+        cal1 = GregorianCalendar.getInstance();
+        cal.setTime(new Date());
+        cal.add(Calendar.YEAR, -minVal);//-18
+        daysBeforeDate = cal.getTime();
+        cal1.setTime(new Date());
+        cal1.add(Calendar.YEAR, -maxVal);//-35
+        daysAfterDate1 = cal1.getTime();
+
+        datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+
+
+            public void onDateSet(DatePicker view, int monthOfYear, int dayOfMonth, int year) {
+
+
+                Calendar newDate = Calendar.getInstance();
+                newDate.set(monthOfYear, dayOfMonth, year);
+                date_of_birth.setText(dateFormatter.format(newDate.getTime()));
+
+            }
+        }, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH));
+        datePickerDialog.getDatePicker().setCalendarViewShown(false);
+
+        datePickerDialog.getDatePicker().setMinDate(daysAfterDate1.getTime());
+        datePickerDialog.getDatePicker().setMaxDate(daysBeforeDate.getTime());
+        datePickerDialog.show();
+    }
+
+    /*   private static void setMaxLimitInDatePicker(DatePickerDialog datePickerDialog) {
+           final Calendar calendar = Calendar.getInstance();
+
+           int currentYear = calendar.get(Calendar.YEAR);
+           int currentMonth = calendar.get(Calendar.MONTH);
+           int currentDay = calendar.get(Calendar.DAY_OF_MONTH);
+
+           int minYear = currentYear - 18;
+           int minMonth = currentMonth;
+           int minDay = currentDay;
+
+           calendar.set(minYear, minMonth, minDay);
+           long minDateInMilliSeconds = calendar.getTimeInMillis();
+
+           // Set 18 years from today as max limit of date picker
+           datePickerDialog.getDatePicker().setMaxDate(minDateInMilliSeconds);
+       }*/
     private static String getDate(Calendar cal) {
         return "" + (cal.get(Calendar.MONTH) + 1) + "/"
                 + cal.get(Calendar.DATE) + "/"
@@ -1866,7 +1988,15 @@ public class UpdateLeadActivity extends AbstractActivity implements CompoundButt
                 focusView = mobileno;
                 focusView.requestFocus();
                 return;
-            } else if (TextUtils.isEmpty(str_city)) {
+            }
+            String text0 = String.valueOf(mobileno.getText().toString().charAt(0));
+            if (text0.equals("0")) {
+                mobileno.setError("Please enter correct mobile no");
+                focusView = mobileno;
+                focusView.requestFocus();
+                return;
+            }
+            if (TextUtils.isEmpty(str_city)) {
                 editCity.setError(getString(R.string.reqcity));
                 focusView = editCity;
                 focusView.requestFocus();
@@ -1876,7 +2006,18 @@ public class UpdateLeadActivity extends AbstractActivity implements CompoundButt
                 focusView = autoPincode;
                 focusView.requestFocus();
                 return;
-            } else if (!TextUtils.isEmpty(str_email)) {
+            } else if (!pincodeList.contains(autoPincode.getText().toString().trim())) {
+                autoPincode.setError("Invalid Pincode");
+                focusView = autoPincode;
+                focusView.requestFocus();
+                return;
+            }/*if (!Arrays.asList(strPinArr).contains(val)) {
+                    autoPincode.setError("Invalid Pincode");
+                    focusView = autoPincode;
+                    focusView.requestFocus();
+                    return;
+                }*/
+            if (!TextUtils.isEmpty(str_email)) {
                 if (!isEmailValid(str_email)) {
                     email.setError("Invalid email Id");
                     focusView = email;
@@ -1889,6 +2030,13 @@ public class UpdateLeadActivity extends AbstractActivity implements CompoundButt
                 focusView.requestFocus();
                 return;
             }
+
+           /* if(!pincodeList.contains(autoPincode.getText().toString())){
+                autoPincode.setError("Invalid Pincode");
+                focusView = autoPincode;
+                focusView.requestFocus();
+                return;
+            }*/
             if (rb_contact.isChecked()) {
                 if (spinner_lead_status.getSelectedItemPosition() == 0) {
                     Toast.makeText(mContext, "Please select Lead Status", Toast.LENGTH_SHORT).show();
@@ -2661,6 +2809,7 @@ public class UpdateLeadActivity extends AbstractActivity implements CompoundButt
 
             try {
                 if (cursor != null && cursor.getCount() > 0) {
+                    spinPincodeArray.clear();
                     cursor.moveToFirst();
                     do {
                         pincode = cursor.getString(cursor.getColumnIndex(getString(R.string.column_m_pin_pincode)));
@@ -3661,9 +3810,9 @@ public class UpdateLeadActivity extends AbstractActivity implements CompoundButt
                 if (responseId.contains("ERROR") || responseId.contains("null")) {
                     Toast.makeText(mContext, "Please check Internet Connection", Toast.LENGTH_LONG).show();
                 } else {
-                    if (strFlag.equals("D") ) {
+                    if (strFlag.equals("D")) {
                         displayMessage("Lead Closed Sucessfully");
-                    } else if (strFlag.equals("U") ) {
+                    } else if (strFlag.equals("U")) {
 
                         displayMessage("Lead Updated Successfully");
                     }
@@ -3674,10 +3823,10 @@ public class UpdateLeadActivity extends AbstractActivity implements CompoundButt
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
-                if (str_spinner_research_type!=null && !str_spinner_research_type.equals("")){
+                if (str_spinner_research_type != null && !str_spinner_research_type.equals("")) {
                     new SaveResearch1().execute();
                 }
-                if (selectedCatId!=null&& !selectedCatId.equals(""))
+                if (selectedCatId != null && !selectedCatId.equals(""))
                     new SaveCategory1().execute();
             }
 
