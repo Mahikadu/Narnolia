@@ -58,6 +58,16 @@ public class NotificationActivity extends AbstractActivity{
 
         new GetMessages().execute();
     }
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
+        goBack();
+    }
+
+    private void goBack() {
+        pushActivity(mContext, HomeActivity.class, null, true);
+        finish();
+    }
     //...........Header View
     private void setHeader() {
         try {

@@ -1,6 +1,8 @@
 package com.narnolia.app;
 
+import android.app.AlarmManager;
 import android.app.AlertDialog;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -25,6 +27,7 @@ import com.narnolia.app.dbconfig.DbHelper;
 import com.narnolia.app.libs.Utils;
 import com.narnolia.app.model.ClientDetailsModel;
 import com.narnolia.app.model.LeadInfoModel;
+import com.narnolia.app.network.MyScheduledReceiver;
 import com.narnolia.app.network.SOAPWebService;
 
 import org.ksoap2.serialization.SoapObject;
@@ -32,6 +35,7 @@ import org.ksoap2.serialization.SoapObject;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -80,6 +84,27 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
 
        new GetLead().execute();
         initView();
+        try {
+            //Create alarm manager
+
+            AlarmManager mAlarmManger = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
+            //Create pending intent & register it to your alarm notifier class
+            Intent intent = new Intent(this, MyScheduledReceiver.class);
+            intent.putExtra("uur", "1e"); // if you wanst
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
+
+            //set timer you want alarm to work (here I have set it to 24.00)
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(Calendar.HOUR_OF_DAY, 24);
+            calendar.set(Calendar.MINUTE, 0);
+            calendar.set(Calendar.SECOND, 0);
+
+            //set that timer as a RTC Wakeup to alarm manager object
+            mAlarmManger.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void initView() {

@@ -100,7 +100,16 @@ public class StatusReportActivity extends AbstractActivity {
             }
         });
     }
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
+        goBack();
+    }
 
+    private void goBack() {
+        pushActivity(mContext, HomeActivity.class, null, true);
+        finish();
+    }
     public void setSubStatusData(){
         if (subStatusReportModelList != null && subStatusReportModelList.size() > 0) {
             subStatusReportAdapter = new SubStatusReportAdapter(mContext, subStatusReportModelList);

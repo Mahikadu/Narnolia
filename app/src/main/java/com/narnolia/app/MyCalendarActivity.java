@@ -191,7 +191,35 @@ public class MyCalendarActivity extends AbstractActivity implements OnClickListe
         }
 
     }
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
 
+        if (getIntent() != null) {
+            fromHomeKey = getIntent().getStringExtra("from_home");
+            if (fromHomeKey != null) {
+                if (fromHomeKey.equals("FromHome")) {
+                    goBack();
+                }
+            }
+            fromLoginKey = getIntent().getStringExtra("from_login");
+            if (fromLoginKey != null) {
+                if (fromLoginKey.equals("FromLogin")) {
+                    header_Layout.setVisibility(View.GONE);
+                goLogin();
+                }
+            }
+        }
+    }
+
+    private void goBack() {
+        pushActivity(mContext, HomeActivity.class, null, true);
+        finish();
+    }
+    private void goLogin(){
+        pushActivity(mContext,LoginActivity.class,null,true);
+        finish();
+    }
     private ArrayList<HashMap<String, String>> findNumberOfEventsPerMonth(ArrayList<AttendenceReportModel> attendanceReportList) {
         ArrayList<HashMap<String, String>> arraymap = new ArrayList<HashMap<String, String>>();
 
