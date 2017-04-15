@@ -109,6 +109,8 @@
                 android:background="@drawable/edit_background"
                 android:drawablePadding="@dimen/view_padding"
                 android:inputType="text"
+                android:focusableInTouchMode="false"
+                android:focusable="false"
                 android:maxLength="50"
                 android:padding="@dimen/view_padding"
                 android:singleLine="true"

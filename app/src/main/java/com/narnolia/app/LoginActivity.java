@@ -656,7 +656,7 @@ public class LoginActivity extends AbstractActivity {
             } finally {
                 if (strUser.equals(user_check) && attendance_check.equals("Present")) {
                     pushActivity(LoginActivity.this, HomeActivity.class, null, true);
-                }
+                }else
                 if (strUser.equals(user_check) && attendance_check.equals("Absent")) {
                     Toast.makeText(mContext, "This user is Absent today", Toast.LENGTH_SHORT).show();
                 } else {

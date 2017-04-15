@@ -86,6 +86,18 @@ public class DataBaseCon {
         }
         return dbHelper.rawQuery(query);
     }
+
+    public Cursor fetchFromSelectDistinct(String colName, String tbl, String where) {
+        String query = null;
+        try {
+            query = "select distinct " + colName + " from " + tbl + where;
+            Log.i("TAG", "query :" + query);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return dbHelper.rawQuery(query);
+    }
+
     public Cursor fetchAlldata(String tbl) {
         String query = null;
         try {

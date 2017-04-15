@@ -99,6 +99,8 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
     Button btn_create, btn_cancel, btn_create_close,btn1_opportunity_pitched2;
     private List<String> spinSourceLeadList;
     private List<String> spinSubSourceLeadList;
+    private List<String> pincodeListArray;
+    ArrayAdapter<String> adapter2;
     //private List<String> spinProductList;
     private List<ProductDetailsModel> spinProductList;
     private List<CategoryDetailsModel> categoryDetailsModelList;
@@ -460,7 +462,53 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
                 }
             });
             //..........................................City Pincode
+
             editCity.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    try {
+                        autoPincode.setText("");
+                        String city = (String) parent.getItemAtPosition(position);
+                        editCity.setError(null);
+                        // WHERE   clause
+                        String where = " where district = '" + city + "'";
+                        String distCol = "pincode";
+                        Cursor cursor = null;
+                        cursor = Narnolia.dbCon.fetchFromSelectDistinct(distCol, DbHelper.TABLE_M_PINCODE_TABLE, where);
+                        String pincode = "";
+                        pincodeListArray = new ArrayList<>();
+
+                        if (cursor != null && cursor.getCount() > 0) {
+                            cursor.moveToFirst();
+                            do {
+                                pincode = cursor.getString(cursor.getColumnIndex(getString(R.string.column_m_pin_pincode)));
+                                pincodeListArray.add(pincode);
+                            } while (cursor.moveToNext());
+                            cursor.close();
+                        }
+
+
+                        if (pincodeListArray.size() > 0) {
+                            final String[] strPinArr = new String[pincodeListArray.size()];
+
+                            for (int i = 0; i < pincodeListArray.size(); i++) {
+                                strPinArr[i] = pincodeListArray.get(i);
+                            }
+
+                            adapter2 = new ArrayAdapter<String>(mContext, android.R.layout.simple_spinner_dropdown_item, strPinArr);
+                            adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                            autoPincode.setAdapter(adapter2);
+
+
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            });
+
+            /*editCity.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
@@ -545,7 +593,7 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
                         e.printStackTrace();
                     }
                 }
-            });
+            });*/
 
             autoPincode.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
@@ -557,31 +605,6 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
                     }
                 }
             });
-
-            editCity.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-                @Override
-                public void onFocusChange(View view, boolean hasFocus) {
-                    try {
-                        if (!hasFocus) {
-                            String val = editCity.getText() + "";
-
-                            if (spinPincodeArray.containsKey(val)) {
-                                System.out.println("CITY CITY CITY");
-                            } else {
-                                editCity.setError("Invalid City");
-                            }
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            });
-
-
-
-
-
-
 
             fetchSourcedata();
             fetchSubSourcedata();
@@ -940,7 +963,7 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
                     focusView.requestFocus();
                     return;
                 }*/
-            if(!pincodeList.contains(autoPincode.getText().toString().trim())){
+            if(!pincodeListArray.contains(autoPincode.getText().toString().trim())){
                 autoPincode.setError("Invalid Pincode");
                 focusView = autoPincode;
                 focusView.requestFocus();

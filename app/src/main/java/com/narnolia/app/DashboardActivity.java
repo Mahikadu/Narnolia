@@ -11,20 +11,26 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.database.Cursor;
+import android.graphics.Rect;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -86,6 +92,10 @@ public class DashboardActivity extends AbstractActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dashboard_activity);
+        final RelativeLayout base = (RelativeLayout) findViewById(R.id.base);
+
+
+
         mContext = DashboardActivity.this;
         utils = new Utils(mContext);
 
@@ -101,6 +111,7 @@ public class DashboardActivity extends AbstractActivity {
 
         setHeader();
     }
+
 
     private void setHeader() {
         try {
@@ -358,9 +369,11 @@ public class DashboardActivity extends AbstractActivity {
                 tvNextMeet.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+
                         showNext_Metting_Dialog(leadInfoModel.getLead_id());
                     }
                 });
+
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -372,11 +385,39 @@ public class DashboardActivity extends AbstractActivity {
         final View dialogViewMaster = li.inflate(R.layout.custom_next_meeting_dialog, null);
         DialogMaster.setView(dialogViewMaster);
         final AlertDialog showMaster = DialogMaster.show();
-        showMaster.setCancelable(false);
+        DialogMaster.setView(dialogViewMaster);
+         showMaster.setCancelable(false);
+       /* showMaster.setCanceledOnTouchOutside(true);*/
+
 
         try {
             edt_next_meeting_dialog=(EditText)showMaster.findViewById(R.id.edt_next_meeting_dialog);
             edt_next_meeting_agenda=(EditText)showMaster.findViewById(R.id.edt_meeting_agenda_dialog);
+            dialogViewMaster.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                        if (edt_next_meeting_agenda.isFocused()) {
+                            Rect outRect = new Rect();
+                            edt_next_meeting_agenda.getGlobalVisibleRect(outRect);
+                            if (!outRect.contains((int)event.getRawX(), (int)event.getRawY())) {
+                                edt_next_meeting_agenda.clearFocus();
+                                InputMethodManager imm = (InputMethodManager) v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                                imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                            }
+                        }
+                    }
+                    return false;
+                }
+            });
+            edt_next_meeting_agenda.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View view, MotionEvent motionEvent) {
+                    edt_next_meeting_agenda.setFocusableInTouchMode(true);
+                    edt_next_meeting_agenda.setFocusable(true);
+                    return false;
+                }
+            });
 
             final Calendar newCalendar = Calendar.getInstance();
             dateFormatter = new SimpleDateFormat("MM-dd-yyyy");

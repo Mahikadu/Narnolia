@@ -87,6 +87,7 @@ public class UpdateLeadActivity extends AbstractActivity implements CompoundButt
     private List<String> spinCityArray;
     private List<String> selItemsPosition;
     private List<String> selCatId;
+    ArrayAdapter<String> adapter2;
     private ArrayAdapter<String> adapter9;
     private ProgressDialog progressDialog;
     private String responseId;
@@ -100,6 +101,7 @@ public class UpdateLeadActivity extends AbstractActivity implements CompoundButt
     ClientDetailsModel clientDetailsModel;
     List<ClientDetailsModel> clientInfoModelList;
     private List<String> spinClientIDList;
+    private List<String> pincodeListArray;
     private ArrayAdapter<String> adapterClienId;
     String[] strClientIDArray;
     Calendar cal, cal1;
@@ -826,6 +828,52 @@ public class UpdateLeadActivity extends AbstractActivity implements CompoundButt
             editCity.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    try {
+                        autoPincode.setText("");
+                        String city = (String) parent.getItemAtPosition(position);
+                        editCity.setError(null);
+                        // WHERE   clause
+
+                        String where = " where district = '" + city + "'";
+                        String distCol = "pincode";
+                        Cursor cursor = null;
+                        cursor = Narnolia.dbCon.fetchFromSelectDistinct(distCol, DbHelper.TABLE_M_PINCODE_TABLE, where);
+                        String pincode = "";
+                        pincodeListArray = new ArrayList<>();
+
+                        if (cursor != null && cursor.getCount() > 0) {
+                            cursor.moveToFirst();
+                            do {
+                                pincode = cursor.getString(cursor.getColumnIndex(getString(R.string.column_m_pin_pincode)));
+                                pincodeListArray.add(pincode);
+                            } while (cursor.moveToNext());
+                            cursor.close();
+                        }
+
+
+                        if (pincodeListArray.size() > 0) {
+                            final String[] strPinArr = new String[pincodeListArray.size()];
+
+                            for (int i = 0; i < pincodeListArray.size(); i++) {
+                                strPinArr[i] = pincodeListArray.get(i);
+                            }
+
+                            adapter2 = new ArrayAdapter<String>(mContext, android.R.layout.simple_spinner_dropdown_item, strPinArr);
+                            adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                            autoPincode.setAdapter(adapter2);
+
+
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            });
+
+         /*   editCity.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                     try {
                         if (spinPincodeArray.containsKey(parent.getItemAtPosition(position))) {
@@ -852,13 +900,13 @@ public class UpdateLeadActivity extends AbstractActivity implements CompoundButt
                                     //
 
                                     if (city1 != null && !TextUtils.isEmpty(city1)) {
-                                        /*if (spinPincodeArray.containsKey(city1)) {
+                                        *//*if (spinPincodeArray.containsKey(city1)) {
 //                                            pincodeList.addAll(spinPincodeArray.get(city1));
                                             pincodeList.add(pincode);
                                         } else {
                                             pincodeList.add(pincode);
                                             //
-                                        }*/
+                                        }*//*
                                         pincodeList.add(pincode);
                                     }
                                     if (pincodeList.size() > 0) {
@@ -912,7 +960,7 @@ public class UpdateLeadActivity extends AbstractActivity implements CompoundButt
                         e.printStackTrace();
                     }
                 }
-            });
+            });*/
 
             autoPincode.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
@@ -925,7 +973,7 @@ public class UpdateLeadActivity extends AbstractActivity implements CompoundButt
                 }
             });
 
-            editCity.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        /*    editCity.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                 @Override
                 public void onFocusChange(View view, boolean hasFocus) {
                     try {
@@ -943,7 +991,7 @@ public class UpdateLeadActivity extends AbstractActivity implements CompoundButt
                     }
                 }
             });
-
+*/
             fetchSourcedata();
             fetchSubSourcedata();
 
@@ -2006,7 +2054,8 @@ public class UpdateLeadActivity extends AbstractActivity implements CompoundButt
                 focusView = autoPincode;
                 focusView.requestFocus();
                 return;
-            } else if (!pincodeList.contains(autoPincode.getText().toString().trim())) {
+            } else
+                if (!pincodeListArray.contains(autoPincode.getText().toString().trim())) {
                 autoPincode.setError("Invalid Pincode");
                 focusView = autoPincode;
                 focusView.requestFocus();
@@ -2437,6 +2486,41 @@ public class UpdateLeadActivity extends AbstractActivity implements CompoundButt
                 email.setText(leadInfoModel.getEmail_id());
                 location.setText(leadInfoModel.getLocation());
                 editCity.setText(leadInfoModel.getCity());
+
+                String city = leadInfoModel.getCity();
+                editCity.setError(null);
+                // WHERE   clause
+
+                String where = " where district = '" + city + "'";
+                String distCol = "pincode";
+                Cursor cursor = null;
+                cursor = Narnolia.dbCon.fetchFromSelectDistinct(distCol, DbHelper.TABLE_M_PINCODE_TABLE, where);
+                String pincode = "";
+                pincodeListArray = new ArrayList<>();
+
+                if (cursor != null && cursor.getCount() > 0) {
+                    cursor.moveToFirst();
+                    do {
+                        pincode = cursor.getString(cursor.getColumnIndex(getString(R.string.column_m_pin_pincode)));
+                        pincodeListArray.add(pincode);
+                    } while (cursor.moveToNext());
+                    cursor.close();
+                }
+
+
+                if (pincodeListArray.size() > 0) {
+                    final String[] strPinArr = new String[pincodeListArray.size()];
+
+                    for (int i = 0; i < pincodeListArray.size(); i++) {
+                        strPinArr[i] = pincodeListArray.get(i);
+                    }
+
+                    adapter2 = new ArrayAdapter<String>(mContext, android.R.layout.simple_spinner_dropdown_item, strPinArr);
+                    adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    autoPincode.setAdapter(adapter2);
+
+
+                }
                 autoPincode.setText(leadInfoModel.getPincode());
                 date_of_birth.setText(leadInfoModel.getDob());
                 address.setText(leadInfoModel.getAddress1());
