@@ -119,7 +119,8 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
             utils = new Utils(mContext);
 
             admin = (TextView) findViewById(R.id.admin);
-            admin.setText(empcode);
+            String Capempcode = empcode.substring(0, 1).toUpperCase() + empcode.substring(1);
+            admin.setText(Capempcode);
 
             //Dashboard icon reference
             linear_dashboard = (LinearLayout) findViewById(R.id.linear_dashboard);

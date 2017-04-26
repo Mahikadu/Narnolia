@@ -88,10 +88,14 @@
     <string name="opportunity">Opportunity Pitched</string>
     <string name="business">Business Opportunity</string>
     <string name="reqmob">please enter 10 digit mobile no</string>
+    <string name="correct_mobile_no">Please enter correct mobile no</string>
     <string name="pan">Please Enter Pan Card No</string>
     <string name="name">Please enter valid name</string>
+    <string name="customerid">Please enter customer id</string>
     <string name="reqcity">City is Required</string>
     <string name="reqpincode">Pincode is Required</string>
+    <string name="invalid_pin">Invalid Pincode</string>
+    <string name="invalid_email">Invalid email Id</string>
     <string name="text_lead_created">Lead Created</string>
     <string name="remark">Remark</string>
     <string name="pan_no">Pan No</string>
@@ -205,6 +209,7 @@
     <string name="column_business_opportunity">business_opportunity</string>
     <string name="column_customer_id_name">customer_id_name</string>
     <string name="column_duration_date">duration_date</string>
+    <string name="column_occupation_details">non_salary_val</string>
     <string name="column_m_pin_district">district</string>
     <string name="column_m_pin_pincode">pincode</string>
     <string name="select_pincode">Select Pincode</string>

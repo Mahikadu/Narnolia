@@ -264,19 +264,23 @@ public class LoginActivity extends AbstractActivity {
                                         Geocoder geo = new Geocoder(mContext, Locale.getDefault());
                                         List<Address> addresses = geo.getFromLocation(latitude, longitude, 1);
                                         if (addresses.isEmpty()) {
-                                            Toast.makeText(mContext, "Please Waiting for location", Toast.LENGTH_SHORT).show();
+                                        if (lat.equals("0.0")&&lang.equals("0.0"))
+                                            Toast.makeText(mContext, "Please Wait, Waiting for location", Toast.LENGTH_SHORT).show();
+
                                         } else {
                                             if (addresses.size() > 0) {
-                                                //  Toast.makeText(mContext, "your location is"+addresses.get(0), Toast.LENGTH_SHORT).show();
+                                                if (!lat.equals("0.0")&&!lang.equals("0.0"))
+                                                    //  Toast.makeText(mContext, "your location is"+addresses.get(0), Toast.LENGTH_SHORT).show();
                                                 //addres.setText(addresses.get(0).getFeatureName() + ", " + addresses.get(0).getLocality() +", " + addresses.get(0).getAdminArea() + ", " + addresses.get(0).getCountryName());
                                                 location = addresses.get(0).getLocality();
                                                 // Toast.makeText(getApplicationContext(), "Address:- " + addresses.get(0).getLocality(), Toast.LENGTH_LONG).show();
+                                                new AttendenceReportDateWise().execute();
                                             }
                                         }
                                     } catch (Exception e) {
                                         e.printStackTrace(); // getFromLocation() may sometimes fail
                                     }
-                                    new AttendenceReportDateWise().execute();
+                                   // new AttendenceReportDateWise().execute();
 
 
                                 } else {

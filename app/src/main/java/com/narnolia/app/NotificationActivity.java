@@ -38,6 +38,7 @@ public class NotificationActivity extends AbstractActivity{
     public Utils utils;
     private ProgressDialog progressDialog;
    String empcode;
+    private TextView admin;
     private String responseId;
     private SharedPref sharedPref;
     String str_date,strId, strEmp,str_Message,str_Result,str_Role;
@@ -75,6 +76,10 @@ public class NotificationActivity extends AbstractActivity{
             ImageView ivHome = (ImageView) findViewById(R.id.iv_home);
             ImageView ivLogout = (ImageView) findViewById(R.id.iv_logout);
             lvNotification = (ListView) findViewById(R.id.listNotification);
+            admin = (TextView) findViewById(R.id.admin);
+            String Capempcode = empcode.substring(0, 1).toUpperCase() + empcode.substring(1);
+            admin.setText(Capempcode);
+
             tvHeader.setText(mContext.getResources().getString(R.string.Header_text_Notification));
 
             ivHome.setOnClickListener(new View.OnClickListener() {

@@ -60,10 +60,13 @@ public class DashboardActivity extends AbstractActivity {
     private Context mContext;
     private ListView lvLead;
     private DashboardAdapter dashBoardAdapter;
+    String empcode;
+    private SharedPref sharedPref;
     String countryList[] = {""};
     private LeadInfoModel leadInfoModel;
     private TableLayout table_layout;
     private List<LeadInfoModel> leadInfoModelList;
+    private TextView admin;
     private DatePickerDialog datePickerDialog;  //date picker declare
     private SimpleDateFormat dateFormatter;
     EditText edt_next_meeting_dialog,edt_next_meeting_agenda;
@@ -93,12 +96,16 @@ public class DashboardActivity extends AbstractActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dashboard_activity);
         final RelativeLayout base = (RelativeLayout) findViewById(R.id.base);
+        admin=(TextView)findViewById(R.id.admin);
 
 
 
         mContext = DashboardActivity.this;
         utils = new Utils(mContext);
-
+        sharedPref = new SharedPref(mContext);
+        empcode = sharedPref.getLoginId();
+        String Capempcode = empcode.substring(0, 1).toUpperCase() + empcode.substring(1);
+        admin.setText(Capempcode);
         leadInfoModelList = new ArrayList<>();
         // lvLead = (ListView) findViewById(R.id.biList);
         table_layout = (TableLayout) findViewById(R.id.tableLaout_lead);
@@ -581,7 +588,7 @@ public class DashboardActivity extends AbstractActivity {
                     str_rg_meeting_status, str_spinner_lead_status, strCompitator_Name, strProduct, strRemark, str_spinner_research_type,
                     str_spinner_duration, strPanNo, strB_Margin, strB_aum, strB_sip, strB_number, strB_value, strB_premium, str_reason,
                     str_next_meeting_date, str_metting_agenda, str_lead_update_log, strCreatedby, strCreateddt, strUpdateddt, strUpdatedby,strEmpCode,
-                    strLastMeetingDate,strLastMeetingUpdate,selectedCatId,strCustomer_id_name,""};
+                    strLastMeetingDate,strLastMeetingUpdate,selectedCatId,strCustomer_id_name,"","",""};
 
 
             boolean result = Narnolia.dbCon.update(DbHelper.TABLE_DIRECT_LEAD, selection, valuesArray, utils.columnNamesDashboardUpdate, selectionArgs);
@@ -649,7 +656,7 @@ public class DashboardActivity extends AbstractActivity {
             }
 
             SoapPrimitive object = webService.UpdateLead(leadId,str_spinner_source_of_lead, str_spinner_sub_source,str_cust_id, str_fname, str_mname, str_lname, str_mobile_no,
-                    str_email, str_spinner_age_group, str_date_of_birth,str_address,str_flat,str_street,str_laocion ,str_city,str_pincode,str_spinner_occupation,str_spinner_annual_income,str_spinner_other_broker,str_rg_meeting_status,str_spinner_lead_status,strRemark,strCompitator_Name,strProduct,
+                    str_email, str_spinner_age_group, str_date_of_birth,str_address,str_flat,str_street,str_laocion ,str_city,str_pincode,str_spinner_occupation,"",str_spinner_annual_income,str_spinner_other_broker,str_rg_meeting_status,str_spinner_lead_status,strRemark,strCompitator_Name,strProduct,
                     str_spinner_research_type,str_spinner_duration,strPanNo,str_reason,strB_Margin,strB_aum,strB_sip,strB_number
                     ,strB_value,strB_premium,str_next_meeting_date,str_metting_agenda,str_lead_update_log,strFlag,"","",strLastMeetingDate,strLastMeetingUpdate,"1","","","");
 

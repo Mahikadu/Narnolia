@@ -85,7 +85,7 @@ public class SOAPWebService {
 //.........................
     public SoapPrimitive UpdateLead(String lead_id,String lead_source, String sub_source,String customer_id, String fname, String mname,
                                   String lname, String mobileno, String emailid,String age,String dob,String address1,String address2,String address3
-            ,String location,String city,String pincode,String occupation,String annual_income,String other_broker_dealt_with,String meeting_status,String Lead_Status,String remarks,
+            ,String location,String city,String pincode,String occupation,String non_salary_val,String annual_income,String other_broker_dealt_with,String meeting_status,String Lead_Status,String remarks,
                                     String competitor_name, String product,String typeofsearch,String duration,String pan_no,String reason,String b_margin,String b_aum,String b_sip,String b_number,
                                     String b_value,String b_premium,String next_meeting_date,String meeting_agenda,String lead_update_log,String status_flag,String updatedby, String empcode,String last_meeting_date,String last_meeting_update,String app_version,String allocated_user_id,String updated_date,String duration_date ){
         SoapPrimitive result = null;
@@ -108,6 +108,7 @@ public class SOAPWebService {
             request.addProperty("city",city);
             request.addProperty("pincode",pincode);
             request.addProperty("occupation",occupation);
+            request.addProperty("non_salary_val",non_salary_val);
             request.addProperty("annual_income",annual_income);
             request.addProperty("other_broker_dealt_with",other_broker_dealt_with);
             request.addProperty("meeting_status",meeting_status);

@@ -40,6 +40,7 @@ public class StatusReportActivity extends AbstractActivity {
     private Context mContext;
     private ProgressDialog progressDialog;
     String empcode;
+    private TextView admin;
     private SharedPref sharedPref;
     private List<StatusReportModel> getStatusReportModelList;
     StatusReportModel statusReportModel;
@@ -77,11 +78,14 @@ public class StatusReportActivity extends AbstractActivity {
         report_t_month = (TextView) findViewById(R.id.report_t_month);
         report_t_quarter = (TextView) findViewById(R.id.report_t_quarter);
         linear_sub_status1=(LinearLayout)findViewById(R.id.linear_sub_status);
+        admin=(TextView)findViewById(R.id.admin);
 
         lvStatusReport=(ListView)findViewById(R.id.list_Status_Report);
         lvSubStatusReport=(ListView)findViewById(R.id.list_sub_status_Report);
         sharedPref = new SharedPref(mContext);
         empcode = sharedPref.getLoginId();
+        String Capempcode = empcode.substring(0, 1).toUpperCase() + empcode.substring(1);
+        admin.setText(Capempcode);
         progressDialog = new ProgressDialog(mContext);
         getStatusReportModelList = new ArrayList<>();
         loginDetailsModel = new LoginDetailsModel();

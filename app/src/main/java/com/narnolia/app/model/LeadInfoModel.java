@@ -64,6 +64,7 @@ public class LeadInfoModel implements Serializable{
     String business_opp;
     String customer_id_name;
     String duration_date;
+    String non_salary_val;
 
 
     public String getStages() {
@@ -505,7 +506,13 @@ public class LeadInfoModel implements Serializable{
     public void setDuration_date(String duration_date) {
         this.duration_date = duration_date;
     }
+    public String getNon_salary_val() {
+        return non_salary_val;
+    }
 
+    public void setNon_salary_val(String non_salary_val) {
+        this.non_salary_val = non_salary_val;
+    }
 
 
 }

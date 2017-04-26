@@ -119,10 +119,10 @@ public class UpdateLeadActivity extends AbstractActivity implements CompoundButt
     private String strCreatedfrom, strAppVersion, strAppdt, strAllocated_userid,
             strCompitator_Name, strProduct, strRemark,
             strPanNo, strB_Margin, strB_aum, strB_sip, strB_number, strB_value, strB_premium, strEmpCode,
-            strCreatedby, strCreateddt, strUpdateddt, strUpdatedby, strBusiness_opp, strLastMeetingDate, strLastMeetingUpdate, str_duration_date;
+            strCreatedby, strCreateddt, strUpdateddt, strUpdatedby, strBusiness_opp, strLastMeetingDate, strLastMeetingUpdate, str_duration_date,str_occupation_details;
     //.......................................................................
     EditText customer_id, fname, mname, lname, mobileno, email, date_of_birth, address, flat, street, location, next_metting_date, metting_agenda, lead_update_log, reason,
-            margin, aum, sip, number, value, premium, remark, compitator, product, last_meeting_dt, last_meeting_update, pan_no, duration;
+            margin, aum, sip, number, value, premium, remark, compitator, product, last_meeting_dt, last_meeting_update, pan_no, duration,occupation_details;
     AutoCompleteTextView editCity, autoPincode;
     String lead_id_info, leadId, leadString3;
     Spinner spinner_lead_name, spinner_source_of_lead, spinner_sub_source, spinner_age_group,
@@ -145,7 +145,7 @@ public class UpdateLeadActivity extends AbstractActivity implements CompoundButt
     //......Radio Group String
     String str_rg_meeting_status;
     Button bt_update_lead, bt_close_lead, btn1_opportunity_pitched2;
-    private DatePickerDialog datePickerDialog, datePickerDialog1, datePickerDialog2;   //date picker declare
+    private DatePickerDialog datePickerDialog, datePickerDialog1, datePickerDialog2,datePickerDialog3;   //date picker declare
     private SimpleDateFormat dateFormatter;      //date format declare
     private List<String> spinAgeGroupArray = new ArrayList<String>(); //age group array
     String spinOccupationArray[] = {"Select Occupation", "Salaried", "Non-Salaried"};//Occupation array
@@ -233,7 +233,8 @@ public class UpdateLeadActivity extends AbstractActivity implements CompoundButt
             mContext = UpdateLeadActivity.this;
             utils = new Utils(mContext);
             admin = (TextView) findViewById(R.id.admin);
-            admin.setText(empcode);
+            String Capempcode = empcode.substring(0, 1).toUpperCase() + empcode.substring(1);
+            admin.setText(Capempcode);
 
             getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
@@ -273,6 +274,7 @@ public class UpdateLeadActivity extends AbstractActivity implements CompoundButt
             last_meeting_update = (EditText) findViewById(R.id.edt_meeting_update);
             pan_no = (EditText) findViewById(R.id.edt_pan_no);
             duration = (EditText) findViewById(R.id.edt_duration);
+            occupation_details=(EditText)findViewById(R.id.edt_non_salaried);
             /*tv_prospective_products2 = (TextView) findViewById(R.id.txt1_prospective_product2);
             tv_prospective_products2.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -1143,29 +1145,17 @@ public class UpdateLeadActivity extends AbstractActivity implements CompoundButt
                                 strMin = 60;
                                 strMax = 150;
                             }else {
-
+                                                                          //selStr=18-35 yrs
                                 String arrSel[] = selStr.split("-");
-                                strMin = Integer.parseInt(arrSel[0]);
+                                strMin = Integer.parseInt(arrSel[0]);     //strMin=18
                                 String strMaxYrs = arrSel[1];
                                 String arrSel2[] = strMaxYrs.split(" ");
-                                strMax = Integer.parseInt(arrSel2[0]);
+                                strMax = Integer.parseInt(arrSel2[0]);    //strMax=35
                             }
 
                         }
 
                         createSelectedDatePicker(strMin,strMax);
-//                        datePickerDialog.show();
-
-
-                       /* if (spinner_age_group.getSelectedItem().toString().equals("36-45 yrs")){
-                            cal.setTime(new Date());
-                            cal.add(Calendar.YEAR, -36);
-                            daysBeforeDate = cal.getTime();
-                            cal1.setTime(new Date());
-                            cal1.add(Calendar.YEAR, -45);
-                            daysAfterDate1 = cal1.getTime();
-                            datePickerDialog.show();
-                        }*/
 
                     }
                 });
@@ -1232,6 +1222,23 @@ public class UpdateLeadActivity extends AbstractActivity implements CompoundButt
                         datePickerDialog2.show();
                     }
                 });
+                datePickerDialog3 = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+
+                    public void onDateSet(DatePicker view, int monthOfYear, int dayOfMonth, int year) {
+                        Calendar newDate = Calendar.getInstance();
+                        newDate.set(monthOfYear, dayOfMonth, year);
+                        duration.setText(dateFormatter.format(newDate.getTime()));
+                    }
+                }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+                datePickerDialog3.getDatePicker().setCalendarViewShown(false);
+                datePickerDialog3.getDatePicker().setMaxDate(System.currentTimeMillis());
+                duration.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        datePickerDialog3.show();
+                    }
+                });
+
 
 
                 rg_meeting_status.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -1292,23 +1299,7 @@ public class UpdateLeadActivity extends AbstractActivity implements CompoundButt
         datePickerDialog.show();
     }
 
-    /*   private static void setMaxLimitInDatePicker(DatePickerDialog datePickerDialog) {
-           final Calendar calendar = Calendar.getInstance();
 
-           int currentYear = calendar.get(Calendar.YEAR);
-           int currentMonth = calendar.get(Calendar.MONTH);
-           int currentDay = calendar.get(Calendar.DAY_OF_MONTH);
-
-           int minYear = currentYear - 18;
-           int minMonth = currentMonth;
-           int minDay = currentDay;
-
-           calendar.set(minYear, minMonth, minDay);
-           long minDateInMilliSeconds = calendar.getTimeInMillis();
-
-           // Set 18 years from today as max limit of date picker
-           datePickerDialog.getDatePicker().setMaxDate(minDateInMilliSeconds);
-       }*/
     private static String getDate(Calendar cal) {
         return "" + (cal.get(Calendar.MONTH) + 1) + "/"
                 + cal.get(Calendar.DATE) + "/"
@@ -2004,6 +1995,7 @@ public class UpdateLeadActivity extends AbstractActivity implements CompoundButt
             strLastMeetingUpdate = last_meeting_update.getText().toString().trim();
             strPanNo = pan_no.getText().toString().trim();
             str_duration_date = duration.getText().toString().trim();
+            str_occupation_details=occupation_details.getText().toString().trim();
 
 
             View focusView = null;
@@ -2039,7 +2031,7 @@ public class UpdateLeadActivity extends AbstractActivity implements CompoundButt
             }
             String text0 = String.valueOf(mobileno.getText().toString().charAt(0));
             if (text0.equals("0")) {
-                mobileno.setError("Please enter correct mobile no");
+                mobileno.setError(getString(R.string.correct_mobile_no));
                 focusView = mobileno;
                 focusView.requestFocus();
                 return;
@@ -2056,7 +2048,7 @@ public class UpdateLeadActivity extends AbstractActivity implements CompoundButt
                 return;
             } else
                 if (!pincodeListArray.contains(autoPincode.getText().toString().trim())) {
-                autoPincode.setError("Invalid Pincode");
+                autoPincode.setError(getString(R.string.invalid_pin));
                 focusView = autoPincode;
                 focusView.requestFocus();
                 return;
@@ -2068,7 +2060,7 @@ public class UpdateLeadActivity extends AbstractActivity implements CompoundButt
                 }*/
             if (!TextUtils.isEmpty(str_email)) {
                 if (!isEmailValid(str_email)) {
-                    email.setError("Invalid email Id");
+                    email.setError(getString(R.string.invalid_email));
                     focusView = email;
                     focusView.requestFocus();
                     return;
@@ -2554,6 +2546,7 @@ public class UpdateLeadActivity extends AbstractActivity implements CompoundButt
                 last_meeting_update.setText(leadInfoModel.getLast_meeting_update());
                 pan_no.setText(leadInfoModel.getPanno());
                 duration.setText(leadInfoModel.getDuration_date());
+                occupation_details.setText(leadInfoModel.getNon_salary_val());
 
                 if (leadInfoModel.getSource_of_lead() != null && leadInfoModel.getSource_of_lead().trim().length() > 0) {
                     spinner_source_of_lead.setSelection(spinSourceLeadList.indexOf(leadInfoModel.getSource_of_lead()) + 1);
@@ -2715,7 +2708,7 @@ public class UpdateLeadActivity extends AbstractActivity implements CompoundButt
             leadInfoModel.setBusiness_opp(cursor.getString(cursor.getColumnIndex("business_opportunity")));
             leadInfoModel.setCustomer_id_name(cursor.getString(cursor.getColumnIndex("customer_id_name")));
             leadInfoModel.setDuration_date(cursor.getString(cursor.getColumnIndex("duration_date")));
-
+            leadInfoModel.setNon_salary_val(cursor.getString(cursor.getColumnIndex("non_salary_val")));
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -3107,7 +3100,7 @@ public class UpdateLeadActivity extends AbstractActivity implements CompoundButt
                     str_rg_meeting_status, str_spinner_lead_status, strCompitator_Name, strProduct, strRemark, str_spinner_research_type,
                     str_spinner_duration, strPanNo, strB_Margin, strB_aum, strB_sip, strB_number, strB_value, strB_premium, str_reason,
                     str_next_meeting_date, str_metting_agenda, str_lead_update_log, strCreatedby, strCreateddt, strUpdateddt, strUpdatedby, strEmpCode,
-                    strLastMeetingDate, strLastMeetingUpdate, selectedCatId, strCustomer_id_name};
+                    strLastMeetingDate, strLastMeetingUpdate, selectedCatId, strCustomer_id_name,str_duration_date,str_occupation_details};
 
 
             boolean result = Narnolia.dbCon.update(DbHelper.TABLE_DIRECT_LEAD, selection, valuesArray, utils.columnNamesLeadUpdate, selectionArgs);
@@ -3689,6 +3682,18 @@ public class UpdateLeadActivity extends AbstractActivity implements CompoundButt
                     } else {
                         str_spinner_research_type = "";
                     }
+                    if (root.getProperty("non_salary_val") != null) {
+
+                        if (!root.getProperty("non_salary_val").toString().equalsIgnoreCase("anyType{}")) {
+                            str_occupation_details = root.getProperty("non_salary_val").toString();
+
+                        } else {
+                            str_occupation_details = "";
+                        }
+                    } else {
+                        str_occupation_details = "";
+                    }
+
 
 
                     if (cliked) {
@@ -3709,7 +3714,7 @@ public class UpdateLeadActivity extends AbstractActivity implements CompoundButt
                             str_rg_meeting_status, str_spinner_lead_status, strCompitator_Name, strProduct, strRemark, str_spinner_research_type,
                             str_spinner_duration, strPanNo, strB_Margin, strB_aum, strB_sip, strB_number, strB_value, strB_premium, str_reason,
                             str_next_meeting_date, str_metting_agenda, str_lead_update_log, strCreatedby, strCreateddt, strUpdateddt, strUpdatedby, strEmpCode,
-                            strLastMeetingDate, strLastMeetingUpdate, selectedCatId, strCustomer_id_name, str_duration_date};
+                            strLastMeetingDate, strLastMeetingUpdate, selectedCatId, strCustomer_id_name, str_duration_date,str_occupation_details};
 
                     boolean result = Narnolia.dbCon.update(DbHelper.TABLE_DIRECT_LEAD, selection, valuesArray, utils.columnNamesLeadUpdate, selectionArgs);
                     if (result) {
@@ -3875,9 +3880,9 @@ public class UpdateLeadActivity extends AbstractActivity implements CompoundButt
 
 
             SoapPrimitive object = webService.UpdateLead(leadId, str_spinner_source_of_lead, str_spinner_sub_source, str_cust_id, str_fname, str_mname, str_lname, str_mobile_no,
-                    str_email, str_spinner_age_group, str_date_of_birth, str_address, str_flat, str_street, str_laocion, str_city, str_pincode, str_spinner_occupation, str_spinner_annual_income, str_spinner_other_broker, str_rg_meeting_status, str_spinner_lead_status, strRemark, strCompitator_Name, selectedCatId,
+                    str_email, str_spinner_age_group, str_date_of_birth, str_address, str_flat, str_street, str_laocion, str_city, str_pincode, str_spinner_occupation,str_occupation_details,str_spinner_annual_income, str_spinner_other_broker, str_rg_meeting_status, str_spinner_lead_status, strRemark, strCompitator_Name, selectedCatId,
                     str_spinner_research_type, str_spinner_duration, strPanNo, str_reason, strB_Margin, strB_aum, strB_sip, strB_number
-                    , strB_value, strB_premium, str_next_meeting_date, str_metting_agenda, str_lead_update_log, strFlag, "", empcode, strLastMeetingDate, strLastMeetingUpdate, "1", empcode, "", "");
+                    , strB_value, strB_premium, str_next_meeting_date, str_metting_agenda, str_lead_update_log, strFlag, "", empcode, strLastMeetingDate, strLastMeetingUpdate, "1", empcode, "",str_duration_date);
 
             return object;
 

@@ -68,6 +68,8 @@ public class MyCalendarActivity extends AbstractActivity implements OnClickListe
     private GridView calendarView;
     private GridCellAdapter adapter;
     private Calendar _calendar;
+    private TextView admin;
+    private String empcode;
     private ProgressDialog progressDialog;
     private String result = "";
     private SharedPref sharedPref;
@@ -105,6 +107,7 @@ public class MyCalendarActivity extends AbstractActivity implements OnClickListe
         progressDialog = new ProgressDialog(mContext);
         pref = new SharedPref(mContext);
         sharedPref = new SharedPref(mContext);
+        empcode = sharedPref.getLoginId();
         attendenceReportModelList = new ArrayList<>();
         sdf = new SimpleDateFormat("dd-MM-yyyy");
         attendenceReportModel = new AttendenceReportModel();
@@ -116,7 +119,7 @@ public class MyCalendarActivity extends AbstractActivity implements OnClickListe
         /*selectedDayMonthYearButton = (Button) this
                 .findViewById(R.id.selectedDayMonthYear);
 		selectedDayMonthYearButton.setText("Selected: ");*/
-
+        admin = (TextView) findViewById(R.id.admin);
         prevMonth = (ImageView) this.findViewById(R.id.prevMonth);
         prevMonth.setOnClickListener(this);
 
@@ -138,6 +141,9 @@ public class MyCalendarActivity extends AbstractActivity implements OnClickListe
                     if (fromHomeKey.equals("FromHome")) {
                         String mnt = String.valueOf(month);
                         String yrs = String.valueOf(year);
+
+                        String Capempcode = empcode.substring(0, 1).toUpperCase() + empcode.substring(1);
+                        admin.setText(Capempcode);
                         new AttendenceReport().execute(mnt, yrs);
                     }
                 }

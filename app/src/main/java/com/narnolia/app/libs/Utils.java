@@ -17,7 +17,8 @@ import java.util.Date;
 public class Utils {
     private Context mContext;
 
-    public static String URL = "http://sudesi.in/narnoliaws/Service1.svc";
+  //  public static String URL = "http://sudesi.in/narnoliaws/Service1.svc";
+    public static String URL="http://182.72.128.5:83/LMSWS/Service1.svc";   //  ......... Narnolia UAT server
 
     public static String KEY_LEAD_DATA = "lead_data";
 
@@ -95,10 +96,10 @@ public class Utils {
                 mContext.getString(R.string.column_updated_by),mContext.getString(R.string.column_emp_code),
                 mContext.getString(R.string.column_last_meeting_date), mContext.getString(R.string.column_last_meeting_update),
                 mContext.getString(R.string.column_business_opportunity),
-                mContext.getString(R.string.column_customer_id_name),mContext.getString(R.string.column_duration_date),
+                mContext.getString(R.string.column_customer_id_name),mContext.getString(R.string.column_duration_date),mContext.getString(R.string.column_occupation_details)
         };
 
-        columnNamesLeadUpdate = Arrays.copyOf(leadArray, updateLeadArray.length);
+        columnNamesLeadUpdate = Arrays.copyOf(updateLeadArray, updateLeadArray.length);
         String[] clientDetailsArray = {mContext.getString(R.string.Address),
                 mContext.getString(R.string.AnnualIncome),
                 mContext.getString(R.string.BirthDate),
