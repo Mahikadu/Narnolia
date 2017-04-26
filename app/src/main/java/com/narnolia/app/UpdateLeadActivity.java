@@ -1494,7 +1494,7 @@ public class UpdateLeadActivity extends AbstractActivity implements CompoundButt
                     showProduct.dismiss();
                 } else {
 
-                    btn1_opportunity_pitched2.setText("Opportunity Pitched");
+                    btn1_opportunity_pitched2.setText("Select Option");
                     showProduct.dismiss();
                 }
 
@@ -2625,6 +2625,7 @@ public class UpdateLeadActivity extends AbstractActivity implements CompoundButt
                 String businessOpp = leadInfoModel.getBusiness_opp();
                 if (leadInfoModel.getBusiness_opp() != null && leadInfoModel.getBusiness_opp().length() > 0) {
                     selItemsPosition.clear();
+
                     if (businessOpp.contains("#")) {
                         String selectedItem[] = businessOpp.split("#");
                         if (selectedItem != null && selectedItem.length > 0) {
@@ -2635,8 +2636,12 @@ public class UpdateLeadActivity extends AbstractActivity implements CompoundButt
                             btn1_opportunity_pitched2.setText(name);
                         }
 
-                    } else {
+                    } else if (businessOpp.equals("1")){
                         selItemsPosition.add(businessOpp);
+                        String name = +selItemsPosition.size() + " is Selected";
+                        btn1_opportunity_pitched2.setText(name);
+                    }else if(businessOpp.equals("0")) {
+                        System.out.println("Do nothing");
                     }
 
                     Log.e("selectedItem Ids ", "from DB => " + selItemsPosition.toString());
@@ -3880,7 +3885,7 @@ public class UpdateLeadActivity extends AbstractActivity implements CompoundButt
 
 
             SoapPrimitive object = webService.UpdateLead(leadId, str_spinner_source_of_lead, str_spinner_sub_source, str_cust_id, str_fname, str_mname, str_lname, str_mobile_no,
-                    str_email, str_spinner_age_group, str_date_of_birth, str_address, str_flat, str_street, str_laocion, str_city, str_pincode, str_spinner_occupation,str_occupation_details,str_spinner_annual_income, str_spinner_other_broker, str_rg_meeting_status, str_spinner_lead_status, strRemark, strCompitator_Name, selectedCatId,
+                    str_email, str_spinner_age_group, str_date_of_birth, str_address, str_flat, str_street, str_laocion, str_city, str_pincode, str_spinner_occupation,str_occupation_details,str_spinner_annual_income, str_spinner_other_broker, str_rg_meeting_status, str_spinner_lead_status, strRemark, strCompitator_Name, strProduct,
                     str_spinner_research_type, str_spinner_duration, strPanNo, str_reason, strB_Margin, strB_aum, strB_sip, strB_number
                     , strB_value, strB_premium, str_next_meeting_date, str_metting_agenda, str_lead_update_log, strFlag, "", empcode, strLastMeetingDate, strLastMeetingUpdate, "1", empcode, "",str_duration_date);
 
@@ -3915,7 +3920,7 @@ public class UpdateLeadActivity extends AbstractActivity implements CompoundButt
                 if (str_spinner_research_type != null && !str_spinner_research_type.equals("")) {
                     new SaveResearch1().execute();
                 }
-                if (selectedCatId != null && !selectedCatId.equals(""))
+//                if (selectedCatId != null && !selectedCatId.equals(""))
                     new SaveCategory1().execute();
             }
 
