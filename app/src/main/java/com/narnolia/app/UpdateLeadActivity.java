@@ -760,7 +760,7 @@ public class UpdateLeadActivity extends AbstractActivity implements CompoundButt
                             duration.setText("" + curDate);
                         } else if (leadString3.equalsIgnoreCase("Others")) {
                             linear_duration.setVisibility(View.VISIBLE);
-                            duration.setText("");
+                           // duration.setText("");
                         }
 
                     }
@@ -1222,20 +1222,25 @@ public class UpdateLeadActivity extends AbstractActivity implements CompoundButt
                         datePickerDialog2.show();
                     }
                 });
+              final SimpleDateFormat dateFormatter1;
+                dateFormatter1 = new SimpleDateFormat("M/dd/yyyy");
                 datePickerDialog3 = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
 
                     public void onDateSet(DatePicker view, int monthOfYear, int dayOfMonth, int year) {
                         Calendar newDate = Calendar.getInstance();
                         newDate.set(monthOfYear, dayOfMonth, year);
-                        duration.setText(dateFormatter.format(newDate.getTime()));
+                        duration.setText(dateFormatter1.format(newDate.getTime()));
                     }
                 }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
                 datePickerDialog3.getDatePicker().setCalendarViewShown(false);
-                datePickerDialog3.getDatePicker().setMaxDate(System.currentTimeMillis());
+               // datePickerDialog3.getDatePicker().setMaxDate(System.currentTimeMillis());
                 duration.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        datePickerDialog3.show();
+                        String other_duration=spinner_duration.getSelectedItem().toString().trim();
+                        if (other_duration.equals("Others")) {
+                            datePickerDialog3.show();
+                        }
                     }
                 });
 

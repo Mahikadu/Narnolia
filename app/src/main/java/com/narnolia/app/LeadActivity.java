@@ -1638,7 +1638,7 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
             strCreatedfrom = "APP";
             strAllocated_userid = "App";
 
-            SoapPrimitive object = webService.SaveLead(strSourceofLead, strSubSourceofLead, empcode, str_fname, str_mname, str_lname, str_mob,
+            SoapPrimitive object = webService.SaveLead(strSourceofLead, strSubSourceofLead, strCustomerID, str_fname, str_mname, str_lname, str_mob,
                     strlocation, str_city, str_pincode, "1", strStages, "", "", strCreatedfrom, strFlag, empcode);
 
             return object;
