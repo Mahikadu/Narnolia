@@ -1973,7 +1973,7 @@ public class UpdateLeadActivity extends AbstractActivity implements CompoundButt
             //.......spinner text get Text
             str_spinner_lead_name = spinner_lead_name.getSelectedItem().toString();
             str_spinner_sub_source = spinner_sub_source.getSelectedItem().toString();
-            str_customer_id_name = spinner_custID.getSelectedItem().toString().trim();
+            strCustomer_id_name = spinner_custID.getSelectedItem().toString().trim();
             str_spinner_age_group = spinner_age_group.getSelectedItem().toString();
             str_spinner_occupation = spinner_occupation.getSelectedItem().toString();
             str_spinner_annual_income = spinner_annual_income.getSelectedItem().toString();
