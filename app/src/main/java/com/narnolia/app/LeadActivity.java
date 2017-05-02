@@ -79,6 +79,7 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
     boolean uncheckall = false;
     String sourceString, subsource;
     String ClinetId;
+    String customer_id1="";
     private List<String> spinCityArray;
     private List<String> spinClientIDList;
     String[] strClientIDArray;
@@ -891,10 +892,10 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
             str_city = editCity.getText().toString();
             str_pincode = autoPincode.getText().toString().trim();
             strlocation = location.getText().toString().trim();
-            strCustomerID=customer_id.getText().toString().trim();
+            strCustomerID = customer_id.getText().toString().trim();
             //strCustomer_id_name = spinner_cust_id.getSelectedItem().toString();
             strSourceofLead = spinner_source_of_lead.getSelectedItem().toString();
-            strSubSourceofLead=spinner_sub_source.getSelectedItem().toString();
+            strSubSourceofLead = spinner_sub_source.getSelectedItem().toString();
 
             View focusView = null;
 
@@ -1638,7 +1639,19 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
             strCreatedfrom = "APP";
             strAllocated_userid = "App";
 
-            SoapPrimitive object = webService.SaveLead(strSourceofLead, strSubSourceofLead, strCustomerID, str_fname, str_mname, str_lname, str_mob,
+            if (strSourceofLead != null && strSourceofLead.length() > 0 && strSubSourceofLead != null && strSubSourceofLead.length() > 0) {
+                if (strSourceofLead.equalsIgnoreCase("In- house Leads (Existing)") && strSubSourceofLead.equalsIgnoreCase("Existing Client")) {
+                    customer_id1 = strCustomer_id_name.trim();
+                } else if (strSourceofLead.equalsIgnoreCase("Client Reference")) {
+                    customer_id1 = strCustomerID.trim();
+                }else if (strSourceofLead.equalsIgnoreCase("In- house Leads (Existing)")&& !strSubSourceofLead.equals("Existing Client")) {
+                    customer_id1 = strCustomerID.trim();
+                }else if (strSourceofLead.equalsIgnoreCase("In- house Leads (New)")) {
+                    customer_id1 = strCustomerID.trim();
+                }
+            }
+
+            SoapPrimitive object = webService.SaveLead(strSourceofLead, strSubSourceofLead, customer_id1, str_fname, str_mname, str_lname, str_mob,
                     strlocation, str_city, str_pincode, "1", strStages, "", "", strCreatedfrom, strFlag, empcode);
 
             return object;
@@ -1709,15 +1722,25 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
 
             // WHERE clause arguments
             String[] selectionArgs = {LeadId};// LeadId
-
+            if (strSourceofLead != null && strSourceofLead.length() > 0 && strSubSourceofLead != null && strSubSourceofLead.length() > 0) {
+                if (strSourceofLead.equalsIgnoreCase("In- house Leads (Existing)") && strSubSourceofLead.equalsIgnoreCase("Existing Client")) {
+                    customer_id1 = strCustomer_id_name.trim();
+                } else if (strSourceofLead.equalsIgnoreCase("Client Reference")) {
+                    customer_id1 = strCustomerID.trim();
+                }else if (strSourceofLead.equalsIgnoreCase("In- house Leads (Existing)")&& !strSubSourceofLead.equals("Existing Client")) {
+                    customer_id1 = strCustomerID.trim();
+                }else if (strSourceofLead.equalsIgnoreCase("In- house Leads (New)")) {
+                    customer_id1 = strCustomerID.trim();
+                }
+            }
             // for now strcurrency becomes blank as " "; please change it later
-            String valuesArray[] = {"" + directLeadId, LeadId, strStages, strSourceofLead, strSubSourceofLead, strCustomerID, str_fname, str_mname, str_lname,
+            String valuesArray[] = {"" + directLeadId, LeadId, strStages, strSourceofLead, strSubSourceofLead, customer_id1, str_fname, str_mname, str_lname,
                     strDob, strAge, str_mob, strAddr1, strAddr2, strAddr3, strlocation, str_city, str_pincode, strEmail, strIncome,
                     strOccupation, strCreatedfrom, strAppVersion, strAppdt, strFlag, strAllocated_userid, strBrokerDelts,
                     strMeetingStatus, strLeadStatus, strCompitator_Name, strProduct, strRemark, strTypeofSearch,
                     strDuration, strPanNo, strB_Margin, strB_aum, strB_sip, strB_number, strB_value, strB_premium, strReason,
                     strMeetingdt, strMeetingAgenda, strLead_Updatelog, strCreatedby, strCreateddt, strUpdateddt, strUpdatedby, strEmpCode, strLastMeetingDate, StrLastMeetingUpdate,
-                    selectedCatId, strCustomer_id_name, str_duration};
+                    selectedCatId, customer_id1, str_duration};
 
 
             boolean result = Narnolia.dbCon.update(DbHelper.TABLE_DIRECT_LEAD, selection, valuesArray, utils.columnNamesLead, selectionArgs);
@@ -1970,13 +1993,13 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
                     first = name[0];
                     middle = name[1];
                     last = name[2];
-                    String  f_name = first.substring(0,1).toUpperCase() + first.substring(1).toLowerCase();
+                    String f_name = first.substring(0, 1).toUpperCase() + first.substring(1).toLowerCase();
                     fname.setText(f_name);
                     fname.setEnabled(false);
-                    String  m_name = middle.substring(0,1).toUpperCase() + middle.substring(1).toLowerCase();
+                    String m_name = middle.substring(0, 1).toUpperCase() + middle.substring(1).toLowerCase();
                     mname.setText(m_name);
                     mname.setEnabled(false);
-                    String  l_name = last.substring(0,1).toUpperCase() + last.substring(1).toLowerCase();
+                    String l_name = last.substring(0, 1).toUpperCase() + last.substring(1).toLowerCase();
                     lname.setText(l_name);
                     lname.setEnabled(false);
                 } else if (!name.equals(null) && name.length >= 2) {
@@ -1989,7 +2012,7 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
                     lname.setEnabled(false);
                 }
                 String city = clientDetailsModel.getCity();
-                String  c_name = city.substring(0,1).toUpperCase() + city.substring(1).toLowerCase();
+                String c_name = city.substring(0, 1).toUpperCase() + city.substring(1).toLowerCase();
                 editCity.setText(c_name);
 
                 editCity.setError(null);
