@@ -334,4 +334,8 @@
     <string name="thu">Thu</string>
     <string name="fri">Fri</string>
     <string name="sat">Sat</string>
+    <string name="present">Present</string>
+    <string name="absent">Absent</string>
+    <string name="search_by">Search By:</string>
+    <string name="select_monthand_year">Select Month and Year:</string>
 </resources>

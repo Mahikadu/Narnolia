@@ -8,135 +8,165 @@
         layout="@layout/header_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/txtNation"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/layout_margin"
+            android:text="@string/nation"
+            android:layout_weight="1"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@android:color/black" />
+
+        <Spinner
+            android:id="@+id/spin_nation"
+            style="@style/spinner_style"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:drawablePadding="@dimen/view_padding" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp">
+        <TextView
+            android:id="@+id/txtZone"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/layout_margin"
+            android:text="@string/zone"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@android:color/black" />
+
+        <Spinner
+            android:id="@+id/spin_zone"
+            style="@style/spinner_style"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:drawablePadding="@dimen/view_padding" />
+    </LinearLayout>
+
+
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:weightSum="3">
-
-        <LinearLayout
+        android:padding="10dp">
+        <TextView
+            android:id="@+id/txtRegion"
             android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:orientation="vertical"
-            android:layout_weight="1">
+            android:text="@string/region"
+            android:layout_marginTop="@dimen/layout_margin"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@android:color/black" />
 
-            <TextView
-                android:id="@+id/txtNation"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/layout_margin"
-                android:text="@string/nation"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@android:color/black" />
-
-            <TextView
-                android:id="@+id/txtZone"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/layout_margin"
-                android:text="@string/zone"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@android:color/black" />
-
-            <TextView
-                android:id="@+id/txtRegion"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/region"
-                android:layout_marginTop="@dimen/layout_margin"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@android:color/black" />
-
-            <TextView
-                android:id="@+id/txtCluster"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/cluster"
-                android:layout_marginTop="@dimen/layout_margin"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@android:color/black" />
-
-            <TextView
-                android:id="@+id/txtLocation"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/loc"
-                android:layout_marginTop="@dimen/layout_margin"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@android:color/black" />
-
-            <TextView
-                android:id="@+id/txtEmployee"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/employee"
-                android:layout_marginTop="@dimen/layout_margin"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@android:color/black" />
-        </LinearLayout>
-
-        <LinearLayout
+        <Spinner
+            android:id="@+id/spin_region"
+            style="@style/spinner_style"
             android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:orientation="vertical"
-            android:layout_weight="2">
+            android:drawablePadding="@dimen/view_padding" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp">
+        <TextView
+            android:id="@+id/txtCluster"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="@string/cluster"
+            android:layout_marginTop="@dimen/layout_margin"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@android:color/black" />
 
-            <Spinner
-                android:id="@+id/spin_nation"
-                style="@style/spinner_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawablePadding="@dimen/view_padding" />
+        <Spinner
+            android:id="@+id/spin_cluster"
+            style="@style/spinner_style"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:drawablePadding="@dimen/view_padding" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp">
+        <TextView
+            android:id="@+id/txtLocation"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="@string/loc"
+            android:layout_marginTop="@dimen/layout_margin"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@android:color/black" />
 
-            <Spinner
-                android:id="@+id/spin_zone"
-                style="@style/spinner_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawablePadding="@dimen/view_padding" />
+        <Spinner
+            android:id="@+id/spin_location"
+            style="@style/spinner_style"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:drawablePadding="@dimen/view_padding" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp">
+        <TextView
+            android:id="@+id/txtEmployee"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="@string/employee"
+            android:layout_marginTop="@dimen/layout_margin"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@android:color/black" />
 
-            <Spinner
-                android:id="@+id/spin_region"
-                style="@style/spinner_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawablePadding="@dimen/view_padding" />
-
-            <Spinner
-                android:id="@+id/spin_cluster"
-                style="@style/spinner_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawablePadding="@dimen/view_padding" />
-
-            <Spinner
-                android:id="@+id/spin_location"
-                style="@style/spinner_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawablePadding="@dimen/view_padding" />
-
-            <Spinner
-                android:id="@+id/spin_employee"
-                style="@style/spinner_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawablePadding="@dimen/view_padding" />
-        </LinearLayout>
-
+        <Spinner
+            android:id="@+id/spin_employee"
+            style="@style/spinner_style"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:drawablePadding="@dimen/view_padding" />
     </LinearLayout>
 
-    <Button
-        android:id="@+id/btn_search"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/size_10"
-        android:background="@color/colorRed"
-        android:text="@string/searchBtn"
-        android:textColor="@color/colorWhite" />
+        android:orientation="vertical"
+        android:gravity="center">
+        <Button
+            android:id="@+id/btn_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/size_10"
+            android:background="@color/colorRed"
+            android:text="@string/searchBtn"
+            android:textColor="@color/colorWhite" />
+    </LinearLayout>
+
+
 
 </LinearLayout>
