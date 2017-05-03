@@ -15,7 +15,6 @@
             android:layout_height="wrap_content"
             android:background="@color/colorGray">
 
-
             <TextView
                 android:id="@+id/textTitle_next"
                 android:layout_width="wrap_content"

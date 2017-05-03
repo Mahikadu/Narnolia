@@ -8,7 +8,7 @@
     <string name="text_footer">Powered By smartforce CRM</string>
     <string name="forgetPassword"><u>Forgot Password?  </u></string>
     <string name="forgot_message">Reset Link has been sent to your respected Email ID.</string>
-<string name="check_yes">Yes</string>
+    <string name="check_yes">Yes</string>
     <string name="check_no">No</string>
 
     //home screen
@@ -51,7 +51,7 @@
     <string name="hintcity">Enter City</string>
     <string name="hintpincode">Enter Pincode</string>
     <string name="hintemail">Enter E-Mail ID</string>
-<string name="hintdateofbirth">Select Date of birth</string>
+    <string name="hintdateofbirth">Select Date of birth</string>
     <string name="hintaddress">Enter Address</string>
     <string name="hintvillage">Enter Flat/Village</string>
     <string name="hintstreet">Enter Street/Post office</string>
@@ -82,6 +82,7 @@
     <string name="mettingagenda">Meeting Agenda</string>
     <string name="leadupdatelog">Lead Update Log</string>
     <string name="updatelead">Update Lead</string>
+    <string name="searchBtn">Search</string>
     <string name="closelead">Close Lead</string>
     <string name="reason">Reason</string>
     <string name="leadstatus">Lead Status</string>
@@ -107,7 +108,6 @@
     <string name="prospectiveproduct1">Select Option</string>
 
     <string name="opportunity_pitched2">Select Option</string>
-
 
     //table text
     <string name="margin">Margin</string>
@@ -154,7 +154,7 @@
     <string name="column_masterdetails_lmd">lmd</string>
     <string name="column_masterdetails_transfer">transfer</string>
     <string name="column_masterdetails_flag">flag</string>
-<!--dashboard lead column name-->
+    <!--dashboard lead column name-->
 
     //save lead column name
     <string name="column_direct_lead_id">direct_lead_id</string>
@@ -217,7 +217,13 @@
     <string name="column_last_meeting_date">last_meeting_date</string>
     <string name="column_last_meeting_update">last_meeting_update</string>
 
-
+    //status report
+    <string name="nation">Nation</string>
+    <string name="zone">Zone</string>
+    <string name="region">Region</string>
+    <string name="cluster">Cluster</string>
+    <string name="loc">Location</string>
+    <string name="employee">Employee</string>
     //other
     <string name="open">Open</string>
     <string name="welcome">Welcome : </string>
@@ -248,17 +254,13 @@
     </string-array>
 
 
-
-
-
-
-   <!-- coumn name in tabele M_category-->
+    <!-- coumn name in tabele M_category-->
     <string name="column_M_id">id</string>
-     <string name="column_M_Product_type_id">Product_type_id</string>
+    <string name="column_M_Product_type_id">Product_type_id</string>
     <string name="column_M_Category">Category</string>
     <string name="column_M_Subcategory">Subcategory</string>
     <string name="column_M_Status">status</string>
-  <!--  column in table direct lead ST details-->
+    <!--  column in table direct lead ST details-->
     <string name="column_dld_id">id</string>
     <string name="column_did_lead_id">lead_id</string>
     <string name="column_did_ST_type_id">ST_type_id</string>
@@ -267,8 +269,8 @@
     <string name="column_cd_lead_id">lead_id</string>
     <string name="column_cd_producttype_id">producttype_id</string>
     <string name="column_cd_category_id">category_id</string>
-   <!-- get all client-->
-<string name="column_cust_id">ClientID</string>
+    <!-- get all client-->
+    <string name="column_cust_id">ClientID</string>
     <string name="Address">Address</string>
     <string name="AnnualIncome">AnnualIncome</string>
     <string name="BirthDate">BirthDate</string>
@@ -295,13 +297,13 @@
     <string name="ifsc">ifsc</string>
     <string name="micr">micr</string>
     <string name="result">result</string>
-      <!--change password-->
+    <!--change password-->
     <string name="old_pass">Old Password</string>
     <string name="new_pass">New Password</string>
     <string name="confirm_pass">Confirm Password</string>
     <string name="change_pass">Change Password</string>
 
-   <!-- Status Report-->
+    <!-- Status Report-->
     <string name="status">Status</string>
     <string name="Todayreport">Today Report</string>
     <string name="t1">T-1</string>
@@ -311,20 +313,20 @@
     <string name="t5">T-5</string>
     <string name="t6">T-6</string>
     <string name="t7">T-7</string>
-   <string name="t_month">T-Month</string>
+    <string name="t_month">T-Month</string>
     <string name="t_quarter">T-Quarter</string>
     <string name="lead_created">Lead Created</string>
     <string name="closer_lead">Closer Of Lead</string>
     <!--sub Status Report-->
     <string name="lead_id">Lead Id</string>
-<string name="name1">Name</string>
+    <string name="name1">Name</string>
     <string name="mobile_no1">Mobile No</string>
     <string name="city_name">City</string>
     <string name="Pincode_city">Pincode</string>
     <string name="last_meeting_date">Last Meeting Date</string>
     <string name="last_meeting_update">Last Meeting Update</string>
     <string name="lead_status1">Lead Status</string>
-   <!-- calender view names-->
+    <!-- calender view names-->
     <string name="sun">Sun</string>
     <string name="mon">Mon</string>
     <string name="tue">Tue</string>

@@ -43,7 +43,7 @@
                 android:padding="@dimen/view_padding"
                 android:text="x"
                 android:textStyle="bold"
-                android:textColor="@color/colorWhite"/>
+                android:textColor="@color/colorRed"/>
         </RelativeLayout>
 
         <LinearLayout

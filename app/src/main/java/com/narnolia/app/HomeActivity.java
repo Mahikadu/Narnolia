@@ -71,7 +71,7 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
             Telephonenumber,Ucc,bankaccount,bankname,cStatus,dopeningDate,dpac,dpid,ifsc,micr,result;
 
 
-    String spinMasterList[]={"--select--","Prakash","Bhavin","Chirag","Yakub"};
+    String spinMasterList[]={"--select--","Status Report", "Attendance Report"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -216,8 +216,8 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
 
                 break;*/
             case R.id.linear_mis_reports:
-                pushActivity(mContext, StatusReportActivity.class, null, true);
-
+//                pushActivity(mContext, StatusReportActivity.class, null, true);
+                showReportDialog();
 
             break;
             case R.id.linear_notification:
@@ -425,6 +425,9 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
             public void onItemSelected(AdapterView<?> parent, View arg1,
                                        int arg2, long arg3) {
                 String selItem = parent.getSelectedItem().toString();
+                if(selItem.equalsIgnoreCase("Status Report")) {
+                    pushActivity(mContext, StatusReport.class, null, true);
+                }
             }
 
             public void onNothingSelected(AdapterView<?> arg0) {

@@ -685,7 +685,7 @@ public SoapObject Filldetailsforapp(String lead_id) {
         try {
 //
             SoapObject request = new SoapObject(NAMESPACE,
-                    "attendance_report_datewise");// soap object
+                    "get_Geographicalhierarchy");// soap object
             request.addProperty("userid",user_id);
             request.addProperty("param", param);
 
