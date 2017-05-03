@@ -678,4 +678,80 @@ public SoapObject Filldetailsforapp(String lead_id) {
         }
 
     }
+//.............. This web servicee is used for getting status report spinner data........
+    public SoapObject get_Geographicalhierarchy(String user_id,String param) {
+        SoapObject result15 = null;
+
+        try {
+//
+            SoapObject request = new SoapObject(NAMESPACE,
+                    "attendance_report_datewise");// soap object
+            request.addProperty("userid",user_id);
+            request.addProperty("param", param);
+
+
+            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
+                    SoapEnvelope.VER11);// soap envelop with version
+            envelope.setOutputSoapObject(request); // set request object
+            envelope.dotNet = true;
+
+            HttpTransportSE androidHttpTransport = new HttpTransportSE(Utils.URL);// http
+            // transport
+            // call
+            androidHttpTransport.call(SOAP_ACTION + "get_Geographicalhierarchy",
+                    envelope);
+            Log.i("TAG", "envelope" + envelope);
+
+            // response soap object
+            result15 = (SoapObject) envelope.getResponse();
+            Log.i("TAG", "response :" + result15);
+
+            return result15;
+        } catch (Exception e) {
+
+            e.printStackTrace();
+
+            return null;
+        }
+
+    }
+    public SoapObject get_emplist(String login_id,String national,String zone,String region,String location,String cluster) {
+        SoapObject result16 = null;
+
+        try {
+//
+            SoapObject request = new SoapObject(NAMESPACE,
+                    "attendance_report_datewise");// soap object
+            request.addProperty("login_id",login_id);
+            request.addProperty("zone", zone);
+            request.addProperty("region", region);
+            request.addProperty("location", location);
+            request.addProperty("cluster", cluster);
+
+
+            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
+                    SoapEnvelope.VER11);// soap envelop with version
+            envelope.setOutputSoapObject(request); // set request object
+            envelope.dotNet = true;
+
+            HttpTransportSE androidHttpTransport = new HttpTransportSE(Utils.URL);// http
+            // transport
+            // call
+            androidHttpTransport.call(SOAP_ACTION + "get_emplist",
+                    envelope);
+            Log.i("TAG", "envelope" + envelope);
+
+            // response soap object
+            result16 = (SoapObject) envelope.getResponse();
+            Log.i("TAG", "response :" + result16);
+
+            return result16;
+        } catch (Exception e) {
+
+            e.printStackTrace();
+
+            return null;
+        }
+
+    }
 }
