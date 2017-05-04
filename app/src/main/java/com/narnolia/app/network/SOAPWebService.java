@@ -715,14 +715,15 @@ public SoapObject Filldetailsforapp(String lead_id) {
         }
 
     }
-    public SoapObject get_emplist(String login_id,String national,String zone,String region,String location,String cluster) {
+    public SoapObject get_emplist(String login_id, String national, String zone, String region, String location, String cluster) {
         SoapObject result16 = null;
 
         try {
 //
             SoapObject request = new SoapObject(NAMESPACE,
-                    "attendance_report_datewise");// soap object
+                    "get_emplist");// soap object
             request.addProperty("login_id",login_id);
+            request.addProperty("national", national);
             request.addProperty("zone", zone);
             request.addProperty("region", region);
             request.addProperty("location", location);

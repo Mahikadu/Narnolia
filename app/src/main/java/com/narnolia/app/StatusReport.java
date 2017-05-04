@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -31,10 +32,12 @@ public class StatusReport extends AbstractActivity {
     private ProgressDialog progressDialog;
     private String empcode;
     private SharedPref sharedPref;
-    private String param, nation, zone, region, cluster, location;
+    private String param, nation, zone, region, cluster, location, employee;
+    private String nationVal, zoneVal, regionVal, clusterVal, locationVal;
     private String responseId;
     private List<String> result, empList;
     String[] strResultArray = null;
+    String[] strEmpArray = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +57,28 @@ public class StatusReport extends AbstractActivity {
         spinLocation = (Spinner) findViewById(R.id.spin_location);
         spinEmployee = (Spinner) findViewById(R.id.spin_employee);
 
+        new GetGeoHierarchyNation().execute();
+
+        spinLocation.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if ((spinNation.getSelectedItemPosition() > 0) && (spinZone.getSelectedItemPosition() > 0)
+                        && (spinRegion.getSelectedItemPosition() > 0) && (spinCluster.getSelectedItemPosition() > 0)
+                        && (position > 0)) {
+                    nationVal = spinNation.getSelectedItem().toString();
+                    zoneVal = spinZone.getSelectedItem().toString();
+                    regionVal = spinRegion.getSelectedItem().toString();
+                    clusterVal = spinCluster.getSelectedItem().toString();
+                    locationVal = parent.getSelectedItem().toString();
+                    new GetEmpList().execute();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
 
@@ -119,10 +144,6 @@ public class StatusReport extends AbstractActivity {
         protected void onPostExecute(SoapObject soapObject) {
             super.onPostExecute(soapObject);
             try {
-                if (progressDialog != null && progressDialog.isShowing()) {
-                    progressDialog.dismiss();
-                }
-
                 responseId = String.valueOf(soapObject);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -133,22 +154,17 @@ public class StatusReport extends AbstractActivity {
                 for (int i = 0; i < soapObject.getPropertyCount(); i++) {
                     SoapObject root = (SoapObject) soapObject.getProperty(i);
 
-
-                    if(param.equalsIgnoreCase("national")) {
-                        if (root.getProperty("national") != null) {
-
-                            if (!root.getProperty("national").toString().equalsIgnoreCase("anyType{}")) {
-                                nation = root.getProperty("national").toString();
-
-                            } else {
-                                nation = "";
-                            }
+                    if (root.getProperty("national") != null) {
+                        if (!root.getProperty("national").toString().equalsIgnoreCase("anyType{}")) {
+                            nation = root.getProperty("national").toString();
                         } else {
                             nation = "";
                         }
+                    } else {
+                        nation = "";
                     }
-                    result.add(nation);
                 }
+                result.add(nation);
 
                 if (result.size() > 0) {
                     strResultArray = new String[result.size() + 1];
@@ -186,6 +202,8 @@ public class StatusReport extends AbstractActivity {
                 spinNation.setAdapter(adapterMaster);
             } catch (Exception e) {
                 e.printStackTrace();
+            } finally {
+                new GetGeoHierarchyZone().execute();
             }
 
         }
@@ -226,7 +244,6 @@ public class StatusReport extends AbstractActivity {
                 result.clear();
                 for (int i = 0; i < soapObject.getPropertyCount(); i++) {
                     SoapObject root = (SoapObject) soapObject.getProperty(i);
-
 
                         if (root.getProperty("zone") != null) {
 
@@ -278,6 +295,291 @@ public class StatusReport extends AbstractActivity {
 
             } catch (Exception e) {
                 e.printStackTrace();
+            } finally {
+                new GetGeoHierarchyRegion().execute();
+            }
+
+        }
+    }
+
+    public class GetGeoHierarchyRegion extends AsyncTask<Void, Void, SoapObject> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected SoapObject doInBackground(Void... params) {
+
+            SoapObject object = null;
+            try {
+                SOAPWebService webService = new SOAPWebService(mContext);
+
+                object = webService.get_Geographicalhierarchy(empcode, "region");
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return object;
+        }
+
+        @Override
+        protected void onPostExecute(SoapObject soapObject) {
+            super.onPostExecute(soapObject);
+            try {
+                responseId = String.valueOf(soapObject);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            try {
+                result.clear();
+                for (int i = 0; i < soapObject.getPropertyCount(); i++) {
+                    SoapObject root = (SoapObject) soapObject.getProperty(i);
+
+
+                    if (root.getProperty("region") != null) {
+
+                        if (!root.getProperty("region").toString().equalsIgnoreCase("anyType{}")) {
+                            region = root.getProperty("region").toString();
+
+                        } else {
+                            region = "";
+                        }
+                    } else {
+                        region = "";
+                    }
+                    result.add(region);
+                }
+
+                if (result.size() > 0) {
+                    strResultArray = new String[result.size() + 1];
+                    strResultArray[0] = "Select Region";
+
+                    for (int i = 0; i < result.size(); i++) {
+                        strResultArray[i + 1] = result.get(i);
+                    }
+                }
+
+                ArrayAdapter<String> adapterMaster = new ArrayAdapter<String>(mContext, android.R.layout.simple_spinner_item, strResultArray) {
+                    @Override
+                    public View getDropDownView(int position, View convertView, ViewGroup parent)
+                    {
+                        View v = null;
+                        // If this is the initial dummy entry, make it hidden
+                        if (position == 0) {
+                            TextView tv = new TextView(getContext());
+                            tv.setHeight(0);
+                            tv.setVisibility(View.GONE);
+                            v = tv;
+                        }
+                        else {
+                            // Pass convertView as null to prevent reuse of special case views
+                            v = super.getDropDownView(position, null, parent);
+                        }
+                        // Hide scroll bar because it appears sometimes unnecessarily, this does not prevent scrolling
+                        parent.setVerticalScrollBarEnabled(false);
+                        return v;
+                    }
+                };
+
+                adapterMaster.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spinRegion.setAdapter(adapterMaster);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                new GetGeoHierarchyCluster().execute();
+            }
+
+        }
+    }
+
+    public class GetGeoHierarchyCluster extends AsyncTask<Void, Void, SoapObject> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected SoapObject doInBackground(Void... params) {
+
+            SoapObject object = null;
+            try {
+                SOAPWebService webService = new SOAPWebService(mContext);
+
+                object = webService.get_Geographicalhierarchy(empcode, "cluster");
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return object;
+        }
+
+        @Override
+        protected void onPostExecute(SoapObject soapObject) {
+            super.onPostExecute(soapObject);
+            try {
+                responseId = String.valueOf(soapObject);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            try {
+                result.clear();
+                for (int i = 0; i < soapObject.getPropertyCount(); i++) {
+                    SoapObject root = (SoapObject) soapObject.getProperty(i);
+
+
+                    if (root.getProperty("cluster") != null) {
+
+                        if (!root.getProperty("cluster").toString().equalsIgnoreCase("anyType{}")) {
+                            cluster = root.getProperty("cluster").toString();
+
+                        } else {
+                            cluster = "";
+                        }
+                    } else {
+                        cluster = "";
+                    }
+                    result.add(cluster);
+                }
+
+                if (result.size() > 0) {
+                    strResultArray = new String[result.size() + 1];
+                    strResultArray[0] = "Select Cluster";
+
+                    for (int i = 0; i < result.size(); i++) {
+                        strResultArray[i + 1] = result.get(i);
+                    }
+                }
+
+                ArrayAdapter<String> adapterMaster = new ArrayAdapter<String>(mContext, android.R.layout.simple_spinner_item, strResultArray) {
+                    @Override
+                    public View getDropDownView(int position, View convertView, ViewGroup parent)
+                    {
+                        View v = null;
+                        // If this is the initial dummy entry, make it hidden
+                        if (position == 0) {
+                            TextView tv = new TextView(getContext());
+                            tv.setHeight(0);
+                            tv.setVisibility(View.GONE);
+                            v = tv;
+                        }
+                        else {
+                            // Pass convertView as null to prevent reuse of special case views
+                            v = super.getDropDownView(position, null, parent);
+                        }
+                        // Hide scroll bar because it appears sometimes unnecessarily, this does not prevent scrolling
+                        parent.setVerticalScrollBarEnabled(false);
+                        return v;
+                    }
+                };
+
+                adapterMaster.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spinCluster.setAdapter(adapterMaster);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                new GetGeoHierarchyLocation().execute();
+            }
+
+        }
+    }
+
+    public class GetGeoHierarchyLocation extends AsyncTask<Void, Void, SoapObject> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected SoapObject doInBackground(Void... params) {
+
+            SoapObject object = null;
+            try {
+                SOAPWebService webService = new SOAPWebService(mContext);
+
+                object = webService.get_Geographicalhierarchy(empcode, "location");
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return object;
+        }
+
+        @Override
+        protected void onPostExecute(SoapObject soapObject) {
+            super.onPostExecute(soapObject);
+            try {
+                if (progressDialog != null && progressDialog.isShowing()) {
+                    progressDialog.dismiss();
+                }
+                responseId = String.valueOf(soapObject);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            try {
+                result.clear();
+                for (int i = 0; i < soapObject.getPropertyCount(); i++) {
+                    SoapObject root = (SoapObject) soapObject.getProperty(i);
+
+
+                    if (root.getProperty("location") != null) {
+
+                        if (!root.getProperty("location").toString().equalsIgnoreCase("anyType{}")) {
+                            location = root.getProperty("location").toString();
+
+                        } else {
+                            location = "";
+                        }
+                    } else {
+                        location = "";
+                    }
+                    result.add(location);
+                }
+
+                if (result.size() > 0) {
+                    strResultArray = new String[result.size() + 1];
+                    strResultArray[0] = "Select Location";
+
+                    for (int i = 0; i < result.size(); i++) {
+                        strResultArray[i + 1] = result.get(i);
+                    }
+                }
+
+                ArrayAdapter<String> adapterMaster = new ArrayAdapter<String>(mContext, android.R.layout.simple_spinner_item, strResultArray) {
+                    @Override
+                    public View getDropDownView(int position, View convertView, ViewGroup parent)
+                    {
+                        View v = null;
+                        // If this is the initial dummy entry, make it hidden
+                        if (position == 0) {
+                            TextView tv = new TextView(getContext());
+                            tv.setHeight(0);
+                            tv.setVisibility(View.GONE);
+                            v = tv;
+                        }
+                        else {
+                            // Pass convertView as null to prevent reuse of special case views
+                            v = super.getDropDownView(position, null, parent);
+                        }
+                        // Hide scroll bar because it appears sometimes unnecessarily, this does not prevent scrolling
+                        parent.setVerticalScrollBarEnabled(false);
+                        return v;
+                    }
+                };
+
+                adapterMaster.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spinLocation.setAdapter(adapterMaster);
+
+            } catch (Exception e) {
+                e.printStackTrace();
             }
 
         }
@@ -305,7 +607,7 @@ public class StatusReport extends AbstractActivity {
             try {
                 SOAPWebService webService = new SOAPWebService(mContext);
 
-//                object = webService.get_emplist(empcode, param);
+                object = webService.get_emplist(empcode, nationVal, zoneVal, regionVal, locationVal, clusterVal);
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -332,8 +634,53 @@ public class StatusReport extends AbstractActivity {
                     SoapObject root = (SoapObject) soapObject.getProperty(i);
 
 
+                    if (root.getProperty("employeename") != null) {
 
+                        if (!root.getProperty("employeename").toString().equalsIgnoreCase("anyType{}")) {
+                            employee = root.getProperty("employeename").toString();
+
+                        } else {
+                            employee = "";
+                        }
+                    } else {
+                        employee = "";
+                    }
+                    result.add(employee);
                 }
+
+                if (result.size() > 0) {
+                    strResultArray = new String[result.size() + 1];
+                    strResultArray[0] = "Select Employee";
+
+                    for (int i = 0; i < result.size(); i++) {
+                        strResultArray[i + 1] = result.get(i);
+                    }
+                }
+
+                ArrayAdapter<String> adapterMaster = new ArrayAdapter<String>(mContext, android.R.layout.simple_spinner_item, strResultArray) {
+                    @Override
+                    public View getDropDownView(int position, View convertView, ViewGroup parent)
+                    {
+                        View v = null;
+                        // If this is the initial dummy entry, make it hidden
+                        if (position == 0) {
+                            TextView tv = new TextView(getContext());
+                            tv.setHeight(0);
+                            tv.setVisibility(View.GONE);
+                            v = tv;
+                        }
+                        else {
+                            // Pass convertView as null to prevent reuse of special case views
+                            v = super.getDropDownView(position, null, parent);
+                        }
+                        // Hide scroll bar because it appears sometimes unnecessarily, this does not prevent scrolling
+                        parent.setVerticalScrollBarEnabled(false);
+                        return v;
+                    }
+                };
+
+                adapterMaster.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spinEmployee.setAdapter(adapterMaster);
 
             } catch (Exception e) {
                 e.printStackTrace();
