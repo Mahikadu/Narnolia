@@ -485,7 +485,7 @@ public class LoginActivity extends AbstractActivity {
                    /* pushActivity(LoginActivity.this, HomeActivity.class, null, true);*/
 
                     Bundle bundle1 = new Bundle();
-                    bundle1.putString("from_login", "FromLogin");
+                    bundle1.putString("from_login", "FromLogin"); ///bundle1.putString("key", "value");
                     pushActivity(LoginActivity.this, MyCalendarActivity.class, bundle1, true);
                     sharedPref.setSharedPrefLoginWithPass(strUser, strPass, status, "App", versionName, lat, lang, "", currentDate, location);
 

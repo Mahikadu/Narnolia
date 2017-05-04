@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -35,9 +36,10 @@ public class StatusReport extends AbstractActivity {
     private String param, nation, zone, region, cluster, location, employee;
     private String nationVal, zoneVal, regionVal, clusterVal, locationVal;
     private String responseId;
+    String fromHomeKey;
     private List<String> result, empList;
     String[] strResultArray = null;
-    String[] strEmpArray = null;
+    LinearLayout attendence_report_menu,date_wise_report,main_menu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +58,15 @@ public class StatusReport extends AbstractActivity {
         spinCluster = (Spinner) findViewById(R.id.spin_cluster);
         spinLocation = (Spinner) findViewById(R.id.spin_location);
         spinEmployee = (Spinner) findViewById(R.id.spin_employee);
+        attendence_report_menu=(LinearLayout)findViewById(R.id.attendence_report_menu);
+        date_wise_report=(LinearLayout)findViewById(R.id.date_wise_report);
+        if (getIntent() != null) {
+            fromHomeKey = getIntent().getStringExtra("from_status");
+            if (fromHomeKey.equals("FromStatus")) {
+                attendence_report_menu.setVisibility(View.GONE);
+                date_wise_report.setVisibility(View.GONE);
+            }
+        }
 
         new GetGeoHierarchyNation().execute();
 

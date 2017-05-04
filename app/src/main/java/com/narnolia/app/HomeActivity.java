@@ -426,7 +426,9 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
                                        int arg2, long arg3) {
                 String selItem = parent.getSelectedItem().toString();
                 if(selItem.equalsIgnoreCase("Status Report")) {
-                    pushActivity(mContext, StatusReport.class, null, true);
+                    Bundle bundle1 = new Bundle();
+                    bundle1.putString("from_status", "FromStatus");
+                    pushActivity(mContext, StatusReport.class, bundle1, true);
                 }
             }
 
