@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
@@ -51,6 +52,7 @@ public class StatusReportActivity extends AbstractActivity {
     LinearLayout linear_sub_status1;
 //    public List<SubStatusReportModel> subStatusReportModelList;
     private String responseId;
+
     public StatusReportAdapter statusReportAdapter;
     public SubStatusReportAdapter subStatusReportAdapter;
     private TextView report_today1, report_t1_1, report_t2_1, report_t3_1, report_t4_1, report_t5_1, report_t6_1, report_t7_1, report_t_month_1, report_t_quarter_1;
@@ -79,6 +81,7 @@ public class StatusReportActivity extends AbstractActivity {
         report_t_quarter = (TextView) findViewById(R.id.report_t_quarter);
         linear_sub_status1=(LinearLayout)findViewById(R.id.linear_sub_status);
         admin=(TextView)findViewById(R.id.admin);
+
 
         lvStatusReport=(ListView)findViewById(R.id.list_Status_Report);
         lvSubStatusReport=(ListView)findViewById(R.id.list_sub_status_Report);

@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.narnolia.app.R;
 import com.narnolia.app.SharedPref;
+import com.narnolia.app.StatusReport;
 import com.narnolia.app.StatusReportActivity;
 import com.narnolia.app.libs.Utils;
 import com.narnolia.app.model.GetMessagesModel;
@@ -219,7 +220,8 @@ public class StatusReportAdapter extends BaseAdapter implements View.OnClickList
             SoapObject object = null;
             try {
                 SOAPWebService webService = new SOAPWebService(context);
-                object = webService.SubStatusReport(sharedPref.getLoginId(),meeting_status, createdDate, sharedPref.getIsRM());
+                object = webService.SubStatusReport(sharedPref.getLoginId(), sharedPref.getIsRM(), StatusReport.nationVal, StatusReport.zoneVal, StatusReport.regionVal,
+                            StatusReport.clusterVal, StatusReport.locationVal, meeting_status, createdDate);
               /*  statusReportModel.getStatus_1()*/
             } catch (Exception e) {
                 e.printStackTrace();
@@ -351,7 +353,7 @@ public class StatusReportAdapter extends BaseAdapter implements View.OnClickList
 //                    lvStatusReport.setAdapter(subStatusReporAdapter);
                 }*/
                 if (subStatusReportModelList != null && subStatusReportModelList.size() > 0)
-                    ((StatusReportActivity)context).setSubStatusData();
+                    ((StatusReport)context).setSubStatusData();
 
             } catch (Exception e) {
                 e.printStackTrace();

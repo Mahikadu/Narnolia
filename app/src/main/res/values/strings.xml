@@ -235,7 +235,9 @@
     <string name="user_name">User name is Required.</string>
     <string name="pass">Password is Required.</string>
 
+    <string-array name="emp">
 
+    </string-array>
     //Master spinner
     <string-array name="titles">
         <item>Prakash</item>

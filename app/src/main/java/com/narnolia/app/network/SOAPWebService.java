@@ -526,18 +526,24 @@ public SoapObject Filldetailsforapp(String lead_id) {
     }
 
     //..................Get Status Report ........
-    public SoapObject SubStatusReport(String empcode,String lead_status,String CreatedDate,String role_id) {
+    public SoapObject SubStatusReport(String empcode, String role_id, String national, String zone, String region, String cluster, String location,String status, String submission_date) {
         SoapObject result11 = null;
 
         try {
 //
             SoapObject request = new SoapObject(NAMESPACE,
-                    "sub_status_report");// soap object
+                    "get_dashboardDetails_locationwise");// soap object
 
-            request.addProperty("empcode", empcode);
-            request.addProperty("lead_status", "Lead Created");//"Lead Created"
-            request.addProperty("created_date", CreatedDate);
-            request.addProperty("role_id",role_id);
+            request.addProperty("usercode", empcode);
+            request.addProperty("roleid",role_id);
+            request.addProperty("national", national);
+            request.addProperty("zone", zone);
+            request.addProperty("region",region);
+            request.addProperty("cluster",cluster);
+            request.addProperty("location",location);
+            request.addProperty("status",status);
+            request.addProperty("submission_date", submission_date);
+
 
             SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
                     SoapEnvelope.VER11);// soap envelop with version
@@ -547,7 +553,7 @@ public SoapObject Filldetailsforapp(String lead_id) {
             HttpTransportSE androidHttpTransport = new HttpTransportSE(Utils.URL);// http
             // transport
             // call
-            androidHttpTransport.call(SOAP_ACTION + "sub_status_report",
+            androidHttpTransport.call(SOAP_ACTION + "get_dashboardDetails_locationwise",
                     envelope);
             Log.i("TAG", "envelope" + envelope);
 
