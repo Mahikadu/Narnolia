@@ -84,7 +84,7 @@
 
 
         <Button
-            android:id="@+id/btn1_create_close_lead"
+            android:id="@+id/open_status_report"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/colorRed"

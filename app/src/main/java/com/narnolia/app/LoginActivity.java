@@ -26,6 +26,7 @@ import android.text.TextWatcher;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -69,7 +70,7 @@ public class LoginActivity extends AbstractActivity {
     private String f_Mailid, forgot_flag;
     String versionName = "";
     private LoginDetailsModel loginDetailsModel;
-    String user_check, attendance_check;
+    String user_check, attendance_check,role_id;
 
     EditText username, password;
     TextView t_username, t_password, forget_password, forgot_pass_message;
@@ -234,6 +235,8 @@ public class LoginActivity extends AbstractActivity {
 
                 @Override
                 public void onClick(View v) {
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
                     //  pushActivity(LoginActivity.this, HomeActivity.class, null, true);
                     if (isConnectingToInternet()) {
                         View focusView = null;
@@ -652,6 +655,18 @@ public class LoginActivity extends AbstractActivity {
                     } else {
                         attendance_check = "";
                     }
+                    if (root.getProperty("role_id") != null && !root.getProperty("role_id").toString().equalsIgnoreCase("?")) {
+
+                        if (!root.getProperty("role_id").toString().equalsIgnoreCase("anyType{}")) {
+                            role_id = root.getProperty("role_id").toString();
+
+
+                        } else {
+                            role_id = "";
+                        }
+                    } else {
+                        role_id = "";
+                    }
 
                 }
 
@@ -660,7 +675,7 @@ public class LoginActivity extends AbstractActivity {
             } finally {
                 if (strUser.equals(user_check) && attendance_check.equals("Present")) {
                     pushActivity(LoginActivity.this, HomeActivity.class, null, true);
-                    sharedPref.setSharedPrefLogin(email, strUser, mobile, result, status, userId, is_rm);
+                    sharedPref.setSharedPrefLogin(email, strUser, mobile, result, status, userId, role_id);
                 }else if (strUser.equals(user_check) && attendance_check.equals("Absent")) {
                     Toast.makeText(mContext, "This user is Absent today", Toast.LENGTH_SHORT).show();
                 } else {

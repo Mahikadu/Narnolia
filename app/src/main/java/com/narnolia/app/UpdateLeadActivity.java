@@ -20,7 +20,6 @@ import android.text.InputFilter;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.text.method.DigitsKeyListener;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -49,7 +48,6 @@ import com.narnolia.app.libs.Utils;
 import com.narnolia.app.model.CategoryDetailsModel;
 import com.narnolia.app.model.ClientDetailsModel;
 import com.narnolia.app.model.LeadInfoModel;
-import com.narnolia.app.model.ProductCategory;
 import com.narnolia.app.model.ProductDetailsModel;
 import com.narnolia.app.model.SubCategoryDetailsModel;
 import com.narnolia.app.multispinner.KeyPairBoolData;
@@ -70,6 +68,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -93,7 +92,7 @@ public class UpdateLeadActivity extends AbstractActivity implements CompoundButt
     private String responseId;
     public Utils utils;
     String lead__Id;
-    String strStages, strFlag,customer_id1;
+    String strStages, strFlag, customer_id1;
     boolean cliked = false;
     String[] strPinArr;
     List<String> pincodeList;
@@ -1307,6 +1306,8 @@ public class UpdateLeadActivity extends AbstractActivity implements CompoundButt
                 + cal.get(Calendar.YEAR);
 
     }
+    //// TODO: first string first letter is Capitalize 
+
 
     //.....................................................product data......................
     private void showProductDialog() {
@@ -2478,9 +2479,13 @@ public class UpdateLeadActivity extends AbstractActivity implements CompoundButt
                 mobileno.setText(leadInfoModel.getMobile_no());
                 email.setText(leadInfoModel.getEmail_id());
                 location.setText(leadInfoModel.getLocation());
-                editCity.setText(leadInfoModel.getCity());
+                String city=capitalizer(leadInfoModel.getCity());
 
-                String city = leadInfoModel.getCity();
+
+//                 String c_name = city.substring(0, 1).toUpperCase() + city.substring(1).toLowerCase();
+                editCity.setText(city);
+
+
                 editCity.setError(null);
                 // WHERE   clause
 
@@ -2514,6 +2519,7 @@ public class UpdateLeadActivity extends AbstractActivity implements CompoundButt
 
 
                 }
+
                 autoPincode.setText(leadInfoModel.getPincode());
                 date_of_birth.setText(leadInfoModel.getDob());
                 address.setText(leadInfoModel.getAddress1());
@@ -2565,7 +2571,7 @@ public class UpdateLeadActivity extends AbstractActivity implements CompoundButt
 
                     if (strSourceofLead.equalsIgnoreCase("In- house Leads (Existing)") && strSubSourceofLead.equalsIgnoreCase("Existing Client")) {
                         System.out.println("SUCCESS HERE");
-                        spinner_custID.setSelection(spinClientIDList.indexOf(str_cust ) + 1);
+                        spinner_custID.setSelection(spinClientIDList.indexOf(str_cust) + 1);
 
                     } else if (strSourceofLead.equalsIgnoreCase("Client Reference")) {
                         customer_id.setText(leadInfoModel.getCustomerID());
@@ -2673,7 +2679,21 @@ public class UpdateLeadActivity extends AbstractActivity implements CompoundButt
             e.printStackTrace();
         }
     }
+    // capital first letter of string
+    private String capitalizer(String word){
 
+        String[] words = word.split(" ");
+        StringBuilder sb = new StringBuilder();
+        if (words[0].length() > 0) {
+            sb.append(Character.toUpperCase(words[0].charAt(0)) + words[0].subSequence(1, words[0].length()).toString().toLowerCase());
+            for (int i = 1; i < words.length; i++) {
+                sb.append(" ");
+                sb.append(Character.toUpperCase(words[i].charAt(0)) + words[i].subSequence(1, words[i].length()).toString().toLowerCase());
+            }
+        }
+        return  sb.toString();
+
+    }
     public LeadInfoModel createLeadInfoModel(Cursor cursor) {
 
         leadInfoModel = new LeadInfoModel();
@@ -2848,7 +2868,10 @@ public class UpdateLeadActivity extends AbstractActivity implements CompoundButt
                     lname.setText(last);
                     lname.setEnabled(false);
                 }
-                editCity.setText(clientDetailsModel.getCity());
+
+              String city=capitalizer(clientDetailsModel.getCity());
+
+                editCity.setText(city);
                 editCity.setEnabled(false);
                 autoPincode.setText(clientDetailsModel.getPinCode());
                 autoPincode.setEnabled(false);
@@ -3122,9 +3145,9 @@ public class UpdateLeadActivity extends AbstractActivity implements CompoundButt
                     customer_id1 = strCustomer_id_name.trim();
                 } else if (str_spinner_source_of_lead.equalsIgnoreCase("Client Reference")) {
                     customer_id1 = str_cust_id.trim();
-                }else if (str_spinner_source_of_lead.equalsIgnoreCase("In- house Leads (Existing)")&& !str_spinner_sub_source.equals("Existing Client")) {
+                } else if (str_spinner_source_of_lead.equalsIgnoreCase("In- house Leads (Existing)") && !str_spinner_sub_source.equals("Existing Client")) {
                     customer_id1 = str_cust_id.trim();
-                }else if (str_spinner_source_of_lead.equalsIgnoreCase("In- house Leads (New)")) {
+                } else if (str_spinner_source_of_lead.equalsIgnoreCase("In- house Leads (New)")) {
                     customer_id1 = str_cust_id.trim();
                 }
             }
@@ -3376,17 +3399,29 @@ public class UpdateLeadActivity extends AbstractActivity implements CompoundButt
                     } else {
                         strBusiness_opp = "";
                     }
+                    String city_1="";
                     if (root.getProperty("city") != null) {
 
                         if (!root.getProperty("city").toString().equalsIgnoreCase("anyType{}")) {
-                            str_city = root.getProperty("city").toString();
+                            city_1 = root.getProperty("city").toString();
 
                         } else {
-                            str_city = "";
+                            city_1 = "";
                         }
                     } else {
-                        str_city = "";
+                        city_1 = "";
                     }
+                    String[] words = city_1.split(" ");
+                    StringBuilder sb = new StringBuilder();
+                    if (words[0].length() > 0) {
+                        sb.append(Character.toUpperCase(words[0].charAt(0)) + words[0].subSequence(1, words[0].length()).toString().toLowerCase());
+                        for (int i1 = 1; i1 < words.length; i1++) {
+                            sb.append(" ");
+                            sb.append(Character.toUpperCase(words[i].charAt(0)) + words[i].subSequence(1, words[i].length()).toString().toLowerCase());
+                        }
+
+                    }
+                    str_city=sb.toString();
                     if (root.getProperty("competitor_name") != null) {
 
                         if (!root.getProperty("competitor_name").toString().equalsIgnoreCase("anyType{}")) {
@@ -3916,9 +3951,9 @@ public class UpdateLeadActivity extends AbstractActivity implements CompoundButt
                     customer_id1 = strCustomer_id_name.trim();
                 } else if (str_spinner_source_of_lead.equalsIgnoreCase("Client Reference")) {
                     customer_id1 = str_cust_id.trim();
-                }else if (str_spinner_source_of_lead.equalsIgnoreCase("In- house Leads (Existing)")&& !str_spinner_sub_source.equals("Existing Client")) {
+                } else if (str_spinner_source_of_lead.equalsIgnoreCase("In- house Leads (Existing)") && !str_spinner_sub_source.equals("Existing Client")) {
                     customer_id1 = str_cust_id.trim();
-                }else if (str_spinner_source_of_lead.equalsIgnoreCase("In- house Leads (New)")) {
+                } else if (str_spinner_source_of_lead.equalsIgnoreCase("In- house Leads (New)")) {
                     customer_id1 = str_cust_id.trim();
                 }
             }

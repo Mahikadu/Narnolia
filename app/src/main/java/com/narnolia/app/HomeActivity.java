@@ -46,7 +46,7 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
     private Context mContext;
     private Utils utils;
     String[] strLeadArray = null;
-    private String empcode,leadid,RMCode;
+    private String empcode, leadid, RMCode;
     private SharedPref sharedPref;
     private TextView admin;
     private ProgressDialog progressDialog;
@@ -55,23 +55,22 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
     LeadInfoModel leadInfoModel;
     ClientDetailsModel clientDetailsModel;
     List<LeadInfoModel> leadInfoModelList;
-    List<ClientDetailsModel>clientInfoModelList;
+    List<ClientDetailsModel> clientInfoModelList;
 
     private String strFlag,
-           leadId,str_cust_id, str_fname,str_mname,str_lname,str_mobile_no,str_email,str_date_of_birth,str_address,str_flat,str_street,str_laocion,str_city,
-            str_pincode,str_next_meeting_date,str_metting_agenda,str_lead_update_log,
-            str_reason,str_spinner_lead_name, str_spinner_source_of_lead, str_spinner_sub_source, str_spinner_age_group,
-            str_spinner_occupation,str_spinner_annual_income, str_spinner_other_broker,str_spinner_lead_status,str_spinner_research_type,
+            leadId, str_cust_id, str_fname, str_mname, str_lname, str_mobile_no, str_email, str_date_of_birth, str_address, str_flat, str_street, str_laocion, str_city,
+            str_pincode, str_next_meeting_date, str_metting_agenda, str_lead_update_log,
+            str_reason, str_spinner_lead_name, str_spinner_source_of_lead, str_spinner_sub_source, str_spinner_age_group,
+            str_spinner_occupation, str_spinner_annual_income, str_spinner_other_broker, str_spinner_lead_status, str_spinner_research_type,
             strCreatedfrom, strAppVersion, strAppdt, strAllocated_userid,
-    strCompitator_Name, strProduct, strRemark,str_rg_meeting_status,
-    strPanNo, strB_Margin, strB_aum, strB_sip, strB_number, strB_value, strB_premium,strEmpCode,
-    strCreatedby, strCreateddt, strUpdateddt, strUpdatedby
-    ,strBusiness_opp,strLastMeetingDate,strLastMeetingUpdate,str_spinner_duration,strCustomer_id_name;
-    private String Address,AnnualIncome,BirthDate,Branchid,City,ClientCat,ClientID,ClientName,EmailAddress,MobileNumber,PanNumber,PinCode,RMName,StateId,
-            Telephonenumber,Ucc,bankaccount,bankname,cStatus,dopeningDate,dpac,dpid,ifsc,micr,result;
+            strCompitator_Name, strProduct, strRemark, str_rg_meeting_status,
+            strPanNo, strB_Margin, strB_aum, strB_sip, strB_number, strB_value, strB_premium, strEmpCode,
+            strCreatedby, strCreateddt, strUpdateddt, strUpdatedby, strBusiness_opp, strLastMeetingDate, strLastMeetingUpdate, str_spinner_duration, strCustomer_id_name;
+    private String Address, AnnualIncome, BirthDate, Branchid, City, ClientCat, ClientID, ClientName, EmailAddress, MobileNumber, PanNumber, PinCode, RMName, StateId,
+            Telephonenumber, Ucc, bankaccount, bankname, cStatus, dopeningDate, dpac, dpid, ifsc, micr, result;
 
 
-    String spinMasterList[]={"--select--","Status Report", "Attendance Report"};
+    String spinMasterList[] = {"--select--", "Status Report", "Attendance Report"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,7 +81,7 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
         empcode = sharedPref.getLoginId();
         progressDialog = new ProgressDialog(HomeActivity.this);
 
-       new GetLead().execute();
+        new GetLead().execute();
         initView();
         try {
             //Create alarm manager
@@ -130,7 +129,7 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
 //            linear_setting = (LinearLayout) findViewById(R.id.linear_setting);
             linear_mis_reports = (LinearLayout) findViewById(R.id.linear_mis_reports);
             linear_notification = (LinearLayout) findViewById(R.id.linear_notification);
-            linear_attendence=(LinearLayout)findViewById(R.id.linear_attendence);
+            linear_attendence = (LinearLayout) findViewById(R.id.linear_attendence);
 
             linear_dashboard.setOnClickListener(this);
             linear_create_lead.setOnClickListener(this);
@@ -140,7 +139,6 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
 //            linear_setting.setOnClickListener(this);
             linear_mis_reports.setOnClickListener(this);
             linear_notification.setOnClickListener(this);
-
 
 
         } catch (Exception e) {
@@ -219,13 +217,13 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
 //                pushActivity(mContext, StatusReportActivity.class, null, true);
                 showReportDialog();
 
-            break;
+                break;
             case R.id.linear_notification:
                 pushActivity(mContext, NotificationActivity.class, null, true);
                 break;
             case R.id.linear_attendence:
                 Bundle bundle = new Bundle();
-                bundle.putString("from_home","FromHome");
+                bundle.putString("from_home", "FromHome");
                 pushActivity(mContext, MyCalendarActivity.class, bundle, true);
 
         }
@@ -233,9 +231,9 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
     }
 
 
-    private void showMasterDialog(){
+    private void showMasterDialog() {
 
-       final AlertDialog.Builder DialogMaster = new AlertDialog.Builder(this);
+        final AlertDialog.Builder DialogMaster = new AlertDialog.Builder(this);
 
         LayoutInflater li = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         final View dialogViewMaster = li.inflate(R.layout.master_custom_dialog, null);
@@ -254,12 +252,9 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
                 .findViewById(R.id.spin_master);
 
 
-
-
         ArrayAdapter<String> adapterMaster = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, spinMasterList) {
             @Override
-            public View getDropDownView(int position, View convertView, ViewGroup parent)
-            {
+            public View getDropDownView(int position, View convertView, ViewGroup parent) {
                 View v = null;
                 // If this is the initial dummy entry, make it hidden
                 if (position == 0) {
@@ -267,8 +262,7 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
                     tv.setHeight(0);
                     tv.setVisibility(View.GONE);
                     v = tv;
-                }
-                else {
+                } else {
                     // Pass convertView as null to prevent reuse of special case views
                     v = super.getDropDownView(position, null, parent);
                 }
@@ -303,7 +297,7 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
 
     }
 
-    private void showSettingDialog(){
+    private void showSettingDialog() {
 
 
         final AlertDialog.Builder DialogMaster = new AlertDialog.Builder(this);
@@ -325,11 +319,9 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
                 .findViewById(R.id.spin_master);
 
 
-
         ArrayAdapter<String> adapterMaster = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, spinMasterList) {
             @Override
-            public View getDropDownView(int position, View convertView, ViewGroup parent)
-            {
+            public View getDropDownView(int position, View convertView, ViewGroup parent) {
                 View v = null;
                 // If this is the initial dummy entry, make it hidden
                 if (position == 0) {
@@ -337,8 +329,7 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
                     tv.setHeight(0);
                     tv.setVisibility(View.GONE);
                     v = tv;
-                }
-                else {
+                } else {
                     // Pass convertView as null to prevent reuse of special case views
                     v = super.getDropDownView(position, null, parent);
                 }
@@ -372,7 +363,7 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
         });
     }
 
-    private void showReportDialog(){
+    private void showReportDialog() {
 
 
         final AlertDialog.Builder DialogMaster = new AlertDialog.Builder(this);
@@ -386,19 +377,17 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
         Button btnDismissMaster = (Button) showMaster.findViewById(R.id.iv_close);
         TextView tvHeaderMaster = (TextView) showMaster.findViewById(R.id.textTitle);
         TextView tvnameMaster = (TextView) showMaster.findViewById(R.id.txtmaster);
-
+        Button open_status_report = (Button) showMaster.findViewById(R.id.open_status_report);
         tvHeaderMaster.setText(mContext.getResources().getString(R.string.mis_report));
         tvnameMaster.setText(mContext.getResources().getString(R.string.mis_report));
 
-        Spinner spinnerMaster = (Spinner) showMaster
+        final Spinner spinnerMaster = (Spinner) showMaster
                 .findViewById(R.id.spin_master);
-
 
 
         ArrayAdapter<String> adapterMaster = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, spinMasterList) {
             @Override
-            public View getDropDownView(int position, View convertView, ViewGroup parent)
-            {
+            public View getDropDownView(int position, View convertView, ViewGroup parent) {
                 View v = null;
                 // If this is the initial dummy entry, make it hidden
                 if (position == 0) {
@@ -406,8 +395,7 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
                     tv.setHeight(0);
                     tv.setVisibility(View.GONE);
                     v = tv;
-                }
-                else {
+                } else {
                     // Pass convertView as null to prevent reuse of special case views
                     v = super.getDropDownView(position, null, parent);
                 }
@@ -420,23 +408,17 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
         adapterMaster.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerMaster.setAdapter(adapterMaster);
 
-        spinnerMaster.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
-            public void onItemSelected(AdapterView<?> parent, View arg1,
-                                       int arg2, long arg3) {
-                String selItem = parent.getSelectedItem().toString();
-                if(selItem.equalsIgnoreCase("Status Report")) {
+        open_status_report.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String selItem = spinnerMaster.getSelectedItem().toString();
+                if (selItem.equalsIgnoreCase("Status Report")) {
                     Bundle bundle1 = new Bundle();
                     bundle1.putString("from_status", "FromStatus");
                     pushActivity(mContext, StatusReport.class, bundle1, true);
                 }
             }
-
-            public void onNothingSelected(AdapterView<?> arg0) {
-                // TODO Auto-generated method stub
-            }
         });
-
         btnDismissMaster.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -495,7 +477,7 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
 
 
             try {
-                for (int i = 0; i < soapObject.getPropertyCount(); i++){
+                for (int i = 0; i < soapObject.getPropertyCount(); i++) {
                     SoapObject root = (SoapObject) soapObject.getProperty(i);
 
 
@@ -770,417 +752,405 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
                     }
 
 
-
                     String strLastSync = "1";
                     String strStages = "Lead Updated";
                     String selection = mContext.getString(R.string.column_lead_id) + " = ?";
                     String[] selectionArgs = {leadId};
-                    String valuesArray[] = { "" + "",leadId,strStages, str_spinner_source_of_lead, str_spinner_sub_source, str_cust_id, str_fname, str_mname, str_lname,
+                    String valuesArray[] = {"" + "", leadId, strStages, str_spinner_source_of_lead, str_spinner_sub_source, str_cust_id, str_fname, str_mname, str_lname,
                             str_date_of_birth, str_spinner_age_group, str_mobile_no, str_address, str_flat, str_street, str_laocion, str_city, str_pincode, str_email, str_spinner_annual_income,
                             str_spinner_occupation, strCreatedfrom, strAppVersion, strAppdt, strFlag, strAllocated_userid, str_spinner_other_broker,
                             str_rg_meeting_status, str_spinner_lead_status, strCompitator_Name, strProduct, strRemark, str_spinner_research_type,
                             str_spinner_duration, strPanNo, strB_Margin, strB_aum, strB_sip, strB_number, strB_value, strB_premium, str_reason,
-                            str_next_meeting_date, str_metting_agenda, "", strCreatedby, strCreateddt, strUpdateddt, strUpdatedby,strEmpCode,
-                            strLastMeetingDate,strLastMeetingUpdate,strBusiness_opp,strCustomer_id_name,""};
+                            str_next_meeting_date, str_metting_agenda, "", strCreatedby, strCreateddt, strUpdateddt, strUpdatedby, strEmpCode,
+                            strLastMeetingDate, strLastMeetingUpdate, strBusiness_opp, strCustomer_id_name, ""};
 
                     boolean result = Narnolia.dbCon.update(DbHelper.TABLE_DIRECT_LEAD, selection, valuesArray, utils.columnNamesLeadUpdate, selectionArgs);
-
-
-
-
-
-
 
 
                 }
             } catch (Exception e) {
                 e.printStackTrace();
-            }
-
-
-            finally {
+            } finally {
 
                 new Get_ALL_Client().execute();
             }
         }
     }
-//.....................................get All Client..........................................
-public class Get_ALL_Client extends AsyncTask<Void, Void, SoapObject> {
 
-    @Override
-    protected void onPreExecute() {
-        super.onPreExecute();
-        try {
-            if (progressDialog != null && !progressDialog.isShowing()) {
-                progressDialog.show();
+    //.....................................get All Client..........................................
+    public class Get_ALL_Client extends AsyncTask<Void, Void, SoapObject> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            try {
+                if (progressDialog != null && !progressDialog.isShowing()) {
+                    progressDialog.show();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+
         }
 
-    }
+        @Override
+        protected SoapObject doInBackground(Void... params) {
 
-    @Override
-    protected SoapObject doInBackground(Void... params) {
+            SoapObject object = null;
+            RMCode = "CH";
+            try {
+                SOAPWebService webService = new SOAPWebService(mContext);
+                object = webService.Get_ALL_Client(RMCode);
 
-        SoapObject object = null;
-        RMCode = "CH";
-        try {
-            SOAPWebService webService = new SOAPWebService(mContext);
-            object = webService.Get_ALL_Client(RMCode);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return object;
-    }
-
-    @Override
-    protected void onPostExecute(SoapObject soapObject) {
-        super.onPostExecute(soapObject);
-        try {
-            responseId = String.valueOf(soapObject);
-        } catch (Exception e) {
-            e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return object;
         }
 
-        try {
-            for (int i = 0; i < soapObject.getPropertyCount(); i++){
-                SoapObject root = (SoapObject) soapObject.getProperty(i);
+        @Override
+        protected void onPostExecute(SoapObject soapObject) {
+            super.onPostExecute(soapObject);
+            try {
+                responseId = String.valueOf(soapObject);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            try {
+                for (int i = 0; i < soapObject.getPropertyCount(); i++) {
+                    SoapObject root = (SoapObject) soapObject.getProperty(i);
 
 
-                if (root.getProperty("Address") != null) {
+                    if (root.getProperty("Address") != null) {
 
-                    if (!root.getProperty("Address").toString().equalsIgnoreCase("anyType{}")) {
-                        Address = root.getProperty("Address").toString();
+                        if (!root.getProperty("Address").toString().equalsIgnoreCase("anyType{}")) {
+                            Address = root.getProperty("Address").toString();
 
+                        } else {
+                            Address = "";
+                        }
                     } else {
                         Address = "";
                     }
-                } else {
-                    Address = "";
-                }
 
-                if (root.getProperty("AnnualIncome") != null) {
+                    if (root.getProperty("AnnualIncome") != null) {
 
-                    if (!root.getProperty("AnnualIncome").toString().equalsIgnoreCase("anyType{}")) {
-                        AnnualIncome = root.getProperty("AnnualIncome").toString();
+                        if (!root.getProperty("AnnualIncome").toString().equalsIgnoreCase("anyType{}")) {
+                            AnnualIncome = root.getProperty("AnnualIncome").toString();
 
+                        } else {
+                            AnnualIncome = "";
+                        }
                     } else {
                         AnnualIncome = "";
                     }
-                } else {
-                    AnnualIncome = "";
-                }
-                if (root.getProperty("BirthDate") != null) {
+                    if (root.getProperty("BirthDate") != null) {
 
-                    if (!root.getProperty("BirthDate").toString().equalsIgnoreCase("anyType{}")) {
-                        BirthDate = root.getProperty("BirthDate").toString();
+                        if (!root.getProperty("BirthDate").toString().equalsIgnoreCase("anyType{}")) {
+                            BirthDate = root.getProperty("BirthDate").toString();
 
+                        } else {
+                            BirthDate = "";
+                        }
                     } else {
                         BirthDate = "";
                     }
-                } else {
-                    BirthDate = "";
-                }
 
-                if (root.getProperty("Branchid") != null) {
+                    if (root.getProperty("Branchid") != null) {
 
-                    if (!root.getProperty("Branchid").toString().equalsIgnoreCase("anyType{}")) {
-                        Branchid = root.getProperty("Branchid").toString();
+                        if (!root.getProperty("Branchid").toString().equalsIgnoreCase("anyType{}")) {
+                            Branchid = root.getProperty("Branchid").toString();
 
+                        } else {
+                            Branchid = "";
+                        }
                     } else {
                         Branchid = "";
                     }
-                } else {
-                    Branchid = "";
-                }
 
-                if (root.getProperty("City") != null) {
+                    if (root.getProperty("City") != null) {
 
-                    if (!root.getProperty("City").toString().equalsIgnoreCase("anyType{}")) {
-                        City = root.getProperty("City").toString();
+                        if (!root.getProperty("City").toString().equalsIgnoreCase("anyType{}")) {
+                            City = root.getProperty("City").toString();
 
+                        } else {
+                            City = "";
+                        }
                     } else {
                         City = "";
                     }
-                } else {
-                    City = "";
-                }
 
-                if (root.getProperty("ClientCat") != null) {
+                    if (root.getProperty("ClientCat") != null) {
 
-                    if (!root.getProperty("ClientCat").toString().equalsIgnoreCase("anyType{}")) {
-                        ClientCat = root.getProperty("ClientCat").toString();
+                        if (!root.getProperty("ClientCat").toString().equalsIgnoreCase("anyType{}")) {
+                            ClientCat = root.getProperty("ClientCat").toString();
 
+                        } else {
+                            ClientCat = "";
+                        }
                     } else {
                         ClientCat = "";
                     }
-                } else {
-                    ClientCat = "";
-                }
 
-                if (root.getProperty("ClientID") != null) {
+                    if (root.getProperty("ClientID") != null) {
 
-                    if (!root.getProperty("ClientID").toString().equalsIgnoreCase("anyType{}")) {
-                        ClientID = root.getProperty("ClientID").toString();
+                        if (!root.getProperty("ClientID").toString().equalsIgnoreCase("anyType{}")) {
+                            ClientID = root.getProperty("ClientID").toString();
 
+                        } else {
+                            ClientID = "";
+                        }
                     } else {
                         ClientID = "";
                     }
-                } else {
-                    ClientID = "";
-                }
 
-                if (root.getProperty("ClientName") != null) {
+                    if (root.getProperty("ClientName") != null) {
 
-                    if (!root.getProperty("ClientName").toString().equalsIgnoreCase("anyType{}")) {
-                        ClientName = root.getProperty("ClientName").toString();
+                        if (!root.getProperty("ClientName").toString().equalsIgnoreCase("anyType{}")) {
+                            ClientName = root.getProperty("ClientName").toString();
 
+                        } else {
+                            ClientName = "";
+                        }
                     } else {
                         ClientName = "";
                     }
-                } else {
-                    ClientName = "";
-                }
 
-                if (root.getProperty("EmailAddress") != null) {
+                    if (root.getProperty("EmailAddress") != null) {
 
-                    if (!root.getProperty("EmailAddress").toString().equalsIgnoreCase("anyType{}")) {
-                        EmailAddress = root.getProperty("EmailAddress").toString();
+                        if (!root.getProperty("EmailAddress").toString().equalsIgnoreCase("anyType{}")) {
+                            EmailAddress = root.getProperty("EmailAddress").toString();
 
+                        } else {
+                            EmailAddress = "";
+                        }
                     } else {
                         EmailAddress = "";
                     }
-                } else {
-                    EmailAddress = "";
-                }
 
-                if (root.getProperty("MobileNumber") != null) {
+                    if (root.getProperty("MobileNumber") != null) {
 
-                    if (!root.getProperty("MobileNumber").toString().equalsIgnoreCase("anyType{}")) {
-                        MobileNumber = root.getProperty("MobileNumber").toString();
+                        if (!root.getProperty("MobileNumber").toString().equalsIgnoreCase("anyType{}")) {
+                            MobileNumber = root.getProperty("MobileNumber").toString();
 
+                        } else {
+                            MobileNumber = "";
+                        }
                     } else {
                         MobileNumber = "";
                     }
-                } else {
-                    MobileNumber = "";
-                }
 
-                if (root.getProperty("PanNumber") != null) {
+                    if (root.getProperty("PanNumber") != null) {
 
-                    if (!root.getProperty("PanNumber").toString().equalsIgnoreCase("anyType{}")) {
-                        PanNumber = root.getProperty("PanNumber").toString();
+                        if (!root.getProperty("PanNumber").toString().equalsIgnoreCase("anyType{}")) {
+                            PanNumber = root.getProperty("PanNumber").toString();
 
+                        } else {
+                            PanNumber = "";
+                        }
                     } else {
                         PanNumber = "";
                     }
-                } else {
-                    PanNumber = "";
-                }
 
-                if (root.getProperty("PinCode") != null) {
+                    if (root.getProperty("PinCode") != null) {
 
-                    if (!root.getProperty("PinCode").toString().equalsIgnoreCase("anyType{}")) {
-                        PinCode = root.getProperty("PinCode").toString();
+                        if (!root.getProperty("PinCode").toString().equalsIgnoreCase("anyType{}")) {
+                            PinCode = root.getProperty("PinCode").toString();
 
+                        } else {
+                            PinCode = "";
+                        }
                     } else {
                         PinCode = "";
                     }
-                } else {
-                    PinCode = "";
-                }
 
-                if (root.getProperty("RMCode") != null) {
+                    if (root.getProperty("RMCode") != null) {
 
-                    if (!root.getProperty("RMCode").toString().equalsIgnoreCase("anyType{}")) {
-                        RMCode = root.getProperty("RMCode").toString();
+                        if (!root.getProperty("RMCode").toString().equalsIgnoreCase("anyType{}")) {
+                            RMCode = root.getProperty("RMCode").toString();
 
+                        } else {
+                            RMCode = "";
+                        }
                     } else {
                         RMCode = "";
                     }
-                } else {
-                    RMCode = "";
-                }
 
-                if (root.getProperty("RMName") != null) {
+                    if (root.getProperty("RMName") != null) {
 
-                    if (!root.getProperty("RMName").toString().equalsIgnoreCase("anyType{}")) {
-                        RMName = root.getProperty("RMName").toString();
+                        if (!root.getProperty("RMName").toString().equalsIgnoreCase("anyType{}")) {
+                            RMName = root.getProperty("RMName").toString();
 
+                        } else {
+                            RMName = "";
+                        }
                     } else {
                         RMName = "";
                     }
-                } else {
-                    RMName = "";
-                }
 
-                if (root.getProperty("StateId") != null) {
+                    if (root.getProperty("StateId") != null) {
 
-                    if (!root.getProperty("StateId").toString().equalsIgnoreCase("anyType{}")) {
-                        StateId = root.getProperty("StateId").toString();
+                        if (!root.getProperty("StateId").toString().equalsIgnoreCase("anyType{}")) {
+                            StateId = root.getProperty("StateId").toString();
 
+                        } else {
+                            StateId = "";
+                        }
                     } else {
                         StateId = "";
                     }
-                } else {
-                    StateId = "";
-                }
 
-                if (root.getProperty("Telephonenumber") != null) {
+                    if (root.getProperty("Telephonenumber") != null) {
 
-                    if (!root.getProperty("Telephonenumber").toString().equalsIgnoreCase("anyType{}")) {
-                        Telephonenumber = root.getProperty("Telephonenumber").toString();
+                        if (!root.getProperty("Telephonenumber").toString().equalsIgnoreCase("anyType{}")) {
+                            Telephonenumber = root.getProperty("Telephonenumber").toString();
 
+                        } else {
+                            Telephonenumber = "";
+                        }
                     } else {
                         Telephonenumber = "";
                     }
-                } else {
-                    Telephonenumber = "";
-                }
 
 
+                    if (root.getProperty("Ucc") != null) {
 
-                if (root.getProperty("Ucc") != null) {
+                        if (!root.getProperty("Ucc").toString().equalsIgnoreCase("anyType{}")) {
+                            Ucc = root.getProperty("Ucc").toString();
 
-                    if (!root.getProperty("Ucc").toString().equalsIgnoreCase("anyType{}")) {
-                        Ucc = root.getProperty("Ucc").toString();
-
+                        } else {
+                            Ucc = "";
+                        }
                     } else {
                         Ucc = "";
                     }
-                } else {
-                    Ucc = "";
-                }
 
-                if (root.getProperty("bankaccount") != null) {
+                    if (root.getProperty("bankaccount") != null) {
 
-                    if (!root.getProperty("bankaccount").toString().equalsIgnoreCase("anyType{}")) {
-                        bankaccount = root.getProperty("bankaccount").toString();
+                        if (!root.getProperty("bankaccount").toString().equalsIgnoreCase("anyType{}")) {
+                            bankaccount = root.getProperty("bankaccount").toString();
 
+                        } else {
+                            bankaccount = "";
+                        }
                     } else {
                         bankaccount = "";
                     }
-                } else {
-                    bankaccount = "";
-                }
-                if (root.getProperty("bankname") != null) {
+                    if (root.getProperty("bankname") != null) {
 
-                    if (!root.getProperty("bankname").toString().equalsIgnoreCase("anyType{}")) {
-                        bankname = root.getProperty("bankname").toString();
+                        if (!root.getProperty("bankname").toString().equalsIgnoreCase("anyType{}")) {
+                            bankname = root.getProperty("bankname").toString();
 
+                        } else {
+                            bankname = "";
+                        }
                     } else {
                         bankname = "";
                     }
-                } else {
-                    bankname = "";
-                }
 
-                if (root.getProperty("cStatus") != null) {
+                    if (root.getProperty("cStatus") != null) {
 
-                    if (!root.getProperty("cStatus").toString().equalsIgnoreCase("anyType{}")) {
-                        cStatus = root.getProperty("cStatus").toString();
+                        if (!root.getProperty("cStatus").toString().equalsIgnoreCase("anyType{}")) {
+                            cStatus = root.getProperty("cStatus").toString();
 
+                        } else {
+                            cStatus = "";
+                        }
                     } else {
                         cStatus = "";
                     }
-                } else {
-                    cStatus = "";
-                }
-                if (root.getProperty("dopeningDate") != null) {
+                    if (root.getProperty("dopeningDate") != null) {
 
-                    if (!root.getProperty("dopeningDate").toString().equalsIgnoreCase("anyType{}")) {
-                        dopeningDate = root.getProperty("dopeningDate").toString();
+                        if (!root.getProperty("dopeningDate").toString().equalsIgnoreCase("anyType{}")) {
+                            dopeningDate = root.getProperty("dopeningDate").toString();
 
+                        } else {
+                            dopeningDate = "";
+                        }
                     } else {
                         dopeningDate = "";
                     }
-                } else {
-                    dopeningDate = "";
-                }
-                if (root.getProperty("dpac") != null) {
+                    if (root.getProperty("dpac") != null) {
 
-                    if (!root.getProperty("dpac").toString().equalsIgnoreCase("anyType{}")) {
-                        dpac = root.getProperty("dpac").toString();
+                        if (!root.getProperty("dpac").toString().equalsIgnoreCase("anyType{}")) {
+                            dpac = root.getProperty("dpac").toString();
 
+                        } else {
+                            dpac = "";
+                        }
                     } else {
                         dpac = "";
                     }
-                } else {
-                    dpac = "";
-                }
-                if (root.getProperty("dpid") != null) {
+                    if (root.getProperty("dpid") != null) {
 
-                    if (!root.getProperty("dpid").toString().equalsIgnoreCase("anyType{}")) {
-                        dpid = root.getProperty("dpid").toString();
+                        if (!root.getProperty("dpid").toString().equalsIgnoreCase("anyType{}")) {
+                            dpid = root.getProperty("dpid").toString();
 
+                        } else {
+                            dpid = "";
+                        }
                     } else {
                         dpid = "";
                     }
-                } else {
-                    dpid = "";
-                }
-                if (root.getProperty("ifsc") != null) {
+                    if (root.getProperty("ifsc") != null) {
 
-                    if (!root.getProperty("ifsc").toString().equalsIgnoreCase("anyType{}")) {
-                        ifsc = root.getProperty("ifsc").toString();
+                        if (!root.getProperty("ifsc").toString().equalsIgnoreCase("anyType{}")) {
+                            ifsc = root.getProperty("ifsc").toString();
 
+                        } else {
+                            ifsc = "";
+                        }
                     } else {
                         ifsc = "";
                     }
-                } else {
-                    ifsc = "";
-                }
-                if (root.getProperty("micr") != null) {
+                    if (root.getProperty("micr") != null) {
 
-                    if (!root.getProperty("micr").toString().equalsIgnoreCase("anyType{}")) {
-                        micr = root.getProperty("micr").toString();
+                        if (!root.getProperty("micr").toString().equalsIgnoreCase("anyType{}")) {
+                            micr = root.getProperty("micr").toString();
 
+                        } else {
+                            micr = "";
+                        }
                     } else {
                         micr = "";
                     }
-                } else {
-                    micr = "";
-                }
-                if (root.getProperty("result") != null) {
+                    if (root.getProperty("result") != null) {
 
-                    if (!root.getProperty("result").toString().equalsIgnoreCase("anyType{}")) {
-                        result = root.getProperty("result").toString();
+                        if (!root.getProperty("result").toString().equalsIgnoreCase("anyType{}")) {
+                            result = root.getProperty("result").toString();
 
+                        } else {
+                            result = "";
+                        }
                     } else {
                         result = "";
                     }
-                } else {
-                    result = "";
+
+
+                    // String strLastSync = "1";
+                    // String strStages = "Lead Updated";
+                    String selection = mContext.getString(R.string.column_cust_id) + " = ?";
+                    String[] selectionArgs = {ClientID};
+                    String valuesArray[] = {Address, AnnualIncome, BirthDate, Branchid, City, ClientCat, ClientID, ClientName,
+                            EmailAddress, MobileNumber, PanNumber, PinCode, RMCode, RMName, StateId, Telephonenumber,
+                            Ucc, bankaccount, bankname, cStatus, dopeningDate, dpac, dpid, ifsc, micr, result};
+
+                    boolean result = Narnolia.dbCon.update(DbHelper.TABLE_CLIENT_DETAILS, selection, valuesArray, utils.columnNamesClientDetails, selectionArgs);
+
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                if (progressDialog != null) {
+                    progressDialog.dismiss();
                 }
 
-
-               // String strLastSync = "1";
-               // String strStages = "Lead Updated";
-                String selection = mContext.getString(R.string.column_cust_id) + " = ?";
-                String[] selectionArgs = {ClientID};
-                String valuesArray[] = {Address,AnnualIncome,BirthDate,Branchid,City,ClientCat,ClientID,ClientName,
-                        EmailAddress,MobileNumber,PanNumber,PinCode,RMCode,RMName,StateId,Telephonenumber,
-                        Ucc,bankaccount,bankname,cStatus,dopeningDate,dpac,dpid,ifsc,micr,result};
-
-                boolean result = Narnolia.dbCon.update(DbHelper.TABLE_CLIENT_DETAILS, selection, valuesArray, utils.columnNamesClientDetails, selectionArgs);
-
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-
-        finally {
-            if (progressDialog != null) {
-                progressDialog.dismiss();
-            }
-
         }
     }
-}
-//.................................................................................................
+
+    //.................................................................................................
     public void getAllLeadData() {
 
         leadInfoModelList = new ArrayList<>();
@@ -1195,16 +1165,17 @@ public class Get_ALL_Client extends AsyncTask<Void, Void, SoapObject> {
                     leadInfoModelList.add(leadInfoModel);
                 } while (cursor.moveToNext());
                 cursor.close();
-            }else {
-                Toast.makeText(HomeActivity.this, "No data found..!",Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(HomeActivity.this, "No data found..!", Toast.LENGTH_SHORT).show();
             }
-          //  getAllClientData();
+            //  getAllClientData();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
     public LeadInfoModel createLeadInfoModel(Cursor cursor) {
-         leadInfoModel = new LeadInfoModel();
+        leadInfoModel = new LeadInfoModel();
         try {
             leadInfoModel.setStages(cursor.getString(cursor.getColumnIndex("stages")));
             leadInfoModel.setLead_id(cursor.getString(cursor.getColumnIndex("lead_id")));
