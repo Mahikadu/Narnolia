@@ -17,6 +17,7 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.narnolia.app.adapter.CustomSpinnerAdapter;
 import com.narnolia.app.adapter.StatusReportAdapter;
 import com.narnolia.app.adapter.SubStatusReportAdapter;
 import com.narnolia.app.model.LoginDetailsModel;
@@ -60,6 +61,7 @@ public class StatusReport extends AbstractActivity {
     private TextView report_today, report_t1, report_t2, report_t3, report_t4, report_t5, report_t6, report_t7, report_t_month, report_t_quarter;
     String t1_1, t2_1, t3_1, t4_1, t5_1, t6_1, t7_1, t_month_1, t_quater_1, today_report_1, status_1;
     String t1, t2, t3, t4, t5, t6, t7, t_month, t_quater, today_report;
+    String[] arrayForSpinner = {""};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +81,7 @@ public class StatusReport extends AbstractActivity {
         spinLocation = (Spinner) findViewById(R.id.spin_location);
         spinEmployee = (Spinner) findViewById(R.id.spin_employee);
 
+        spinEmployee.setAdapter(new CustomSpinnerAdapter(this, R.layout.spinner_row, arrayForSpinner, "Select Employee"));
         btn_search = (Button) findViewById(R.id.btn_search);
         lvStatusReport=(ListView)findViewById(R.id.list_Status_Report);
         lvSubStatusReport=(ListView)findViewById(R.id.list_sub_status_Report);
@@ -100,12 +103,101 @@ public class StatusReport extends AbstractActivity {
 
         new GetGeoHierarchyNation().execute();
 
+        spinNation.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if ((spinLocation.getSelectedItemPosition() > 0) && (spinZone.getSelectedItemPosition() > 0)
+                        && (spinRegion.getSelectedItemPosition() > 0) && (spinCluster.getSelectedItemPosition() > 0)
+                        && (position > 0)) {
+                    spinEmployee.setClickable(true);
+                    nationVal = parent.getSelectedItem().toString();
+                    zoneVal = spinZone.getSelectedItem().toString();
+                    regionVal = spinRegion.getSelectedItem().toString();
+                    clusterVal = spinCluster.getSelectedItem().toString();
+                    locationVal = spinLocation.getSelectedItem().toString();
+                    new GetEmpList().execute();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        spinZone.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if ((spinNation.getSelectedItemPosition() > 0) && (spinLocation.getSelectedItemPosition() > 0)
+                        && (spinRegion.getSelectedItemPosition() > 0) && (spinCluster.getSelectedItemPosition() > 0)
+                        && (position > 0)) {
+                    spinEmployee.setClickable(true);
+                    nationVal = spinNation.getSelectedItem().toString();
+                    zoneVal = parent.getSelectedItem().toString();
+                    regionVal = spinRegion.getSelectedItem().toString();
+                    clusterVal = spinCluster.getSelectedItem().toString();
+                    locationVal = spinLocation.getSelectedItem().toString();
+                    new GetEmpList().execute();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        spinRegion.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if ((spinNation.getSelectedItemPosition() > 0) && (spinZone.getSelectedItemPosition() > 0)
+                        && (spinLocation.getSelectedItemPosition() > 0) && (spinCluster.getSelectedItemPosition() > 0)
+                        && (position > 0)) {
+                    spinEmployee.setClickable(true);
+                    nationVal = spinNation.getSelectedItem().toString();
+                    zoneVal = spinZone.getSelectedItem().toString();
+                    regionVal = parent.getSelectedItem().toString();
+                    clusterVal = spinCluster.getSelectedItem().toString();
+                    locationVal = spinLocation.getSelectedItem().toString();
+                    new GetEmpList().execute();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        spinCluster.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if ((spinNation.getSelectedItemPosition() > 0) && (spinZone.getSelectedItemPosition() > 0)
+                        && (spinRegion.getSelectedItemPosition() > 0) && (spinLocation.getSelectedItemPosition() > 0)
+                        && (position > 0)) {
+                    spinEmployee.setClickable(true);
+                    nationVal = spinNation.getSelectedItem().toString();
+                    zoneVal = spinZone.getSelectedItem().toString();
+                    regionVal = spinRegion.getSelectedItem().toString();
+                    clusterVal = parent.getSelectedItem().toString();
+                    locationVal = spinLocation.getSelectedItem().toString();
+                    new GetEmpList().execute();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
         spinLocation.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if ((spinNation.getSelectedItemPosition() > 0) && (spinZone.getSelectedItemPosition() > 0)
                         && (spinRegion.getSelectedItemPosition() > 0) && (spinCluster.getSelectedItemPosition() > 0)
                         && (position > 0)) {
+                    spinEmployee.setClickable(true);
                     nationVal = spinNation.getSelectedItem().toString();
                     zoneVal = spinZone.getSelectedItem().toString();
                     regionVal = spinRegion.getSelectedItem().toString();
