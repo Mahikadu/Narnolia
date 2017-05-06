@@ -34,14 +34,14 @@ import static com.narnolia.app.adapter.StatusReportAdapter.subStatusReportModelL
 public class StatusReport extends AbstractActivity {
 
     private Context mContext;
-    private Spinner spinNation, spinZone, spinRegion, spinCluster, spinLocation, spinEmployee;
+    private Spinner spinNation, spinZone, spinRegion, spinCluster, spinLocation, spinEmployee,spinSearchBy;
     private ProgressDialog progressDialog;
     private String empcode;
     private SharedPref sharedPref;
     private String param, nation, zone, region, cluster, location, employee,emp_id;
     public static String nationVal, zoneVal, regionVal, clusterVal, locationVal;
     private String responseId;
-    String fromHomeKey;
+    String fromHomeKey,fromHomeKey1;
     private List<String> result, empList;
     String[] strResultArray = null;
     String emp,rm;
@@ -54,6 +54,7 @@ public class StatusReport extends AbstractActivity {
     private ListView lvSubStatusReport;
     LinearLayout linear_sub_status1, layout_status_table;
     Button btn_search;
+    String spinSearchByList[] = {"--select--", "Location", "Date"};
     //    public List<SubStatusReportModel> subStatusReportModelList;
     public StatusReportAdapter statusReportAdapter;
     public SubStatusReportAdapter subStatusReportAdapter;
@@ -80,6 +81,28 @@ public class StatusReport extends AbstractActivity {
         spinCluster = (Spinner) findViewById(R.id.spin_cluster);
         spinLocation = (Spinner) findViewById(R.id.spin_location);
         spinEmployee = (Spinner) findViewById(R.id.spin_employee);
+        spinSearchBy=(Spinner)findViewById(R.id.search_by);
+        ArrayAdapter<String> adapterSerchBy = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, spinSearchByList) {
+            @Override
+            public View getDropDownView(int position, View convertView, ViewGroup parent) {
+                View v = null;
+                // If this is the initial dummy entry, make it hidden
+                if (position == 0) {
+                    TextView tv = new TextView(getContext());
+                    tv.setHeight(0);
+                    tv.setVisibility(View.GONE);
+                    v = tv;
+                } else {
+                    // Pass convertView as null to prevent reuse of special case views
+                    v = super.getDropDownView(position, null, parent);
+                }
+                // Hide scroll bar because it appears sometimes unnecessarily, this does not prevent scrolling
+                parent.setVerticalScrollBarEnabled(false);
+                return v;
+            }
+        };
+        adapterSerchBy.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinSearchBy.setAdapter(adapterSerchBy);
 
         spinEmployee.setAdapter(new CustomSpinnerAdapter(this, R.layout.spinner_row, arrayForSpinner, "Select Employee"));
         btn_search = (Button) findViewById(R.id.btn_search);
@@ -95,9 +118,16 @@ public class StatusReport extends AbstractActivity {
         date_wise_report=(LinearLayout)findViewById(R.id.date_wise_report);
         if (getIntent() != null) {
             fromHomeKey = getIntent().getStringExtra("from_status");
+            if (fromHomeKey!=null){
             if (fromHomeKey.equals("FromStatus")) {
                 attendence_report_menu.setVisibility(View.GONE);
                 date_wise_report.setVisibility(View.GONE);
+            }}else
+            fromHomeKey1=getIntent().getStringExtra("form_Attendence");
+            if (fromHomeKey1!=null){
+            if (fromHomeKey1.equals("FromAttendence")){
+                attendence_report_menu.setVisibility(View.VISIBLE);
+            }
             }
         }
 

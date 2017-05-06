@@ -417,6 +417,11 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
                     bundle1.putString("from_status", "FromStatus");
                     pushActivity(mContext, StatusReport.class, bundle1, true);
                 }
+                if (selItem.equalsIgnoreCase("Attendance Report")){
+                    Bundle bundle2=new Bundle();
+                    bundle2.putString("form_Attendence","FromAttendence");
+                    pushActivity(mContext, StatusReport.class, bundle2, true);
+                }
             }
         });
         btnDismissMaster.setOnClickListener(new Button.OnClickListener() {

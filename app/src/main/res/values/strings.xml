@@ -231,6 +231,8 @@
     <string name="closebtn">Close</string>
     <string name="next_meeting">Next Meeting</string>
     <string name="close">Close the lead</string>
+    <string name="from_date">From Date</string>
+    <string name="to_date">To Date</string>
 
     <string name="user_name">User name is Required.</string>
     <string name="pass">Password is Required.</string>
@@ -337,4 +339,9 @@
     <string name="absent">Absent</string>
     <string name="search_by">Search By:</string>
     <string name="select_monthand_year">Select Month and Year:</string>
+    <string name="emp_id">Emp id</string>
+    <string name="name11">Name</string>
+    <string name="attendence_date">Attendence Date</string>
+    <string name="attendence">Attendence</string>
+    <string name="location1">Location</string>
 </resources>

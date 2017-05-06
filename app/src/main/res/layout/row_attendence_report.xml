@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/size_90"
+        android:background="@color/white">
+
+        <TextView
+            android:id="@+id/emp_id"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.12"
+            android:background="@drawable/table_row_item"
+            android:gravity="center"
+            android:padding="@dimen/view_padding"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/gray"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.25"
+            android:background="@drawable/table_row_item"
+            android:gravity="center"
+            android:padding="@dimen/view_padding"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/gray"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/attendence_date"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.25"
+            android:background="@drawable/table_row_item"
+            android:gravity="center"
+            android:padding="@dimen/view_padding"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/gray"
+            android:textStyle="bold" />
+
+
+        <TextView
+            android:id="@+id/attendence1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.13"
+            android:background="@drawable/table_row_item"
+            android:gravity="center"
+            android:padding="@dimen/view_padding"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/gray"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/location"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.25"
+            android:background="@drawable/table_row_item"
+            android:gravity="center"
+            android:padding="@dimen/view_padding"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/gray"
+            android:textStyle="bold" />
+
+
+    </LinearLayout>
+
+
+</LinearLayout>
