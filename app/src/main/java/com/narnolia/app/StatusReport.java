@@ -118,16 +118,16 @@ public class StatusReport extends AbstractActivity {
         date_wise_report=(LinearLayout)findViewById(R.id.date_wise_report);
         if (getIntent() != null) {
             fromHomeKey = getIntent().getStringExtra("from_status");
-            if (fromHomeKey!=null){
-            if (fromHomeKey.equals("FromStatus")) {
-                attendence_report_menu.setVisibility(View.GONE);
-                date_wise_report.setVisibility(View.GONE);
-            }}else
-            fromHomeKey1=getIntent().getStringExtra("form_Attendence");
-            if (fromHomeKey1!=null){
-            if (fromHomeKey1.equals("FromAttendence")){
-                attendence_report_menu.setVisibility(View.VISIBLE);
-            }
+            fromHomeKey1 = getIntent().getStringExtra("form_Attendence");
+            if (fromHomeKey != null) {
+                if (fromHomeKey.equals("FromStatus")) {
+                    attendence_report_menu.setVisibility(View.GONE);
+                    date_wise_report.setVisibility(View.GONE);
+                }
+            } else if (fromHomeKey1 != null) {
+                if (fromHomeKey1.equals("FromAttendence")) {
+                    attendence_report_menu.setVisibility(View.VISIBLE);
+                }
             }
         }
 
@@ -1106,6 +1106,7 @@ public class StatusReport extends AbstractActivity {
                     lvStatusReport.setAdapter(statusReportAdapter);
                     setListViewHeightBasedOnItems(lvStatusReport);
                     statusReportAdapter.notifyDataSetChanged();
+
                 }
 
             } catch (Exception e) {

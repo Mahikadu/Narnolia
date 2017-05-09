@@ -42,7 +42,7 @@ import static com.narnolia.app.R.id.report_today;
  * Created by Sudesi on 23/03/2017.
  */
 
-public class StatusReportAdapter extends BaseAdapter implements View.OnClickListener {
+public class StatusReportAdapter extends BaseAdapter {
     public Context context;
     private static LayoutInflater inflater = null;
     private StatusReportModel statusReportModel;
@@ -53,7 +53,7 @@ public class StatusReportAdapter extends BaseAdapter implements View.OnClickList
     private SubStatusReportModel subStatusReportModel;
     private List<StatusReportModel> statusReportModels = new ArrayList<>();
     private String leadStatus = "", createdDate = "", responseId = "";
-    String meeting_status="";
+    String meeting_status="", pos;
     private String sub_lead_id,sub_name,sub_Mobile_no,sub_city,sub_pincode,sub_last_meeting_date,sub_last_meeting_update,sub_meeting_status;
 
     public StatusReportAdapter(Context mContext, List<StatusReportModel> statusReportModels) {
@@ -69,8 +69,6 @@ public class StatusReportAdapter extends BaseAdapter implements View.OnClickList
         now.add(Calendar.DAY_OF_YEAR, -1);
         Date prevDate = now.getTime();
         selDate = df.format(prevDate);*/
-
-
     }
 
     @Override
@@ -89,7 +87,7 @@ public class StatusReportAdapter extends BaseAdapter implements View.OnClickList
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup viewGroup) {
+    public View getView(final int position, View convertView, ViewGroup viewGroup) {
         final StatusReportAdapter.ViewHolder viewHolder;
         if (inflater == null)
             inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -98,27 +96,15 @@ public class StatusReportAdapter extends BaseAdapter implements View.OnClickList
             convertView = inflater.inflate(R.layout.row_status_report, null);
 
             viewHolder = new StatusReportAdapter.ViewHolder();
-
             viewHolder.report_status = (TextView) convertView.findViewById(R.id.report_status);
             viewHolder.report_today = (TextView) convertView.findViewById(report_today);
-            viewHolder.report_today.setOnClickListener(this);
-
             viewHolder.report_t1 = (TextView) convertView.findViewById(report_t1);
-            viewHolder.report_t1.setOnClickListener(this);
-
             viewHolder.report_t2 = (TextView) convertView.findViewById(report_t2);
-            viewHolder.report_t2.setOnClickListener(this);
-
             viewHolder.report_t3 = (TextView) convertView.findViewById(R.id.report_t3);
-            viewHolder.report_t3.setOnClickListener(this);
             viewHolder.report_t4 = (TextView) convertView.findViewById(R.id.report_t4);
-            viewHolder.report_t4.setOnClickListener(this);
             viewHolder.report_t5 = (TextView) convertView.findViewById(R.id.report_t5);
-            viewHolder.report_t5.setOnClickListener(this);
             viewHolder.report_t6 = (TextView) convertView.findViewById(R.id.report_t6);
-            viewHolder.report_t6.setOnClickListener(this);
             viewHolder.report_t7 = (TextView) convertView.findViewById(R.id.report_t7);
-            viewHolder.report_t7.setOnClickListener(this);
             viewHolder.report_t_month = (TextView) convertView.findViewById(R.id.report_t_month);
 
             viewHolder.report_t_quarter = (TextView) convertView.findViewById(R.id.report_t_quarter);
@@ -129,7 +115,7 @@ public class StatusReportAdapter extends BaseAdapter implements View.OnClickList
         }
         statusReportModel = statusReportModels.get(position);
         viewHolder.report_status.setText(statusReportModel.getStatus_1());
-        meeting_status=statusReportModel.getStatus_1();
+//        meeting_status=statusReportModel.getStatus_1();
         viewHolder.report_today.setText(statusReportModel.getToday_report_1());
         viewHolder.report_t1.setText(statusReportModel.getT1_1());
         viewHolder.report_t2.setText(statusReportModel.getT2_1());
@@ -141,57 +127,110 @@ public class StatusReportAdapter extends BaseAdapter implements View.OnClickList
         viewHolder.report_t_month.setText(statusReportModel.getT_month_1());
         viewHolder.report_t_quarter.setText(statusReportModel.getT_quater_1());
 
-
-        return convertView;
-    }
-
-    @Override
-    public void onClick(View view) {
-
-        switch (view.getId()) {
-
-            case report_today:
+        viewHolder.report_today.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(position == 0) {
+                    meeting_status = statusReportModels.get(0).getStatus_1();
+                } else if (position == 1) {
+                    meeting_status = statusReportModels.get(1).getStatus_1();
+                }
                 createdDate = Utils.getSelectedDate(0);
-                //  Toast.makeText(context, "createdDate is :" + createdDate, Toast.LENGTH_SHORT).show();
                 new SubStatusReport().execute();
-                break;
-            case report_t1:
-                createdDate = Utils.getSelectedDate(-1);
-                //   Toast.makeText(context, "createdDate is :" + createdDate, Toast.LENGTH_SHORT).show();
-                new SubStatusReport().execute();
-                break;
-            case report_t2:
-                createdDate = Utils.getSelectedDate(-2);
-                //  Toast.makeText(context, "createdDate is :" + createdDate, Toast.LENGTH_SHORT).show();
-                new SubStatusReport().execute();
-                break;
-            case report_t3:
-                createdDate = Utils.getSelectedDate(-3);
-                // Toast.makeText(context, "createdDate is :" + createdDate, Toast.LENGTH_SHORT).show();
-                new SubStatusReport().execute();
-                break;
-            case report_t4:
-                createdDate = Utils.getSelectedDate(-4);
-                //  Toast.makeText(context, "createdDate is :" + createdDate, Toast.LENGTH_SHORT).show();
-                new SubStatusReport().execute();
-                break;
-            case report_t5:
-                createdDate = Utils.getSelectedDate(-5);
-                // Toast.makeText(context, "createdDate is :" + createdDate, Toast.LENGTH_SHORT).show();
-                new SubStatusReport().execute();
-                break;
-            case report_t6:
-                createdDate = Utils.getSelectedDate(-6);
-                //  Toast.makeText(context, "createdDate is :" + createdDate, Toast.LENGTH_SHORT).show();
-                new SubStatusReport().execute();
-                break;
-            case report_t7:
-                createdDate = Utils.getSelectedDate(-7);
-                // Toast.makeText(context, "createdDate is :" + createdDate, Toast.LENGTH_SHORT).show();
-                new SubStatusReport().execute();
-                break;
-        }
+            }
+        });
 
+        viewHolder.report_t1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(position == 0) {
+                    meeting_status = statusReportModels.get(0).getStatus_1();
+                } else if (position == 1) {
+                    meeting_status = statusReportModels.get(1).getStatus_1();
+                }
+                createdDate = Utils.getSelectedDate(-1);
+                new SubStatusReport().execute();
+            }
+        });
+
+        viewHolder.report_t2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(position == 0) {
+                    meeting_status = statusReportModels.get(0).getStatus_1();
+                } else if (position == 1) {
+                    meeting_status = statusReportModels.get(1).getStatus_1();
+                }
+                createdDate = Utils.getSelectedDate(-2);
+                new SubStatusReport().execute();
+            }
+        });
+
+        viewHolder.report_t3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(position == 0) {
+                    meeting_status = statusReportModels.get(0).getStatus_1();
+                } else if (position == 1) {
+                    meeting_status = statusReportModels.get(1).getStatus_1();
+                }
+                createdDate = Utils.getSelectedDate(-3);
+                new SubStatusReport().execute();
+            }
+        });
+
+        viewHolder.report_t4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(position == 0) {
+                    meeting_status = statusReportModels.get(0).getStatus_1();
+                } else if (position == 1) {
+                    meeting_status = statusReportModels.get(1).getStatus_1();
+                }
+                createdDate = Utils.getSelectedDate(-4);
+                new SubStatusReport().execute();
+            }
+        });
+
+        viewHolder.report_t5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(position == 0) {
+                    meeting_status = statusReportModels.get(0).getStatus_1();
+                } else if (position == 1) {
+                    meeting_status = statusReportModels.get(1).getStatus_1();
+                }
+                createdDate = Utils.getSelectedDate(-5);
+                new SubStatusReport().execute();
+            }
+        });
+
+        viewHolder.report_t6.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(position == 0) {
+                    meeting_status = statusReportModels.get(0).getStatus_1();
+                } else if (position == 1) {
+                    meeting_status = statusReportModels.get(1).getStatus_1();
+                }
+                createdDate = Utils.getSelectedDate(-6);
+                new SubStatusReport().execute();
+            }
+        });
+
+        viewHolder.report_t7.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(position == 0) {
+                    meeting_status = statusReportModels.get(0).getStatus_1();
+                } else if (position == 1) {
+                    meeting_status = statusReportModels.get(1).getStatus_1();
+                }
+                createdDate = Utils.getSelectedDate(-7);
+                new SubStatusReport().execute();
+            }
+        });
+        return convertView;
     }
 
     public class ViewHolder {
