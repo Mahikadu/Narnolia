@@ -7,7 +7,16 @@ import java.io.Serializable;
  */
 
 public class AttendenceReportModel implements Serializable {
-    String attendance1, insertdate1, latitude1, longitude1, name1 ;
+    String empId1, attendance1, insertdate1, latitude, longitude, location, name1 ;
+
+    public String getEmpId1() {
+        return empId1;
+    }
+
+    public void setEmpId1(String empId1) {
+        this.empId1 = empId1;
+    }
+
     public String getAttendance() {
         return attendance1;
     }
@@ -25,19 +34,27 @@ public class AttendenceReportModel implements Serializable {
     }
 
     public String getLatitude() {
-        return latitude1;
+        return latitude;
     }
 
     public void setLatitude(String latitude) {
-        this.latitude1 = latitude;
+        this.latitude = latitude;
     }
 
     public String getLongitude() {
-        return longitude1;
+        return longitude;
     }
 
     public void setLongitude(String longitude) {
-        this.longitude1 = longitude;
+        this.longitude = longitude;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 
     public String getNameAttendence() {

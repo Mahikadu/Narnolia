@@ -1,6 +1,7 @@
 package com.narnolia.app.network;
 
 import android.content.Context;
+import android.content.pm.PackageInfo;
 import android.util.Log;
 
 import com.narnolia.app.libs.Utils;
@@ -523,6 +524,48 @@ public SoapObject Filldetailsforapp(String lead_id) {
             return null;
         }
 
+    }
+
+    public SoapObject AttendanceReport(String date1, String date2, String attendance, String empcode, String role_id,
+                                        String search_by, String national, String zone, String region, String location,
+                                       String cluster) {
+            SoapObject result = null;
+
+            try {
+                SoapObject request = new SoapObject(NAMESPACE, "attendance_report_locationwise");
+
+                request.addProperty("date", date1);
+                request.addProperty("date2", date2);
+                request.addProperty("attendance", attendance);
+                request.addProperty("empcode", empcode);
+                request.addProperty("roleid", role_id);
+                request.addProperty("searchyby", search_by);
+                request.addProperty("national", national);
+                request.addProperty("zone", zone);
+                request.addProperty("region", region);
+                request.addProperty("location", location);
+                request.addProperty("cluster", cluster);
+
+                SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+                envelope.setOutputSoapObject(request); // set request object
+                envelope.dotNet = true;
+
+                HttpTransportSE androidHttpTransport = new HttpTransportSE(Utils.URL);// http
+                // transport
+                // call
+                androidHttpTransport.call(SOAP_ACTION + "attendance_report_locationwise",
+                        envelope);
+                Log.i("TAG", "envelope" + envelope);
+
+                // response soap object
+                result = (SoapObject) envelope.getResponse();
+                Log.i("TAG", "response :" + result);
+
+                return result;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
     }
 
     //..................Get Status Report ........

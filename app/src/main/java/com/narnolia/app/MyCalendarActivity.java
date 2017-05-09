@@ -2,9 +2,7 @@ package com.narnolia.app;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -26,21 +24,14 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.narnolia.app.dbconfig.DbHelper;
 import com.narnolia.app.model.AttendenceReportModel;
-import com.narnolia.app.model.LoginDetailsModel;
-import com.narnolia.app.model.StatusReportModel;
-import com.narnolia.app.model.SubStatusReportModel;
 import com.narnolia.app.network.LoginWebService;
 import com.narnolia.app.network.SOAPWebService;
 
@@ -110,7 +101,7 @@ public class MyCalendarActivity extends AbstractActivity implements OnClickListe
         empcode = sharedPref.getLoginId();
         attendenceReportModelList = new ArrayList<>();
         sdf = new SimpleDateFormat("dd-MM-yyyy");
-        attendenceReportModel = new AttendenceReportModel();
+//        attendenceReportModel = new AttendenceReportModel();
         _calendar = Calendar.getInstance(Locale.getDefault());
         month = _calendar.get(Calendar.MONTH) + 1;
         year = _calendar.get(Calendar.YEAR);
@@ -1254,14 +1245,14 @@ public class MyCalendarActivity extends AbstractActivity implements OnClickListe
             try {
                 for (int i = 0; i < soapObject.getPropertyCount(); i++) {
                     SoapObject root = (SoapObject) soapObject.getProperty(i);
-                    attendenceReportModel = new AttendenceReportModel();
+//                    attendenceReportModel = new AttendenceReportModel();
                     String attendance = "", insertdate = "", latitude = "", longitude = "", name = "";
 
                     if (root.getProperty("attendance1") != null && !root.getProperty("attendance1").toString().equalsIgnoreCase("?")) {
 
                         if (!root.getProperty("attendance1").toString().equalsIgnoreCase("anyType{}")) {
                             attendance = root.getProperty("attendance1").toString();
-                            attendenceReportModel.setAttendance(attendance);
+//                            attendenceReportModel.setAttendance(attendance);
 
 
                         } else {
@@ -1275,7 +1266,7 @@ public class MyCalendarActivity extends AbstractActivity implements OnClickListe
 
                         if (!root.getProperty("insertdate").toString().equalsIgnoreCase("anyType{}")) {
                             insertdate = root.getProperty("insertdate").toString();
-                            attendenceReportModel.setInsertdate(insertdate);
+//                            attendenceReportModel.setInsertdate(insertdate);
 
                         } else {
                             insertdate = "";
@@ -1288,7 +1279,7 @@ public class MyCalendarActivity extends AbstractActivity implements OnClickListe
 
                         if (!root.getProperty("latitude").toString().equalsIgnoreCase("anyType{}")) {
                             latitude = root.getProperty("latitude").toString();
-                            attendenceReportModel.setLatitude(latitude);
+//                            attendenceReportModel.setLatitude(latitude);
 
                         } else {
                             latitude = "";
@@ -1300,7 +1291,7 @@ public class MyCalendarActivity extends AbstractActivity implements OnClickListe
 
                         if (!root.getProperty("longitude").toString().equalsIgnoreCase("anyType{}")) {
                             longitude = root.getProperty("longitude").toString();
-                            attendenceReportModel.setLongitude(longitude);
+//                            attendenceReportModel.setLongitude(longitude);
 
 
                         } else {
@@ -1313,7 +1304,7 @@ public class MyCalendarActivity extends AbstractActivity implements OnClickListe
 
                         if (!root.getProperty("name").toString().equalsIgnoreCase("anyType{}")) {
                             name = root.getProperty("name").toString();
-                            attendenceReportModel.setNameAttendence(name);
+//                            attendenceReportModel.setNameAttendence(name);
 
                         } else {
                             name = "";

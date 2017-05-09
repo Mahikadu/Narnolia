@@ -255,8 +255,11 @@
                         android:layout_marginLeft="3dp"
                         android:layout_marginRight="3dp"
                         android:layout_marginTop="3dp"
-                        android:dividerHeight="1dp"></ListView>
+                        android:dividerHeight="1dp">
+                    </ListView>
                 </LinearLayout>
+
+
                 <LinearLayout
                     android:id="@+id/linear_sub_status"
                     android:layout_width="match_parent"
