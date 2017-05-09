@@ -3,6 +3,8 @@ package com.narnolia.app;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.res.Resources;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -14,20 +16,26 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.narnolia.app.adapter.AttendanceReportAdapter;
 import com.narnolia.app.adapter.CustomSpinnerAdapter;
 import com.narnolia.app.adapter.StatusReportAdapter;
 import com.narnolia.app.adapter.SubStatusReportAdapter;
+import com.narnolia.app.model.AttendenceReportModel;
 import com.narnolia.app.model.LoginDetailsModel;
 import com.narnolia.app.model.StatusReportModel;
 import com.narnolia.app.network.SOAPWebService;
 
 import org.ksoap2.serialization.SoapObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import static com.narnolia.app.adapter.StatusReportAdapter.subStatusReportModelList;
 
@@ -36,7 +44,7 @@ public class StatusReport extends AbstractActivity {
     private Context mContext;
     private Spinner spinNation, spinZone, spinRegion, spinCluster, spinLocation, spinEmployee,spinSearchBy;
     private ProgressDialog progressDialog;
-    private String empcode;
+    private String empcode, attendanceVal, searchByVal;
     private SharedPref sharedPref;
     private String param, nation, zone, region, cluster, location, employee,emp_id;
     public static String nationVal, zoneVal, regionVal, clusterVal, locationVal;
@@ -45,22 +53,28 @@ public class StatusReport extends AbstractActivity {
     private List<String> result, empList;
     String[] strResultArray = null;
     String emp,rm;
+    private RadioGroup rg_attendence;
+    private RadioButton radioButton;
     LinearLayout attendence_report_menu,date_wise_report,main_menu;
     private List<StatusReportModel> getStatusReportModelList;
+    private List<AttendenceReportModel> attendanceReportModelList;
     StatusReportModel statusReportModel;
+    AttendenceReportModel attendanceReportModel;
     private List<LoginDetailsModel> loginDetailsModels;
     public LoginDetailsModel loginDetailsModel;
-    private ListView lvStatusReport;
+    private ListView lvStatusReport, lvAttendanceReport;
     private ListView lvSubStatusReport;
     LinearLayout linear_sub_status1, layout_status_table;
     Button btn_search;
     String spinSearchByList[] = {"--select--", "Location", "Date"};
     //    public List<SubStatusReportModel> subStatusReportModelList;
     public StatusReportAdapter statusReportAdapter;
+    public AttendanceReportAdapter attendanceReportAdapter;
     public SubStatusReportAdapter subStatusReportAdapter;
     private TextView report_today1, report_t1_1, report_t2_1, report_t3_1, report_t4_1, report_t5_1, report_t6_1, report_t7_1, report_t_month_1, report_t_quarter_1;
     private TextView report_today, report_t1, report_t2, report_t3, report_t4, report_t5, report_t6, report_t7, report_t_month, report_t_quarter;
     String t1_1, t2_1, t3_1, t4_1, t5_1, t6_1, t7_1, t_month_1, t_quater_1, today_report_1, status_1;
+    String ws_attendance, ws_empcode, ws_insertdate, ws_lat, ws_long, ws_name;
     String t1, t2, t3, t4, t5, t6, t7, t_month, t_quater, today_report;
     String[] arrayForSpinner = {""};
 
@@ -73,6 +87,7 @@ public class StatusReport extends AbstractActivity {
 
         sharedPref = new SharedPref(mContext);
         empcode = sharedPref.getLoginId();
+        rm=sharedPref.getIsRM();
         result = new ArrayList<>();
         progressDialog = new ProgressDialog(mContext);
         spinNation = (Spinner) findViewById(R.id.spin_nation);
@@ -82,6 +97,7 @@ public class StatusReport extends AbstractActivity {
         spinLocation = (Spinner) findViewById(R.id.spin_location);
         spinEmployee = (Spinner) findViewById(R.id.spin_employee);
         spinSearchBy=(Spinner)findViewById(R.id.search_by);
+        rg_attendence = (RadioGroup) findViewById(R.id.rg_attendence);
         ArrayAdapter<String> adapterSerchBy = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, spinSearchByList) {
             @Override
             public View getDropDownView(int position, View convertView, ViewGroup parent) {
@@ -107,11 +123,14 @@ public class StatusReport extends AbstractActivity {
         spinEmployee.setAdapter(new CustomSpinnerAdapter(this, R.layout.spinner_row, arrayForSpinner, "Select Employee"));
         btn_search = (Button) findViewById(R.id.btn_search);
         lvStatusReport=(ListView)findViewById(R.id.list_Status_Report);
+        lvAttendanceReport=(ListView)findViewById(R.id.list_attendance_report);
+
         lvSubStatusReport=(ListView)findViewById(R.id.list_sub_status_Report);
         linear_sub_status1=(LinearLayout)findViewById(R.id.linear_sub_status);
         layout_status_table = (LinearLayout)findViewById(R.id.status_table);
 
         getStatusReportModelList = new ArrayList<>();
+        attendanceReportModelList = new ArrayList<>();
         loginDetailsModel = new LoginDetailsModel();
 
         attendence_report_menu=(LinearLayout)findViewById(R.id.attendence_report_menu);
@@ -247,15 +266,30 @@ public class StatusReport extends AbstractActivity {
             @Override
             public void onClick(View v) {
                 layout_status_table.setVisibility(View.VISIBLE);
-                if (spinEmployee.getSelectedItem().toString().equals("All")) {
-                    emp=empcode;
-                    rm=sharedPref.getIsRM();
-                    new GetStatusReport().execute();
-                }else if (!spinEmployee.getSelectedItem().toString().equals("All")) {
-                    emp=emp_id;
-                    rm="4";
-                    new GetStatusReport().execute();
+                if (fromHomeKey != null) {
+                    if (fromHomeKey.equals("FromStatus")) {
+                        if (spinEmployee.getSelectedItem().toString().equals("All")) {
+                            emp=empcode;
+                            new GetStatusReport().execute();
+                        }else if (!spinEmployee.getSelectedItem().toString().equals("All")) {
+                            emp=emp_id;
+                            rm="4";
+                            new GetStatusReport().execute();
+                        }
+                    }
+                } else if (fromHomeKey1 != null) {
+                    if (fromHomeKey1.equals("FromAttendence")) {
+                        int selectedId = rg_attendence.getCheckedRadioButtonId();
+                        // find the radiobutton by returned id
+                        radioButton = (RadioButton) findViewById(selectedId);
+                        attendanceVal = radioButton.getText().toString();
+
+                        searchByVal = spinSearchBy.getSelectedItem().toString();
+
+                        new GetAttendanceReport().execute();
+                    }
                 }
+
             }
         });
     }
@@ -1113,6 +1147,152 @@ public class StatusReport extends AbstractActivity {
                 e.printStackTrace();
             }
 
+        }
+    }
+
+    public class GetAttendanceReport extends AsyncTask<Void, Void, SoapObject> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            try {
+                if (progressDialog != null && !progressDialog.isShowing()) {
+                    progressDialog.show();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
+
+        @Override
+        protected SoapObject doInBackground(Void... params) {
+            SoapObject object = null;
+            try {
+                SOAPWebService webService = new SOAPWebService(mContext);
+
+                object = webService.AttendanceReport("", "", attendanceVal, empcode, rm, searchByVal, nationVal,
+                        zoneVal, regionVal, locationVal, clusterVal);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return object;
+        }
+
+        @Override
+        protected void onPostExecute(SoapObject soapObject) {
+            super.onPostExecute(soapObject);
+            try {
+                if (progressDialog != null && progressDialog.isShowing()) {
+                    progressDialog.dismiss();
+                }
+
+                responseId = String.valueOf(soapObject);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            attendanceReportModelList.clear();
+            for (int i = 0; i < soapObject.getPropertyCount(); i++) {
+                SoapObject root = (SoapObject) soapObject.getProperty(i);
+
+
+                if (root.getProperty("attendance1") != null) {
+
+                    if (!root.getProperty("attendance1").toString().equalsIgnoreCase("anyType{}")) {
+                        ws_attendance = root.getProperty("attendance1").toString();
+
+
+                    } else {
+                        ws_attendance = "";
+                    }
+                } else {
+                    ws_attendance = "";
+                }
+
+                if (root.getProperty("emp_code") != null) {
+
+                    if (!root.getProperty("emp_code").toString().equalsIgnoreCase("anyType{}")) {
+                        ws_empcode = root.getProperty("emp_code").toString();
+                    } else {
+                        ws_empcode = "";
+                    }
+                } else {
+                    ws_empcode = "";
+                }
+
+                if (root.getProperty("insertdate") != null) {
+
+                    if (!root.getProperty("insertdate").toString().equalsIgnoreCase("anyType{}")) {
+                        ws_insertdate = root.getProperty("insertdate").toString();
+                    } else {
+                        ws_insertdate = "";
+                    }
+                } else {
+                    ws_insertdate = "";
+                }
+
+                if (root.getProperty("latitude") != null) {
+
+                    if (!root.getProperty("latitude").toString().equalsIgnoreCase("anyType{}")) {
+                        ws_lat = root.getProperty("latitude").toString();
+                    } else {
+                        ws_lat = "";
+                    }
+                } else {
+                    ws_lat = "";
+                }
+
+                if (root.getProperty("longitude") != null) {
+
+                    if (!root.getProperty("longitude").toString().equalsIgnoreCase("anyType{}")) {
+                        ws_long = root.getProperty("longitude").toString();
+                    } else {
+                        ws_long = "";
+                    }
+                } else {
+                    ws_long = "";
+                }
+
+                Double latitude = Double.parseDouble(ws_lat);
+                Double longitude = Double.parseDouble(ws_long);
+                String loc = "";
+                try {
+                    Geocoder geo = new Geocoder(mContext, Locale.getDefault());
+                    List<Address> addresses = geo.getFromLocation(latitude, longitude, 1);
+                    loc = addresses.get(0).getLocality();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                if (root.getProperty("name") != null) {
+
+                    if (!root.getProperty("name").toString().equalsIgnoreCase("anyType{}")) {
+                        ws_name = root.getProperty("name").toString();
+                    } else {
+                        ws_name = "";
+                    }
+                } else {
+                    ws_name = "";
+                }
+                attendanceReportModel = new AttendenceReportModel();
+                attendanceReportModel.setAttendance(ws_attendance);
+                attendanceReportModel.setLatitude("");
+                attendanceReportModel.setLongitude("");
+                attendanceReportModel.setEmpId1(ws_empcode);
+                attendanceReportModel.setInsertdate(ws_insertdate);
+                attendanceReportModel.setLocation(loc);
+                attendanceReportModel.setNameAttendence(ws_name);
+
+                attendanceReportModelList.add(attendanceReportModel);
+            }
+
+            if (attendanceReportModelList != null && attendanceReportModelList.size() > 0) {
+                attendanceReportAdapter = new AttendanceReportAdapter(mContext,attendanceReportModelList);
+                lvAttendanceReport.setAdapter(attendanceReportAdapter);
+                setListViewHeightBasedOnItems(lvAttendanceReport);
+                attendanceReportAdapter.notifyDataSetChanged();
+
+            }
         }
     }
 }
