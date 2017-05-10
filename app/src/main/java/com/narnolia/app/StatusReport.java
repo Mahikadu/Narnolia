@@ -192,6 +192,8 @@ public class StatusReport extends AbstractActivity {
                     date_wise_report.setVisibility(View.VISIBLE);
                     main_menu.setVisibility(View.GONE);
                     btn_search.setVisibility(View.GONE);
+                    to_date_from_date.setVisibility(View.GONE);
+                    layout_status_table.setVisibility(View.GONE);
                 }
             }
 
@@ -328,10 +330,17 @@ public class StatusReport extends AbstractActivity {
                 if (isChecked) {
                     if (fromHomeKey1 != null) {
                         if (fromHomeKey1.equals("FromAttendence")) {
-                            searchByVal = spinSearchBy.getSelectedItem().toString();
-                            if (searchByVal.equals("Location"))
+
+                            if (spinSearchBy.getSelectedItem().equals("Location")) {
                                 main_menu.setVisibility(View.VISIBLE);
-                            btn_search.setVisibility(View.VISIBLE);
+                                btn_search.setVisibility(View.VISIBLE);
+                                date_wise_report.setVisibility(View.GONE);
+                            } else if (spinSearchBy.getSelectedItem().equals("Date")) {
+                                date_wise_report.setVisibility(View.VISIBLE);
+                                main_menu.setVisibility(View.GONE);
+                                btn_search.setVisibility(View.GONE);
+
+                            }
                         }
 
                     }
@@ -492,6 +501,9 @@ public class StatusReport extends AbstractActivity {
                         // find the radiobutton by returned id
                         radioButton = (RadioButton) findViewById(selectedId);
                         attendanceVal = radioButton.getText().toString();
+
+                            searchByVal = spinSearchBy.getSelectedItem().toString();
+
                         if (spinSearchBy.getSelectedItem().equals("Location")) {
 
                             searchByVal = spinSearchBy.getSelectedItem().toString();
