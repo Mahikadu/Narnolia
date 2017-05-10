@@ -20,6 +20,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.narnolia.app.adapter.AttendanceReportAdapter;
 import com.narnolia.app.adapter.CustomSpinnerAdapter;
@@ -42,20 +43,21 @@ import static com.narnolia.app.adapter.StatusReportAdapter.subStatusReportModelL
 public class StatusReport extends AbstractActivity {
 
     private Context mContext;
-    private Spinner spinNation, spinZone, spinRegion, spinCluster, spinLocation, spinEmployee,spinSearchBy;
+    private Spinner spinNation, spinZone, spinRegion, spinCluster, spinLocation, spinEmployee, spinSearchBy;
     private ProgressDialog progressDialog;
     private String empcode, attendanceVal, searchByVal;
     private SharedPref sharedPref;
-    private String param, nation, zone, region, cluster, location, employee,emp_id;
+    private String param, nation, zone, region, cluster, location, employee, emp_id;
     public static String nationVal, zoneVal, regionVal, clusterVal, locationVal;
     private String responseId;
-    String fromHomeKey,fromHomeKey1;
+    String fromHomeKey, fromHomeKey1;
     private List<String> result, empList;
     String[] strResultArray = null;
-    String emp,rm;
+    String emp, rm;
     private RadioGroup rg_attendence;
+    private RadioButton rb_present, rb_absent;
     private RadioButton radioButton;
-    LinearLayout attendence_report_menu,date_wise_report,main_menu;
+    LinearLayout attendence_report_menu, date_wise_report, main_menu, attendence_table;
     private List<StatusReportModel> getStatusReportModelList;
     private List<AttendenceReportModel> attendanceReportModelList;
     StatusReportModel statusReportModel;
@@ -64,7 +66,7 @@ public class StatusReport extends AbstractActivity {
     public LoginDetailsModel loginDetailsModel;
     private ListView lvStatusReport, lvAttendanceReport;
     private ListView lvSubStatusReport;
-    LinearLayout linear_sub_status1, layout_status_table;
+    LinearLayout linear_sub_status1, layout_status_table, to_date_from_date;
     Button btn_search;
     String spinSearchByList[] = {"--select--", "Location", "Date"};
     //    public List<SubStatusReportModel> subStatusReportModelList;
@@ -83,11 +85,15 @@ public class StatusReport extends AbstractActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_status_reports);
         mContext = StatusReport.this;
+        if (getIntent() != null) {
+            fromHomeKey = getIntent().getStringExtra("from_status");
+            fromHomeKey1 = getIntent().getStringExtra("form_Attendence");
+        }
         setHeader();
 
         sharedPref = new SharedPref(mContext);
         empcode = sharedPref.getLoginId();
-        rm=sharedPref.getIsRM();
+        rm = sharedPref.getIsRM();
         result = new ArrayList<>();
         progressDialog = new ProgressDialog(mContext);
         spinNation = (Spinner) findViewById(R.id.spin_nation);
@@ -96,8 +102,11 @@ public class StatusReport extends AbstractActivity {
         spinCluster = (Spinner) findViewById(R.id.spin_cluster);
         spinLocation = (Spinner) findViewById(R.id.spin_location);
         spinEmployee = (Spinner) findViewById(R.id.spin_employee);
-        spinSearchBy=(Spinner)findViewById(R.id.search_by);
+        spinSearchBy = (Spinner) findViewById(R.id.search_by);
         rg_attendence = (RadioGroup) findViewById(R.id.rg_attendence);
+        rb_present = (RadioButton) findViewById(R.id.rb_present);
+        rb_absent = (RadioButton) findViewById(R.id.rb_absent);
+
         ArrayAdapter<String> adapterSerchBy = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, spinSearchByList) {
             @Override
             public View getDropDownView(int position, View convertView, ViewGroup parent) {
@@ -122,33 +131,56 @@ public class StatusReport extends AbstractActivity {
 
         spinEmployee.setAdapter(new CustomSpinnerAdapter(this, R.layout.spinner_row, arrayForSpinner, "Select Employee"));
         btn_search = (Button) findViewById(R.id.btn_search);
-        lvStatusReport=(ListView)findViewById(R.id.list_Status_Report);
-        lvAttendanceReport=(ListView)findViewById(R.id.list_attendance_report);
+        lvStatusReport = (ListView) findViewById(R.id.list_Status_Report);
+        lvAttendanceReport = (ListView) findViewById(R.id.list_attendance_report);
 
-        lvSubStatusReport=(ListView)findViewById(R.id.list_sub_status_Report);
-        linear_sub_status1=(LinearLayout)findViewById(R.id.linear_sub_status);
-        layout_status_table = (LinearLayout)findViewById(R.id.status_table);
+        lvSubStatusReport = (ListView) findViewById(R.id.list_sub_status_Report);
+        linear_sub_status1 = (LinearLayout) findViewById(R.id.linear_sub_status);
+        layout_status_table = (LinearLayout) findViewById(R.id.status_table);
+        to_date_from_date = (LinearLayout) findViewById(R.id.to_date_from_date);
 
         getStatusReportModelList = new ArrayList<>();
         attendanceReportModelList = new ArrayList<>();
         loginDetailsModel = new LoginDetailsModel();
 
-        attendence_report_menu=(LinearLayout)findViewById(R.id.attendence_report_menu);
-        date_wise_report=(LinearLayout)findViewById(R.id.date_wise_report);
-        if (getIntent() != null) {
-            fromHomeKey = getIntent().getStringExtra("from_status");
-            fromHomeKey1 = getIntent().getStringExtra("form_Attendence");
-            if (fromHomeKey != null) {
-                if (fromHomeKey.equals("FromStatus")) {
-                    attendence_report_menu.setVisibility(View.GONE);
-                    date_wise_report.setVisibility(View.GONE);
-                }
-            } else if (fromHomeKey1 != null) {
-                if (fromHomeKey1.equals("FromAttendence")) {
-                    attendence_report_menu.setVisibility(View.VISIBLE);
-                }
+        attendence_report_menu = (LinearLayout) findViewById(R.id.attendence_report_menu);
+        date_wise_report = (LinearLayout) findViewById(R.id.date_wise_report);
+        main_menu = (LinearLayout) findViewById(R.id.main_menu);
+        attendence_table = (LinearLayout) findViewById(R.id.attendence_table);
+
+        if (fromHomeKey != null) {
+            if (fromHomeKey.equals("FromStatus")) {
+                attendence_report_menu.setVisibility(View.GONE);
+                date_wise_report.setVisibility(View.GONE);
+                to_date_from_date.setVisibility(View.GONE);
+                main_menu.setVisibility(View.VISIBLE);
+            }
+        } else if (fromHomeKey1 != null) {
+            if (fromHomeKey1.equals("FromAttendence")) {
+                attendence_report_menu.setVisibility(View.VISIBLE);
+                date_wise_report.setVisibility(View.GONE);
+                to_date_from_date.setVisibility(View.GONE);
+                main_menu.setVisibility(View.GONE);
             }
         }
+
+
+        spinSearchBy.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+                if (spinSearchBy.getSelectedItem().equals("Location") && rg_attendence.getCheckedRadioButtonId() != -1) {
+                    main_menu.setVisibility(View.VISIBLE);
+                }
+                if (spinSearchBy.getSelectedItem().equals("Date")){
+                    Toast.makeText(mContext, "Work in progress", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
 
         new GetGeoHierarchyNation().execute();
 
@@ -173,7 +205,25 @@ public class StatusReport extends AbstractActivity {
 
             }
         });
+        rg_attendence.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                // This will get the radiobutton that has changed in its check state
+                RadioButton checkedRadioButton = (RadioButton) group.findViewById(checkedId);
+                // This puts the value (true/false) into the variable
+                boolean isChecked = checkedRadioButton.isChecked();
+                // If the radiobutton that has changed in check state is now checked...
+                if (isChecked) {
+                    if (fromHomeKey1 != null) {
+                        if (fromHomeKey1.equals("FromAttendence")) {
+                            searchByVal = spinSearchBy.getSelectedItem().toString();
+                            if (searchByVal.equals("Location"))
+                                main_menu.setVisibility(View.VISIBLE);
+                        }
 
+                    }
+                }
+            }
+        });
         spinZone.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -265,15 +315,60 @@ public class StatusReport extends AbstractActivity {
         btn_search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                layout_status_table.setVisibility(View.VISIBLE);
+                // layout_status_table.setVisibility(View.VISIBLE);
+                View focusView = null;
                 if (fromHomeKey != null) {
                     if (fromHomeKey.equals("FromStatus")) {
-                        if (spinEmployee.getSelectedItem().toString().equals("All")) {
-                            emp=empcode;
+                        if (spinNation.getSelectedItemPosition() == 0) {
+                            Toast.makeText(mContext, "Please select Nation", Toast.LENGTH_SHORT).show();
+                            focusView = spinNation;
+                            focusView.requestFocus();
+                            spinNation.setFocusable(true);
+                            spinNation.requestFocusFromTouch();
+                            return;
+                        } else if (spinZone.getSelectedItemPosition() == 0) {
+                            Toast.makeText(mContext, "Please select Zone", Toast.LENGTH_SHORT).show();
+                            focusView = spinZone;
+                            focusView.requestFocus();
+                            spinZone.setFocusable(true);
+                            spinZone.requestFocusFromTouch();
+                            return;
+                        } else if (spinRegion.getSelectedItemPosition() == 0) {
+                            Toast.makeText(mContext, "Please select Region", Toast.LENGTH_SHORT).show();
+                            focusView = spinRegion;
+                            focusView.requestFocus();
+                            spinRegion.setFocusable(true);
+                            spinRegion.requestFocusFromTouch();
+                            return;
+                        } else if (spinCluster.getSelectedItemPosition() == 0) {
+                            Toast.makeText(mContext, "Please select Cluster", Toast.LENGTH_SHORT).show();
+                            focusView = spinCluster;
+                            focusView.requestFocus();
+                            spinCluster.setFocusable(true);
+                            spinCluster.requestFocusFromTouch();
+                            return;
+                        } else if (spinLocation.getSelectedItemPosition() == 0) {
+                            Toast.makeText(mContext, "Please select Location", Toast.LENGTH_SHORT).show();
+                            focusView = spinLocation;
+                            focusView.requestFocus();
+                            spinLocation.setFocusable(true);
+                            spinLocation.requestFocusFromTouch();
+                            return;
+                        } else if (spinEmployee.getSelectedItemPosition() == 0) {
+                            Toast.makeText(mContext, "Please select Employee", Toast.LENGTH_SHORT).show();
+                            focusView = spinEmployee;
+                            focusView.requestFocus();
+                            spinEmployee.setFocusable(true);
+                            spinEmployee.requestFocusFromTouch();
+                            return;
+                        } else if (spinEmployee.getSelectedItem().toString().equals("All")) {
+                            emp = empcode;
+                            layout_status_table.setVisibility(View.VISIBLE);
                             new GetStatusReport().execute();
-                        }else if (!spinEmployee.getSelectedItem().toString().equals("All")) {
-                            emp=emp_id;
-                            rm="4";
+                        } else if (!spinEmployee.getSelectedItem().toString().equals("All")) {
+                            emp = emp_id;
+                            rm = "4";
+                            layout_status_table.setVisibility(View.VISIBLE);
                             new GetStatusReport().execute();
                         }
                     }
@@ -285,8 +380,64 @@ public class StatusReport extends AbstractActivity {
                         attendanceVal = radioButton.getText().toString();
 
                         searchByVal = spinSearchBy.getSelectedItem().toString();
-
-                        new GetAttendanceReport().execute();
+                        if (rg_attendence.getCheckedRadioButtonId() == -1) {
+                            Toast.makeText(mContext, "Please Select the Present or Absent", Toast.LENGTH_SHORT).show();
+                            focusView = rg_attendence;
+                            focusView.requestFocus();
+                            return;
+                        } else if (spinSearchBy.getSelectedItemPosition() == 0) {
+                            Toast.makeText(mContext, "Please select Search By", Toast.LENGTH_SHORT).show();
+                            focusView = spinSearchBy;
+                            focusView.requestFocus();
+                            spinSearchBy.setFocusable(true);
+                            spinSearchBy.requestFocusFromTouch();
+                            return;
+                        } else if (spinNation.getSelectedItemPosition() == 0) {
+                            Toast.makeText(mContext, "Please select Nation", Toast.LENGTH_SHORT).show();
+                            focusView = spinNation;
+                            focusView.requestFocus();
+                            spinNation.setFocusable(true);
+                            spinNation.requestFocusFromTouch();
+                            return;
+                        } else if (spinZone.getSelectedItemPosition() == 0) {
+                            Toast.makeText(mContext, "Please select Zone", Toast.LENGTH_SHORT).show();
+                            focusView = spinZone;
+                            focusView.requestFocus();
+                            spinZone.setFocusable(true);
+                            spinZone.requestFocusFromTouch();
+                            return;
+                        } else if (spinRegion.getSelectedItemPosition() == 0) {
+                            Toast.makeText(mContext, "Please select Region", Toast.LENGTH_SHORT).show();
+                            focusView = spinRegion;
+                            focusView.requestFocus();
+                            spinRegion.setFocusable(true);
+                            spinRegion.requestFocusFromTouch();
+                            return;
+                        } else if (spinCluster.getSelectedItemPosition() == 0) {
+                            Toast.makeText(mContext, "Please select Cluster", Toast.LENGTH_SHORT).show();
+                            focusView = spinCluster;
+                            focusView.requestFocus();
+                            spinCluster.setFocusable(true);
+                            spinCluster.requestFocusFromTouch();
+                            return;
+                        } else if (spinLocation.getSelectedItemPosition() == 0) {
+                            Toast.makeText(mContext, "Please select Location", Toast.LENGTH_SHORT).show();
+                            focusView = spinLocation;
+                            focusView.requestFocus();
+                            spinLocation.setFocusable(true);
+                            spinLocation.requestFocusFromTouch();
+                            return;
+                        } else if (spinEmployee.getSelectedItemPosition() == 0) {
+                            Toast.makeText(mContext, "Please select Employee", Toast.LENGTH_SHORT).show();
+                            focusView = spinEmployee;
+                            focusView.requestFocus();
+                            spinEmployee.setFocusable(true);
+                            spinEmployee.requestFocusFromTouch();
+                            return;
+                        } else {
+                            attendence_table.setVisibility(View.VISIBLE);
+                            new GetAttendanceReport().execute();
+                        }
                     }
                 }
 
@@ -294,7 +445,7 @@ public class StatusReport extends AbstractActivity {
         });
     }
 
-    public void setSubStatusData(){
+    public void setSubStatusData() {
         if (subStatusReportModelList != null && subStatusReportModelList.size() > 0) {
             subStatusReportAdapter = new SubStatusReportAdapter(mContext, subStatusReportModelList);
             linear_sub_status1.setVisibility(View.VISIBLE);
@@ -345,7 +496,16 @@ public class StatusReport extends AbstractActivity {
             TextView tvHeader = (TextView) findViewById(R.id.textTitle);
             ImageView ivHome = (ImageView) findViewById(R.id.iv_home);
             ImageView ivLogout = (ImageView) findViewById(R.id.iv_logout);
-            tvHeader.setText(this.getResources().getString(R.string.status_report));
+            if (fromHomeKey != null) {
+                if (fromHomeKey.equals("FromStatus")) {
+                    tvHeader.setText(this.getResources().getString(R.string.status_report));
+                }
+            } else if (fromHomeKey1 != null) {
+                if (fromHomeKey1.equals("FromAttendence")) {
+                    tvHeader.setText(this.getResources().getString(R.string.attendance));
+                }
+            }
+
 
             ivHome.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -433,8 +593,7 @@ public class StatusReport extends AbstractActivity {
 
                 ArrayAdapter<String> adapterMaster = new ArrayAdapter<String>(mContext, android.R.layout.simple_spinner_item, strResultArray) {
                     @Override
-                    public View getDropDownView(int position, View convertView, ViewGroup parent)
-                    {
+                    public View getDropDownView(int position, View convertView, ViewGroup parent) {
                         View v = null;
                         // If this is the initial dummy entry, make it hidden
                         if (position == 0) {
@@ -442,8 +601,7 @@ public class StatusReport extends AbstractActivity {
                             tv.setHeight(0);
                             tv.setVisibility(View.GONE);
                             v = tv;
-                        }
-                        else {
+                        } else {
                             // Pass convertView as null to prevent reuse of special case views
                             v = super.getDropDownView(position, null, parent);
                         }
@@ -501,17 +659,17 @@ public class StatusReport extends AbstractActivity {
                 for (int i = 0; i < soapObject.getPropertyCount(); i++) {
                     SoapObject root = (SoapObject) soapObject.getProperty(i);
 
-                        if (root.getProperty("zone") != null) {
+                    if (root.getProperty("zone") != null) {
 
-                            if (!root.getProperty("zone").toString().equalsIgnoreCase("anyType{}")) {
-                                zone = root.getProperty("zone").toString();
+                        if (!root.getProperty("zone").toString().equalsIgnoreCase("anyType{}")) {
+                            zone = root.getProperty("zone").toString();
 
-                            } else {
-                                zone = "";
-                            }
                         } else {
                             zone = "";
                         }
+                    } else {
+                        zone = "";
+                    }
                     result.add(zone);
                 }
 
@@ -526,8 +684,7 @@ public class StatusReport extends AbstractActivity {
 
                 ArrayAdapter<String> adapterMaster = new ArrayAdapter<String>(mContext, android.R.layout.simple_spinner_item, strResultArray) {
                     @Override
-                    public View getDropDownView(int position, View convertView, ViewGroup parent)
-                    {
+                    public View getDropDownView(int position, View convertView, ViewGroup parent) {
                         View v = null;
                         // If this is the initial dummy entry, make it hidden
                         if (position == 0) {
@@ -535,8 +692,7 @@ public class StatusReport extends AbstractActivity {
                             tv.setHeight(0);
                             tv.setVisibility(View.GONE);
                             v = tv;
-                        }
-                        else {
+                        } else {
                             // Pass convertView as null to prevent reuse of special case views
                             v = super.getDropDownView(position, null, parent);
                         }
@@ -620,8 +776,7 @@ public class StatusReport extends AbstractActivity {
 
                 ArrayAdapter<String> adapterMaster = new ArrayAdapter<String>(mContext, android.R.layout.simple_spinner_item, strResultArray) {
                     @Override
-                    public View getDropDownView(int position, View convertView, ViewGroup parent)
-                    {
+                    public View getDropDownView(int position, View convertView, ViewGroup parent) {
                         View v = null;
                         // If this is the initial dummy entry, make it hidden
                         if (position == 0) {
@@ -629,8 +784,7 @@ public class StatusReport extends AbstractActivity {
                             tv.setHeight(0);
                             tv.setVisibility(View.GONE);
                             v = tv;
-                        }
-                        else {
+                        } else {
                             // Pass convertView as null to prevent reuse of special case views
                             v = super.getDropDownView(position, null, parent);
                         }
@@ -714,8 +868,7 @@ public class StatusReport extends AbstractActivity {
 
                 ArrayAdapter<String> adapterMaster = new ArrayAdapter<String>(mContext, android.R.layout.simple_spinner_item, strResultArray) {
                     @Override
-                    public View getDropDownView(int position, View convertView, ViewGroup parent)
-                    {
+                    public View getDropDownView(int position, View convertView, ViewGroup parent) {
                         View v = null;
                         // If this is the initial dummy entry, make it hidden
                         if (position == 0) {
@@ -723,8 +876,7 @@ public class StatusReport extends AbstractActivity {
                             tv.setHeight(0);
                             tv.setVisibility(View.GONE);
                             v = tv;
-                        }
-                        else {
+                        } else {
                             // Pass convertView as null to prevent reuse of special case views
                             v = super.getDropDownView(position, null, parent);
                         }
@@ -811,8 +963,7 @@ public class StatusReport extends AbstractActivity {
 
                 ArrayAdapter<String> adapterMaster = new ArrayAdapter<String>(mContext, android.R.layout.simple_spinner_item, strResultArray) {
                     @Override
-                    public View getDropDownView(int position, View convertView, ViewGroup parent)
-                    {
+                    public View getDropDownView(int position, View convertView, ViewGroup parent) {
                         View v = null;
                         // If this is the initial dummy entry, make it hidden
                         if (position == 0) {
@@ -820,8 +971,7 @@ public class StatusReport extends AbstractActivity {
                             tv.setHeight(0);
                             tv.setVisibility(View.GONE);
                             v = tv;
-                        }
-                        else {
+                        } else {
                             // Pass convertView as null to prevent reuse of special case views
                             v = super.getDropDownView(position, null, parent);
                         }
@@ -929,8 +1079,7 @@ public class StatusReport extends AbstractActivity {
 
                 ArrayAdapter<String> adapterMaster = new ArrayAdapter<String>(mContext, android.R.layout.simple_spinner_item, strResultArray) {
                     @Override
-                    public View getDropDownView(int position, View convertView, ViewGroup parent)
-                    {
+                    public View getDropDownView(int position, View convertView, ViewGroup parent) {
                         View v = null;
                         // If this is the initial dummy entry, make it hidden
                         if (position == 0) {
@@ -980,7 +1129,7 @@ public class StatusReport extends AbstractActivity {
             try {
                 SOAPWebService webService = new SOAPWebService(mContext);
 
-                object = webService.StatusReport(emp,rm);
+                object = webService.StatusReport(emp, rm);
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -1136,7 +1285,7 @@ public class StatusReport extends AbstractActivity {
 
                 }
                 if (getStatusReportModelList != null && getStatusReportModelList.size() > 0) {
-                    statusReportAdapter = new StatusReportAdapter(mContext,getStatusReportModelList);
+                    statusReportAdapter = new StatusReportAdapter(mContext, getStatusReportModelList);
                     lvStatusReport.setAdapter(statusReportAdapter);
                     setListViewHeightBasedOnItems(lvStatusReport);
                     statusReportAdapter.notifyDataSetChanged();
@@ -1287,7 +1436,7 @@ public class StatusReport extends AbstractActivity {
             }
 
             if (attendanceReportModelList != null && attendanceReportModelList.size() > 0) {
-                attendanceReportAdapter = new AttendanceReportAdapter(mContext,attendanceReportModelList);
+                attendanceReportAdapter = new AttendanceReportAdapter(mContext, attendanceReportModelList);
                 lvAttendanceReport.setAdapter(attendanceReportAdapter);
                 setListViewHeightBasedOnItems(lvAttendanceReport);
                 attendanceReportAdapter.notifyDataSetChanged();

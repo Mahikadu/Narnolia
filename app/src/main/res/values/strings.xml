@@ -26,8 +26,9 @@
     <string name="header_text_create_lead">Create Lead</string>
     <string name="header_text_update_lead">Update Lead</string>
     <string name="Header_text_Notification">Notification</string>
-    <string name="status_report">Status Report</string>
-    <string name="attendence_report">Attedence Report</string>
+    <string name="status_report">Status Reports</string>
+    <string name="attendence_report">Attedence Reports</string>
+    <string name="attendance">Attendance</string>
 
     <!--//lead details-->
     <string name="Sourceoflead">Source of Lead</string>

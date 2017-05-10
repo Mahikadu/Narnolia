@@ -160,13 +160,14 @@
 
         </LinearLayout>
 
+
         <LinearLayout
             android:id="@+id/centerlayout"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="0.4"
             android:orientation="horizontal"
-            android:weightSum="1.2">
+            android:weightSum="1">
 
             <!--       <LinearLayout
                        android:id="@+id/linear_master"
@@ -222,7 +223,8 @@
                 android:id="@+id/linear_mis_reports"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.4"
+                android:layout_marginLeft="50dp"
+                android:layout_weight="0.5"
                 android:gravity="center"
                 android:orientation="vertical">
 
@@ -242,27 +244,14 @@
                     android:textColor="@color/colorRed" />
 
             </LinearLayout>
-            <LinearLayout
-                android:id="@+id/linear_attendence"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.4"
-                android:gravity="center"
-                android:orientation="vertical">
-                <ImageView
-                    android:id="@+id/attendence"
-                    android:paddingTop="@dimen/size_5"
-                    android:layout_width="100dp"
-                    android:layout_height="108dp"
-                    android:layout_gravity="center"
-                    android:src="@drawable/attendence" />
-            </LinearLayout>
+
 
             <LinearLayout
                 android:id="@+id/linear_notification"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.4"
+                android:layout_marginRight="50dp"
+                android:layout_weight="0.5"
                 android:gravity="center"
                 android:orientation="vertical">
 

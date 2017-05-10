@@ -2872,6 +2872,7 @@ public class UpdateLeadActivity extends AbstractActivity implements CompoundButt
               String city=capitalizer(clientDetailsModel.getCity());
 
                 editCity.setText(city);
+
                 editCity.setEnabled(false);
                 autoPincode.setText(clientDetailsModel.getPinCode());
                 autoPincode.setEnabled(false);
@@ -2879,7 +2880,32 @@ public class UpdateLeadActivity extends AbstractActivity implements CompoundButt
                 // mobileno.setEnabled(false);
                 //  date_of_birth.setText(clientDetailsModel.getBirthDate());
                 // date_of_birth.setEnabled(false);
+                String where = " where district = '" + city + "'";
+                String distCol = "pincode";
+                Cursor cursor = null;
+                cursor = Narnolia.dbCon.fetchFromSelectDistinct(distCol, DbHelper.TABLE_M_PINCODE_TABLE, where);
+                String pincode = "";
+                pincodeListArray = new ArrayList<>();
+                if (cursor != null && cursor.getCount() > 0) {
+                    cursor.moveToFirst();
+                    do {
+                        pincode = cursor.getString(cursor.getColumnIndex(getString(R.string.column_m_pin_pincode)));
+                        pincodeListArray.add(pincode);
+                    } while (cursor.moveToNext());
+                    cursor.close();
+                }  if (pincodeListArray.size() > 0) {
+                    final String[] strPinArr = new String[pincodeListArray.size()];
 
+                    for (int i = 0; i < pincodeListArray.size(); i++) {
+                        strPinArr[i] = pincodeListArray.get(i);
+                    }
+
+                    adapter2 = new ArrayAdapter<String>(mContext, android.R.layout.simple_spinner_dropdown_item, strPinArr);
+                    adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    autoPincode.setAdapter(adapter2);
+
+
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -3403,25 +3429,15 @@ public class UpdateLeadActivity extends AbstractActivity implements CompoundButt
                     if (root.getProperty("city") != null) {
 
                         if (!root.getProperty("city").toString().equalsIgnoreCase("anyType{}")) {
-                            city_1 = root.getProperty("city").toString();
+                            str_city = root.getProperty("city").toString();
 
                         } else {
-                            city_1 = "";
+                            str_city = "";
                         }
                     } else {
-                        city_1 = "";
+                        str_city = "";
                     }
-                    String[] words = city_1.split(" ");
-                    StringBuilder sb = new StringBuilder();
-                    if (words[0].length() > 0) {
-                        sb.append(Character.toUpperCase(words[0].charAt(0)) + words[0].subSequence(1, words[0].length()).toString().toLowerCase());
-                        for (int i1 = 1; i1 < words.length; i1++) {
-                            sb.append(" ");
-                            sb.append(Character.toUpperCase(words[i].charAt(0)) + words[i].subSequence(1, words[i].length()).toString().toLowerCase());
-                        }
 
-                    }
-                    str_city=sb.toString();
                     if (root.getProperty("competitor_name") != null) {
 
                         if (!root.getProperty("competitor_name").toString().equalsIgnoreCase("anyType{}")) {

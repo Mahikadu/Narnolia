@@ -898,7 +898,6 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
             strSubSourceofLead = spinner_sub_source.getSelectedItem().toString();
 
             View focusView = null;
-
             if (spinner_source_of_lead.getSelectedItemPosition() == 0) {
                 Toast.makeText(mContext, "Please select Source of Lead", Toast.LENGTH_SHORT).show();
                 focusView = spinner_source_of_lead;

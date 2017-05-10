@@ -129,12 +129,12 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
 //            linear_setting = (LinearLayout) findViewById(R.id.linear_setting);
             linear_mis_reports = (LinearLayout) findViewById(R.id.linear_mis_reports);
             linear_notification = (LinearLayout) findViewById(R.id.linear_notification);
-            linear_attendence = (LinearLayout) findViewById(R.id.linear_attendence);
+        //    linear_attendence = (LinearLayout) findViewById(R.id.linear_attendence);
 
             linear_dashboard.setOnClickListener(this);
             linear_create_lead.setOnClickListener(this);
             linear_update_lead.setOnClickListener(this);
-            linear_attendence.setOnClickListener(this);
+         //   linear_attendence.setOnClickListener(this);
 //            linear_master.setOnClickListener(this);
 //            linear_setting.setOnClickListener(this);
             linear_mis_reports.setOnClickListener(this);
@@ -221,11 +221,11 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
             case R.id.linear_notification:
                 pushActivity(mContext, NotificationActivity.class, null, true);
                 break;
-            case R.id.linear_attendence:
+           /* case R.id.linear_attendence:
                 Bundle bundle = new Bundle();
                 bundle.putString("from_home", "FromHome");
                 pushActivity(mContext, MyCalendarActivity.class, bundle, true);
-
+*/
         }
 
     }
@@ -416,7 +416,7 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
                     Bundle bundle1 = new Bundle();
                     bundle1.putString("from_status", "FromStatus");
                     pushActivity(mContext, StatusReport.class, bundle1, true);
-                }
+                }else
                 if (selItem.equalsIgnoreCase("Attendance Report")){
                     Bundle bundle2=new Bundle();
                     bundle2.putString("form_Attendence","FromAttendence");
