@@ -151,6 +151,7 @@
                         android:layout_height="wrap_content">
 
                         <EditText
+                            android:id="@+id/from_date"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/layout_margin"
@@ -164,6 +165,7 @@
                             android:textColor="@android:color/black" />
 
                         <EditText
+                            android:id="@+id/to_date"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/layout_margin"
@@ -336,7 +338,7 @@
                         android:clickable="false"
                         android:drawablePadding="@dimen/view_padding" />
                 </LinearLayout>
-
+            </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -350,9 +352,10 @@
                         android:layout_margin="@dimen/size_10"
                         android:background="@color/colorRed"
                         android:text="@string/searchBtn"
+                        android:visibility="gone"
                         android:textColor="@color/colorWhite" />
                 </LinearLayout>
-            </LinearLayout>
+
 
             <LinearLayout
                 android:id="@+id/status_table"

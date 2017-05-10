@@ -268,7 +268,7 @@ public class LoginActivity extends AbstractActivity {
                                         List<Address> addresses = geo.getFromLocation(latitude, longitude, 1);
                                         if (addresses.isEmpty()) {
                                         if (lat.equals("0.0")&&lang.equals("0.0"))
-                                            Toast.makeText(mContext, "Please Wait, Waiting for location", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(mContext, "Waiting for location", Toast.LENGTH_SHORT).show();
 
                                         } else {
                                             if (addresses.size() > 0) {

@@ -7,11 +7,13 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
@@ -34,7 +36,12 @@ import com.narnolia.app.network.SOAPWebService;
 import org.ksoap2.serialization.SoapObject;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
 
@@ -43,12 +50,13 @@ import static com.narnolia.app.adapter.StatusReportAdapter.subStatusReportModelL
 public class StatusReport extends AbstractActivity {
 
     private Context mContext;
-    private Spinner spinNation, spinZone, spinRegion, spinCluster, spinLocation, spinEmployee, spinSearchBy;
+    private Spinner spinNation, spinZone, spinRegion, spinCluster, spinLocation, spinEmployee, spinSearchBy, spinYear, spinMonth;
     private ProgressDialog progressDialog;
-    private String empcode, attendanceVal, searchByVal;
+    EditText from_date, to_date;
+    private String empcode, attendanceVal, searchByVal,to_date_Val,from_date_Val;
     private SharedPref sharedPref;
     private String param, nation, zone, region, cluster, location, employee, emp_id;
-    public static String nationVal, zoneVal, regionVal, clusterVal, locationVal;
+    public static String nationVal, zoneVal, regionVal, clusterVal, locationVal, monthVal, yearVal;
     private String responseId;
     String fromHomeKey, fromHomeKey1;
     private List<String> result, empList;
@@ -66,6 +74,8 @@ public class StatusReport extends AbstractActivity {
     public LoginDetailsModel loginDetailsModel;
     private ListView lvStatusReport, lvAttendanceReport;
     private ListView lvSubStatusReport;
+    String spinMonthList[] = {"select Month", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"};// {"select Month", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
+    String spinYearList[] = {"select Year", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025", "2026", "2027"};
     LinearLayout linear_sub_status1, layout_status_table, to_date_from_date;
     Button btn_search;
     String spinSearchByList[] = {"--select--", "Location", "Date"};
@@ -106,6 +116,10 @@ public class StatusReport extends AbstractActivity {
         rg_attendence = (RadioGroup) findViewById(R.id.rg_attendence);
         rb_present = (RadioButton) findViewById(R.id.rb_present);
         rb_absent = (RadioButton) findViewById(R.id.rb_absent);
+        spinYear = (Spinner) findViewById(R.id.year);
+        spinMonth = (Spinner) findViewById(R.id.month);
+        from_date = (EditText) findViewById(R.id.from_date);
+        to_date = (EditText) findViewById(R.id.to_date);
 
         ArrayAdapter<String> adapterSerchBy = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, spinSearchByList) {
             @Override
@@ -154,6 +168,7 @@ public class StatusReport extends AbstractActivity {
                 date_wise_report.setVisibility(View.GONE);
                 to_date_from_date.setVisibility(View.GONE);
                 main_menu.setVisibility(View.VISIBLE);
+                btn_search.setVisibility(View.VISIBLE);
             }
         } else if (fromHomeKey1 != null) {
             if (fromHomeKey1.equals("FromAttendence")) {
@@ -170,9 +185,13 @@ public class StatusReport extends AbstractActivity {
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
                 if (spinSearchBy.getSelectedItem().equals("Location") && rg_attendence.getCheckedRadioButtonId() != -1) {
                     main_menu.setVisibility(View.VISIBLE);
+                    btn_search.setVisibility(View.VISIBLE);
+                    date_wise_report.setVisibility(View.GONE);
                 }
-                if (spinSearchBy.getSelectedItem().equals("Date")){
-                    Toast.makeText(mContext, "Work in progress", Toast.LENGTH_SHORT).show();
+                if (spinSearchBy.getSelectedItem().equals("Date")) {
+                    date_wise_report.setVisibility(View.VISIBLE);
+                    main_menu.setVisibility(View.GONE);
+                    btn_search.setVisibility(View.GONE);
                 }
             }
 
@@ -182,6 +201,100 @@ public class StatusReport extends AbstractActivity {
             }
         });
 
+        ArrayAdapter<String> adapterYear = new ArrayAdapter<String>(mContext, android.R.layout.simple_spinner_item, spinYearList) {
+            @Override
+            public View getDropDownView(int position, View convertView, ViewGroup parent) {
+                View v = null;
+                // If this is the initial dummy entry, make it hidden
+                if (position == 0) {
+                    TextView tv = new TextView(getContext());
+                    tv.setHeight(0);
+                    tv.setVisibility(View.GONE);
+                    v = tv;
+                } else {
+                    // Pass convertView as null to prevent reuse of special case views
+                    v = super.getDropDownView(position, null, parent);
+                }
+                // Hide scroll bar because it appears sometimes unnecessarily, this does not prevent scrolling
+                parent.setVerticalScrollBarEnabled(false);
+                return v;
+            }
+        };
+        adapterYear.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinYear.setAdapter(adapterYear);
+        ArrayAdapter<String> adapterMonth = new ArrayAdapter<String>(mContext, android.R.layout.simple_spinner_item, spinMonthList) {
+            @Override
+            public View getDropDownView(int position, View convertView, ViewGroup parent) {
+                View v = null;
+                // If this is the initial dummy entry, make it hidden
+                if (position == 0) {
+                    TextView tv = new TextView(getContext());
+                    tv.setHeight(0);
+                    tv.setVisibility(View.GONE);
+                    v = tv;
+                } else {
+                    // Pass convertView as null to prevent reuse of special case views
+                    v = super.getDropDownView(position, null, parent);
+                }
+                // Hide scroll bar because it appears sometimes unnecessarily, this does not prevent scrolling
+                parent.setVerticalScrollBarEnabled(false);
+                return v;
+            }
+        };
+
+        adapterMonth.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinMonth.setAdapter(adapterMonth);
+
+        spinMonth.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                monthVal = spinMonth.getSelectedItem().toString();
+                yearVal = spinYear.getSelectedItem().toString();
+                int month1, year1;
+
+                if (spinYear.getSelectedItemPosition() != 0 && spinMonth.getSelectedItemPosition() != 0) {
+                    month1 = Integer.parseInt(monthVal);
+                    year1 = Integer.parseInt(yearVal);
+                    final java.util.Date calculatedDate = calculateMonthEndDate(month1, year1);
+                    SimpleDateFormat format = new SimpleDateFormat("MM-dd-yyyy");
+                    String lastDate = format.format(calculatedDate);
+                    to_date_from_date.setVisibility(View.VISIBLE);
+                    from_date.setText("0" + month1 + "-01-" + year1);
+                    to_date.setText(lastDate);
+                    btn_search.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        spinYear.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                monthVal = spinMonth.getSelectedItem().toString();
+                yearVal = spinYear.getSelectedItem().toString();
+                int month1, year1;
+
+                if (spinYear.getSelectedItemPosition() != 0 && spinMonth.getSelectedItemPosition() != 0) {
+                    month1 = Integer.parseInt(monthVal);
+                    year1 = Integer.parseInt(yearVal);
+                    final java.util.Date calculatedDate = calculateMonthEndDate(month1, year1);
+                    SimpleDateFormat format = new SimpleDateFormat("MM-dd-yyyy");
+                    String lastDate = format.format(calculatedDate);
+                    to_date_from_date.setVisibility(View.VISIBLE);
+                    from_date.setText("0" + month1 + "-01-" + year1);
+                    to_date.setText(lastDate);
+                    btn_search.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
         new GetGeoHierarchyNation().execute();
 
         spinNation.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -218,6 +331,7 @@ public class StatusReport extends AbstractActivity {
                             searchByVal = spinSearchBy.getSelectedItem().toString();
                             if (searchByVal.equals("Location"))
                                 main_menu.setVisibility(View.VISIBLE);
+                            btn_search.setVisibility(View.VISIBLE);
                         }
 
                     }
@@ -378,69 +492,126 @@ public class StatusReport extends AbstractActivity {
                         // find the radiobutton by returned id
                         radioButton = (RadioButton) findViewById(selectedId);
                         attendanceVal = radioButton.getText().toString();
+                        if (spinSearchBy.getSelectedItem().equals("Location")) {
 
-                        searchByVal = spinSearchBy.getSelectedItem().toString();
-                        if (rg_attendence.getCheckedRadioButtonId() == -1) {
-                            Toast.makeText(mContext, "Please Select the Present or Absent", Toast.LENGTH_SHORT).show();
-                            focusView = rg_attendence;
-                            focusView.requestFocus();
-                            return;
-                        } else if (spinSearchBy.getSelectedItemPosition() == 0) {
-                            Toast.makeText(mContext, "Please select Search By", Toast.LENGTH_SHORT).show();
-                            focusView = spinSearchBy;
-                            focusView.requestFocus();
-                            spinSearchBy.setFocusable(true);
-                            spinSearchBy.requestFocusFromTouch();
-                            return;
-                        } else if (spinNation.getSelectedItemPosition() == 0) {
-                            Toast.makeText(mContext, "Please select Nation", Toast.LENGTH_SHORT).show();
-                            focusView = spinNation;
-                            focusView.requestFocus();
-                            spinNation.setFocusable(true);
-                            spinNation.requestFocusFromTouch();
-                            return;
-                        } else if (spinZone.getSelectedItemPosition() == 0) {
-                            Toast.makeText(mContext, "Please select Zone", Toast.LENGTH_SHORT).show();
-                            focusView = spinZone;
-                            focusView.requestFocus();
-                            spinZone.setFocusable(true);
-                            spinZone.requestFocusFromTouch();
-                            return;
-                        } else if (spinRegion.getSelectedItemPosition() == 0) {
-                            Toast.makeText(mContext, "Please select Region", Toast.LENGTH_SHORT).show();
-                            focusView = spinRegion;
-                            focusView.requestFocus();
-                            spinRegion.setFocusable(true);
-                            spinRegion.requestFocusFromTouch();
-                            return;
-                        } else if (spinCluster.getSelectedItemPosition() == 0) {
-                            Toast.makeText(mContext, "Please select Cluster", Toast.LENGTH_SHORT).show();
-                            focusView = spinCluster;
-                            focusView.requestFocus();
-                            spinCluster.setFocusable(true);
-                            spinCluster.requestFocusFromTouch();
-                            return;
-                        } else if (spinLocation.getSelectedItemPosition() == 0) {
-                            Toast.makeText(mContext, "Please select Location", Toast.LENGTH_SHORT).show();
-                            focusView = spinLocation;
-                            focusView.requestFocus();
-                            spinLocation.setFocusable(true);
-                            spinLocation.requestFocusFromTouch();
-                            return;
-                        } else if (spinEmployee.getSelectedItemPosition() == 0) {
-                            Toast.makeText(mContext, "Please select Employee", Toast.LENGTH_SHORT).show();
-                            focusView = spinEmployee;
-                            focusView.requestFocus();
-                            spinEmployee.setFocusable(true);
-                            spinEmployee.requestFocusFromTouch();
-                            return;
-                        } else {
-                            attendence_table.setVisibility(View.VISIBLE);
-                            new GetAttendanceReport().execute();
+                            searchByVal = spinSearchBy.getSelectedItem().toString();
+                            if (rg_attendence.getCheckedRadioButtonId() == -1) {
+                                Toast.makeText(mContext, "Please Select the Present or Absent", Toast.LENGTH_SHORT).show();
+                                focusView = rg_attendence;
+                                focusView.requestFocus();
+                                return;
+                            } else if (spinSearchBy.getSelectedItemPosition() == 0) {
+                                Toast.makeText(mContext, "Please select Search By", Toast.LENGTH_SHORT).show();
+                                focusView = spinSearchBy;
+                                focusView.requestFocus();
+                                spinSearchBy.setFocusable(true);
+                                spinSearchBy.requestFocusFromTouch();
+                                return;
+                            } else if (spinNation.getSelectedItemPosition() == 0) {
+                                Toast.makeText(mContext, "Please select Nation", Toast.LENGTH_SHORT).show();
+                                focusView = spinNation;
+                                focusView.requestFocus();
+                                spinNation.setFocusable(true);
+                                spinNation.requestFocusFromTouch();
+                                return;
+                            } else if (spinZone.getSelectedItemPosition() == 0) {
+                                Toast.makeText(mContext, "Please select Zone", Toast.LENGTH_SHORT).show();
+                                focusView = spinZone;
+                                focusView.requestFocus();
+                                spinZone.setFocusable(true);
+                                spinZone.requestFocusFromTouch();
+                                return;
+                            } else if (spinRegion.getSelectedItemPosition() == 0) {
+                                Toast.makeText(mContext, "Please select Region", Toast.LENGTH_SHORT).show();
+                                focusView = spinRegion;
+                                focusView.requestFocus();
+                                spinRegion.setFocusable(true);
+                                spinRegion.requestFocusFromTouch();
+                                return;
+                            } else if (spinCluster.getSelectedItemPosition() == 0) {
+                                Toast.makeText(mContext, "Please select Cluster", Toast.LENGTH_SHORT).show();
+                                focusView = spinCluster;
+                                focusView.requestFocus();
+                                spinCluster.setFocusable(true);
+                                spinCluster.requestFocusFromTouch();
+                                return;
+                            } else if (spinLocation.getSelectedItemPosition() == 0) {
+                                Toast.makeText(mContext, "Please select Location", Toast.LENGTH_SHORT).show();
+                                focusView = spinLocation;
+                                focusView.requestFocus();
+                                spinLocation.setFocusable(true);
+                                spinLocation.requestFocusFromTouch();
+                                return;
+                            } else if (spinEmployee.getSelectedItemPosition() == 0) {
+                                Toast.makeText(mContext, "Please select Employee", Toast.LENGTH_SHORT).show();
+                                focusView = spinEmployee;
+                                focusView.requestFocus();
+                                spinEmployee.setFocusable(true);
+                                spinEmployee.requestFocusFromTouch();
+                                return;
+                            } else {
+                                attendence_table.setVisibility(View.VISIBLE);
+                                new GetAttendanceReport().execute();
+                            }
+                        } else if (spinSearchBy.getSelectedItem().equals("Date")) {
+                            to_date.setError(null);
+                            String to_date1 =to_date.getText().toString();
+                            DateFormat inputDF = new SimpleDateFormat("MM-dd-yyyy");
+                            DateFormat outputDF = new SimpleDateFormat("yyyy-MM-dd");
+                            Date date = null;
+                            try {
+                                date = inputDF.parse(to_date1);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            to_date_Val = outputDF.format(date);
+                            String from_date1 =from_date.getText().toString();
+                            DateFormat inputDF1 = new SimpleDateFormat("MM-dd-yyyy");
+                            DateFormat outputDF1 = new SimpleDateFormat("yyyy-MM-dd");
+                            Date date1 = null;
+                            try {
+                                date1 = inputDF1.parse(from_date1);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            from_date_Val=outputDF1.format(date1);
+                            if (rg_attendence.getCheckedRadioButtonId() == -1) {
+                                Toast.makeText(mContext, "Please Select the Present or Absent", Toast.LENGTH_SHORT).show();
+                                focusView = rg_attendence;
+                                focusView.requestFocus();
+                                return;
+                            } else if (spinMonth.getSelectedItemPosition() == 0) {
+                                Toast.makeText(mContext, "Please select Month", Toast.LENGTH_SHORT).show();
+                                focusView = spinMonth;
+                                focusView.requestFocus();
+                                spinMonth.setFocusable(true);
+                                spinMonth.requestFocusFromTouch();
+                                return;
+                            } else if (spinYear.getSelectedItemPosition() == 0) {
+                                Toast.makeText(mContext, "Please select Year", Toast.LENGTH_SHORT).show();
+                                focusView = spinYear;
+                                focusView.requestFocus();
+                                spinYear.setFocusable(true);
+                                spinYear.requestFocusFromTouch();
+                                return;
+                            }else if (TextUtils.isEmpty(to_date.getText().toString())){
+                                to_date.setError("Please Select month and year");
+                                focusView = to_date;
+                                focusView.requestFocus();
+                                return;
+                            }else if (TextUtils.isEmpty(from_date.getText().toString())){
+                                from_date.setError("Please Select month and year");
+                                focusView = from_date;
+                                focusView.requestFocus();
+                                return;
+                            }else {
+                                attendence_table.setVisibility(View.VISIBLE);
+                                new GetAttendanceReport().execute();
+                            }
+
                         }
                     }
                 }
-
             }
         });
     }
@@ -898,6 +1069,20 @@ public class StatusReport extends AbstractActivity {
         }
     }
 
+    //..........For Gettting last date of Month.........
+    public static java.util.Date calculateMonthEndDate(int month, int year) {
+        int[] daysInAMonth = {29, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+        int day = daysInAMonth[month];
+        boolean isLeapYear = new GregorianCalendar().isLeapYear(year);
+
+        if (isLeapYear && month == 2) {
+            day++;
+        }
+        GregorianCalendar gc = new GregorianCalendar(year, month - 1, day);
+        java.util.Date monthEndDate = new java.util.Date(gc.getTime().getTime());
+        return monthEndDate;
+    }
+
     public class GetGeoHierarchyLocation extends AsyncTask<Void, Void, SoapObject> {
 
         @Override
@@ -1319,9 +1504,16 @@ public class StatusReport extends AbstractActivity {
             SoapObject object = null;
             try {
                 SOAPWebService webService = new SOAPWebService(mContext);
+                if (!searchByVal.equals("")){
+                    if (searchByVal.equals("Location")){
+                        object = webService.AttendanceReport("", "", attendanceVal, empcode, rm, searchByVal, nationVal,
+                                zoneVal, regionVal, locationVal, clusterVal);
+                    }else if (searchByVal.equals("Date")){
+                        object = webService.AttendanceReport(from_date_Val,to_date_Val, attendanceVal, empcode, rm, searchByVal, "",
+                                "", "", "", "");
+                    }
+                }
 
-                object = webService.AttendanceReport("", "", attendanceVal, empcode, rm, searchByVal, nationVal,
-                        zoneVal, regionVal, locationVal, clusterVal);
 
             } catch (Exception e) {
                 e.printStackTrace();
