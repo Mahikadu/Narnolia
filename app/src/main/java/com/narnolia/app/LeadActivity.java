@@ -177,6 +177,9 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
             mContext = LeadActivity.this;
             utils = new Utils(mContext);
             progressDialog = new ProgressDialog(mContext);
+            //   progressDialog.setTitle("Login Status");
+            progressDialog.setMessage("Please Wait...");
+            progressDialog.setCancelable(false);
 
             admin = (TextView) findViewById(R.id.admin);
             String Capempcode = empcode.substring(0, 1).toUpperCase() + empcode.substring(1);
@@ -1604,9 +1607,9 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
         protected void onPreExecute() {
             super.onPreExecute();
             try {
-               /* if (progressDialog != null && !progressDialog.isShowing()) {
+                if (progressDialog != null && !progressDialog.isShowing()) {
                     progressDialog.show();
-                }*/
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }

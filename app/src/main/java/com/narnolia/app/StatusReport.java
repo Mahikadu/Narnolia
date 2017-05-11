@@ -106,6 +106,9 @@ public class StatusReport extends AbstractActivity {
         rm = sharedPref.getIsRM();
         result = new ArrayList<>();
         progressDialog = new ProgressDialog(mContext);
+        //   progressDialog.setTitle("Login Status");
+        progressDialog.setMessage("Please Wait...");
+        progressDialog.setCancelable(false);
         spinNation = (Spinner) findViewById(R.id.spin_nation);
         spinZone = (Spinner) findViewById(R.id.spin_zone);
         spinRegion = (Spinner) findViewById(R.id.spin_region);

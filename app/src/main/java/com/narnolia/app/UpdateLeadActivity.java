@@ -230,6 +230,10 @@ public class UpdateLeadActivity extends AbstractActivity implements CompoundButt
         try {
             mContext = UpdateLeadActivity.this;
             utils = new Utils(mContext);
+            progressDialog = new ProgressDialog(mContext);
+            //   progressDialog.setTitle("Login Status");
+            progressDialog.setMessage("Please Wait...");
+            progressDialog.setCancelable(false);
             admin = (TextView) findViewById(R.id.admin);
             String Capempcode = empcode.substring(0, 1).toUpperCase() + empcode.substring(1);
             admin.setText(Capempcode);
@@ -3243,6 +3247,9 @@ public class UpdateLeadActivity extends AbstractActivity implements CompoundButt
         protected void onPostExecute(SoapObject soapObject) {
             super.onPostExecute(soapObject);
             try {
+                if (progressDialog != null && progressDialog.isShowing()) {
+                    progressDialog.dismiss();
+                }
                 responseId = String.valueOf(soapObject);
             } catch (Exception e) {
                 e.printStackTrace();

@@ -50,7 +50,7 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
     private SharedPref sharedPref;
     private TextView admin;
     private ProgressDialog progressDialog;
-    private String responseId;
+    private String responseId, home_key, home_key1;
 
     LeadInfoModel leadInfoModel;
     ClientDetailsModel clientDetailsModel;
@@ -80,6 +80,10 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
         sharedPref = new SharedPref(HomeActivity.this);
         empcode = sharedPref.getLoginId();
         progressDialog = new ProgressDialog(HomeActivity.this);
+        //   progressDialog.setTitle("Login Status");
+        progressDialog.setMessage("Please Wait...");
+        progressDialog.setCancelable(false);
+
 
         new GetLead().execute();
         initView();
@@ -129,12 +133,12 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
 //            linear_setting = (LinearLayout) findViewById(R.id.linear_setting);
             linear_mis_reports = (LinearLayout) findViewById(R.id.linear_mis_reports);
             linear_notification = (LinearLayout) findViewById(R.id.linear_notification);
-        //    linear_attendence = (LinearLayout) findViewById(R.id.linear_attendence);
+            //    linear_attendence = (LinearLayout) findViewById(R.id.linear_attendence);
 
             linear_dashboard.setOnClickListener(this);
             linear_create_lead.setOnClickListener(this);
             linear_update_lead.setOnClickListener(this);
-         //   linear_attendence.setOnClickListener(this);
+            //   linear_attendence.setOnClickListener(this);
 //            linear_master.setOnClickListener(this);
 //            linear_setting.setOnClickListener(this);
             linear_mis_reports.setOnClickListener(this);
@@ -416,10 +420,9 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
                     Bundle bundle1 = new Bundle();
                     bundle1.putString("from_status", "FromStatus");
                     pushActivity(mContext, StatusReport.class, bundle1, true);
-                }else
-                if (selItem.equalsIgnoreCase("Attendance Report")){
-                    Bundle bundle2=new Bundle();
-                    bundle2.putString("form_Attendence","FromAttendence");
+                } else if (selItem.equalsIgnoreCase("Attendance Report")) {
+                    Bundle bundle2 = new Bundle();
+                    bundle2.putString("form_Attendence", "FromAttendence");
                     pushActivity(mContext, StatusReport.class, bundle2, true);
                 }
             }
@@ -466,6 +469,10 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
         protected void onPostExecute(SoapObject soapObject) {
             super.onPostExecute(soapObject);
             try {
+                if (progressDialog != null && progressDialog.isShowing()) {
+                    progressDialog.dismiss();
+                }
+
                 responseId = String.valueOf(soapObject);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -776,8 +783,20 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
+                if (getIntent() != null) {
+                    home_key = getIntent().getStringExtra("from_log");
+                    home_key1 = getIntent().getStringExtra("from_cal");
+                    if (home_key != null) {
+                        if (home_key.equals("FromLog")) {
+                            new Get_ALL_Client().execute();
+                        } else if (home_key1 != null) {
+                            if (home_key1.equals("FromCal")) {
+                                new Get_ALL_Client().execute();
+                            }
+                        }
+                    }
+                }
 
-                new Get_ALL_Client().execute();
             }
         }
     }
@@ -817,6 +836,9 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
         protected void onPostExecute(SoapObject soapObject) {
             super.onPostExecute(soapObject);
             try {
+                if (progressDialog != null && progressDialog.isShowing()) {
+                    progressDialog.dismiss();
+                }
                 responseId = String.valueOf(soapObject);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -1146,11 +1168,6 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
                 }
             } catch (Exception e) {
                 e.printStackTrace();
-            } finally {
-                if (progressDialog != null) {
-                    progressDialog.dismiss();
-                }
-
             }
         }
     }

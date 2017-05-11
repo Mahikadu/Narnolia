@@ -54,6 +54,9 @@ public class NotificationActivity extends AbstractActivity{
         empcode = sharedPref.getLoginId();
 
         progressDialog = new ProgressDialog(mContext);
+        //   progressDialog.setTitle("Login Status");
+        progressDialog.setMessage("Please Wait...");
+        progressDialog.setCancelable(false);
         getMessagesModelList = new ArrayList<>();
         setHeader();
 

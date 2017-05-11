@@ -97,6 +97,9 @@ public class MyCalendarActivity extends AbstractActivity implements OnClickListe
         mContext = MyCalendarActivity.this;
         progressDialog = new ProgressDialog(mContext);
         pref = new SharedPref(mContext);
+        //   progressDialog.setTitle("Login Status");
+        progressDialog.setMessage("Please Wait...");
+        progressDialog.setCancelable(false);
         sharedPref = new SharedPref(mContext);
         empcode = sharedPref.getLoginId();
         attendenceReportModelList = new ArrayList<>();
@@ -1156,7 +1159,9 @@ public class MyCalendarActivity extends AbstractActivity implements OnClickListe
                    /* pushActivity(LoginActivity.this, HomeActivity.class, null, true);*/
                     if (strAttendance.equals("Present")) {
                         insertDataInDb(strAttendance);
-                        pushActivity(MyCalendarActivity.this, HomeActivity.class, null, true);
+                        Bundle bundle1 = new Bundle();
+                        bundle1.putString("from_cal", "FromCal"); ///bundle1.putString("key", "value");
+                        pushActivity(MyCalendarActivity.this, HomeActivity.class, bundle1, true);
                         pref.setSharedPrefLoginWithPass(pref.getLoginId(), pref.getUserPass(), pref.getStatus(), "App", pref.getVersion_name(), pref.getLat(), pref.getLang(), strAttendance, pref.getCurrentDate(), pref.getKey_Location());
                     }
                 }

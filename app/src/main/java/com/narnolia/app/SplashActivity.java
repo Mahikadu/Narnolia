@@ -51,6 +51,10 @@ public class SplashActivity extends AbstractActivity implements Runnable {
 
 
             progressDialog = new ProgressDialog(mContext);
+            //   progressDialog.setTitle("Login Status");
+            progressDialog.setMessage("Please Wait...");
+            progressDialog.setCancelable(false);
+
             utils = new Utils(mContext);
 
             DatabaseCopy databaseCopy = new DatabaseCopy();

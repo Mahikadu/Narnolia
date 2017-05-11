@@ -59,6 +59,9 @@ public class StatusReportAdapter extends BaseAdapter {
     public StatusReportAdapter(Context mContext, List<StatusReportModel> statusReportModels) {
         this.context = mContext;
         progressDialog = new ProgressDialog(mContext);
+        //   progressDialog.setTitle("Login Status");
+        progressDialog.setMessage("Please Wait...");
+        progressDialog.setCancelable(false);
         subStatusReportModelList = new ArrayList<>();
         sharedPref = new SharedPref(mContext);
         this.statusReportModels = statusReportModels;

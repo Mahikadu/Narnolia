@@ -120,6 +120,9 @@ public class LoginActivity extends AbstractActivity {
 
             mContext = LoginActivity.this;
             progressDialog = new ProgressDialog(mContext);
+         //   progressDialog.setTitle("Login Status");
+            progressDialog.setMessage("Please Wait...");
+            progressDialog.setCancelable(false);
             sharedPref = new SharedPref(mContext);
             utils = new Utils(mContext);
             getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
@@ -436,6 +439,7 @@ public class LoginActivity extends AbstractActivity {
             super.onPreExecute();
             try {
                 if (progressDialog != null && !progressDialog.isShowing()) {
+
                     progressDialog.show();
                 }
             } catch (Exception e) {
@@ -674,7 +678,10 @@ public class LoginActivity extends AbstractActivity {
                 e.printStackTrace();
             } finally {
                 if (strUser.equals(user_check) && attendance_check.equals("Present")) {
-                    pushActivity(LoginActivity.this, HomeActivity.class, null, true);
+                    Bundle bundle2 = new Bundle();
+                    bundle2.putString("from_log", "FromLog"); ///bundle1.putString("key", "value");
+                    pushActivity(LoginActivity.this, HomeActivity.class, bundle2, true);
+
                     sharedPref.setSharedPrefLogin(email, strUser, mobile, result, status, userId, role_id);
                 }else if (strUser.equals(user_check) && attendance_check.equals("Absent")) {
                     Toast.makeText(mContext, "This user is Absent today", Toast.LENGTH_SHORT).show();

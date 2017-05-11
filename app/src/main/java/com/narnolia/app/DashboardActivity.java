@@ -102,6 +102,11 @@ public class DashboardActivity extends AbstractActivity {
 
         mContext = DashboardActivity.this;
         utils = new Utils(mContext);
+        progressDialog = new ProgressDialog(mContext);
+        //   progressDialog.setTitle("Login Status");
+        progressDialog.setMessage("Please Wait...");
+        progressDialog.setCancelable(false);
+
         sharedPref = new SharedPref(mContext);
         empcode = sharedPref.getLoginId();
         String Capempcode = empcode.substring(0, 1).toUpperCase() + empcode.substring(1);
