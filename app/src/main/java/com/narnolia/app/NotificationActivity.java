@@ -37,7 +37,7 @@ public class NotificationActivity extends AbstractActivity {
     private ListView lvNotification;
     public Utils utils;
     private ProgressDialog progressDialog;
-    String empcode;
+    String empcode, role_id;
     private TextView admin;
     private String responseId;
     private SharedPref sharedPref;
@@ -53,15 +53,19 @@ public class NotificationActivity extends AbstractActivity {
         utils = new Utils(mContext);
         sharedPref = new SharedPref(mContext);
         empcode = sharedPref.getLoginId();
-
+        role_id = sharedPref.getIsRM();
         progressDialog = new ProgressDialog(mContext);
         //   progressDialog.setTitle("Login Status");
         progressDialog.setMessage("Please Wait...");
         progressDialog.setCancelable(false);
         getMessagesModelList = new ArrayList<>();
         setHeader();
+        if (isConnectingToInternet()) {
+            new GetMessages().execute();
+        } else {
+            displayMessage(getString(R.string.warning_internet));
+        }
 
-        new GetMessages().execute();
     }
 
     @Override
@@ -127,9 +131,9 @@ public class NotificationActivity extends AbstractActivity {
             SoapObject object = null;
             try {
                 SOAPWebService webService = new SOAPWebService(mContext);
-                String roleid = "2";
+                // String roleid = "2";
                 String Dates = "";
-                object = webService.GetMessages(empcode, roleid, Dates);
+                object = webService.GetMessages(empcode, role_id, Dates);
 
             } catch (Exception e) {
                 e.printStackTrace();

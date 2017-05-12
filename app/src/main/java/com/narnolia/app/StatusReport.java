@@ -324,7 +324,12 @@ public class StatusReport extends AbstractActivity {
 
             }
         });
-        new GetGeoHierarchyNation().execute();
+        if (isConnectingToInternet()) {
+            new GetGeoHierarchyNation().execute();
+
+        } else {
+            displayMessage(getString(R.string.warning_internet));
+        }
 
         spinNation.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -338,7 +343,12 @@ public class StatusReport extends AbstractActivity {
                     regionVal = spinRegion.getSelectedItem().toString();
                     clusterVal = spinCluster.getSelectedItem().toString();
                     locationVal = spinLocation.getSelectedItem().toString();
-                    new GetEmpList().execute();
+                    if (isConnectingToInternet()) {
+                        new GetEmpList().execute();
+                    } else {
+                        displayMessage(getString(R.string.warning_internet));
+                    }
+
                 }
             }
 
@@ -386,7 +396,12 @@ public class StatusReport extends AbstractActivity {
                     regionVal = spinRegion.getSelectedItem().toString();
                     clusterVal = spinCluster.getSelectedItem().toString();
                     locationVal = spinLocation.getSelectedItem().toString();
-                    new GetEmpList().execute();
+                    if (isConnectingToInternet()) {
+                        new GetEmpList().execute();
+                    } else {
+                        displayMessage(getString(R.string.warning_internet));
+                    }
+
                 }
             }
 
@@ -408,7 +423,12 @@ public class StatusReport extends AbstractActivity {
                     regionVal = parent.getSelectedItem().toString();
                     clusterVal = spinCluster.getSelectedItem().toString();
                     locationVal = spinLocation.getSelectedItem().toString();
-                    new GetEmpList().execute();
+                    if (isConnectingToInternet()) {
+                        new GetEmpList().execute();
+                    } else {
+                        displayMessage(getString(R.string.warning_internet));
+                    }
+
                 }
             }
 
@@ -430,7 +450,12 @@ public class StatusReport extends AbstractActivity {
                     regionVal = spinRegion.getSelectedItem().toString();
                     clusterVal = parent.getSelectedItem().toString();
                     locationVal = spinLocation.getSelectedItem().toString();
-                    new GetEmpList().execute();
+                    if (isConnectingToInternet()) {
+                        new GetEmpList().execute();
+                    } else {
+                        displayMessage(getString(R.string.warning_internet));
+                    }
+
                 }
             }
 
@@ -452,7 +477,12 @@ public class StatusReport extends AbstractActivity {
                     regionVal = spinRegion.getSelectedItem().toString();
                     clusterVal = spinCluster.getSelectedItem().toString();
                     locationVal = parent.getSelectedItem().toString();
-                    new GetEmpList().execute();
+                    if (isConnectingToInternet()) {
+                        new GetEmpList().execute();
+                    } else {
+                        displayMessage(getString(R.string.warning_internet));
+                    }
+
                 }
             }
 
@@ -513,14 +543,22 @@ public class StatusReport extends AbstractActivity {
                             return;
                         } else if (spinEmployee.getSelectedItem().toString().equals("All")) {
                             emp = empcode;
+                            if (isConnectingToInternet()) {
+                                new GetStatusReport().execute();
+                            } else {
+                                displayMessage(getString(R.string.warning_internet));
+                            }
 
-                            new GetStatusReport().execute();
                         } else if (!spinEmployee.getSelectedItem().toString().equals("All")) {
                             emp = emp_id;
                             rm = "4";
 
+                            if (isConnectingToInternet()) {
+                                new GetStatusReport().execute();
+                            } else {
+                                displayMessage(getString(R.string.warning_internet));
+                            }
 
-                            new GetStatusReport().execute();
                         }
                     }
                 } else if (fromHomeKey1 != null) {
@@ -591,8 +629,12 @@ public class StatusReport extends AbstractActivity {
                                 return;
                             } else {
 
+                                if (isConnectingToInternet()) {
+                                    new GetAttendanceReport().execute();
+                                } else {
+                                    displayMessage(getString(R.string.warning_internet));
+                                }
 
-                                new GetAttendanceReport().execute();
                             }
                         } else if (spinSearchBy.getSelectedItem().equals("Date")) {
                             to_date.setError(null);
@@ -647,7 +689,12 @@ public class StatusReport extends AbstractActivity {
                                 return;
                             } else {
                                 //  attendence_table.setVisibility(View.VISIBLE);
-                                new GetAttendanceReport().execute();
+                                if (isConnectingToInternet()) {
+                                    new GetAttendanceReport().execute();
+                                } else {
+                                    displayMessage(getString(R.string.warning_internet));
+                                }
+
                             }
 
                         }
@@ -829,7 +876,12 @@ public class StatusReport extends AbstractActivity {
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
-                new GetGeoHierarchyZone().execute();
+                if (isConnectingToInternet()) {
+                    new GetGeoHierarchyZone().execute();
+                } else {
+                    displayMessage(getString(R.string.warning_internet));
+                }
+
             }
 
         }
@@ -920,7 +972,12 @@ public class StatusReport extends AbstractActivity {
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
-                new GetGeoHierarchyRegion().execute();
+                if (isConnectingToInternet()) {
+                    new GetGeoHierarchyRegion().execute();
+                } else {
+                    displayMessage(getString(R.string.warning_internet));
+                }
+
             }
 
         }
@@ -1012,7 +1069,12 @@ public class StatusReport extends AbstractActivity {
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
-                new GetGeoHierarchyCluster().execute();
+                if (isConnectingToInternet()) {
+                    new GetGeoHierarchyCluster().execute();
+                } else {
+                    displayMessage(getString(R.string.warning_internet));
+                }
+
             }
 
         }
@@ -1104,7 +1166,12 @@ public class StatusReport extends AbstractActivity {
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
-                new GetGeoHierarchyLocation().execute();
+                if (isConnectingToInternet()) {
+                    new GetGeoHierarchyLocation().execute();
+                } else {
+                    displayMessage(getString(R.string.warning_internet));
+                }
+
             }
 
         }

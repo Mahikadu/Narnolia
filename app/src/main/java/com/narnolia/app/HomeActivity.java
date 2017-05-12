@@ -85,9 +85,13 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
         //   progressDialog.setTitle("Login Status");
         progressDialog.setMessage("Please Wait...");
         progressDialog.setCancelable(false);
+        if (isConnectingToInternet()) {
+            new GetLead().execute();
+        } else {
+            displayMessage(getString(R.string.warning_internet));
+        }
 
 
-        new GetLead().execute();
         initView();
         try {
             //Create alarm manager
@@ -202,7 +206,6 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
         switch (id) {
             case R.id.linear_dashboard:
                 v.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.image_click));
-
                 pushActivity(mContext, DashboardActivity.class, null, true);
                 break;
             case R.id.linear_create_lead:
@@ -232,7 +235,6 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
             case R.id.linear_notification:
                 v.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.image_click));
                 pushActivity(mContext, NotificationActivity.class, null, true);
-                break;
            /* case R.id.linear_attendence:
                 Bundle bundle = new Bundle();
                 bundle.putString("from_home", "FromHome");
@@ -796,10 +798,19 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
                     home_key1 = getIntent().getStringExtra("from_cal");
                     if (home_key != null) {
                         if (home_key.equals("FromLog")) {
-                            new Get_ALL_Client().execute();
+                            if (isConnectingToInternet()) {
+                                new Get_ALL_Client().execute();
+                            } else {
+                                displayMessage(getString(R.string.warning_internet));
+                            }
+
                         } else if (home_key1 != null) {
                             if (home_key1.equals("FromCal")) {
-                                new Get_ALL_Client().execute();
+                                if (isConnectingToInternet()) {
+                                    new Get_ALL_Client().execute();
+                                } else {
+                                    displayMessage(getString(R.string.warning_internet));
+                                }
                             }
                         }
                     }

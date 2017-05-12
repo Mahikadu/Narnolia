@@ -1683,7 +1683,12 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
                 e.printStackTrace();
             } finally {
                 updateOrInsertInDb();
-                new SaveCategory().execute();
+                if (isConnectingToInternet()) {
+                    new SaveCategory().execute();
+                } else {
+                    displayMessage(getString(R.string.warning_internet));
+                }
+
             }
 
         }

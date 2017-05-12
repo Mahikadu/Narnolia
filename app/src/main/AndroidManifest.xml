@@ -59,9 +59,9 @@
         <activity
             android:name=".NotificationActivity"
             android:screenOrientation="portrait" />
-        <activity
+      <!--  <activity
             android:name=".StatusReportActivity"
-            android:screenOrientation="landscape" />
+            android:screenOrientation="landscape" />-->
 
         <!--
      ATTENTION: This was auto-generated to add Google Play services to your project for

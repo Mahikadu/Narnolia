@@ -318,7 +318,11 @@ public class LoginActivity extends AbstractActivity {
                     } else {
                         t_username.setVisibility(View.GONE);
                         strUser = username.getText().toString().trim();
-                        new FrogotPassword().execute();
+                        if (isConnectingToInternet()) {
+                            new FrogotPassword().execute();
+                        } else {
+                            displayMessage(getString(R.string.warning_internet));
+                        }
                     }
                 }
             });
@@ -686,7 +690,11 @@ public class LoginActivity extends AbstractActivity {
                 } else if (strUser.equals(user_check) && attendance_check.equals("Absent")) {
                     Toast.makeText(mContext, "This user is Absent today", Toast.LENGTH_SHORT).show();
                 } else {
-                    new UserLogin().execute();
+                    if (isConnectingToInternet()) {
+                        new UserLogin().execute();
+                    } else {
+                        displayMessage(getString(R.string.warning_internet));
+                    }
                 }
             }
 

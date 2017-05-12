@@ -2,6 +2,8 @@ package com.narnolia.app.adapter;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +13,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.narnolia.app.AbstractActivity;
 import com.narnolia.app.R;
 import com.narnolia.app.SharedPref;
 import com.narnolia.app.StatusReport;
@@ -54,6 +57,8 @@ public class StatusReportAdapter extends BaseAdapter {
     private List<StatusReportModel> statusReportModels = new ArrayList<>();
     private String leadStatus = "", createdDate = "", responseId = "";
     String meeting_status = "", pos;
+
+    AbstractActivity abstractActivity;
     private String sub_lead_id, sub_name, sub_Mobile_no, sub_city, sub_pincode, sub_last_meeting_date, sub_last_meeting_update, sub_meeting_status;
 
     public StatusReportAdapter(Context mContext, List<StatusReportModel> statusReportModels) {
@@ -65,6 +70,7 @@ public class StatusReportAdapter extends BaseAdapter {
         subStatusReportModelList = new ArrayList<>();
         sharedPref = new SharedPref(mContext);
         this.statusReportModels = statusReportModels;
+        abstractActivity = new AbstractActivity();
         /*Calendar now = Calendar.getInstance();
         // SimpleDateFormat df = new SimpleDateFormat("yyyy-dd-MM HH:mm:ss");
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
@@ -139,7 +145,12 @@ public class StatusReportAdapter extends BaseAdapter {
                     meeting_status = statusReportModels.get(1).getStatus_1();
                 }
                 createdDate = Utils.getSelectedDate(0);
-                new SubStatusReport().execute();
+                if (abstractActivity.isConnectingToInternet()) {
+                    new SubStatusReport().execute();
+                } else {
+                    abstractActivity.displayMessage(context.getString(R.string.warning_internet));
+                }
+
             }
         });
 
@@ -152,7 +163,11 @@ public class StatusReportAdapter extends BaseAdapter {
                     meeting_status = statusReportModels.get(1).getStatus_1();
                 }
                 createdDate = Utils.getSelectedDate(-1);
-                new SubStatusReport().execute();
+                if (abstractActivity.isConnectingToInternet()) {
+                    new SubStatusReport().execute();
+                } else {
+                    abstractActivity.displayMessage(context.getString(R.string.warning_internet));
+                }
             }
         });
 
@@ -165,7 +180,11 @@ public class StatusReportAdapter extends BaseAdapter {
                     meeting_status = statusReportModels.get(1).getStatus_1();
                 }
                 createdDate = Utils.getSelectedDate(-2);
-                new SubStatusReport().execute();
+                if (abstractActivity.isConnectingToInternet()) {
+                    new SubStatusReport().execute();
+                } else {
+                    abstractActivity.displayMessage(context.getString(R.string.warning_internet));
+                }
             }
         });
 
@@ -178,7 +197,11 @@ public class StatusReportAdapter extends BaseAdapter {
                     meeting_status = statusReportModels.get(1).getStatus_1();
                 }
                 createdDate = Utils.getSelectedDate(-3);
-                new SubStatusReport().execute();
+                if (abstractActivity.isConnectingToInternet()) {
+                    new SubStatusReport().execute();
+                } else {
+                    abstractActivity.displayMessage(context.getString(R.string.warning_internet));
+                }
             }
         });
 
@@ -191,7 +214,11 @@ public class StatusReportAdapter extends BaseAdapter {
                     meeting_status = statusReportModels.get(1).getStatus_1();
                 }
                 createdDate = Utils.getSelectedDate(-4);
-                new SubStatusReport().execute();
+                if (abstractActivity.isConnectingToInternet()) {
+                    new SubStatusReport().execute();
+                } else {
+                    abstractActivity.displayMessage(context.getString(R.string.warning_internet));
+                }
             }
         });
 
@@ -204,7 +231,11 @@ public class StatusReportAdapter extends BaseAdapter {
                     meeting_status = statusReportModels.get(1).getStatus_1();
                 }
                 createdDate = Utils.getSelectedDate(-5);
-                new SubStatusReport().execute();
+                if (abstractActivity.isConnectingToInternet()) {
+                    new SubStatusReport().execute();
+                } else {
+                    abstractActivity.displayMessage(context.getString(R.string.warning_internet));
+                }
             }
         });
 
@@ -217,7 +248,11 @@ public class StatusReportAdapter extends BaseAdapter {
                     meeting_status = statusReportModels.get(1).getStatus_1();
                 }
                 createdDate = Utils.getSelectedDate(-6);
-                new SubStatusReport().execute();
+                if (abstractActivity.isConnectingToInternet()) {
+                    new SubStatusReport().execute();
+                } else {
+                    abstractActivity.displayMessage(context.getString(R.string.warning_internet));
+                }
             }
         });
 
@@ -230,7 +265,11 @@ public class StatusReportAdapter extends BaseAdapter {
                     meeting_status = statusReportModels.get(1).getStatus_1();
                 }
                 createdDate = Utils.getSelectedDate(-7);
-                new SubStatusReport().execute();
+                if (abstractActivity.isConnectingToInternet()) {
+                    new SubStatusReport().execute();
+                } else {
+                    abstractActivity.displayMessage(context.getString(R.string.warning_internet));
+                }
             }
         });
         return convertView;

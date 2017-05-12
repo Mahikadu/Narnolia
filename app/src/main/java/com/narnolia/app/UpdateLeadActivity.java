@@ -26,6 +26,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -215,6 +217,7 @@ public class UpdateLeadActivity extends AbstractActivity implements CompoundButt
         selCatId = new ArrayList<>();
         lead__Id = getIntent().getStringExtra("lead__Id");
 
+
         initView();
 
     }
@@ -285,8 +288,12 @@ public class UpdateLeadActivity extends AbstractActivity implements CompoundButt
                     showProductDialog();
                 }
             });*/
+            if (isConnectingToInternet()) {
+                new LoadCityData().execute();//........................................Load city data
+            } else {
+                displayMessage(getString(R.string.warning_internet));
+            }
 
-            new LoadCityData().execute();//........................................Load city data
             //..................edit text validations.......
             fname.addTextChangedListener(new TextWatcher() {
                 @Override
@@ -487,7 +494,12 @@ public class UpdateLeadActivity extends AbstractActivity implements CompoundButt
                             String leadData = spinner_lead_name.getSelectedItem().toString();
                             String[] strLead = leadData.split("\\(");
                             leadId = strLead[1].substring(0, strLead[1].length() - 1);
-                            new FillDetails().execute();
+                            if (isConnectingToInternet()) {
+                                new FillDetails().execute();
+                            } else {
+                                displayMessage(getString(R.string.warning_internet));
+                            }
+
 
                             //  new SaveCategory().execute();
 
@@ -873,96 +885,6 @@ public class UpdateLeadActivity extends AbstractActivity implements CompoundButt
                 }
             });
 
-         /*   editCity.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                    try {
-                        if (spinPincodeArray.containsKey(parent.getItemAtPosition(position))) {
-
-                            autoPincode.setText("");
-                            String city1 = (String) parent.getItemAtPosition(position);
-                            pincodeList.clear();
-                            fetchDataFromDB();
-                            editCity.setError(null);
-
-
-                            String selection = mContext.getString(R.string.column_m_pin_district) + " = ?";
-
-                            // WHERE clause arguments
-                            String[] selectionArgs = {(String) parent.getItemAtPosition(position)};
-                            String pincodeColNames[] = {getString(R.string.column_m_pin_pincode)};
-                            Cursor cursor = Narnolia.dbCon.fetch(DbHelper.TABLE_M_PINCODE_TABLE, pincodeColNames, selection, selectionArgs, getString(R.string.column_m_pin_pincode), null, true, null, null);
-                            String pincode, city;
-
-                            if (cursor != null && cursor.getCount() > 0) {
-                                cursor.moveToFirst();
-                                do {
-                                    pincode = cursor.getString(cursor.getColumnIndex(getString(R.string.column_m_pin_pincode)));
-                                    //
-
-                                    if (city1 != null && !TextUtils.isEmpty(city1)) {
-                                        *//*if (spinPincodeArray.containsKey(city1)) {
-//                                            pincodeList.addAll(spinPincodeArray.get(city1));
-                                            pincodeList.add(pincode);
-                                        } else {
-                                            pincodeList.add(pincode);
-                                            //
-                                        }*//*
-                                        pincodeList.add(pincode);
-                                    }
-                                    if (pincodeList.size() > 0) {
-                                        spinPincodeArray.put(city1, pincodeList);
-                                    }
-
-                                } while (cursor.moveToNext());
-                                cursor.close();
-                                if (pincodeList.size() > 0) {
-                                    strPinArr = new String[pincodeList.size()];
-                                    strPinArr[0] = getString(R.string.select_pincode);
-                                    pincodeList.remove(0);
-
-                                    for (int i = 0; i < pincodeList.size(); i++) {
-                                        strPinArr[i + 1] = pincodeList.get(i);
-                                    }
-
-                                    adapter9 = new ArrayAdapter<String>(mContext, android.R.layout.simple_spinner_dropdown_item, strPinArr);
-                                    adapter9.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                                    autoPincode.setAdapter(adapter9);
-                                    pincodeList.clear();
-
-                                    autoPincode.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-                                        @Override
-                                        public void onFocusChange(View view, boolean hasFocus) {
-                                            if (!hasFocus) {
-                                                String val = autoPincode.getText() + "";
-
-                                                if (Arrays.asList(strPinArr).contains(val)) {
-                                                    System.out.println("CITY CITY CITY");
-                                                } else {
-                                                    autoPincode.setError("Invalid Pincode");
-
-                                                }
-                                            }
-                                        }
-                                    });
-
-                                } else {
-                                    autoPincode.setError(null);
-                                    String[] strPinArr = new String[pincodeList.size()];
-                                    strPinArr[0] = getString(R.string.select_pincode);
-                                    adapter9 = new ArrayAdapter<String>(mContext, android.R.layout.simple_spinner_dropdown_item, strPinArr);
-                                    adapter9.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                                    autoPincode.setAdapter(adapter9);
-                                    pincodeList.clear();
-                                }
-                            }
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            });*/
 
             autoPincode.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
@@ -975,25 +897,7 @@ public class UpdateLeadActivity extends AbstractActivity implements CompoundButt
                 }
             });
 
-        /*    editCity.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-                @Override
-                public void onFocusChange(View view, boolean hasFocus) {
-                    try {
-                        if (!hasFocus) {
-                            String val = editCity.getText() + "";
 
-                            if (spinPincodeArray.containsKey(val)) {
-                                System.out.println("CITY CITY CITY");
-                            } else {
-                                editCity.setError("Invalid City");
-                            }
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            });
-*/
             fetchSourcedata();
             fetchSubSourcedata();
 
@@ -1115,22 +1019,7 @@ public class UpdateLeadActivity extends AbstractActivity implements CompoundButt
                 }
             });
             try {
-                //.............date of birth date picker
-               /*  cal = GregorianCalendar.getInstance();
-                cal1 = GregorianCalendar.getInstance();
-                cal.setTime(new Date());*/
-            /*    cal.add(Calendar.YEAR, -18);
-                daysBeforeDate = cal.getTime();
-                cal1.setTime(new Date());
-                cal1.add(Calendar.YEAR, -35);
-                daysAfterDate1 = cal1.getTime();*/
-            /*  if (spinner_age_group.getSelectedItem().toString().equals("18-35yrs")) {
-                  cal.add(Calendar.YEAR, -18);
-                  daysBeforeDate = cal.getTime();
-                  cal1.setTime(new Date());
-                  cal1.add(Calendar.YEAR, -35);
-                  daysAfterDate1 = cal1.getTime();
-              }*/
+
                 date_of_birth.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -1162,31 +1051,6 @@ public class UpdateLeadActivity extends AbstractActivity implements CompoundButt
 
                 newCalendar = Calendar.getInstance();
                 dateFormatter = new SimpleDateFormat("MM-dd-yyyy");
-               /* cal = GregorianCalendar.getInstance();
-                cal1 = GregorianCalendar.getInstance();
-                cal.setTime(new Date());
-                cal.add(Calendar.YEAR, strMin);//-18
-                daysBeforeDate = cal.getTime();
-                cal1.setTime(new Date());
-                cal1.add(Calendar.YEAR, strMax);//-35
-                daysAfterDate1 = cal1.getTime();
-
-                datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
-
-
-                    public void onDateSet(DatePicker view, int monthOfYear, int dayOfMonth, int year) {
-
-
-                        Calendar newDate = Calendar.getInstance();
-                        newDate.set(monthOfYear, dayOfMonth, year);
-                        date_of_birth.setText(dateFormatter.format(newDate.getTime()));
-
-                    }
-                }, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH));
-                datePickerDialog.getDatePicker().setCalendarViewShown(false);
-
-                datePickerDialog.getDatePicker().setMinDate(daysAfterDate1.getTime());
-                datePickerDialog.getDatePicker().setMaxDate(daysBeforeDate.getTime());*/
 
 
                 //.......Next Date metting.........
@@ -1353,9 +1217,6 @@ public class UpdateLeadActivity extends AbstractActivity implements CompoundButt
                 }
                 Log.e("selChkBoxArr value =>", selectedCatId.toString());
             }
-//        }else{
-//            }
-
 
         }
 
@@ -1880,12 +1741,6 @@ public class UpdateLeadActivity extends AbstractActivity implements CompoundButt
                 }
             }
 
-           /* spinSourceLeadList.addAll(Arrays.asList(getResources().getStringArray(R.array.source_array)));
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, spinSourceLeadList);
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-            spinner_source_of_lead.setAdapter(adapter);*/
-
 
             if (spinSourceLeadList != null && spinSourceLeadList.size() > 0) {
                 ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, strLeadArray) {
@@ -2058,12 +1913,7 @@ public class UpdateLeadActivity extends AbstractActivity implements CompoundButt
                 focusView = autoPincode;
                 focusView.requestFocus();
                 return;
-            }/*if (!Arrays.asList(strPinArr).contains(val)) {
-                    autoPincode.setError("Invalid Pincode");
-                    focusView = autoPincode;
-                    focusView.requestFocus();
-                    return;
-                }*/
+            }
             if (!TextUtils.isEmpty(str_email)) {
                 if (!isEmailValid(str_email)) {
                     email.setError(getString(R.string.invalid_email));
@@ -2078,12 +1928,7 @@ public class UpdateLeadActivity extends AbstractActivity implements CompoundButt
                 return;
             }
 
-           /* if(!pincodeList.contains(autoPincode.getText().toString())){
-                autoPincode.setError("Invalid Pincode");
-                focusView = autoPincode;
-                focusView.requestFocus();
-                return;
-            }*/
+
             if (rb_contact.isChecked()) {
                 if (spinner_lead_status.getSelectedItemPosition() == 0) {
                     Toast.makeText(mContext, "Please select Lead Status", Toast.LENGTH_SHORT).show();
@@ -2158,14 +2003,6 @@ public class UpdateLeadActivity extends AbstractActivity implements CompoundButt
                 } while (cursor3.moveToNext());
                 cursor3.close();
             }
-            /*Collections.sort(spinResearchTypeList);
-            if (spinResearchTypeList.size() > 0) {
-                strResearchArray = new String[spinResearchTypeList.size() + 1];
-                strResearchArray[0] = "Select an Option";
-                for (int i = 0; i < spinResearchTypeList.size(); i++) {
-                    strResearchArray[i + 1] = spinResearchTypeList.get(i);
-                }
-            }*/
 
 
             researchListArray = new ArrayList<>();
@@ -2178,22 +2015,7 @@ public class UpdateLeadActivity extends AbstractActivity implements CompoundButt
                 researchListArray.add(h);
             }
 
-            spinner_research_type.setItems(researchListArray, -1, spineListener); /*{
-
-                @Override
-                public void onItemsSelected(List<KeyPairBoolData> items) {
-
-                    for (int i = 0; i < items.size(); i++) {
-                        if (items.get(i).isSelected()) {
-                            Log.i("TAG item", i + " : " + items.get(i).getName() + " : " + items.get(i).isSelected());
-                            str_spinner_research_type += items.get(i).getId()+"#";
-//                            str_spinner_research_type=i+items.get(i).getName()+items.get(i).isSelected();
-                        }
-                    }
-                    str_spinner_research_type = str_spinner_research_type.length() > 0 ? str_spinner_research_type.substring(0, str_spinner_research_type.length() - 1) : "";
-                }
-            });
-*/
+            spinner_research_type.setItems(researchListArray, -1, spineListener);
             spinner_research_type.setLimit(researchListArray.size(), new MultiSpinnerSearch.LimitExceedListener() {
                 @Override
                 public void onLimitListener(KeyPairBoolData data) {
@@ -2203,33 +2025,6 @@ public class UpdateLeadActivity extends AbstractActivity implements CompoundButt
             });
 
 
-
-          /*  if (spinResearchTypeList != null && spinResearchTypeList.size() > 0) {
-                ArrayAdapter<String> researchtype = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, strResearchArray) {
-                    @Override
-                    public View getDropDownView(int position, View convertView, ViewGroup parent)
-                    {
-                        View v = null;
-                        // If this is the initial dummy entry, make it hidden
-                        if (position == 0) {
-                            TextView tv = new TextView(getContext());
-                            tv.setHeight(0);
-                            tv.setVisibility(View.GONE);
-                            v = tv;
-                        }
-                        else {
-                            // Pass convertView as null to prevent reuse of special case views
-                            v = super.getDropDownView(position, null, parent);
-                        }
-                        // Hide scroll bar because it appears sometimes unnecessarily, this does not prevent scrolling
-                        parent.setVerticalScrollBarEnabled(false);
-                        return v;
-                    }
-                };
-
-                researchtype.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                spinner_research_type.setAdapter(researchtype);
-            }*/
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -3050,7 +2845,12 @@ public class UpdateLeadActivity extends AbstractActivity implements CompoundButt
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
-                new SaveCategory2().execute();
+                if (isConnectingToInternet()) {
+                    new SaveCategory2().execute();
+                } else {
+                    displayMessage(getString(R.string.warning_internet));
+                }
+
             }
 
         }
@@ -3130,7 +2930,9 @@ public class UpdateLeadActivity extends AbstractActivity implements CompoundButt
             super.onPostExecute(aVoid);
 
             try {
-
+                if (progressDialog != null && progressDialog.isShowing()) {
+                    progressDialog.dismiss();
+                }
 // Create the adapter and set it to the AutoCompleteTextView
                 if (spinCityArray != null && spinCityArray.size() > 0) {
                     ArrayAdapter<String> adapterPin =
@@ -3139,9 +2941,6 @@ public class UpdateLeadActivity extends AbstractActivity implements CompoundButt
                 }
 
 
-                if (progressDialog != null && progressDialog.isShowing()) {
-                    progressDialog.dismiss();
-                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -3834,7 +3633,8 @@ public class UpdateLeadActivity extends AbstractActivity implements CompoundButt
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
-
+                        final Animation slideUp = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_up);   ///     Animation slide up
+                        linear_lead_details_hidden.startAnimation(slideUp);
                         linear_lead_details_hidden.setVisibility(View.VISIBLE);
 
                         try {
@@ -3951,14 +3751,7 @@ public class UpdateLeadActivity extends AbstractActivity implements CompoundButt
                 String packageName = info.packageName;
                 int versionCode = info.versionCode;
                 versionName = info.versionName;
-              /*  status = params[0];
-                stages = params[1];
-                stagesTobeSend = params[1];
-                if (isUpdate && leadInfoModel != null && LeadId.contains(String.valueOf(leadInfoModel.getDirect_lead_id()))) {
-                    stagesTobeSend = mContext.getString(R.string.text_lead_created);
-                } else {
 
-                }*/
             } catch (Exception e) {
                 // TODO Auto-generated catch block
             }
@@ -4018,10 +3811,20 @@ public class UpdateLeadActivity extends AbstractActivity implements CompoundButt
                 e.printStackTrace();
             } finally {
                 if (str_spinner_research_type != null && !str_spinner_research_type.equals("")) {
-                    new SaveResearch1().execute();
+                    if (isConnectingToInternet()) {
+                        new SaveResearch1().execute();
+                    } else {
+                        displayMessage(getString(R.string.warning_internet));
+                    }
+
                 }
 //                if (selectedCatId != null && !selectedCatId.equals(""))
-                new SaveCategory1().execute();
+                if (isConnectingToInternet()) {
+                    new SaveCategory1().execute();
+                } else {
+                    displayMessage(getString(R.string.warning_internet));
+                }
+
             }
 
         }
@@ -4074,7 +3877,12 @@ public class UpdateLeadActivity extends AbstractActivity implements CompoundButt
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
-                new SaveResearch2().execute();
+                if (isConnectingToInternet()) {
+                    new SaveResearch2().execute();
+                } else {
+                    displayMessage(getString(R.string.warning_internet));
+                }
+
             }
 
         }
