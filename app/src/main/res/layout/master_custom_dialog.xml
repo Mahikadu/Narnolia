@@ -1,21 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:id="@+id/linear_alert"
         android:layout_width="match_parent"
         android:layout_height="180dp"
-        android:orientation="vertical"
-        android:background="@drawable/customborder">
+        android:background="@drawable/customborder"
+        android:orientation="vertical">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorGray"
-            >
+            android:background="@color/colorGray">
 
 
             <TextView
@@ -27,9 +25,9 @@
                 android:layout_toLeftOf="@+id/iv_logout"
                 android:layout_toRightOf="@+id/iv_home"
                 android:gravity="center"
-                android:textColor="@color/coloryellow"
                 android:padding="@dimen/view_padding"
                 android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@color/coloryellow"
                 android:textStyle="bold" />
 
             <Button
@@ -42,8 +40,8 @@
                 android:background="@android:color/transparent"
                 android:padding="@dimen/view_padding"
                 android:text="x"
-                android:textStyle="bold"
-                android:textColor="@color/colorRed"/>
+                android:textColor="@color/colorRed"
+                android:textStyle="bold" />
         </RelativeLayout>
 
         <LinearLayout
@@ -51,8 +49,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:weightSum="1"
-            android:padding="10dp">
+            android:padding="10dp"
+            android:weightSum="1">
 
             <TextView
                 android:id="@+id/txtmaster"
@@ -73,12 +71,12 @@
         </LinearLayout>
 
         <LinearLayout
-            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
-            android:background="@color/colorGray">
+            android:background="@color/colorGray"
+            android:orientation="horizontal">
 
         </LinearLayout>
 
@@ -87,17 +85,15 @@
             android:id="@+id/open_status_report"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/colorRed"
-            android:text="@string/open"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
             android:layout_gravity="right"
             android:layout_marginTop="10dp"
+            android:background="@color/colorRed"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:text="@string/open"
             android:textColor="@android:color/white" />
 
     </LinearLayout>
-
-
 
 
 </RelativeLayout>

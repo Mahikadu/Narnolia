@@ -13,52 +13,52 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="@dimen/size_5"
             android:layout_marginLeft="50dp"
             android:layout_marginStart="50dp"
-            android:layout_margin="@dimen/size_5"
             android:background="@color/colorGray">
 
             <TextView
                 android:id="@+id/textcheck"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
                 android:padding="@dimen/view_padding"
                 android:text="Check all"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="@color/coloryellow"
-                android:textStyle="bold"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/textuncheck"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/textcheck"
+                android:layout_alignBottom="@+id/textcheck"
+                android:layout_centerHorizontal="true"
                 android:padding="@dimen/view_padding"
                 android:text="Uncheck all"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="@color/coloryellow"
-                android:textStyle="bold"
-                android:layout_alignBaseline="@+id/textcheck"
-                android:layout_alignBottom="@+id/textcheck"
-                android:layout_centerHorizontal="true" />
+                android:textStyle="bold" />
 
             <Button
                 android:id="@+id/btn1_submit"
-                android:text="Submit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/coloryellow"
-                android:textStyle="bold"
-                android:visibility="visible"
                 android:layout_alignBaseline="@+id/textuncheck"
                 android:layout_alignBottom="@+id/textuncheck"
-                android:layout_toRightOf="@+id/textuncheck"
-                android:layout_toEndOf="@+id/textuncheck"
                 android:layout_marginLeft="50dp"
-                android:layout_marginStart="50dp" />
+                android:layout_marginStart="50dp"
+                android:layout_toEndOf="@+id/textuncheck"
+                android:layout_toRightOf="@+id/textuncheck"
+                android:text="Submit"
+                android:textColor="@color/coloryellow"
+                android:textStyle="bold"
+                android:visibility="visible" />
 
         </RelativeLayout>
 
@@ -72,8 +72,7 @@
                 android:id="@+id/productLinearLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
-            </LinearLayout>
+                android:orientation="vertical"></LinearLayout>
 
         </ScrollView>
 

@@ -6,7 +6,7 @@ import java.io.Serializable;
  * Created by Sudesi on 23/03/2017.
  */
 
-public class StatusReportModel implements Serializable{
+public class StatusReportModel implements Serializable {
     String t1;
     String t2;
     String t3;
@@ -18,19 +18,21 @@ public class StatusReportModel implements Serializable{
     String t_quater;
     String today_report;
     String status;
-   public StatusReportModel(String t1,String t2,String t3,String t4,String t5,String t6,String t7,String t_month,String t_quater,String today_report,String status){
-    this.t1=t1;
-        this.t2=t2;
-        this.t3=t3;
-        this.t4=t4;
-        this.t5=t5;
-        this.t6=t6;
-        this.t7=t7;
-        this.t_month=t_month;
-        this.t_quater=t_quater;
-        this.today_report=today_report;
-        this.status=status;
+
+    public StatusReportModel(String t1, String t2, String t3, String t4, String t5, String t6, String t7, String t_month, String t_quater, String today_report, String status) {
+        this.t1 = t1;
+        this.t2 = t2;
+        this.t3 = t3;
+        this.t4 = t4;
+        this.t5 = t5;
+        this.t6 = t6;
+        this.t7 = t7;
+        this.t_month = t_month;
+        this.t_quater = t_quater;
+        this.today_report = today_report;
+        this.status = status;
     }
+
     public String getT1_1() {
         return t1;
     }

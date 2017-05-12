@@ -7,7 +7,7 @@ import java.io.Serializable;
  */
 
 public class AttendenceReportModel implements Serializable {
-    String empId1, attendance1, insertdate1, latitude, longitude, location, name1 ;
+    String empId1, attendance1, insertdate1, latitude, longitude, location, name1;
 
     public String getEmpId1() {
         return empId1;

@@ -7,16 +7,17 @@ import java.io.Serializable;
  */
 
 public class SubStatusReportModel implements Serializable {
-    String sub_lead_id,sub_name,sub_mobile_no,sub_city,sub_pincode,sub_last_meeting_date,sub_last_meeting_update,sub_lead_status;
-    public SubStatusReportModel(String sub_lead_id,String sub_name,String sub_mobile_no,String sub_city,String sub_pincode,String sub_last_meeting_date,String sub_last_meeting_update,String sub_lead_status){
-        this.sub_lead_id=sub_lead_id;
-        this.sub_name=sub_name;
-        this.sub_mobile_no=sub_mobile_no;
-        this.sub_city=sub_city;
-        this.sub_pincode=sub_pincode;
-        this.sub_last_meeting_date=sub_last_meeting_date;
-        this.sub_last_meeting_update=sub_last_meeting_update;
-        this.sub_lead_status=sub_lead_status;
+    String sub_lead_id, sub_name, sub_mobile_no, sub_city, sub_pincode, sub_last_meeting_date, sub_last_meeting_update, sub_lead_status;
+
+    public SubStatusReportModel(String sub_lead_id, String sub_name, String sub_mobile_no, String sub_city, String sub_pincode, String sub_last_meeting_date, String sub_last_meeting_update, String sub_lead_status) {
+        this.sub_lead_id = sub_lead_id;
+        this.sub_name = sub_name;
+        this.sub_mobile_no = sub_mobile_no;
+        this.sub_city = sub_city;
+        this.sub_pincode = sub_pincode;
+        this.sub_last_meeting_date = sub_last_meeting_date;
+        this.sub_last_meeting_update = sub_last_meeting_update;
+        this.sub_lead_status = sub_lead_status;
     }
 
     public SubStatusReportModel() {

@@ -110,22 +110,23 @@ public class DataBaseCon {
         return dbHelper.rawQuery(query);
     }
 
-    public Cursor fetchDistictFromSelect(String colName,String tbl, String where) {
+    public Cursor fetchDistictFromSelect(String colName, String tbl, String where) {
         String query = null;
         try {
-            query = "select DISTINCT "+colName+" from " + tbl + where;
+            query = "select DISTINCT " + colName + " from " + tbl + where;
             Log.i("TAG", "query :" + query);
         } catch (Exception e) {
             e.printStackTrace();
         }
         return dbHelper.rawQuery(query);
     }
-    public Cursor fetchAll2(String Category,String where1, String tbl) {
+
+    public Cursor fetchAll2(String Category, String where1, String tbl) {
         String query = null;
         try {
             //    query = "select *  from table_M_Category where  trim(Produt_type_id) ='1014'";
 
-            query = "select * from table_M_Category where trim(Category) ='"+Category+"'";
+            query = "select * from table_M_Category where trim(Category) ='" + Category + "'";
 
             //    query = "select * from table_M_Category where trim(Subcategory) ='"+colName+"'";
 
@@ -146,9 +147,10 @@ public class DataBaseCon {
         }
         return dbHelper.rawQuery(query);
     }
+
     public Cursor fetchallSpecify(String tbl, String names[], String fName,
                                   String fValue, String order) {
-        return dbHelper.fetchallSpecify(tbl, names, fName,fValue, order);
+        return dbHelper.fetchallSpecify(tbl, names, fName, fValue, order);
 
     }
 
@@ -183,6 +185,7 @@ public class DataBaseCon {
     public boolean update(String tbl, String where, String values[], String names[], String args[]) {
         return dbHelper.update(where, values, names, tbl, args);
     }
+
     public boolean updateBulk(String tbl, String where, String values[], String names[], String args[]) {
         return dbHelper.updateBulk(where, values, names, tbl, args);
     }
@@ -190,7 +193,6 @@ public class DataBaseCon {
     public boolean alterTable(String tbl) {
         return dbHelper.alterTable(tbl);
     }
-
 
 
     public SQLiteStatement beginDBTransaction(String tableName, String names[]) {
@@ -227,7 +229,7 @@ public class DataBaseCon {
         try {
             String query = "select * from " + table;
             count = 0;
-            count = (int) dbHelper.getCountOfRows(table,whereClause,whereArgs);
+            count = (int) dbHelper.getCountOfRows(table, whereClause, whereArgs);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -16,14 +16,14 @@ import java.util.List;
  * Created by Admin on 25-10-2016.
  */
 
-public class DashboardAdapter extends BaseAdapter{
+public class DashboardAdapter extends BaseAdapter {
 
     private static LayoutInflater inflater = null;
     public Context _context;
     private LeadInfoModel leadInfoModel;
     private List<LeadInfoModel> leadInfoModles;
 
-    public DashboardAdapter(Context mContext,List<LeadInfoModel> leadInfoModles) {
+    public DashboardAdapter(Context mContext, List<LeadInfoModel> leadInfoModles) {
         this._context = mContext;
         this.leadInfoModles = leadInfoModles;
 
@@ -82,9 +82,9 @@ public class DashboardAdapter extends BaseAdapter{
         viewHolder.tvPincode.setText(leadInfoModel.getPincode());
         viewHolder.tvLastMeet_date.setText(leadInfoModel.getMeetingdt());
         viewHolder.tvLastMeet_update.setText(leadInfoModel.getUpdatedby());
-       viewHolder.tvLeadStatus.setText(leadInfoModel.getLeadstatus());
-       // viewHolder.tvNextMeet.setText(leadInfoModel.getUpdateddt());
-       // viewHolder.tvCloseLead.setText(leadInfoModel.getLead_id());
+        viewHolder.tvLeadStatus.setText(leadInfoModel.getLeadstatus());
+        // viewHolder.tvNextMeet.setText(leadInfoModel.getUpdateddt());
+        // viewHolder.tvCloseLead.setText(leadInfoModel.getLead_id());
 
         return convertView;
     }

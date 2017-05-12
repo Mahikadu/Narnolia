@@ -18,11 +18,11 @@
         android:id="@+id/login_layout"
         android:layout_width="match_parent"
         android:layout_height="360dp"
-        android:orientation="vertical"
-        android:background="@color/colorWhite"
+        android:layout_centerInParent="true"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
-        android:layout_centerInParent="true">
+        android:background="@color/colorWhite"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/login"
@@ -30,42 +30,44 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
             android:padding="@dimen/layout_padding"
             android:text="@string/login"
-            android:textSize="35sp"
-            android:layout_marginTop="10dp"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@color/coloryellow" />
+            android:textColor="@color/coloryellow"
+            android:textSize="35sp" />
+
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-        <EditText
-            android:id="@+id/etUserName"
-            android:layout_width="match_parent"
-            android:layout_height="42dp"
-            android:layout_centerHorizontal="true"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="20dp"
-            android:drawablePadding="5dp"
-            android:ems="10"
-            android:hint="@string/username"
-            android:maxLength="50"
-            android:focusableInTouchMode="false"
-            android:cursorVisible="false"
-            android:longClickable="false"
-            android:maxLines="1"
-            android:inputType="text"
-            />
+
+            <EditText
+                android:id="@+id/etUserName"
+                android:layout_width="match_parent"
+                android:layout_height="42dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="20dp"
+                android:cursorVisible="false"
+                android:drawablePadding="5dp"
+                android:ems="10"
+                android:focusableInTouchMode="false"
+                android:hint="@string/username"
+                android:inputType="text"
+                android:longClickable="false"
+                android:maxLength="50"
+                android:maxLines="1" />
         </android.support.design.widget.TextInputLayout>
+
         <TextView
             android:id="@+id/t_username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/colorRed"
-            android:text="@string/user_name"
             android:layout_gravity="center"
-            android:visibility="gone"/>
+            android:text="@string/user_name"
+            android:textColor="@color/colorRed"
+            android:visibility="gone" />
 
         <android.support.design.widget.TextInputLayout
 
@@ -80,25 +82,25 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginTop="15dp"
+                android:cursorVisible="false"
                 android:drawablePadding="10dp"
                 android:ems="10"
-                android:maxLength="50"
                 android:focusableInTouchMode="false"
-                android:longClickable="false"
-                android:cursorVisible="false"
                 android:hint="@string/password"
                 android:inputType="textPassword"
-                android:maxLines="1"/>
+                android:longClickable="false"
+                android:maxLength="50"
+                android:maxLines="1" />
         </android.support.design.widget.TextInputLayout>
 
         <TextView
             android:id="@+id/t_password"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:text="@string/pass"
             android:textColor="@color/colorRed"
-            android:layout_gravity="center"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
         <Button
             android:id="@+id/buttonLogin"
@@ -109,22 +111,24 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_marginTop="15dp"
-            android:text="@string/login"
-            android:textSize="@dimen/size_28"
             android:background="@color/colorRed"
+            android:text="@string/login"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="#ffffff" />
+            android:textColor="#ffffff"
+            android:textSize="@dimen/size_28" />
+
         <TextView
             android:id="@+id/forget_password"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/size_20"
             android:layout_gravity="right"
+            android:layout_marginRight="@dimen/size_20"
             android:padding="@dimen/layout_padding"
             android:text="@string/forgetPassword"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="@color/colorBlue"
             android:textSize="18sp" />
+
         <TextView
             android:id="@+id/forgot_pass_message"
             android:layout_width="wrap_content"
@@ -132,9 +136,9 @@
             android:layout_gravity="left"
             android:padding="@dimen/layout_padding"
             android:text="@string/forgot_message"
-            android:visibility="gone"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:visibility="gone" />
 
     </LinearLayout>
 

@@ -1,19 +1,22 @@
 <set xmlns:android="http://schemas.android.com/apk/res/android"
 
-android:interpolator="@android:anim/accelerate_interpolator">
+    android:interpolator="@android:anim/accelerate_interpolator">
 
-    <translate android:fromYDelta="-100%" android:toXDelta="0"
+    <translate
+        android:duration="100"
+        android:fromYDelta="-100%"
 
-        android:duration="100" />
+        android:toXDelta="0" />
 
-    <alpha android:fromAlpha="0.0" android:toAlpha="1.0"
+    <alpha
+        android:duration="50"
+        android:fromAlpha="0.0"
 
-        android:duration="50" />
+        android:toAlpha="1.0" />
 
 </set>
 
-<!-- slide top to bottom -->
-<!-- 
+    <!-- slide top to bottom --><!--
 <set xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <translate

@@ -10,6 +10,8 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -53,7 +55,7 @@ public class StatusReport extends AbstractActivity {
     private Spinner spinNation, spinZone, spinRegion, spinCluster, spinLocation, spinEmployee, spinSearchBy, spinYear, spinMonth;
     private ProgressDialog progressDialog;
     EditText from_date, to_date;
-    private String empcode, attendanceVal, searchByVal,to_date_Val,from_date_Val;
+    private String empcode, attendanceVal, searchByVal, to_date_Val, from_date_Val;
     private SharedPref sharedPref;
     private String param, nation, zone, region, cluster, location, employee, emp_id;
     public static String nationVal, zoneVal, regionVal, clusterVal, locationVal, monthVal, yearVal;
@@ -99,6 +101,9 @@ public class StatusReport extends AbstractActivity {
             fromHomeKey = getIntent().getStringExtra("from_status");
             fromHomeKey1 = getIntent().getStringExtra("form_Attendence");
         }
+        final Animation slideUp = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_up);   ///     Animation slide up
+        final Animation slideDown = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_do);///      Animatoin slide down
+
         setHeader();
 
         sharedPref = new SharedPref(mContext);
@@ -187,16 +192,31 @@ public class StatusReport extends AbstractActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
                 if (spinSearchBy.getSelectedItem().equals("Location") && rg_attendence.getCheckedRadioButtonId() != -1) {
+
+                    main_menu.startAnimation(slideUp);
                     main_menu.setVisibility(View.VISIBLE);
+                    btn_search.startAnimation(slideUp);
                     btn_search.setVisibility(View.VISIBLE);
                     date_wise_report.setVisibility(View.GONE);
+                    to_date_from_date.setVisibility(View.GONE);
+                    attendence_table.setVisibility(View.GONE);
+                    attendanceReportModelList.clear();
+                    layout_status_table.setVisibility(View.GONE);
+                    linear_sub_status1.setVisibility(View.GONE);
+                    spinMonth.setSelection(0);
+                    spinYear.setSelection(0);
                 }
-                if (spinSearchBy.getSelectedItem().equals("Date")) {
+                if (spinSearchBy.getSelectedItem().equals("Date") && rg_attendence.getCheckedRadioButtonId() != -1) {
+                    date_wise_report.startAnimation(slideUp);
                     date_wise_report.setVisibility(View.VISIBLE);
                     main_menu.setVisibility(View.GONE);
                     btn_search.setVisibility(View.GONE);
                     to_date_from_date.setVisibility(View.GONE);
                     layout_status_table.setVisibility(View.GONE);
+                    attendanceReportModelList.clear();
+                    attendence_table.setVisibility(View.GONE);
+                    layout_status_table.setVisibility(View.GONE);
+                    linear_sub_status1.setVisibility(View.GONE);
                 }
             }
 
@@ -263,9 +283,11 @@ public class StatusReport extends AbstractActivity {
                     final java.util.Date calculatedDate = calculateMonthEndDate(month1, year1);
                     SimpleDateFormat format = new SimpleDateFormat("MM-dd-yyyy");
                     String lastDate = format.format(calculatedDate);
+                    to_date_from_date.startAnimation(slideUp);
                     to_date_from_date.setVisibility(View.VISIBLE);
                     from_date.setText("0" + month1 + "-01-" + year1);
                     to_date.setText(lastDate);
+                    btn_search.startAnimation(slideUp);
                     btn_search.setVisibility(View.VISIBLE);
                 }
             }
@@ -288,9 +310,11 @@ public class StatusReport extends AbstractActivity {
                     final java.util.Date calculatedDate = calculateMonthEndDate(month1, year1);
                     SimpleDateFormat format = new SimpleDateFormat("MM-dd-yyyy");
                     String lastDate = format.format(calculatedDate);
+                    to_date_from_date.startAnimation(slideUp);
                     to_date_from_date.setVisibility(View.VISIBLE);
                     from_date.setText("0" + month1 + "-01-" + year1);
                     to_date.setText(lastDate);
+                    btn_search.startAnimation(slideUp);
                     btn_search.setVisibility(View.VISIBLE);
                 }
             }
@@ -489,12 +513,13 @@ public class StatusReport extends AbstractActivity {
                             return;
                         } else if (spinEmployee.getSelectedItem().toString().equals("All")) {
                             emp = empcode;
-                            layout_status_table.setVisibility(View.VISIBLE);
+
                             new GetStatusReport().execute();
                         } else if (!spinEmployee.getSelectedItem().toString().equals("All")) {
                             emp = emp_id;
                             rm = "4";
-                            layout_status_table.setVisibility(View.VISIBLE);
+
+
                             new GetStatusReport().execute();
                         }
                     }
@@ -505,7 +530,7 @@ public class StatusReport extends AbstractActivity {
                         radioButton = (RadioButton) findViewById(selectedId);
                         attendanceVal = radioButton.getText().toString();
 
-                            searchByVal = spinSearchBy.getSelectedItem().toString();
+                        searchByVal = spinSearchBy.getSelectedItem().toString();
 
                         if (spinSearchBy.getSelectedItem().equals("Location")) {
 
@@ -565,12 +590,13 @@ public class StatusReport extends AbstractActivity {
                                 spinEmployee.requestFocusFromTouch();
                                 return;
                             } else {
-                                attendence_table.setVisibility(View.VISIBLE);
+
+
                                 new GetAttendanceReport().execute();
                             }
                         } else if (spinSearchBy.getSelectedItem().equals("Date")) {
                             to_date.setError(null);
-                            String to_date1 =to_date.getText().toString();
+                            String to_date1 = to_date.getText().toString();
                             DateFormat inputDF = new SimpleDateFormat("MM-dd-yyyy");
                             DateFormat outputDF = new SimpleDateFormat("yyyy-MM-dd");
                             Date date = null;
@@ -580,7 +606,7 @@ public class StatusReport extends AbstractActivity {
                                 e.printStackTrace();
                             }
                             to_date_Val = outputDF.format(date);
-                            String from_date1 =from_date.getText().toString();
+                            String from_date1 = from_date.getText().toString();
                             DateFormat inputDF1 = new SimpleDateFormat("MM-dd-yyyy");
                             DateFormat outputDF1 = new SimpleDateFormat("yyyy-MM-dd");
                             Date date1 = null;
@@ -589,7 +615,7 @@ public class StatusReport extends AbstractActivity {
                             } catch (ParseException e) {
                                 e.printStackTrace();
                             }
-                            from_date_Val=outputDF1.format(date1);
+                            from_date_Val = outputDF1.format(date1);
                             if (rg_attendence.getCheckedRadioButtonId() == -1) {
                                 Toast.makeText(mContext, "Please Select the Present or Absent", Toast.LENGTH_SHORT).show();
                                 focusView = rg_attendence;
@@ -609,18 +635,18 @@ public class StatusReport extends AbstractActivity {
                                 spinYear.setFocusable(true);
                                 spinYear.requestFocusFromTouch();
                                 return;
-                            }else if (TextUtils.isEmpty(to_date.getText().toString())){
+                            } else if (TextUtils.isEmpty(to_date.getText().toString())) {
                                 to_date.setError("Please Select month and year");
                                 focusView = to_date;
                                 focusView.requestFocus();
                                 return;
-                            }else if (TextUtils.isEmpty(from_date.getText().toString())){
+                            } else if (TextUtils.isEmpty(from_date.getText().toString())) {
                                 from_date.setError("Please Select month and year");
                                 focusView = from_date;
                                 focusView.requestFocus();
                                 return;
-                            }else {
-                                attendence_table.setVisibility(View.VISIBLE);
+                            } else {
+                                //  attendence_table.setVisibility(View.VISIBLE);
                                 new GetAttendanceReport().execute();
                             }
 
@@ -1486,6 +1512,7 @@ public class StatusReport extends AbstractActivity {
                 }
                 if (getStatusReportModelList != null && getStatusReportModelList.size() > 0) {
                     statusReportAdapter = new StatusReportAdapter(mContext, getStatusReportModelList);
+                    layout_status_table.setVisibility(View.VISIBLE);
                     lvStatusReport.setAdapter(statusReportAdapter);
                     setListViewHeightBasedOnItems(lvStatusReport);
                     statusReportAdapter.notifyDataSetChanged();
@@ -1519,12 +1546,12 @@ public class StatusReport extends AbstractActivity {
             SoapObject object = null;
             try {
                 SOAPWebService webService = new SOAPWebService(mContext);
-                if (!searchByVal.equals("")){
-                    if (searchByVal.equals("Location")){
+                if (!searchByVal.equals("")) {
+                    if (searchByVal.equals("Location")) {
                         object = webService.AttendanceReport("", "", attendanceVal, empcode, rm, searchByVal, nationVal,
                                 zoneVal, regionVal, locationVal, clusterVal);
-                    }else if (searchByVal.equals("Date")){
-                        object = webService.AttendanceReport(from_date_Val,to_date_Val, attendanceVal, empcode, rm, searchByVal, "",
+                    } else if (searchByVal.equals("Date")) {
+                        object = webService.AttendanceReport(from_date_Val, to_date_Val, attendanceVal, empcode, rm, searchByVal, "",
                                 "", "", "", "");
                     }
                 }
@@ -1644,6 +1671,7 @@ public class StatusReport extends AbstractActivity {
 
             if (attendanceReportModelList != null && attendanceReportModelList.size() > 0) {
                 attendanceReportAdapter = new AttendanceReportAdapter(mContext, attendanceReportModelList);
+                attendence_table.setVisibility(View.VISIBLE);
                 lvAttendanceReport.setAdapter(attendanceReportAdapter);
                 setListViewHeightBasedOnItems(lvAttendanceReport);
                 attendanceReportAdapter.notifyDataSetChanged();

@@ -9,7 +9,7 @@ import java.io.Serializable;
 public class ClientDetailsModel implements Serializable {
     String Address;
     String AnnualIncome;
-    String  BirthDate;
+    String BirthDate;
     String Branchid;
     String City;
     String ClientCat;

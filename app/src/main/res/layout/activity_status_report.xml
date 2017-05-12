@@ -41,11 +41,12 @@
 
                 </include>
             </LinearLayout>
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:layout_below="@+id/linear_header">
+                android:layout_below="@+id/linear_header"
+                android:background="@color/white">
 
                 <TextView
                     android:id="@+id/welcome"
@@ -65,10 +66,6 @@
                     android:textColor="@color/colorRed" />
 
             </RelativeLayout>
-
-
-
-
 
 
             <LinearLayout
@@ -255,8 +252,7 @@
                         android:layout_marginLeft="3dp"
                         android:layout_marginRight="3dp"
                         android:layout_marginTop="3dp"
-                        android:dividerHeight="1dp">
-                    </ListView>
+                        android:dividerHeight="1dp"></ListView>
                 </LinearLayout>
 
 
@@ -266,6 +262,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:visibility="gone">
+
                     <LinearLayout
                         android:id="@+id/dash_header1"
                         android:layout_width="match_parent"

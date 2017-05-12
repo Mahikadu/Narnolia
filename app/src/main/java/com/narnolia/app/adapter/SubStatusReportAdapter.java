@@ -24,12 +24,14 @@ public class SubStatusReportAdapter extends BaseAdapter {
     private static LayoutInflater inflater = null;
     private SubStatusReportModel subStatusReportModel;
     private List<SubStatusReportModel> subStatusReportModels = new ArrayList<>();
+
     public SubStatusReportAdapter(Context mContext, List<SubStatusReportModel> subStatusReportModels) {
         this.context = mContext;
         this.subStatusReportModels = subStatusReportModels;
 
 
     }
+
     @Override
     public int getCount() {
         return subStatusReportModels.size();
@@ -74,15 +76,15 @@ public class SubStatusReportAdapter extends BaseAdapter {
         viewHolder.sub_lead_id.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (subStatusReportModel.getSub_lead_id()!=null&& !subStatusReportModel.getSub_lead_id().equals("")){
+                if (subStatusReportModel.getSub_lead_id() != null && !subStatusReportModel.getSub_lead_id().equals("")) {
                     Intent intent = new Intent(context, UpdateLeadActivity.class);
                     intent.putExtra("sub_lead_Id", subStatusReportModel.getSub_lead_id());
                     context.startActivity(intent);
 
                 }
 
-        }
-    });
+            }
+        });
         viewHolder.sub_name.setText(subStatusReportModel.getSub_name());
         viewHolder.sub_mobile_no.setText(subStatusReportModel.getSub_mobile_no());
         viewHolder.sub_city.setText(subStatusReportModel.getSub_city());
@@ -93,10 +95,11 @@ public class SubStatusReportAdapter extends BaseAdapter {
 
         return convertView;
 
-}
-public class ViewHolder {
+    }
 
-    private TextView sub_lead_id,sub_name,sub_mobile_no,sub_city,sub_pincode,sub_last_meeting_date,sub_last_meeting_update,sub_lead_status;
+    public class ViewHolder {
 
-}
+        private TextView sub_lead_id, sub_name, sub_mobile_no, sub_city, sub_pincode, sub_last_meeting_date, sub_last_meeting_update, sub_lead_status;
+
+    }
 }

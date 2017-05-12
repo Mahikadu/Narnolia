@@ -33,19 +33,22 @@ public class GetMessagesModel implements Serializable {
     }
 
 
-
     public String getEmp() {
         return emp;
     }
+
     public void setEmp(String emp) {
         this.emp = emp;
     }
+
     public String getDate() {
         return date;
     }
+
     public void setDate(String date) {
         this.date = date;
     }
+
     public String getId() {
         return id;
     }
@@ -53,6 +56,7 @@ public class GetMessagesModel implements Serializable {
     public void setId(String id) {
         this.id = id;
     }
+
     public String getMessage() {
         return message;
     }
@@ -60,6 +64,7 @@ public class GetMessagesModel implements Serializable {
     public void setMessage(String message) {
         this.message = message;
     }
+
     public String getResult() {
         return result;
     }
@@ -67,6 +72,7 @@ public class GetMessagesModel implements Serializable {
     public void setResult(String result) {
         this.result = result;
     }
+
     public String getRole() {
         return role;
     }

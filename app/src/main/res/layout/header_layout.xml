@@ -32,9 +32,9 @@
             android:layout_toLeftOf="@+id/iv_logout"
             android:layout_toRightOf="@+id/iv_home"
             android:gravity="center"
-            android:textColor="@color/coloryellow"
             android:padding="@dimen/view_padding"
             android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/coloryellow"
             android:textStyle="bold" />
 
         <ImageView

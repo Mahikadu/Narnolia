@@ -71,8 +71,8 @@
                     android:id="@+id/admin"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="3dp"
                     android:layout_alignParentRight="true"
+                    android:layout_marginLeft="3dp"
                     android:textColor="@color/colorRed" />
 
             </RelativeLayout>
@@ -102,7 +102,6 @@
                     android:layout_weight="1"
                     android:drawablePadding="@dimen/view_padding" />
             </LinearLayout>
-
 
 
             <LinearLayout
@@ -192,10 +191,6 @@
                     android:layout_weight="1"
                     android:drawablePadding="@dimen/view_padding" />
             </LinearLayout>
-
-
-
-
 
 
             <LinearLayout
@@ -324,12 +319,12 @@
                     android:layout_marginTop="@dimen/layout_margin"
                     android:layout_weight="1"
                     android:background="@drawable/edit_background"
+                    android:digits="1234567890"
                     android:drawablePadding="@dimen/view_padding"
                     android:focusable="true"
                     android:focusableInTouchMode="true"
                     android:hint="@string/hintmobileno"
                     android:inputType="number"
-                    android:digits="1234567890"
                     android:maxLength="10"
                     android:padding="@dimen/view_padding"
                     android:singleLine="true"
@@ -393,13 +388,13 @@
                     android:layout_marginTop="@dimen/layout_margin"
                     android:layout_weight="1"
                     android:background="@drawable/edit_background"
+                    android:completionThreshold="1"
                     android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
                     android:drawablePadding="@dimen/view_padding"
                     android:focusable="true"
-                    android:completionThreshold="1"
                     android:focusableInTouchMode="true"
-                    android:imeOptions="actionNext"
                     android:hint="@string/hintcity"
+                    android:imeOptions="actionNext"
                     android:inputType="text"
                     android:maxLength="50"
                     android:padding="@dimen/view_padding"
@@ -431,9 +426,9 @@
                     android:layout_marginTop="@dimen/layout_margin"
                     android:layout_weight="1"
                     android:background="@drawable/edit_background"
+                    android:completionThreshold="1"
                     android:drawablePadding="@dimen/view_padding"
                     android:focusable="true"
-                    android:completionThreshold="1"
                     android:focusableInTouchMode="true"
                     android:hint="@string/hintpincode"
                     android:inputType="number"
@@ -455,9 +450,9 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/layout_margin"
-                    android:text="@string/prospectiveproduct"
                     android:layout_weight="1"
                     android:gravity="left|center"
+                    android:text="@string/prospectiveproduct"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="@android:color/black" />
 
@@ -466,11 +461,11 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
-                    android:gravity="center"
+                    android:layout_weight="1"
                     android:background="@color/common_google_signin_btn_text_light_disabled"
+                    android:gravity="center"
                     android:text="@string/prospectiveproduct1"
-                    android:textColor="@android:color/black"
-                    android:layout_weight="1"/>
+                    android:textColor="@android:color/black" />
 
                 <!-- <TextView
                      android:id="@+id/txt1_prospective_product1"

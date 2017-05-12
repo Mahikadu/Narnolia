@@ -29,7 +29,7 @@ public class CustomSpinnerAdapter extends ArrayAdapter<String> {
 
     @Override
     public View getDropDownView(int position, View convertView, ViewGroup parent) {
-        if(isFirstTime) {
+        if (isFirstTime) {
             objects[0] = firstElement;
             isFirstTime = false;
         }

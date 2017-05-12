@@ -2,28 +2,28 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
-    android:padding="15dp"
+    android:gravity="center_vertical"
     android:orientation="horizontal"
-    android:gravity="center_vertical">
+    android:padding="15dp">
 
     <CheckBox
         android:id="@+id/alertCheckbox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_weight="30"
         android:clickable="false"
-        android:gravity="center"
-        android:layout_weight="30"/>
+        android:gravity="center" />
 
     <TextView
         android:id="@+id/alertTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:paddingLeft="5dp"
+        android:layout_weight="70"
         android:gravity="left"
+        android:paddingLeft="5dp"
         android:text="Item Name"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_weight="70"/>
+        android:textAlignment="center"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
 
 </LinearLayout>

@@ -7,7 +7,7 @@ package com.narnolia.app.model;
 public class SubCategoryDetailsModel {
     private String subCategory;
 
-    private  int id;
+    private int id;
 
     public int getId() {
         return id;

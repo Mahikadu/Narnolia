@@ -4,9 +4,6 @@ import android.app.Application;
 
 import com.narnolia.app.dbconfig.DataBaseCon;
 
-/**
- * Created by Admin on 27-10-2016.
- */
 
 public class Narnolia extends Application {
 

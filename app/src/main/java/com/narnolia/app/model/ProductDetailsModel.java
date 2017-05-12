@@ -22,6 +22,7 @@ public class ProductDetailsModel implements Serializable {
     private String prodId;
 
     private ArrayList<CategoryDetailsModel> categoryModels = new ArrayList<>();
+
     public String getProdName() {
         return prodName;
     }

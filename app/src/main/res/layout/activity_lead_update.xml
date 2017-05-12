@@ -52,11 +52,10 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_below="@+id/linear_header"
                 android:layout_marginBottom="5dp"
                 android:layout_marginRight="10dp"
-                android:layout_below="@+id/linear_header"
-                >
+                android:layout_marginTop="10dp">
 
                 <TextView
                     android:id="@+id/welcome"
@@ -70,8 +69,8 @@
                     android:id="@+id/admin"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="3dp"
                     android:layout_alignParentRight="true"
+                    android:layout_marginLeft="3dp"
                     android:textColor="@color/colorRed" />
 
             </RelativeLayout>
@@ -102,20 +101,21 @@
                     android:layout_weight="1"
                     android:drawablePadding="@dimen/view_padding" />
             </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/linear_lead_details_hidden"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:visibility="gone"
-                >
+                android:visibility="gone">
+
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:background="@color/black"
                     android:layout_height="1dp"
-                    android:layout_marginTop="@dimen/size_10"
                     android:layout_marginLeft="@dimen/size_16"
-                    android:layout_marginRight="@dimen/size_16">
+                    android:layout_marginRight="@dimen/size_16"
+                    android:layout_marginTop="@dimen/size_10"
+                    android:background="@color/black">
 
                 </LinearLayout>
 
@@ -232,8 +232,6 @@
                         android:layout_weight="1"
                         android:drawablePadding="@dimen/view_padding" />
                 </LinearLayout>
-
-
 
 
                 <LinearLayout
@@ -362,11 +360,11 @@
                         android:layout_marginTop="@dimen/layout_margin"
                         android:layout_weight="1"
                         android:background="@drawable/edit_background"
+                        android:digits="1234567890"
                         android:drawablePadding="@dimen/view_padding"
                         android:hint="@string/hintmobileno"
                         android:inputType="number"
                         android:maxLength="10"
-                        android:digits="1234567890"
                         android:padding="@dimen/view_padding"
                         android:singleLine="true"
                         android:textColor="@android:color/black" />
@@ -398,10 +396,10 @@
                         android:background="@drawable/edit_background"
                         android:drawablePadding="@dimen/view_padding"
                         android:hint="@string/hintemail"
+                        android:imeOptions="actionDone"
                         android:inputType="textEmailAddress"
                         android:maxLength="50"
                         android:padding="@dimen/view_padding"
-                        android:imeOptions="actionDone"
                         android:singleLine="true"
                         android:textColor="@android:color/black" />
                 </LinearLayout>
@@ -452,22 +450,22 @@
                     <EditText
                         android:id="@+id/edt_date_of_birth"
                         android:layout_width="0dp"
-                        android:drawableRight="@drawable/cal"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/layout_margin"
                         android:layout_weight="1"
                         android:background="@drawable/edit_background"
+                        android:clickable="false"
                         android:drawablePadding="@dimen/view_padding"
+                        android:drawableRight="@drawable/cal"
+                        android:focusable="false"
                         android:hint="@string/hintdateofbirth"
+                        android:inputType="none"
                         android:maxLength="10"
                         android:padding="@dimen/view_padding"
                         android:singleLine="true"
-                        android:focusable="false"
-                        android:clickable="false"
-                        android:windowSoftInputMode="stateHidden"
-                        android:inputType="none"
+                        android:textColor="@android:color/black"
                         android:textIsSelectable="true"
-                        android:textColor="@android:color/black" />
+                        android:windowSoftInputMode="stateHidden" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -626,14 +624,14 @@
                         android:layout_marginTop="@dimen/layout_margin"
                         android:layout_weight="1"
                         android:background="@drawable/edit_background"
+                        android:completionThreshold="1"
                         android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
                         android:drawablePadding="@dimen/view_padding"
                         android:hint="@string/hintcity"
-                        android:completionThreshold="1"
+                        android:imeOptions="actionNext"
                         android:inputType="text"
                         android:maxLength="50"
                         android:padding="@dimen/view_padding"
-                        android:imeOptions="actionNext"
                         android:singleLine="true"
                         android:textColor="@android:color/black" />
                 </LinearLayout>
@@ -662,11 +660,11 @@
                         android:layout_marginTop="@dimen/layout_margin"
                         android:layout_weight="1"
                         android:background="@drawable/edit_background"
+                        android:completionThreshold="1"
                         android:drawablePadding="@dimen/view_padding"
                         android:hint="@string/hintpincode"
-                        android:completionThreshold="1"
-                        android:inputType="number"
                         android:imeOptions="actionDone"
+                        android:inputType="number"
                         android:maxLength="6"
                         android:padding="@dimen/view_padding"
                         android:singleLine="true"
@@ -888,6 +886,7 @@
                             android:layout_weight="1"
                             android:drawablePadding="@dimen/view_padding" />
                     </LinearLayout>
+
                     <LinearLayout
                         android:id="@+id/linear_remark"
                         android:layout_width="match_parent"
@@ -948,8 +947,8 @@
                             android:layout_weight="1"
                             android:background="@drawable/edit_background"
                             android:drawablePadding="@dimen/view_padding"
-                            android:inputType="textCapCharacters"
                             android:hint="@string/hintpanno"
+                            android:inputType="textCapCharacters"
                             android:maxLength="10"
                             android:padding="@dimen/view_padding"
                             android:singleLine="true"
@@ -1014,6 +1013,7 @@
                                 android:layout_weight="1"
                                 android:drawablePadding="@dimen/view_padding" />
                         </LinearLayout>
+
                         <LinearLayout
                             android:id="@+id/linear_duration"
                             android:layout_width="match_parent"
@@ -1028,25 +1028,19 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="@dimen/layout_margin"
                                 android:layout_weight="1"
-                                android:focusable="false"
-                                android:clickable="false"
-                                android:windowSoftInputMode="stateHidden"
-                                android:inputType="none"
-                                android:textIsSelectable="true"
                                 android:background="@drawable/edit_background"
+                                android:clickable="false"
                                 android:drawablePadding="@dimen/view_padding"
+                                android:focusable="false"
+                                android:inputType="none"
                                 android:maxLength="50"
                                 android:padding="@dimen/view_padding"
                                 android:singleLine="true"
-                                android:textColor="@android:color/black" />
+                                android:textColor="@android:color/black"
+                                android:textIsSelectable="true"
+                                android:windowSoftInputMode="stateHidden" />
                         </LinearLayout>
                     </LinearLayout>
-
-
-
-
-
-
 
 
                     <LinearLayout
@@ -1120,6 +1114,7 @@
                                 android:textColor="@android:color/black" />
                         </LinearLayout>
                     </LinearLayout>
+
                     <LinearLayout
                         android:id="@+id/opportunity_pitched"
                         android:layout_width="match_parent"
@@ -1142,9 +1137,9 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_margin="5dp"
+                            android:layout_weight="1"
                             android:text="@string/opportunity_pitched2"
-                            android:textColor="@android:color/black"
-                            android:layout_weight="1" />
+                            android:textColor="@android:color/black" />
 
                         <!--<TextView
                             android:id="@+id/txt1_prospective_product2"
@@ -1189,12 +1184,7 @@
                     </LinearLayout>
 
 
-
-
                 </LinearLayout>
-
-
-
 
 
                 <LinearLayout
@@ -1220,18 +1210,18 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/layout_margin"
                         android:layout_weight="1"
-                        android:drawableRight="@drawable/cal"
                         android:background="@drawable/edit_background"
+                        android:clickable="false"
                         android:drawablePadding="@dimen/view_padding"
+                        android:drawableRight="@drawable/cal"
+                        android:focusable="false"
+                        android:inputType="none"
                         android:maxLength="50"
                         android:padding="@dimen/view_padding"
-                        android:focusable="false"
-                        android:clickable="false"
-                        android:windowSoftInputMode="stateHidden"
-                        android:inputType="none"
-                        android:textIsSelectable="true"
                         android:singleLine="true"
-                        android:textColor="@android:color/black" />
+                        android:textColor="@android:color/black"
+                        android:textIsSelectable="true"
+                        android:windowSoftInputMode="stateHidden" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -1259,18 +1249,13 @@
                         android:layout_weight="1"
                         android:background="@drawable/edit_background"
                         android:drawablePadding="@dimen/view_padding"
+                        android:imeOptions="actionDone"
                         android:inputType="text"
                         android:maxLength="50"
                         android:padding="@dimen/view_padding"
-                        android:imeOptions="actionDone"
                         android:singleLine="true"
                         android:textColor="@android:color/black" />
                 </LinearLayout>
-
-
-
-
-
 
 
                 <LinearLayout
@@ -1296,19 +1281,19 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/layout_margin"
                         android:layout_weight="1"
-                        android:drawableRight="@drawable/cal"
                         android:background="@drawable/edit_background"
+                        android:clickable="false"
                         android:drawablePadding="@dimen/view_padding"
+                        android:drawableRight="@drawable/cal"
+                        android:focusable="false"
+                        android:imeOptions="actionNext"
+                        android:inputType="none"
                         android:maxLength="50"
                         android:padding="@dimen/view_padding"
-                        android:focusable="false"
-                        android:clickable="false"
-                        android:windowSoftInputMode="stateHidden"
-                        android:inputType="none"
-                        android:textIsSelectable="true"
-                        android:imeOptions="actionNext"
                         android:singleLine="true"
-                        android:textColor="@android:color/black" />
+                        android:textColor="@android:color/black"
+                        android:textIsSelectable="true"
+                        android:windowSoftInputMode="stateHidden" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -1367,14 +1352,13 @@
                         android:layout_marginTop="@dimen/layout_margin"
                         android:layout_weight="1"
                         android:background="@drawable/edit_background"
+                        android:editable="false"
                         android:maxLines="10"
                         android:overScrollMode="always"
-                        android:editable="false"
                         android:padding="@dimen/view_padding"
                         android:scrollbarStyle="insideInset"
                         android:scrollbars="vertical"
                         android:textColor="@android:color/black" />
-
 
 
                 </LinearLayout>

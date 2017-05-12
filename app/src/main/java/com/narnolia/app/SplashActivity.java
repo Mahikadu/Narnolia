@@ -36,7 +36,7 @@ public class SplashActivity extends AbstractActivity implements Runnable {
     private ProgressDialog progressDialog;
     private String responseId;
 
-    private String mFlag,mTransfer,mlmd,mId, mType, mValue;
+    private String mFlag, mTransfer, mlmd, mId, mType, mValue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -166,100 +166,99 @@ public class SplashActivity extends AbstractActivity implements Runnable {
 
                 responseId = String.valueOf(soapObject);
 
-                    try {
-                        for (int j = 0; j < soapObject.getPropertyCount(); j++) {
+                try {
+                    for (int j = 0; j < soapObject.getPropertyCount(); j++) {
 
-                            SoapObject root = (SoapObject) soapObject.getProperty(j);
+                        SoapObject root = (SoapObject) soapObject.getProperty(j);
 
-                            if (root.getProperty("Flag") != null) {
+                        if (root.getProperty("Flag") != null) {
 
-                                if (!root.getProperty("Flag").toString().equalsIgnoreCase("anyType{}")) {
-                                    mFlag = root.getProperty("Flag").toString();
+                            if (!root.getProperty("Flag").toString().equalsIgnoreCase("anyType{}")) {
+                                mFlag = root.getProperty("Flag").toString();
 
-                                } else {
-                                    mFlag = "";
-                                }
                             } else {
                                 mFlag = "";
                             }
-                            if (root.getProperty("Id") != null) {
+                        } else {
+                            mFlag = "";
+                        }
+                        if (root.getProperty("Id") != null) {
 
-                                if (!root.getProperty("Id").toString().equalsIgnoreCase("anyType{}")) {
-                                    mId = root.getProperty("Id").toString();
+                            if (!root.getProperty("Id").toString().equalsIgnoreCase("anyType{}")) {
+                                mId = root.getProperty("Id").toString();
 
-                                } else {
-                                    mId = "";
-                                }
                             } else {
                                 mId = "";
                             }
-                            if (root.getProperty("Transfer") != null) {
+                        } else {
+                            mId = "";
+                        }
+                        if (root.getProperty("Transfer") != null) {
 
-                                if (!root.getProperty("Transfer").toString().equalsIgnoreCase("anyType{}")) {
-                                    mTransfer = root.getProperty("Transfer").toString();
+                            if (!root.getProperty("Transfer").toString().equalsIgnoreCase("anyType{}")) {
+                                mTransfer = root.getProperty("Transfer").toString();
 
-                                } else {
-                                    mTransfer = "";
-                                }
                             } else {
                                 mTransfer = "";
                             }
-                            if (root.getProperty("lmd") != null) {
+                        } else {
+                            mTransfer = "";
+                        }
+                        if (root.getProperty("lmd") != null) {
 
-                                if (!root.getProperty("lmd").toString().equalsIgnoreCase("anyType{}")) {
-                                    mlmd = root.getProperty("lmd").toString();
+                            if (!root.getProperty("lmd").toString().equalsIgnoreCase("anyType{}")) {
+                                mlmd = root.getProperty("lmd").toString();
 
-                                } else {
-                                    mlmd = "";
-                                }
                             } else {
                                 mlmd = "";
                             }
-                            if (root.getProperty("type") != null) {
+                        } else {
+                            mlmd = "";
+                        }
+                        if (root.getProperty("type") != null) {
 
-                                if (!root.getProperty("type").toString().equalsIgnoreCase("anyType{}")) {
-                                    mType = root.getProperty("type").toString();
+                            if (!root.getProperty("type").toString().equalsIgnoreCase("anyType{}")) {
+                                mType = root.getProperty("type").toString();
 
-                                } else {
-                                    mType = "";
-                                }
                             } else {
                                 mType = "";
                             }
-                            if (root.getProperty("value") != null) {
+                        } else {
+                            mType = "";
+                        }
+                        if (root.getProperty("value") != null) {
 
-                                if (!root.getProperty("value").toString().equalsIgnoreCase("anyType{}")) {
-                                    mValue = root.getProperty("value").toString();
+                            if (!root.getProperty("value").toString().equalsIgnoreCase("anyType{}")) {
+                                mValue = root.getProperty("value").toString();
 
-                                } else {
-                                    mValue = "";
-                                }
                             } else {
                                 mValue = "";
                             }
-
-                            String selection = "id" + " = ?";
-
-                            // WHERE clause arguments
-                            String[] selectionArgs = {mId};
-
-                            String valuesArray[] = {mId,mFlag,mTransfer,mlmd, mType, mValue};
-
-                            boolean result = Narnolia.dbCon.updateBulk(DbHelper.TABLE_M_PARAMETER, selection, valuesArray, utils.columnNamesMasterDetails, selectionArgs);
-                            Log.i("TAG", "Result " + result);
-
-                            // boolean result = Narnolia.dbCon.delete(DbHelper.TABLE_M_PARAMETER, selection, selectionArgs);
-
+                        } else {
+                            mValue = "";
                         }
 
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                        String selection = "id" + " = ?";
+
+                        // WHERE clause arguments
+                        String[] selectionArgs = {mId};
+
+                        String valuesArray[] = {mId, mFlag, mTransfer, mlmd, mType, mValue};
+
+                        boolean result = Narnolia.dbCon.updateBulk(DbHelper.TABLE_M_PARAMETER, selection, valuesArray, utils.columnNamesMasterDetails, selectionArgs);
+                        Log.i("TAG", "Result " + result);
+
+                        // boolean result = Narnolia.dbCon.delete(DbHelper.TABLE_M_PARAMETER, selection, selectionArgs);
+
                     }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
             } catch (Exception e) {
                 e.printStackTrace();
-            }
-            finally {
+            } finally {
 
                 try {
                     if (progressDialog != null && !progressDialog.isShowing()) {
@@ -273,7 +272,6 @@ public class SplashActivity extends AbstractActivity implements Runnable {
 
         }
     }
-
 
 
 }

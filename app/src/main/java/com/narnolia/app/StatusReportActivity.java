@@ -50,7 +50,7 @@ public class StatusReportActivity extends AbstractActivity {
     private ListView lvStatusReport;
     private ListView lvSubStatusReport;
     LinearLayout linear_sub_status1;
-//    public List<SubStatusReportModel> subStatusReportModelList;
+    //    public List<SubStatusReportModel> subStatusReportModelList;
     private String responseId;
 
     public StatusReportAdapter statusReportAdapter;
@@ -79,12 +79,12 @@ public class StatusReportActivity extends AbstractActivity {
         report_t7 = (TextView) findViewById(R.id.report_t7);
         report_t_month = (TextView) findViewById(R.id.report_t_month);
         report_t_quarter = (TextView) findViewById(R.id.report_t_quarter);
-        linear_sub_status1=(LinearLayout)findViewById(R.id.linear_sub_status);
-        admin=(TextView)findViewById(R.id.admin);
+        linear_sub_status1 = (LinearLayout) findViewById(R.id.linear_sub_status);
+        admin = (TextView) findViewById(R.id.admin);
 
 
-        lvStatusReport=(ListView)findViewById(R.id.list_Status_Report);
-        lvSubStatusReport=(ListView)findViewById(R.id.list_sub_status_Report);
+        lvStatusReport = (ListView) findViewById(R.id.list_Status_Report);
+        lvSubStatusReport = (ListView) findViewById(R.id.list_sub_status_Report);
         sharedPref = new SharedPref(mContext);
         empcode = sharedPref.getLoginId();
         String Capempcode = empcode.substring(0, 1).toUpperCase() + empcode.substring(1);
@@ -99,7 +99,7 @@ public class StatusReportActivity extends AbstractActivity {
         lvStatusReport.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-             //   Toast.makeText(mContext, view.getId()+"- position" + position, Toast.LENGTH_SHORT).show();
+                //   Toast.makeText(mContext, view.getId()+"- position" + position, Toast.LENGTH_SHORT).show();
                 /*if (subStatusReportModelList != null && subStatusReportModelList.size() > 0) {
                     subStatusReportAdapter = new SubStatusReportAdapter(mContext, subStatusReportModelList);
                     lvSubStatusReport.setAdapter(subStatusReportAdapter);
@@ -107,6 +107,7 @@ public class StatusReportActivity extends AbstractActivity {
             }
         });
     }
+
     @Override
     public void onBackPressed() {
         //super.onBackPressed();
@@ -117,7 +118,8 @@ public class StatusReportActivity extends AbstractActivity {
         pushActivity(mContext, HomeActivity.class, null, true);
         finish();
     }
-    public void setSubStatusData(){
+
+    public void setSubStatusData() {
         if (subStatusReportModelList != null && subStatusReportModelList.size() > 0) {
             subStatusReportAdapter = new SubStatusReportAdapter(mContext, subStatusReportModelList);
             linear_sub_status1.setVisibility(View.VISIBLE);
@@ -154,6 +156,7 @@ public class StatusReportActivity extends AbstractActivity {
         }
 
     }
+
     public static boolean setListViewHeightBasedOnItems(ListView listView) {
 
         ListAdapter listAdapter = listView.getAdapter();
@@ -190,7 +193,6 @@ public class StatusReportActivity extends AbstractActivity {
     }
 
 
-
     public class GetStatusReport extends AsyncTask<Void, Void, SoapObject> {
 
         @Override
@@ -213,7 +215,7 @@ public class StatusReportActivity extends AbstractActivity {
             try {
                 SOAPWebService webService = new SOAPWebService(mContext);
 
-                object = webService.StatusReport(empcode,sharedPref.getIsRM());
+                object = webService.StatusReport(empcode, sharedPref.getIsRM());
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -369,7 +371,7 @@ public class StatusReportActivity extends AbstractActivity {
 
                 }
                 if (getStatusReportModelList != null && getStatusReportModelList.size() > 0) {
-                    statusReportAdapter = new StatusReportAdapter(mContext,getStatusReportModelList);
+                    statusReportAdapter = new StatusReportAdapter(mContext, getStatusReportModelList);
                     lvStatusReport.setAdapter(statusReportAdapter);
                     setListViewHeightBasedOnItems(lvStatusReport);
                     statusReportAdapter.notifyDataSetChanged();

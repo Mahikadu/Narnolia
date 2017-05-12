@@ -3,8 +3,7 @@
     android:id="@+id/header1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" 
-   >
+    android:orientation="vertical">
 
     <include
         android:id="@+id/layout_header"
@@ -13,6 +12,7 @@
         android:layout_height="wrap_content">
 
     </include>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -37,23 +37,22 @@
 
     </RelativeLayout>
 
-    
-         <ListView
-                android:id="@+id/listNotification"
-                android:layout_width="fill_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="3dp"
-                android:layout_marginRight="3dp"
-                
-                android:dividerHeight="1dp"
-                android:layout_marginTop="3dp" >
-            </ListView>
 
-           <!--  <TextView
-                android:id="@+id/empty"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="No Images" /> -->
+    <ListView
+        android:id="@+id/listNotification"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="3dp"
+        android:layout_marginRight="3dp"
+
+        android:layout_marginTop="3dp"
+        android:dividerHeight="1dp"></ListView>
+
+    <!--  <TextView
+         android:id="@+id/empty"
+         android:layout_width="fill_parent"
+         android:layout_height="wrap_content"
+         android:gravity="center"
+         android:text="No Images" /> -->
 
 </LinearLayout>

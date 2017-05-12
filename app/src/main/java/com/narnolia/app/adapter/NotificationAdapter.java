@@ -28,7 +28,8 @@ public class NotificationAdapter extends BaseAdapter {
     private GetMessagesModel getMessagesModel;
     private List<GetMessagesModel> getMessagesModels;
     Animation animation = null;
-    public NotificationAdapter(Context mContext,List<GetMessagesModel> getMessagesModels) {
+
+    public NotificationAdapter(Context mContext, List<GetMessagesModel> getMessagesModels) {
         this.context = mContext;
         this.getMessagesModels = getMessagesModels;
 
@@ -76,17 +77,16 @@ public class NotificationAdapter extends BaseAdapter {
         viewHolder.date.setText(getMessagesModel.getDate());
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
                 70, 70);
-        params.setMargins(5,15,0, 0);
+        params.setMargins(5, 15, 0, 0);
 
 
+        Log.v("", "" + (position % 2 == 0));
 
-        Log.v("",""+(position % 2 == 0));
-
-        if(position % 2 == 0){
+        if (position % 2 == 0) {
 
             convertView.setBackgroundColor(Color.parseColor("#696969"));
 
-        }else{
+        } else {
 
             convertView.setBackgroundColor(Color.parseColor("#808080"));
         }
@@ -100,6 +100,7 @@ public class NotificationAdapter extends BaseAdapter {
 
         return convertView;
     }
+
     public class ViewHolder {
         private TextView message;
         private TextView btnReceiver;

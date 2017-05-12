@@ -60,7 +60,7 @@ public class MultiSpinnerSearch extends Spinner implements OnCancelListener {
                 break;
             }
         }
-        Log.i(TAG, "spinnerTitle: "+spinnerTitle);
+        Log.i(TAG, "spinnerTitle: " + spinnerTitle);
         a.recycle();
     }
 
@@ -75,8 +75,8 @@ public class MultiSpinnerSearch extends Spinner implements OnCancelListener {
 
     public List<KeyPairBoolData> getSelectedItems() {
         List<KeyPairBoolData> selectedItems = new ArrayList<>();
-        for(KeyPairBoolData item : items){
-            if(item.isSelected()){
+        for (KeyPairBoolData item : items) {
+            if (item.isSelected()) {
                 selectedItems.add(item);
             }
         }
@@ -85,8 +85,8 @@ public class MultiSpinnerSearch extends Spinner implements OnCancelListener {
 
     public List<Long> getSelectedIds() {
         List<Long> selectedItemsIds = new ArrayList<>();
-        for(KeyPairBoolData item : items){
-            if(item.isSelected()){
+        for (KeyPairBoolData item : items) {
+            if (item.isSelected()) {
                 selectedItemsIds.add(item.getId());
             }
         }
@@ -242,7 +242,7 @@ public class MultiSpinnerSearch extends Spinner implements OnCancelListener {
 
             if (convertView == null) {
                 holder = new ViewHolder();
-                convertView = inflater.inflate(R.layout.item_listview_multiple,  parent, false);
+                convertView = inflater.inflate(R.layout.item_listview_multiple, parent, false);
                 holder.textView = (TextView) convertView.findViewById(R.id.alertTextView);
                 holder.checkBox = (CheckBox) convertView.findViewById(R.id.alertCheckbox);
 
@@ -250,7 +250,6 @@ public class MultiSpinnerSearch extends Spinner implements OnCancelListener {
             } else {
                 holder = (ViewHolder) convertView.getTag();
             }
-
 
 
             final KeyPairBoolData data = arrayList.get(position);
@@ -261,10 +260,10 @@ public class MultiSpinnerSearch extends Spinner implements OnCancelListener {
 
             convertView.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                    if(data.isSelected()) { // unselect
+                    if (data.isSelected()) { // unselect
                         selected--;
-                    } else if(selected == limit) { // select with limit
-                        if(limitListener != null)
+                    } else if (selected == limit) { // select with limit
+                        if (limitListener != null)
                             limitListener.onLimitListener(data);
                         return;
                     } else { // selected
@@ -278,9 +277,9 @@ public class MultiSpinnerSearch extends Spinner implements OnCancelListener {
                 }
             });
             if (data.isSelected()) {
-           //     holder.textView.setTypeface(null, Typeface.BOLD);
-          //      holder.textView.setTextColor(Color.WHITE);
-            //    convertView.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.list_selected));
+                //     holder.textView.setTypeface(null, Typeface.BOLD);
+                //      holder.textView.setTextColor(Color.WHITE);
+                //    convertView.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.list_selected));
 
             }
             holder.checkBox.setTag(holder);

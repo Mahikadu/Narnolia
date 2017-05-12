@@ -19,7 +19,7 @@ import java.util.List;
 /**
  * Created by Admin on 5/9/2017.
  */
-public class AttendanceReportAdapter extends BaseAdapter{
+public class AttendanceReportAdapter extends BaseAdapter {
 
     public Context context;
     private static LayoutInflater inflater = null;
@@ -33,6 +33,7 @@ public class AttendanceReportAdapter extends BaseAdapter{
         this.attendenceReportModelList = attendenceReportModelList;
 
     }
+
     @Override
     public int getCount() {
         return attendenceReportModelList.size();

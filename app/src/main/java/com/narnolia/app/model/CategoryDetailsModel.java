@@ -7,7 +7,7 @@ import java.util.ArrayList;
  * Created by Admin on 05-11-2016.
  */
 
-public class CategoryDetailsModel implements Serializable{
+public class CategoryDetailsModel implements Serializable {
     private String category;
     private String subcategory;
 

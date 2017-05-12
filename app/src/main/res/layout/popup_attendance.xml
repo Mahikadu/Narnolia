@@ -3,13 +3,13 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:gravity="center"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="250dp"
         android:layout_height="250dp"
         android:background="@drawable/pop3"
-        android:orientation="vertical" >
+        android:orientation="vertical">
 
         <Button
             android:id="@+id/btn_present"
@@ -30,8 +30,8 @@
             android:layout_gravity="center"
             android:layout_marginBottom="20dp"
             android:layout_marginTop="20dp"
-           	android:visibility="visible"
-            android:background="@drawable/abs1" />
+            android:background="@drawable/abs1"
+            android:visibility="visible" />
 
     </LinearLayout>
 

@@ -158,7 +158,7 @@ public class MyCalendarActivity extends AbstractActivity implements OnClickListe
 
         //LoginCheck=getIntent().getStringExtra("from_Login");
         /*// Initialised
-		adapter = new GridCellAdapter(getApplicationContext(),
+        adapter = new GridCellAdapter(getApplicationContext(),
 				R.id.calendar_day_gridcell, month, year);
 		adapter.notifyDataSetChanged();
 		calendarView.setAdapter(adapter);
@@ -191,6 +191,7 @@ public class MyCalendarActivity extends AbstractActivity implements OnClickListe
         }
 
     }
+
     @Override
     public void onBackPressed() {
         //super.onBackPressed();
@@ -206,7 +207,7 @@ public class MyCalendarActivity extends AbstractActivity implements OnClickListe
             if (fromLoginKey != null) {
                 if (fromLoginKey.equals("FromLogin")) {
                     header_Layout.setVisibility(View.GONE);
-                goLogin();
+                    goLogin();
                 }
             }
         }
@@ -216,10 +217,12 @@ public class MyCalendarActivity extends AbstractActivity implements OnClickListe
         pushActivity(mContext, HomeActivity.class, null, true);
         finish();
     }
-    private void goLogin(){
-        pushActivity(mContext,LoginActivity.class,null,true);
+
+    private void goLogin() {
+        pushActivity(mContext, LoginActivity.class, null, true);
         finish();
     }
+
     private ArrayList<HashMap<String, String>> findNumberOfEventsPerMonth(ArrayList<AttendenceReportModel> attendanceReportList) {
         ArrayList<HashMap<String, String>> arraymap = new ArrayList<HashMap<String, String>>();
 

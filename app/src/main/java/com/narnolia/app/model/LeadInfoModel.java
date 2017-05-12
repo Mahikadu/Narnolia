@@ -6,7 +6,7 @@ import java.io.Serializable;
  * Created by Admin on 08-11-2016.
  */
 
-public class LeadInfoModel implements Serializable{
+public class LeadInfoModel implements Serializable {
 
 
     String stages;
@@ -492,6 +492,7 @@ public class LeadInfoModel implements Serializable{
     public void setBusiness_opp(String business_opp) {
         this.business_opp = business_opp;
     }
+
     public String getCustomer_id_name() {
         return customer_id_name;
     }
@@ -499,6 +500,7 @@ public class LeadInfoModel implements Serializable{
     public void setCustomer_id_name(String customer_id_name) {
         this.customer_id_name = customer_id_name;
     }
+
     public String getDuration_date() {
         return duration_date;
     }
@@ -506,6 +508,7 @@ public class LeadInfoModel implements Serializable{
     public void setDuration_date(String duration_date) {
         this.duration_date = duration_date;
     }
+
     public String getNon_salary_val() {
         return non_salary_val;
     }

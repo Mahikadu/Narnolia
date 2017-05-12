@@ -33,31 +33,30 @@ public class SOAPWebService {
     public SoapPrimitive SaveLead(String lead_source, String sub_source, String empcode, String fname, String mname,
                                   String lname, String mobileno, String location, String city,
                                   String pincode, String app_version, String Stages, String createdby, String app_date,
-                                  String createdFrom, String L_flag, String allocated_user_id){
+                                  String createdFrom, String L_flag, String allocated_user_id) {
 
         SoapPrimitive result = null;
 
-        try{
-            SoapObject request = new SoapObject(NAMESPACE,"SaveLead");
+        try {
+            SoapObject request = new SoapObject(NAMESPACE, "SaveLead");
 
-            request.addProperty("lead_source",lead_source);
-            request.addProperty("sub_source",sub_source);
-            request.addProperty("empcode",empcode);
-            request.addProperty("fname",fname);
-            request.addProperty("mname",mname);
-            request.addProperty("lname",lname);
-            request.addProperty("mobileno",mobileno);
-            request.addProperty("location",location);
-            request.addProperty("city",city);
-            request.addProperty("pincode",pincode);
-            request.addProperty("app_version",app_version);
-            request.addProperty("Stages",Stages);
-            request.addProperty("createdby",createdby);
-            request.addProperty("app_date",app_date);
-            request.addProperty("createdFrom",createdFrom);
-            request.addProperty("L_flag",L_flag);
-            request.addProperty("allocated_user_id",allocated_user_id);
-
+            request.addProperty("lead_source", lead_source);
+            request.addProperty("sub_source", sub_source);
+            request.addProperty("empcode", empcode);
+            request.addProperty("fname", fname);
+            request.addProperty("mname", mname);
+            request.addProperty("lname", lname);
+            request.addProperty("mobileno", mobileno);
+            request.addProperty("location", location);
+            request.addProperty("city", city);
+            request.addProperty("pincode", pincode);
+            request.addProperty("app_version", app_version);
+            request.addProperty("Stages", Stages);
+            request.addProperty("createdby", createdby);
+            request.addProperty("app_date", app_date);
+            request.addProperty("createdFrom", createdFrom);
+            request.addProperty("L_flag", L_flag);
+            request.addProperty("allocated_user_id", allocated_user_id);
 
 
             SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
@@ -77,70 +76,70 @@ public class SOAPWebService {
 
             return result;
 
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
         return null;
     }
-//.........................
-    public SoapPrimitive UpdateLead(String lead_id,String lead_source, String sub_source,String customer_id, String fname, String mname,
-                                  String lname, String mobileno, String emailid,String age,String dob,String address1,String address2,String address3
-            ,String location,String city,String pincode,String occupation,String non_salary_val,String annual_income,String other_broker_dealt_with,String meeting_status,String Lead_Status,String remarks,
-                                    String competitor_name, String product,String typeofsearch,String duration,String pan_no,String reason,String b_margin,String b_aum,String b_sip,String b_number,
-                                    String b_value,String b_premium,String next_meeting_date,String meeting_agenda,String lead_update_log,String status_flag,String updatedby, String empcode,String last_meeting_date,String last_meeting_update,String app_version,String allocated_user_id,String updated_date,String duration_date ){
+
+    //.........................
+    public SoapPrimitive UpdateLead(String lead_id, String lead_source, String sub_source, String customer_id, String fname, String mname,
+                                    String lname, String mobileno, String emailid, String age, String dob, String address1, String address2, String address3
+            , String location, String city, String pincode, String occupation, String non_salary_val, String annual_income, String other_broker_dealt_with, String meeting_status, String Lead_Status, String remarks,
+                                    String competitor_name, String product, String typeofsearch, String duration, String pan_no, String reason, String b_margin, String b_aum, String b_sip, String b_number,
+                                    String b_value, String b_premium, String next_meeting_date, String meeting_agenda, String lead_update_log, String status_flag, String updatedby, String empcode, String last_meeting_date, String last_meeting_update, String app_version, String allocated_user_id, String updated_date, String duration_date) {
         SoapPrimitive result = null;
-        try{SoapObject request = new SoapObject(NAMESPACE,"UpdateLead");
-            request.addProperty("lead_id",lead_id);
-            request.addProperty("lead_source",lead_source);
-            request.addProperty("sub_source",sub_source);
-            request.addProperty("customer_id",customer_id);
-            request.addProperty("fname",fname);
-            request.addProperty("mname",mname);
-            request.addProperty("lname",lname);
-            request.addProperty("mobileno",mobileno);
-            request.addProperty("emailid",emailid);
-            request.addProperty("age",age);
-            request.addProperty("dob",dob);
-            request.addProperty("address1",address1);
-            request.addProperty("address2",address2);
-            request.addProperty("address3",address3);
-            request.addProperty("location",location);
-            request.addProperty("city",city);
-            request.addProperty("pincode",pincode);
-            request.addProperty("occupation",occupation);
-            request.addProperty("non_salary_val",non_salary_val);
-            request.addProperty("annual_income",annual_income);
-            request.addProperty("other_broker_dealt_with",other_broker_dealt_with);
-            request.addProperty("meeting_status",meeting_status);
-            request.addProperty("Lead_Status",Lead_Status);
-            request.addProperty("remarks",remarks);
-            request.addProperty("competitor_name",competitor_name);
-            request.addProperty("product",product);
-            request.addProperty("typeofsearch",typeofsearch);
-            request.addProperty("duration",duration);
-            request.addProperty("pan_no",pan_no);
-            request.addProperty("reason",reason);
-            request.addProperty("b_margin",b_margin);
-            request.addProperty("b_aum",b_aum);
-            request.addProperty("b_sip",b_sip);
-            request.addProperty("b_number",b_number);
-            request.addProperty("b_value",b_value);
-            request.addProperty("b_premium",b_premium);
-            request.addProperty("next_meeting_date",next_meeting_date);
-            request.addProperty("meeting_agenda",meeting_agenda);
-            request.addProperty("lead_update_log",lead_update_log);
-            request.addProperty("status_flag",status_flag);
-            request.addProperty("updatedby",updatedby);
-            request.addProperty("empcode",empcode);
-            request.addProperty("last_meeting_date",last_meeting_date);
-            request.addProperty("last_meeting_update",last_meeting_update);
-            request.addProperty("app_version",app_version);
-            request.addProperty("allocated_user_id",allocated_user_id);
-            request.addProperty("updated_date",updated_date);
-            request.addProperty("duration_date",duration_date);
-
-
+        try {
+            SoapObject request = new SoapObject(NAMESPACE, "UpdateLead");
+            request.addProperty("lead_id", lead_id);
+            request.addProperty("lead_source", lead_source);
+            request.addProperty("sub_source", sub_source);
+            request.addProperty("customer_id", customer_id);
+            request.addProperty("fname", fname);
+            request.addProperty("mname", mname);
+            request.addProperty("lname", lname);
+            request.addProperty("mobileno", mobileno);
+            request.addProperty("emailid", emailid);
+            request.addProperty("age", age);
+            request.addProperty("dob", dob);
+            request.addProperty("address1", address1);
+            request.addProperty("address2", address2);
+            request.addProperty("address3", address3);
+            request.addProperty("location", location);
+            request.addProperty("city", city);
+            request.addProperty("pincode", pincode);
+            request.addProperty("occupation", occupation);
+            request.addProperty("non_salary_val", non_salary_val);
+            request.addProperty("annual_income", annual_income);
+            request.addProperty("other_broker_dealt_with", other_broker_dealt_with);
+            request.addProperty("meeting_status", meeting_status);
+            request.addProperty("Lead_Status", Lead_Status);
+            request.addProperty("remarks", remarks);
+            request.addProperty("competitor_name", competitor_name);
+            request.addProperty("product", product);
+            request.addProperty("typeofsearch", typeofsearch);
+            request.addProperty("duration", duration);
+            request.addProperty("pan_no", pan_no);
+            request.addProperty("reason", reason);
+            request.addProperty("b_margin", b_margin);
+            request.addProperty("b_aum", b_aum);
+            request.addProperty("b_sip", b_sip);
+            request.addProperty("b_number", b_number);
+            request.addProperty("b_value", b_value);
+            request.addProperty("b_premium", b_premium);
+            request.addProperty("next_meeting_date", next_meeting_date);
+            request.addProperty("meeting_agenda", meeting_agenda);
+            request.addProperty("lead_update_log", lead_update_log);
+            request.addProperty("status_flag", status_flag);
+            request.addProperty("updatedby", updatedby);
+            request.addProperty("empcode", empcode);
+            request.addProperty("last_meeting_date", last_meeting_date);
+            request.addProperty("last_meeting_update", last_meeting_update);
+            request.addProperty("app_version", app_version);
+            request.addProperty("allocated_user_id", allocated_user_id);
+            request.addProperty("updated_date", updated_date);
+            request.addProperty("duration_date", duration_date);
 
 
             SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
@@ -160,7 +159,7 @@ public class SOAPWebService {
 
             return result;
 
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -169,15 +168,15 @@ public class SOAPWebService {
 
     //...........................................................................
 
-    public SoapPrimitive SaveCategory(String lead_id,String catId, String empCode,String fromtype){
+    public SoapPrimitive SaveCategory(String lead_id, String catId, String empCode, String fromtype) {
         SoapPrimitive result = null;
-        try{
+        try {
 
-            SoapObject request = new SoapObject(NAMESPACE,"savecategory");
-            request.addProperty("lead_id",lead_id);
-            request.addProperty("categoryid",catId);
-            request.addProperty("empcode",empCode);
-            request.addProperty("fromtype",fromtype);
+            SoapObject request = new SoapObject(NAMESPACE, "savecategory");
+            request.addProperty("lead_id", lead_id);
+            request.addProperty("categoryid", catId);
+            request.addProperty("empcode", empCode);
+            request.addProperty("fromtype", fromtype);
 
             SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
                     SoapEnvelope.VER11);// soap envelop with version
@@ -196,7 +195,7 @@ public class SOAPWebService {
 
             return result;
 
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -214,7 +213,7 @@ public class SOAPWebService {
             SoapObject request = new SoapObject(NAMESPACE,
                     "Parameter");// soap object
 
-           // request.addProperty("date", date);
+            // request.addProperty("date", date);
 
 
             SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
@@ -280,15 +279,16 @@ public class SOAPWebService {
         }
 
     }
+
     //.................Save Reserach type......
-    public SoapPrimitive SaveResearch(String lead_id,String research_id, String empCode,String fromtype){
+    public SoapPrimitive SaveResearch(String lead_id, String research_id, String empCode, String fromtype) {
         SoapPrimitive result4 = null;
-        try{
-            SoapObject request = new SoapObject(NAMESPACE,"saveresearch");
-            request.addProperty("lead_id",lead_id);
-            request.addProperty("research_id",research_id);
-            request.addProperty("empcode",empCode);
-            request.addProperty("fromtype",fromtype);
+        try {
+            SoapObject request = new SoapObject(NAMESPACE, "saveresearch");
+            request.addProperty("lead_id", lead_id);
+            request.addProperty("research_id", research_id);
+            request.addProperty("empcode", empCode);
+            request.addProperty("fromtype", fromtype);
             SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
                     SoapEnvelope.VER11);
             envelope.setOutputSoapObject(request);
@@ -299,12 +299,11 @@ public class SOAPWebService {
             result4 = (SoapPrimitive) envelope.getResponse();
             Log.i("TAG", "response :" + result4);
             return result4;
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
     }
-
 
 
     //................get All Client.........
@@ -341,6 +340,7 @@ public class SOAPWebService {
         }
 
     }
+
     public SoapObject FillDetail(String lead_id) {
         SoapObject result6 = null;
 
@@ -376,6 +376,7 @@ public class SOAPWebService {
         }
 
     }
+
     //...............GetcategoryType_data...........
     public SoapObject GetcategoryType_data(String lead_id) {
         SoapObject result7 = null;
@@ -412,8 +413,9 @@ public class SOAPWebService {
         }
 
     }
+
     //..................Get Message ........
-    public SoapObject GetMessages(String emp,String roleid,String dates) {
+    public SoapObject GetMessages(String emp, String roleid, String dates) {
         SoapObject result8 = null;
 
         try {
@@ -422,8 +424,8 @@ public class SOAPWebService {
                     "GetMessages");// soap object
 
             request.addProperty("emp", emp);
-            request.addProperty("roleid","2");//roleid
-            request.addProperty("dates",dates);
+            request.addProperty("roleid", "2");//roleid
+            request.addProperty("dates", dates);
 
             SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
                     SoapEnvelope.VER11);// soap envelop with version
@@ -450,45 +452,47 @@ public class SOAPWebService {
         }
 
     }
-//.........................
+
+    //.........................
 //....................fill Details app...............
-public SoapObject Filldetailsforapp(String lead_id) {
-    SoapObject result9 = null;
+    public SoapObject Filldetailsforapp(String lead_id) {
+        SoapObject result9 = null;
 
-    try {
+        try {
 //
-        SoapObject request = new SoapObject(NAMESPACE,
-                "filldetailsforapp");// soap object
+            SoapObject request = new SoapObject(NAMESPACE,
+                    "filldetailsforapp");// soap object
 
-        request.addProperty("lead_id", lead_id);
+            request.addProperty("lead_id", lead_id);
 
-        SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
-                SoapEnvelope.VER11);// soap envelop with version
-        envelope.setOutputSoapObject(request); // set request object
-        envelope.dotNet = true;
+            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
+                    SoapEnvelope.VER11);// soap envelop with version
+            envelope.setOutputSoapObject(request); // set request object
+            envelope.dotNet = true;
 
-        HttpTransportSE androidHttpTransport = new HttpTransportSE(Utils.URL);// http
-        // transport
-        // call
-        androidHttpTransport.call(SOAP_ACTION + "filldetailsforapp",
-                envelope);
-        Log.i("TAG", "envelope" + envelope);
+            HttpTransportSE androidHttpTransport = new HttpTransportSE(Utils.URL);// http
+            // transport
+            // call
+            androidHttpTransport.call(SOAP_ACTION + "filldetailsforapp",
+                    envelope);
+            Log.i("TAG", "envelope" + envelope);
 
-        // response soap object
-        result9 = (SoapObject) envelope.getResponse();
-        Log.i("TAG", "response :" + result9);
+            // response soap object
+            result9 = (SoapObject) envelope.getResponse();
+            Log.i("TAG", "response :" + result9);
 
-        return result9;
-    } catch (Exception e) {
+            return result9;
+        } catch (Exception e) {
 
-        e.printStackTrace();
+            e.printStackTrace();
 
-        return null;
+            return null;
+        }
+
     }
 
-}
     //..................Get Status Report ........
-    public SoapObject StatusReport(String empcode,String roleid) {
+    public SoapObject StatusReport(String empcode, String roleid) {
         SoapObject result10 = null;
 
         try {
@@ -497,7 +501,7 @@ public SoapObject Filldetailsforapp(String lead_id) {
                     "statusreport");// soap object
 
             request.addProperty("empcode", empcode);
-            request.addProperty("role_id",roleid);//roleid
+            request.addProperty("role_id", roleid);//roleid
 
 
             SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
@@ -527,49 +531,49 @@ public SoapObject Filldetailsforapp(String lead_id) {
     }
 
     public SoapObject AttendanceReport(String date1, String date2, String attendance, String empcode, String role_id,
-                                        String search_by, String national, String zone, String region, String location,
+                                       String search_by, String national, String zone, String region, String location,
                                        String cluster) {
-            SoapObject result = null;
+        SoapObject result = null;
 
-            try {
-                SoapObject request = new SoapObject(NAMESPACE, "attendance_report_locationwise");
+        try {
+            SoapObject request = new SoapObject(NAMESPACE, "attendance_report_locationwise");
 
-                request.addProperty("date", date1);
-                request.addProperty("date2", date2);
-                request.addProperty("attendance", attendance);
-                request.addProperty("empcode", empcode);
-                request.addProperty("roleid", role_id);
-                request.addProperty("searchyby", search_by);
-                request.addProperty("national", national);
-                request.addProperty("zone", zone);
-                request.addProperty("region", region);
-                request.addProperty("location", location);
-                request.addProperty("cluster", cluster);
+            request.addProperty("date", date1);
+            request.addProperty("date2", date2);
+            request.addProperty("attendance", attendance);
+            request.addProperty("empcode", empcode);
+            request.addProperty("roleid", role_id);
+            request.addProperty("searchyby", search_by);
+            request.addProperty("national", national);
+            request.addProperty("zone", zone);
+            request.addProperty("region", region);
+            request.addProperty("location", location);
+            request.addProperty("cluster", cluster);
 
-                SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
-                envelope.setOutputSoapObject(request); // set request object
-                envelope.dotNet = true;
+            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+            envelope.setOutputSoapObject(request); // set request object
+            envelope.dotNet = true;
 
-                HttpTransportSE androidHttpTransport = new HttpTransportSE(Utils.URL);// http
-                // transport
-                // call
-                androidHttpTransport.call(SOAP_ACTION + "attendance_report_locationwise",
-                        envelope);
-                Log.i("TAG", "envelope" + envelope);
+            HttpTransportSE androidHttpTransport = new HttpTransportSE(Utils.URL);// http
+            // transport
+            // call
+            androidHttpTransport.call(SOAP_ACTION + "attendance_report_locationwise",
+                    envelope);
+            Log.i("TAG", "envelope" + envelope);
 
-                // response soap object
-                result = (SoapObject) envelope.getResponse();
-                Log.i("TAG", "response :" + result);
+            // response soap object
+            result = (SoapObject) envelope.getResponse();
+            Log.i("TAG", "response :" + result);
 
-                return result;
-            } catch (Exception e) {
-                e.printStackTrace();
-                return null;
-            }
+            return result;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     //..................Get Status Report ........
-    public SoapObject SubStatusReport(String empcode, String role_id, String national, String zone, String region, String cluster, String location,String status, String submission_date) {
+    public SoapObject SubStatusReport(String empcode, String role_id, String national, String zone, String region, String cluster, String location, String status, String submission_date) {
         SoapObject result11 = null;
 
         try {
@@ -578,13 +582,13 @@ public SoapObject Filldetailsforapp(String lead_id) {
                     "get_dashboardDetails_locationwise");// soap object
 
             request.addProperty("usercode", empcode);
-            request.addProperty("roleid",role_id);
+            request.addProperty("roleid", role_id);
             request.addProperty("national", national);
             request.addProperty("zone", zone);
-            request.addProperty("region",region);
-            request.addProperty("cluster",cluster);
-            request.addProperty("location",location);
-            request.addProperty("status",status);
+            request.addProperty("region", region);
+            request.addProperty("cluster", cluster);
+            request.addProperty("location", location);
+            request.addProperty("status", status);
             request.addProperty("submission_date", submission_date);
 
 
@@ -613,6 +617,7 @@ public SoapObject Filldetailsforapp(String lead_id) {
         }
 
     }
+
     //..................frogot Password ........
     public SoapObject ForgotPassword(String user_id) {
         SoapObject result12 = null;
@@ -650,8 +655,9 @@ public SoapObject Filldetailsforapp(String lead_id) {
         }
 
     }
+
     //..................Get Attendence Report ........
-    public SoapObject Attendence_Report_Monthwise(String role_id1,String emp_code1,String Month,String year,String attendance) {
+    public SoapObject Attendence_Report_Monthwise(String role_id1, String emp_code1, String Month, String year, String attendance) {
         SoapObject result13 = null;
 
         try {
@@ -660,10 +666,10 @@ public SoapObject Filldetailsforapp(String lead_id) {
                     "attendance_report_monthwise");// soap object
 
             request.addProperty("role_id", role_id1);
-            request.addProperty("emp_code",emp_code1);
+            request.addProperty("emp_code", emp_code1);
             request.addProperty("Month", Month);
-            request.addProperty("year",year);
-            request.addProperty("attendance",attendance);
+            request.addProperty("year", year);
+            request.addProperty("attendance", attendance);
 
             SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
                     SoapEnvelope.VER11);// soap envelop with version
@@ -691,14 +697,14 @@ public SoapObject Filldetailsforapp(String lead_id) {
 
     }
 
-    public SoapObject Attendence_Report_Datewise(String emp_code11,String current_date) {
+    public SoapObject Attendence_Report_Datewise(String emp_code11, String current_date) {
         SoapObject result14 = null;
 
         try {
 //
             SoapObject request = new SoapObject(NAMESPACE,
                     "attendance_report_datewise");// soap object
-            request.addProperty("emp_code",emp_code11);
+            request.addProperty("emp_code", emp_code11);
             request.addProperty("date", current_date);
 
 
@@ -727,15 +733,16 @@ public SoapObject Filldetailsforapp(String lead_id) {
         }
 
     }
-//.............. This web servicee is used for getting status report spinner data........
-    public SoapObject get_Geographicalhierarchy(String user_id,String param) {
+
+    //.............. This web servicee is used for getting status report spinner data........
+    public SoapObject get_Geographicalhierarchy(String user_id, String param) {
         SoapObject result15 = null;
 
         try {
 //
             SoapObject request = new SoapObject(NAMESPACE,
                     "get_Geographicalhierarchy");// soap object
-            request.addProperty("userid",user_id);
+            request.addProperty("userid", user_id);
             request.addProperty("param", param);
 
 
@@ -764,6 +771,7 @@ public SoapObject Filldetailsforapp(String lead_id) {
         }
 
     }
+
     public SoapObject get_emplist(String login_id, String national, String zone, String region, String location, String cluster) {
         SoapObject result16 = null;
 
@@ -771,7 +779,7 @@ public SoapObject Filldetailsforapp(String lead_id) {
 //
             SoapObject request = new SoapObject(NAMESPACE,
                     "get_emplist");// soap object
-            request.addProperty("login_id",login_id);
+            request.addProperty("login_id", login_id);
             request.addProperty("national", national);
             request.addProperty("zone", zone);
             request.addProperty("region", region);

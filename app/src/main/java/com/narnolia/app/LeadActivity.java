@@ -79,7 +79,7 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
     boolean uncheckall = false;
     String sourceString, subsource;
     String ClinetId;
-    String customer_id1="";
+    String customer_id1 = "";
     private List<String> spinCityArray;
     private List<String> spinClientIDList;
     String[] strClientIDArray;
@@ -1646,9 +1646,9 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
                     customer_id1 = strCustomer_id_name.trim();
                 } else if (strSourceofLead.equalsIgnoreCase("Client Reference")) {
                     customer_id1 = strCustomerID.trim();
-                }else if (strSourceofLead.equalsIgnoreCase("In- house Leads (Existing)")&& !strSubSourceofLead.equals("Existing Client")) {
+                } else if (strSourceofLead.equalsIgnoreCase("In- house Leads (Existing)") && !strSubSourceofLead.equals("Existing Client")) {
                     customer_id1 = strCustomerID.trim();
-                }else if (strSourceofLead.equalsIgnoreCase("In- house Leads (New)")) {
+                } else if (strSourceofLead.equalsIgnoreCase("In- house Leads (New)")) {
                     customer_id1 = strCustomerID.trim();
                 }
             }
@@ -1729,9 +1729,9 @@ public class LeadActivity extends AbstractActivity implements CompoundButton.OnC
                     customer_id1 = strCustomer_id_name.trim();
                 } else if (strSourceofLead.equalsIgnoreCase("Client Reference")) {
                     customer_id1 = strCustomerID.trim();
-                }else if (strSourceofLead.equalsIgnoreCase("In- house Leads (Existing)")&& !strSubSourceofLead.equals("Existing Client")) {
+                } else if (strSourceofLead.equalsIgnoreCase("In- house Leads (Existing)") && !strSubSourceofLead.equals("Existing Client")) {
                     customer_id1 = strCustomerID.trim();
-                }else if (strSourceofLead.equalsIgnoreCase("In- house Leads (New)")) {
+                } else if (strSourceofLead.equalsIgnoreCase("In- house Leads (New)")) {
                     customer_id1 = strCustomerID.trim();
                 }
             }

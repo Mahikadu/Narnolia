@@ -14,6 +14,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -199,12 +201,16 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
         int id = v.getId();
         switch (id) {
             case R.id.linear_dashboard:
+                v.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.image_click));
+
                 pushActivity(mContext, DashboardActivity.class, null, true);
                 break;
             case R.id.linear_create_lead:
+                v.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.image_click));
                 pushActivity(mContext, LeadActivity.class, null, true);
                 break;
             case R.id.linear_update_lead:
+                v.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.image_click));
                 pushActivity(mContext, UpdateLeadActivity.class, null, true);
                 break;
           /*  case R.id.linear_master:
@@ -218,11 +224,13 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
 
                 break;*/
             case R.id.linear_mis_reports:
+                v.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.image_click));
 //                pushActivity(mContext, StatusReportActivity.class, null, true);
                 showReportDialog();
 
                 break;
             case R.id.linear_notification:
+                v.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.image_click));
                 pushActivity(mContext, NotificationActivity.class, null, true);
                 break;
            /* case R.id.linear_attendence:

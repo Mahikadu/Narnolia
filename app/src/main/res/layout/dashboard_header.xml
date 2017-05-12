@@ -44,8 +44,6 @@
         android:textStyle="bold" />
 
 
-
-
     <TextView
         android:id="@+id/tvCity"
         android:layout_width="0dp"

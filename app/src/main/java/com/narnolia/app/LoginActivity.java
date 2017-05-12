@@ -70,7 +70,7 @@ public class LoginActivity extends AbstractActivity {
     private String f_Mailid, forgot_flag;
     String versionName = "";
     private LoginDetailsModel loginDetailsModel;
-    String user_check, attendance_check,role_id;
+    String user_check, attendance_check, role_id;
 
     EditText username, password;
     TextView t_username, t_password, forget_password, forgot_pass_message;
@@ -120,7 +120,7 @@ public class LoginActivity extends AbstractActivity {
 
             mContext = LoginActivity.this;
             progressDialog = new ProgressDialog(mContext);
-         //   progressDialog.setTitle("Login Status");
+            //   progressDialog.setTitle("Login Status");
             progressDialog.setMessage("Please Wait...");
             progressDialog.setCancelable(false);
             sharedPref = new SharedPref(mContext);
@@ -270,15 +270,15 @@ public class LoginActivity extends AbstractActivity {
                                         Geocoder geo = new Geocoder(mContext, Locale.getDefault());
                                         List<Address> addresses = geo.getFromLocation(latitude, longitude, 1);
                                         if (addresses.isEmpty()) {
-                                        if (lat.equals("0.0")&&lang.equals("0.0"))
-                                            Toast.makeText(mContext, "Waiting for location", Toast.LENGTH_SHORT).show();
+                                            if (lat.equals("0.0") && lang.equals("0.0"))
+                                                Toast.makeText(mContext, "Waiting for location", Toast.LENGTH_SHORT).show();
 
                                         } else {
                                             if (addresses.size() > 0) {
-                                                if (!lat.equals("0.0")&&!lang.equals("0.0"))
+                                                if (!lat.equals("0.0") && !lang.equals("0.0"))
                                                     //  Toast.makeText(mContext, "your location is"+addresses.get(0), Toast.LENGTH_SHORT).show();
-                                                //addres.setText(addresses.get(0).getFeatureName() + ", " + addresses.get(0).getLocality() +", " + addresses.get(0).getAdminArea() + ", " + addresses.get(0).getCountryName());
-                                                location = addresses.get(0).getLocality();
+                                                    //addres.setText(addresses.get(0).getFeatureName() + ", " + addresses.get(0).getLocality() +", " + addresses.get(0).getAdminArea() + ", " + addresses.get(0).getCountryName());
+                                                    location = addresses.get(0).getLocality();
                                                 // Toast.makeText(getApplicationContext(), "Address:- " + addresses.get(0).getLocality(), Toast.LENGTH_LONG).show();
                                                 new AttendenceReportDateWise().execute();
                                             }
@@ -286,7 +286,7 @@ public class LoginActivity extends AbstractActivity {
                                     } catch (Exception e) {
                                         e.printStackTrace(); // getFromLocation() may sometimes fail
                                     }
-                                   // new AttendenceReportDateWise().execute();
+                                    // new AttendenceReportDateWise().execute();
 
 
                                 } else {
@@ -683,7 +683,7 @@ public class LoginActivity extends AbstractActivity {
                     pushActivity(LoginActivity.this, HomeActivity.class, bundle2, true);
 
                     sharedPref.setSharedPrefLogin(email, strUser, mobile, result, status, userId, role_id);
-                }else if (strUser.equals(user_check) && attendance_check.equals("Absent")) {
+                } else if (strUser.equals(user_check) && attendance_check.equals("Absent")) {
                     Toast.makeText(mContext, "This user is Absent today", Toast.LENGTH_SHORT).show();
                 } else {
                     new UserLogin().execute();

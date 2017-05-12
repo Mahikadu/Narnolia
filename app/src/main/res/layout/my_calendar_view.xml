@@ -26,6 +26,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"></include>
     </LinearLayout>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -49,6 +50,7 @@
             android:textColor="@color/colorRed" />
 
     </RelativeLayout>
+
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
@@ -119,75 +121,80 @@
             android:layout_width="fill_parent"
             android:layout_height="60sp"
             android:height="60sp"
+            android:background="@color/colorGray"
             android:gravity="left|top"
             android:orientation="horizontal"
-            android:background="@color/colorGray"
 
-           >
+            >
 
-          <!--  <ImageView
-                android:id="@+id/calendarheader"
-                android:layout_width="fill_parent"
-                android:layout_height="60sp"
+            <!--  <ImageView
+                  android:id="@+id/calendarheader"
+                  android:layout_width="fill_parent"
+                  android:layout_height="60sp"
 
-                android:src="@drawable/calendar_days"></ImageView>-->
+                  android:src="@drawable/calendar_days"></ImageView>-->
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.15"
+                android:background="@color/colorGray"
                 android:gravity="center"
                 android:text="@string/sun"
-                android:textColor="@color/coloryellow"
-                android:background="@color/colorGray"
-                />
+                android:textColor="@color/coloryellow" />
+
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.14"
+                android:background="@color/colorGray"
                 android:gravity="center"
                 android:text="@string/mon"
-                android:textColor="@color/coloryellow"
-                android:background="@color/colorGray"/>
+                android:textColor="@color/coloryellow" />
+
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.14"
+                android:background="@color/colorGray"
                 android:gravity="center"
                 android:text="@string/tue"
-                android:textColor="@color/coloryellow"
-                android:background="@color/colorGray"/>
+                android:textColor="@color/coloryellow" />
+
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.14"
+                android:background="@color/colorGray"
                 android:gravity="center"
                 android:text="@string/wed"
-                android:textColor="@color/coloryellow"
-                android:background="@color/colorGray"/>
+                android:textColor="@color/coloryellow" />
+
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.14"
+                android:background="@color/colorGray"
                 android:gravity="center"
                 android:text="@string/thu"
-                android:textColor="@color/coloryellow"
-                android:background="@color/colorGray"/>
+                android:textColor="@color/coloryellow" />
+
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.14"
+                android:background="@color/colorGray"
                 android:gravity="center"
                 android:text="@string/fri"
-                android:textColor="@color/coloryellow"
-                android:background="@color/colorGray"/>
+                android:textColor="@color/coloryellow" />
+
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.15"
+                android:background="@color/colorGray"
                 android:gravity="center"
                 android:text="@string/sat"
-                android:textColor="@color/coloryellow"
-                android:background="@color/colorGray"/>
+                android:textColor="@color/coloryellow" />
         </LinearLayout>
 
         <GridView

@@ -7,7 +7,8 @@ import java.io.Serializable;
  */
 
 public class LoginDetailsModel implements Serializable {
-    String login_UserID,login_LoginID,login_Email,login_Mobile_no,login_Result,login_Status,login_Username,login_Attendence,login_IsRM;
+    String login_UserID, login_LoginID, login_Email, login_Mobile_no, login_Result, login_Status, login_Username, login_Attendence, login_IsRM;
+
     public String getLogin_UserID() {
         return login_UserID;
     }
@@ -79,8 +80,6 @@ public class LoginDetailsModel implements Serializable {
     public void setLogin_IsRM(String login_IsRM) {
         this.login_IsRM = login_IsRM;
     }
-
-
 
 
 }

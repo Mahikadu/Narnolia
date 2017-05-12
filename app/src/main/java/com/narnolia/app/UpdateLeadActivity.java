@@ -2483,7 +2483,7 @@ public class UpdateLeadActivity extends AbstractActivity implements CompoundButt
                 mobileno.setText(leadInfoModel.getMobile_no());
                 email.setText(leadInfoModel.getEmail_id());
                 location.setText(leadInfoModel.getLocation());
-                String city=capitalizer(leadInfoModel.getCity());
+                String city = capitalizer(leadInfoModel.getCity());
 
 
 //                 String c_name = city.substring(0, 1).toUpperCase() + city.substring(1).toLowerCase();
@@ -2683,8 +2683,9 @@ public class UpdateLeadActivity extends AbstractActivity implements CompoundButt
             e.printStackTrace();
         }
     }
+
     // capital first letter of string
-    private String capitalizer(String word){
+    private String capitalizer(String word) {
 
         String[] words = word.split(" ");
         StringBuilder sb = new StringBuilder();
@@ -2695,9 +2696,10 @@ public class UpdateLeadActivity extends AbstractActivity implements CompoundButt
                 sb.append(Character.toUpperCase(words[i].charAt(0)) + words[i].subSequence(1, words[i].length()).toString().toLowerCase());
             }
         }
-        return  sb.toString();
+        return sb.toString();
 
     }
+
     public LeadInfoModel createLeadInfoModel(Cursor cursor) {
 
         leadInfoModel = new LeadInfoModel();
@@ -2873,7 +2875,7 @@ public class UpdateLeadActivity extends AbstractActivity implements CompoundButt
                     lname.setEnabled(false);
                 }
 
-              String city=capitalizer(clientDetailsModel.getCity());
+                String city = capitalizer(clientDetailsModel.getCity());
 
                 editCity.setText(city);
 
@@ -2897,7 +2899,8 @@ public class UpdateLeadActivity extends AbstractActivity implements CompoundButt
                         pincodeListArray.add(pincode);
                     } while (cursor.moveToNext());
                     cursor.close();
-                }  if (pincodeListArray.size() > 0) {
+                }
+                if (pincodeListArray.size() > 0) {
                     final String[] strPinArr = new String[pincodeListArray.size()];
 
                     for (int i = 0; i < pincodeListArray.size(); i++) {
@@ -3432,7 +3435,7 @@ public class UpdateLeadActivity extends AbstractActivity implements CompoundButt
                     } else {
                         strBusiness_opp = "";
                     }
-                    String city_1="";
+                    String city_1 = "";
                     if (root.getProperty("city") != null) {
 
                         if (!root.getProperty("city").toString().equalsIgnoreCase("anyType{}")) {

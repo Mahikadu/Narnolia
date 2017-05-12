@@ -53,8 +53,8 @@ public class StatusReportAdapter extends BaseAdapter {
     private SubStatusReportModel subStatusReportModel;
     private List<StatusReportModel> statusReportModels = new ArrayList<>();
     private String leadStatus = "", createdDate = "", responseId = "";
-    String meeting_status="", pos;
-    private String sub_lead_id,sub_name,sub_Mobile_no,sub_city,sub_pincode,sub_last_meeting_date,sub_last_meeting_update,sub_meeting_status;
+    String meeting_status = "", pos;
+    private String sub_lead_id, sub_name, sub_Mobile_no, sub_city, sub_pincode, sub_last_meeting_date, sub_last_meeting_update, sub_meeting_status;
 
     public StatusReportAdapter(Context mContext, List<StatusReportModel> statusReportModels) {
         this.context = mContext;
@@ -133,7 +133,7 @@ public class StatusReportAdapter extends BaseAdapter {
         viewHolder.report_today.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(position == 0) {
+                if (position == 0) {
                     meeting_status = statusReportModels.get(0).getStatus_1();
                 } else if (position == 1) {
                     meeting_status = statusReportModels.get(1).getStatus_1();
@@ -146,7 +146,7 @@ public class StatusReportAdapter extends BaseAdapter {
         viewHolder.report_t1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(position == 0) {
+                if (position == 0) {
                     meeting_status = statusReportModels.get(0).getStatus_1();
                 } else if (position == 1) {
                     meeting_status = statusReportModels.get(1).getStatus_1();
@@ -159,7 +159,7 @@ public class StatusReportAdapter extends BaseAdapter {
         viewHolder.report_t2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(position == 0) {
+                if (position == 0) {
                     meeting_status = statusReportModels.get(0).getStatus_1();
                 } else if (position == 1) {
                     meeting_status = statusReportModels.get(1).getStatus_1();
@@ -172,7 +172,7 @@ public class StatusReportAdapter extends BaseAdapter {
         viewHolder.report_t3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(position == 0) {
+                if (position == 0) {
                     meeting_status = statusReportModels.get(0).getStatus_1();
                 } else if (position == 1) {
                     meeting_status = statusReportModels.get(1).getStatus_1();
@@ -185,7 +185,7 @@ public class StatusReportAdapter extends BaseAdapter {
         viewHolder.report_t4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(position == 0) {
+                if (position == 0) {
                     meeting_status = statusReportModels.get(0).getStatus_1();
                 } else if (position == 1) {
                     meeting_status = statusReportModels.get(1).getStatus_1();
@@ -198,7 +198,7 @@ public class StatusReportAdapter extends BaseAdapter {
         viewHolder.report_t5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(position == 0) {
+                if (position == 0) {
                     meeting_status = statusReportModels.get(0).getStatus_1();
                 } else if (position == 1) {
                     meeting_status = statusReportModels.get(1).getStatus_1();
@@ -211,7 +211,7 @@ public class StatusReportAdapter extends BaseAdapter {
         viewHolder.report_t6.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(position == 0) {
+                if (position == 0) {
                     meeting_status = statusReportModels.get(0).getStatus_1();
                 } else if (position == 1) {
                     meeting_status = statusReportModels.get(1).getStatus_1();
@@ -224,7 +224,7 @@ public class StatusReportAdapter extends BaseAdapter {
         viewHolder.report_t7.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(position == 0) {
+                if (position == 0) {
                     meeting_status = statusReportModels.get(0).getStatus_1();
                 } else if (position == 1) {
                     meeting_status = statusReportModels.get(1).getStatus_1();
@@ -263,7 +263,7 @@ public class StatusReportAdapter extends BaseAdapter {
             try {
                 SOAPWebService webService = new SOAPWebService(context);
                 object = webService.SubStatusReport(sharedPref.getLoginId(), sharedPref.getIsRM(), StatusReport.nationVal, StatusReport.zoneVal, StatusReport.regionVal,
-                            StatusReport.clusterVal, StatusReport.locationVal, meeting_status, createdDate);
+                        StatusReport.clusterVal, StatusReport.locationVal, meeting_status, createdDate);
               /*  statusReportModel.getStatus_1()*/
             } catch (Exception e) {
                 e.printStackTrace();
@@ -385,8 +385,6 @@ public class StatusReportAdapter extends BaseAdapter {
                     }
 
 
-
-
                     subStatusReportModelList.add(subStatusReportModel);
 
                 }
@@ -395,7 +393,7 @@ public class StatusReportAdapter extends BaseAdapter {
 //                    lvStatusReport.setAdapter(subStatusReporAdapter);
                 }*/
                 if (subStatusReportModelList != null && subStatusReportModelList.size() > 0)
-                    ((StatusReport)context).setSubStatusData();
+                    ((StatusReport) context).setSubStatusData();
 
             } catch (Exception e) {
                 e.printStackTrace();

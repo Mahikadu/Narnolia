@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/opportunity_table"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:id="@+id/opportunity_table">
+    android:orientation="vertical">
 
     <TableLayout
         android:layout_width="match_parent"
@@ -19,38 +19,39 @@
             android:background="@drawable/border">
 
 
-                <TextView
-                    android:id="@+id/tvMargin"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="@string/margin"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@android:color/black" />
+            <TextView
+                android:id="@+id/tvMargin"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/margin"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@android:color/black" />
 
-                <LinearLayout
-                    android:layout_width="1dp"
-                    android:background="@color/black"
-                    android:layout_height="match_parent">
+            <LinearLayout
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/black">
 
-                </LinearLayout>
+            </LinearLayout>
 
-                <EditText
-                    android:id="@+id/edt_margin"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:layout_marginTop="@dimen/layout_margin"
-                    android:layout_weight="1"
-                    android:inputType="number"
-                    android:background="@drawable/edit_background"
-                    android:drawablePadding="@dimen/view_padding"
-                    android:maxLength="50"
-                    android:padding="@dimen/view_padding"
-                    android:textColor="@android:color/black" />
-            </TableRow>
+            <EditText
+                android:id="@+id/edt_margin"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_marginTop="@dimen/layout_margin"
+                android:layout_weight="1"
+                android:background="@drawable/edit_background"
+                android:drawablePadding="@dimen/view_padding"
+                android:inputType="number"
+                android:maxLength="50"
+                android:padding="@dimen/view_padding"
+                android:textColor="@android:color/black" />
+        </TableRow>
+
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -70,25 +71,26 @@
 
             <LinearLayout
                 android:layout_width="1dp"
-                android:background="@color/black"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:background="@color/black">
 
             </LinearLayout>
 
             <EditText
                 android:id="@+id/edt_aum"
                 android:layout_width="0dp"
-                android:inputType="number"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:layout_marginTop="@dimen/layout_margin"
                 android:layout_weight="1"
                 android:background="@drawable/edit_background"
                 android:drawablePadding="@dimen/view_padding"
+                android:inputType="number"
                 android:maxLength="50"
                 android:padding="@dimen/view_padding"
                 android:textColor="@android:color/black" />
         </TableRow>
+
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -108,8 +110,8 @@
 
             <LinearLayout
                 android:layout_width="1dp"
-                android:background="@color/black"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:background="@color/black">
 
             </LinearLayout>
 
@@ -117,16 +119,17 @@
                 android:id="@+id/edt_sip"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:inputType="number"
                 android:layout_margin="10dp"
                 android:layout_marginTop="@dimen/layout_margin"
                 android:layout_weight="1"
                 android:background="@drawable/edit_background"
                 android:drawablePadding="@dimen/view_padding"
+                android:inputType="number"
                 android:maxLength="50"
                 android:padding="@dimen/view_padding"
                 android:textColor="@android:color/black" />
         </TableRow>
+
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -146,25 +149,26 @@
 
             <LinearLayout
                 android:layout_width="1dp"
-                android:background="@color/black"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:background="@color/black">
 
             </LinearLayout>
 
             <EditText
                 android:id="@+id/edt_number"
                 android:layout_width="0dp"
-                android:inputType="number"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:layout_marginTop="@dimen/layout_margin"
                 android:layout_weight="1"
                 android:background="@drawable/edit_background"
                 android:drawablePadding="@dimen/view_padding"
+                android:inputType="number"
                 android:maxLength="50"
                 android:padding="@dimen/view_padding"
                 android:textColor="@android:color/black" />
         </TableRow>
+
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -184,8 +188,8 @@
 
             <LinearLayout
                 android:layout_width="1dp"
-                android:background="@color/black"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:background="@color/black">
 
             </LinearLayout>
 
@@ -193,16 +197,17 @@
                 android:id="@+id/edt_value"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:inputType="number"
                 android:layout_margin="10dp"
                 android:layout_marginTop="@dimen/layout_margin"
                 android:layout_weight="1"
                 android:background="@drawable/edit_background"
                 android:drawablePadding="@dimen/view_padding"
+                android:inputType="number"
                 android:maxLength="50"
                 android:padding="@dimen/view_padding"
                 android:textColor="@android:color/black" />
         </TableRow>
+
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -222,8 +227,8 @@
 
             <LinearLayout
                 android:layout_width="1dp"
-                android:background="@color/black"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:background="@color/black">
 
             </LinearLayout>
 
@@ -232,14 +237,14 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:inputType="number"
                 android:layout_marginTop="@dimen/layout_margin"
                 android:layout_weight="1"
                 android:background="@drawable/edit_background"
                 android:drawablePadding="@dimen/view_padding"
+                android:imeOptions="actionDone"
+                android:inputType="number"
                 android:maxLength="50"
                 android:padding="@dimen/view_padding"
-                android:imeOptions="actionDone"
                 android:textColor="@android:color/black" />
         </TableRow>
 

@@ -31,19 +31,20 @@ import java.util.List;
  * Created by Sudesi on 09/03/2017.
  */
 
-public class NotificationActivity extends AbstractActivity{
+public class NotificationActivity extends AbstractActivity {
     private Context mContext;
     private List<GetMessagesModel> getMessagesModelList;
     private ListView lvNotification;
     public Utils utils;
     private ProgressDialog progressDialog;
-   String empcode;
+    String empcode;
     private TextView admin;
     private String responseId;
     private SharedPref sharedPref;
-    String str_date,strId, strEmp,str_Message,str_Result,str_Role;
+    String str_date, strId, strEmp, str_Message, str_Result, str_Role;
     GetMessagesModel getMessagesModel;
     public NotificationAdapter notificationAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,6 +63,7 @@ public class NotificationActivity extends AbstractActivity{
 
         new GetMessages().execute();
     }
+
     @Override
     public void onBackPressed() {
         //super.onBackPressed();
@@ -72,6 +74,7 @@ public class NotificationActivity extends AbstractActivity{
         pushActivity(mContext, HomeActivity.class, null, true);
         finish();
     }
+
     //...........Header View
     private void setHeader() {
         try {
@@ -102,6 +105,7 @@ public class NotificationActivity extends AbstractActivity{
             e.printStackTrace();
         }
     }
+
     public class GetMessages extends AsyncTask<Void, Void, SoapObject> {
 
         @Override
@@ -123,9 +127,9 @@ public class NotificationActivity extends AbstractActivity{
             SoapObject object = null;
             try {
                 SOAPWebService webService = new SOAPWebService(mContext);
-                String roleid="2";
-                String Dates="";
-                object = webService.GetMessages(empcode,roleid,Dates);
+                String roleid = "2";
+                String Dates = "";
+                object = webService.GetMessages(empcode, roleid, Dates);
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -148,7 +152,7 @@ public class NotificationActivity extends AbstractActivity{
 
             try {
                 getMessagesModelList.clear();
-                for (int i = 0; i < soapObject.getPropertyCount(); i++){
+                for (int i = 0; i < soapObject.getPropertyCount(); i++) {
                     SoapObject root = (SoapObject) soapObject.getProperty(i);
 
 
@@ -176,7 +180,7 @@ public class NotificationActivity extends AbstractActivity{
                             strId = "";
                         }
                     } else {
-                        strId= "";
+                        strId = "";
                     }
 
                     if (root.getProperty("Emp") != null) {
@@ -188,7 +192,7 @@ public class NotificationActivity extends AbstractActivity{
                             strEmp = "";
                         }
                     } else {
-                        strEmp= "";
+                        strEmp = "";
                     }
                     if (root.getProperty("Message") != null) {
 
@@ -240,7 +244,6 @@ public class NotificationActivity extends AbstractActivity{
 
         }
     }
-
 
 
 }
