@@ -766,8 +766,26 @@ public class MyCalendarActivity extends AbstractActivity implements OnClickListe
                 gridcell.setTextColor(getResources().getColor(
                         R.color.lightgray02));
             }
+            SimpleDateFormat month_date = new SimpleDateFormat("dd-MMMM-yyyy");
+            String currentDateTimeString = month_date.getDateTimeInstance().format(new Date());
+            String[] separated = currentDateTimeString.split("-");
+            String currentday= separated[0];
+            String currentmonth=separated[1];
+            String currentyear=separated[2];
+            String[] separated1 = currentyear.split(" ");
+            String separateyear= separated1[0];
+           /* separated[0];
+            separated[1];*/
             if (day_color[1].equals("BLUE")) {
-                gridcell.setTextColor(getResources().getColor(R.color.orrange));
+                gridcell.setTextColor(getResources().getColor(
+                        R.color.lightgray02));
+                if(day_color[0].equals(currentday)&&day_color[2].equals(currentmonth)&&day_color[3].equals(separateyear)) {
+                    gridcell.setTextColor(getResources().getColor(R.color.orrange));
+                }
+                if(day_color[0].equals(currentday)&&!day_color[2].equals(currentmonth)&&!day_color[3].equals(separateyear)) {
+                    gridcell.setTextColor(getResources().getColor(
+                            R.color.lightgray02));
+                }
             }
             return row;
         }

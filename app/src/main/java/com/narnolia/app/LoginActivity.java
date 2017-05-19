@@ -140,7 +140,7 @@ public class LoginActivity extends AbstractActivity {
             //..........text view validations.
             t_username = (TextView) findViewById(R.id.t_username);
             t_password = (TextView) findViewById(R.id.t_password);
-            forget_password = (TextView) findViewById(R.id.forget_password);
+           /* forget_password = (TextView) findViewById(R.id.forget_password);*/
             forgot_pass_message = (TextView) findViewById(R.id.forgot_pass_message);
             //.........Text watcher for hiding tex views......
             username.addTextChangedListener(new TextWatcher() {
@@ -309,7 +309,7 @@ public class LoginActivity extends AbstractActivity {
                     }
                 }
             });
-            forget_password.setOnClickListener(new View.OnClickListener() {
+          /*  forget_password.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if (TextUtils.isEmpty(username.getText().toString())) {
@@ -325,7 +325,7 @@ public class LoginActivity extends AbstractActivity {
                         }
                     }
                 }
-            });
+            });*/
         } catch (Exception e) {
             e.printStackTrace();
         }
